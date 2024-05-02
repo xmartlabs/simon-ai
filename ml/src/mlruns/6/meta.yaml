@@ -1,0 +1,5 @@
+artifact_location: file:///app/src/mlruns/6
+experiment_id: '6'
+lifecycle_stage: active
+name: data-augmentation
+tags: {}

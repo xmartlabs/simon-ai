@@ -1,0 +1,8 @@
+.idea/
+
+ml/datasets/
+ml/__pycache__/
+ml/src/__pycache__/
+ml/.idea/
+ml/venv
+ml/src/.ipynb_checkpoints

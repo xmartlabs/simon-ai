@@ -1,0 +1,5 @@
+artifact_location: file:///app/src/mlruns/7
+experiment_id: '7'
+lifecycle_stage: active
+name: number-layers
+tags: {}

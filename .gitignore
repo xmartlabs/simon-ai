@@ -6,6 +6,8 @@ ml/src/__pycache__/
 ml/.idea/
 ml/venv
 ml/src/.ipynb_checkpoints
+ml/models/
+ml/src/mlruns/
 
 # Byte-compiled / optimized / DLL files
 __pycache__/

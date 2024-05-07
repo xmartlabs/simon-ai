@@ -1,6 +1,6 @@
-FROM tensorflow/tensorflow:2.4.1-jupyter
+FROM tensorflow/tensorflow:2.15.0-jupyter
 # uncomment for gpu use
-# FROM tensorflow/tensorflow:2.4.1-gpu-jupyter
+# FROM tensorflow/tensorflow:2.15.0-gpu-jupyter
 
 WORKDIR /app
 COPY requirements.txt /app

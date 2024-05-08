@@ -1,14 +1,3 @@
-.idea/
-
-ml/datasets/
-ml/__pycache__/
-ml/src/__pycache__/
-ml/.idea/
-ml/venv
-ml/src/.ipynb_checkpoints
-ml/models/
-ml/src/mlruns/
-
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]
@@ -162,3 +151,14 @@ dmypy.json
 
 # Cython debug symbols
 cython_debug/
+
+.idea/
+
+ml/datasets/
+ml/__pycache__/
+ml/src/__pycache__/
+ml/.idea/
+ml/venv
+ml/src/.ipynb_checkpoints
+ml/models/
+ml/src/mlruns/

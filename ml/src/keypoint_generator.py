@@ -1,4 +1,5 @@
 import itertools
+import os
 
 import mediapipe as mp
 from mediapipe.tasks import python
@@ -13,8 +14,10 @@ class KeypointGenerator:
     def generate_keypoints(self, output_file):
         landmarks = []
         for letter in ['L', 'O', 'K', 'I']:
-            for i in range(1, 3001):
-                data_landmark = self.create_landmark(f'../datasets/asl_alphabet_train/{letter}/{letter}{i}.jpg')
+            images_path = f'../datasets/asl_alphabet_train/{letter}'
+            for image in os.listdir(images_path):
+                path = f'{images_path}/{image}'
+                data_landmark = self.create_landmark(path)
                 if data_landmark is not None:
                     data_landmark.append(letter)
                     landmarks.append(data_landmark)

@@ -1,4 +1,5 @@
 import json
+import os
 import requests
 import cv2
 import numpy as np
@@ -10,7 +11,8 @@ ITERATIONS = 3000
 for letter in classes:
     for i in range(1, ITERATIONS):
         image_path = f'asl_alphabet_train/{letter}/{letter}{i}.jpg'
-        image_content = cv2.imread(f"/home/maxi/simon_ai/datasets/{image_path}", 1).astype('uint8').tolist()
+        path = os.path.join(os.getcwd(), f'datasets/{image_path}')
+        image_content = cv2.imread(path, 1).astype('uint8').tolist()
         data = json.dumps({"signature_name": "serving_default","inputs": [image_content]})
         headers = {"content-type": "application/json"}
         json_response = requests.post('http://localhost:8501/v1/models/tf_model:predict',

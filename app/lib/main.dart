@@ -1,9 +1,11 @@
 import 'dart:async';
 
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_native_splash/flutter_native_splash.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:hive/hive.dart';
+import 'package:path_provider/path_provider.dart';
 import 'package:simon_ai/core/common/config.dart';
 import 'package:simon_ai/core/common/logger.dart';
 import 'package:simon_ai/core/di/di_provider.dart';
@@ -13,10 +15,10 @@ Future main() async {
   await runZonedGuarded(
     () async {
       final widgetsBinding = WidgetsFlutterBinding.ensureInitialized();
-      FlutterNativeSplash.preserve(widgetsBinding: widgetsBinding);
+      if (!kIsWeb) FlutterNativeSplash.preserve(widgetsBinding: widgetsBinding);
       await _initSdks();
       runApp(const MyApp());
-      FlutterNativeSplash.remove();
+      if (!kIsWeb) FlutterNativeSplash.remove();
     },
     (exception, stackTrace) =>
         Logger.fatal(error: exception, stackTrace: stackTrace),
@@ -27,7 +29,10 @@ Future _initSdks() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Logger.init();
   await Config.initialize();
-  Hive.init(Config.appDirectoryPath);
+  if (!kIsWeb) {
+    final dir = await getApplicationDocumentsDirectory();
+    Hive.init(dir.path);
+  }
 
   await Future.wait([
     DiProvider.init(),

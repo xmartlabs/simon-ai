@@ -162,3 +162,10 @@ ml/venv
 ml/src/.ipynb_checkpoints
 ml/models/
 ml/src/mlruns/
+
+
+#Client
+!app/lib
+
+# Miscellaneous
+.DS_Store

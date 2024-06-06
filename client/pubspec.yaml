@@ -64,7 +64,10 @@ flutter:
   generate: true
   uses-material-design: true
   assets:
-    - assets/
+    - assets/images/
+    - assets/images/2x/
+    - assets/images/3x/
+    - assets/images/4x/
     - environments/
 
 flutter_gen:

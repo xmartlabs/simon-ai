@@ -23,3 +23,12 @@ dev_dependencies:
   flutter_gen_runner: 5.3.1
   build_runner: 2.4.6
   lints: 3.0.0
+
+flutter:
+  generate: true
+  uses-material-design: true
+  assets:
+    - assets/images/
+    - assets/images/2x/
+    - assets/images/3x/
+    - assets/images/4x/

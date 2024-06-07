@@ -1,4 +1,5 @@
 import 'package:auto_route/auto_route.dart';
+import 'package:design_system/extensions/context_extensions.dart';
 import 'package:design_system/widgets/points_counter.dart';
 import 'package:design_system/widgets/summary_widget.dart';
 import 'package:flutter/foundation.dart';
@@ -26,6 +27,7 @@ class _SignInContentScreen extends StatelessWidget {
   Widget build(BuildContext context) =>
       BlocBuilder<SignInCubit, SignInBaseState>(
         builder: (context, state) => Scaffold(
+          backgroundColor: context.theme.colorScheme.secondary,
           appBar: AppBar(
             title: Text(context.localizations.sign_in),
           ),
@@ -39,9 +41,11 @@ class _SignInContentScreen extends StatelessWidget {
                       .error(context.read<SignInCubit>().state.error),
                 ),
               const PointsCounter(
-                points: 50,
+                points: 100,
               ),
+              const SizedBox(height: 10),
               InformationSummary.time(time: const Duration(seconds: 320)),
+              const SizedBox(height: 10),
               SizedBox(
                 width: .4.sw,
                 child: FilledButton(

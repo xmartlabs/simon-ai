@@ -22,7 +22,7 @@ class InformationSummary extends StatelessWidget {
         value: value,
       );
   factory InformationSummary.gestures({
-    required HandGestures gestures,
+    required int value,
   }) =>
       const InformationSummary(
         type: InformationSummaryType.gestures,
@@ -151,11 +151,4 @@ enum InformationSummaryType {
   points,
   gestures,
   time,
-}
-
-enum HandGestures {
-  L,
-  K,
-  I,
-  O,
 }

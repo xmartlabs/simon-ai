@@ -116,6 +116,32 @@ class InformationSummary extends StatelessWidget {
                   ],
                 )
             },
+            switch (type) {
+              InformationSummaryType.points => Text(
+                  'Puntaje',
+                  style: context.theme.textStyles.headlineSmall!
+                      .semibold()
+                      .copyWith(
+                        color: context.theme.customColors.textColor!,
+                      ),
+                ),
+              InformationSummaryType.gestures => Text(
+                  'Gestos',
+                  style: context.theme.textStyles.headlineSmall!
+                      .semibold()
+                      .copyWith(
+                        color: context.theme.customColors.textColor!,
+                      ),
+                ),
+              InformationSummaryType.time => Text(
+                  'Tiempo',
+                  style: context.theme.textStyles.headlineSmall!
+                      .semibold()
+                      .copyWith(
+                        color: context.theme.customColors.textColor!,
+                      ),
+                ),
+            },
           ],
         ),
       );

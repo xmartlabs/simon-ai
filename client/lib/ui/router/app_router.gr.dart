@@ -21,10 +21,10 @@ abstract class _$AppRouter extends RootStackRouter {
         child: const AuthenticatedSectionRouter(),
       );
     },
-    SignInRoute.name: (routeData) {
+    RegisterUserRoute.name: (routeData) {
       return AutoRoutePage<dynamic>(
         routeData: routeData,
-        child: const SignInScreen(),
+        child: const RegisterUserScreen(),
       );
     },
     UnauthenticatedSectionRoute.name: (routeData) {
@@ -57,15 +57,15 @@ class AuthenticatedSectionRoute extends PageRouteInfo<void> {
 }
 
 /// generated route for
-/// [SignInScreen]
-class SignInRoute extends PageRouteInfo<void> {
-  const SignInRoute({List<PageRouteInfo>? children})
+/// [RegisterUserScreen]
+class RegisterUserRoute extends PageRouteInfo<void> {
+  const RegisterUserRoute({List<PageRouteInfo>? children})
       : super(
-          SignInRoute.name,
+          RegisterUserRoute.name,
           initialChildren: children,
         );
 
-  static const String name = 'SignInRoute';
+  static const String name = 'RegisterUserRoute';
 
   static const PageInfo<void> page = PageInfo<void>(name);
 }

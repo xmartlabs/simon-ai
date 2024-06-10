@@ -106,6 +106,56 @@ To create generated code run `clean_up.sh` under [scripts] folder or the followi
 
 In order to setup pre-push hook you need to go to the root of the project and run `git config core.hooksPath .github/hooks`
 
+# Bitrise CI/CD Setup Guide
+
+This guide provides the steps to set up and update your Bitrise CI/CD configuration to match your app's requirements.
+
+## Steps to Configure Bitrise
+
+### Update `bitrise.yml`
+
+The CI/CD workflow is defined in the `bitrise.yml` file. To update the environment variables to match your needs, modify the values under the `envs` section as shown in the example below:
+
+```yaml
+app:
+  envs:
+   - opts:
+        is_expand: false
+      FLUTTER_ENV_FILE: VALUE
+   - opts:
+        is_expand: false
+      ENV_DEV_CONFIG: |-
+        API_BASE_URL=VALUE\n
+        BUGSEE_API_KEY=VALUE\n
+```
+
+### Upload Required Files to Bitrise
+
+Ensure the following files are uploaded to your Bitrise account:
+
+- `service_account.json`
+- `upload_keystore.jks`
+- `dist_certificate.p12`
+
+### Add Secrets to Bitrise
+
+You need to add the following secrets in the Bitrise dashboard:
+
+- `KEYSTORE_PASSWORD`
+- `KEYSTORE_KEY_PASSWORD`
+- `DIST_CERTIFICATE_PASSWORD`
+- `APPSTORE_CONNECT_API_KEY_ISSUER_ID`
+- `APPSTORE_CONNECT_API_KEY_ID`
+- `APPSTORE_CONNECT_API_KEY_BASE_64_CONTENT`
+- `KEYSTORE_KEY_ALIAS`
+- `KEYSTORE_FILE`
+
+#### How to Add Secrets
+
+1. Navigate to your app on Bitrise.
+2. Go to the `Secrets` tab.
+3. Add each of the above secrets with their corresponding values.
+
 [design_system]: https://github.com/xmartlabs/flutter-template/tree/main/design_system
 [flavorizr]: https://pub.dev/packages/flutter_flavorizr
 [flutter_launcher_icons]: https://pub.dev/packages/flutter_launcher_icons

@@ -2,10 +2,10 @@ import 'package:auto_route/auto_route.dart';
 import 'package:design_system/extensions/context_extensions.dart';
 import 'package:design_system/widgets/points_counter.dart';
 import 'package:design_system/widgets/summary_widget.dart';
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:simon_ai/core/common/logger.dart';
 import 'package:simon_ai/ui/extensions/context_extensions.dart';
 import 'package:simon_ai/ui/section/error_handler/global_event_handler_cubit.dart';
 import 'package:simon_ai/ui/signin/signin_cubit.dart';
@@ -49,11 +49,7 @@ class _SignInContentScreen extends StatelessWidget {
               SizedBox(
                 width: .4.sw,
                 child: FilledButton(
-                  onPressed: () {
-                    if (kDebugMode) {
-                      print('Continue');
-                    }
-                  },
+                  onPressed: () => Logger.i('Continue button pressed'),
                   child: const Text(
                     'Continue',
                   ),

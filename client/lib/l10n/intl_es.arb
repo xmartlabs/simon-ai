@@ -1,0 +1,53 @@
+{
+  "error": "Error: {text}",
+  "@error": {
+    "description": "Da una explicación del error",
+    "placeholders": {
+      "text": {
+        "type": "String",
+        "example": "Algo salió mal, intenta de nuevo"
+      }
+    }
+  },
+  "error_button_ok": "Aceptar",
+  "error_button_retry": "Reintentar",
+  "error_no_internet_connection_error_description": "No tienes conexión a Internet",
+  "error_no_internet_connection_error_title": "Error",
+  "error_unknown_error_description": "¡Algo salió mal!",
+  "error_unknown_error_title": "¡Ops!",
+  "log_out": "Cerrar sesión",
+  "mail": "Correo",
+  "password": "Contraseña",
+  "sign_in": "Iniciar sesión",
+  "continue": "continuar",
+  "skip": "Omitir",
+  "points": "Puntaje",
+  "onboarding_email_title": "Comencemos con tu correo electronico",
+  "onboarding_username_title": "Nombre de usuario",
+  "onboarding_username_description": "Introduce el nombre de usuario que deseas que aparezca en el ranking final.",
+  "onboarding_email_description": "Queremos mantenerte al tanto de nuestras novedades a través de tu correo electrónico",
+  "onboarding_ready_to_play_title": "¿Listo para poner a prueba tu memoria?",
+  "beginner_training": "Entrenamiento inicial",
+  "tutorial_next_steps_title": "Pasos a seguir",
+  "tutorial_next_steps_description": "En breve, verás una serie de gestos en la pantalla. Memoriza cada gesto y repite la secuencia. Para avanzar de un gesto a otro, simplemente abre la mano.",
+  "tutorial_what_hand_title": "¿Qué mano usarás para jugar?",
+  "tutorial_what_hand_description": "Selecciona la mano con la que te sientas más cómodo para jugar sugerimos usar tu mano dominante para una mejor experiencia.",
+  "tutorial_camera_permissions_title": "Ya casi estamos listos",
+  "tutorial_camera_permissions_description": "Para jugar, necesitamos acceso a tu cámara./nDespués de activarla, asegúrate de colocar tu mano de manera que quede claramente visible en la pantalla..",
+  "left": "izquierda",
+  "right": "derecha",
+  "play": "Jugar",
+  "game_position_hands": "Posiciona tu mano en el área del recuadro para que sea visible en la pantalla",
+  "your_turn": "Tu turno",
+  "good_job": "¡Bien hecho!",
+  "congratulations": "¡Felicitaciones!",
+  "completed_game_with": "Has completado el juego con éxito",
+  "gestures": "Gestos",
+  "try_again": "Intentar de nuevo",
+  "time": "Tiempo",
+  "ranking_title": "Tu puesto en el ranking",
+  "see_complete_ranking": "Ver ranking completo",
+  "back_to_the_game": "Volver al juego",
+  "ranking": "Ranking",
+  "xmartlabs_projects": "Proyectos de Xmartlabs"
+}

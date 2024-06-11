@@ -7,7 +7,6 @@ import 'package:google_fonts/google_fonts.dart';
 const FontWeight _semiboldWeight = FontWeight.w600;
 
 class AppTextStyles extends TextTheme {
-
   const AppTextStyles({
     super.headlineLarge,
     super.headlineMedium,
@@ -41,22 +40,22 @@ class AppTextStyles extends TextTheme {
         labelSmall: textTheme.labelSmall,
       );
 
-  static TextStyle _robotoTextStyle(
+  static TextStyle _sourceSansTextStyle(
     double fontSize,
     FontWeight fontWeight,
   ) =>
-      GoogleFonts.roboto(
+      GoogleFonts.sourceSans3(
         fontSize: fontSize,
         fontWeight: fontWeight,
       );
 
   static AppTextStyles getDefaultAppStyles() => AppTextStyles.fromTextTheme(
-        textTheme: GoogleFonts.robotoTextTheme().copyWith(
-          labelLarge: _robotoTextStyle(20.sp, FontWeight.normal),
-          labelMedium: _robotoTextStyle(16.sp, FontWeight.normal),
-          labelSmall: _robotoTextStyle(14.sp, FontWeight.normal),
-          headlineMedium: _robotoTextStyle(20.sp, FontWeight.bold),
-          headlineLarge: _robotoTextStyle(24.sp, FontWeight.bold),
+        textTheme: GoogleFonts.sourceSans3TextTheme().copyWith(
+          labelLarge: _sourceSansTextStyle(20.sp, FontWeight.normal),
+          labelMedium: _sourceSansTextStyle(16.sp, FontWeight.normal),
+          labelSmall: _sourceSansTextStyle(14.sp, FontWeight.normal),
+          headlineMedium: _sourceSansTextStyle(20.sp, FontWeight.bold),
+          headlineLarge: _sourceSansTextStyle(24.sp, FontWeight.bold),
         ),
       );
 

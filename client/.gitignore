@@ -64,3 +64,6 @@ app.*.map.json
 **/fastlane/test_output
 .bundle/
 vendor/bundle/
+
+#intl
+l10n_errors

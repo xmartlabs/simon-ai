@@ -33,11 +33,9 @@ class Assets {
 }
 
 class AssetGenImage {
-  const AssetGenImage(this._assetName, {this.size = null});
+  const AssetGenImage(this._assetName);
 
   final String _assetName;
-
-  final Size? size;
 
   Image image({
     Key? key,

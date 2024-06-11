@@ -1,9 +1,9 @@
+import 'package:design_system/common/helper.dart';
 import 'package:design_system/design_system.dart';
 import 'package:design_system/extensions/color_extensions.dart';
 import 'package:design_system/theme/custom_text_styles.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:design_system/common/helper.dart';
 
 typedef StrokeButton = OutlinedButton;
 typedef GhostButton = TextButton;
@@ -28,11 +28,19 @@ class AppButtonsStyle extends ThemeExtension<AppButtonsStyle> {
     final roundedRectangleBorder = RoundedRectangleBorder(
       borderRadius: BorderRadius.circular(16.r),
     );
+    final circularRectangleBorder = RoundedRectangleBorder(
+      borderRadius: BorderRadius.circular(100.r),
+    );
 
     filledButton = FilledButton.styleFrom(
-      shape: roundedRectangleBorder,
+      shape: circularRectangleBorder,
       textStyle: _customTextStyles.buttonLarge,
+      padding: EdgeInsets.symmetric(
+        vertical: 16.h,
+        horizontal: 12.w,
+      ),
       elevation: 0.0,
+      backgroundColor: _colorScheme.onPrimary.getShade(500),
       foregroundColor: _customColors.textColor!.getShade(100),
     );
 

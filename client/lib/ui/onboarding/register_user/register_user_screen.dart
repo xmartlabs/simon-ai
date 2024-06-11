@@ -1,7 +1,11 @@
 import 'package:auto_route/auto_route.dart';
+import 'package:design_system/extensions/context_extensions.dart';
+import 'package:design_system/widgets/points_counter.dart';
+import 'package:design_system/widgets/summary_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:simon_ai/ui/extensions/context_extensions.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:simon_ai/core/common/logger.dart';
 import 'package:simon_ai/ui/onboarding/register_user/register_user_cubit.dart';
 import 'package:simon_ai/ui/section/error_handler/global_event_handler_cubit.dart';
 
@@ -22,6 +26,7 @@ class _SignInContentScreen extends StatelessWidget {
   Widget build(BuildContext context) =>
       BlocBuilder<RegisterUserCubit, RegisterUserBaseState>(
         builder: (context, state) => Scaffold(
+          backgroundColor: context.theme.colorScheme.secondary,
           appBar: AppBar(
             title: Text(context.localizations.sign_in),
           ),
@@ -34,6 +39,21 @@ class _SignInContentScreen extends StatelessWidget {
                   context.localizations
                       .error(context.read<RegisterUserCubit>().state.error),
                 ),
+              const PointsCounter(
+                points: 100,
+              ),
+              const SizedBox(height: 10),
+              InformationSummary.time(time: const Duration(seconds: 320)),
+              const SizedBox(height: 10),
+              SizedBox(
+                width: .4.sw,
+                child: FilledButton(
+                  onPressed: () => Logger.i('Continue button pressed'),
+                  child: Text(
+                    context.localizations.continue_button,
+                  ),
+                ),
+              ),
               Padding(
                 padding: const EdgeInsets.symmetric(vertical: 30.0),
                 child: TextButton(

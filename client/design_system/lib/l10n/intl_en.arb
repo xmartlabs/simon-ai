@@ -1,0 +1,22 @@
+{
+  "error": "Error: {text}",
+  "@error": {
+    "description": "Provides an explanation of the error",
+    "placeholders": {
+      "text": {
+        "type": "String",
+        "example": "Something went wrong, try again"
+      }
+    }
+  },
+  "error_button_ok": "Ok",
+  "error_button_retry": "Retry",
+  "error_no_internet_connection_error_description": "You have no internet connection",
+  "error_no_internet_connection_error_title": "Error",
+  "error_unknown_error_description": "Something went wrong!",
+  "error_unknown_error_title": "Oops!",
+  "skip": "Skip",
+  "points": "Score",
+  "gestures": "Gestures",
+  "time": "Time"
+}

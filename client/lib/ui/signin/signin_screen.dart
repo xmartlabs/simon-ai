@@ -6,7 +6,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:simon_ai/core/common/logger.dart';
-import 'package:simon_ai/ui/extensions/context_extensions.dart';
 import 'package:simon_ai/ui/section/error_handler/global_event_handler_cubit.dart';
 import 'package:simon_ai/ui/signin/signin_cubit.dart';
 
@@ -50,8 +49,8 @@ class _SignInContentScreen extends StatelessWidget {
                 width: .4.sw,
                 child: FilledButton(
                   onPressed: () => Logger.i('Continue button pressed'),
-                  child: const Text(
-                    'Continue',
+                  child: Text(
+                    context.localizations.continue_button,
                   ),
                 ),
               ),

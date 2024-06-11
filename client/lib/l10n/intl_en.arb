@@ -19,7 +19,7 @@
   "mail": "Mail",
   "password": "Password",
   "sign_in": "Sign In",
-  "continue": "continue",
+  "continue_button": "Continue",
   "skip": "Skip",
   "try_again": "Try again",
   "points": "Score",

@@ -4,7 +4,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_web_browser/flutter_web_browser.dart';
 import 'package:simon_ai/core/model/project.dart';
-import 'package:simon_ai/ui/extensions/context_extensions.dart';
 import 'package:simon_ai/ui/section/error_handler/global_event_handler_cubit.dart';
 import 'package:simon_ai/ui/welcome/welcome_cubit.dart';
 

@@ -19,7 +19,7 @@
   "mail": "Correo",
   "password": "Contraseña",
   "sign_in": "Iniciar sesión",
-  "continue": "continuar",
+  "continue_button": "Continuar",
   "skip": "Omitir",
   "points": "Puntaje",
   "onboarding_email_title": "Comencemos con tu correo electronico",

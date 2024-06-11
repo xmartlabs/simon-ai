@@ -1,4 +1,5 @@
 import 'package:design_system/design_system.dart';
+import 'package:design_system/gen/assets.gen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 
@@ -54,8 +55,7 @@ class InformationSummary extends StatelessWidget {
               InformationSummaryType.points => Row(
                   mainAxisSize: MainAxisSize.min,
                   children: [
-                    Image.asset(
-                      'assets/images/Estrella.png',
+                    Assets.images.estrella.image(
                       height: 36,
                       width: 36,
                       fit: BoxFit.fill,
@@ -75,8 +75,7 @@ class InformationSummary extends StatelessWidget {
               InformationSummaryType.gestures => Row(
                   mainAxisSize: MainAxisSize.min,
                   children: [
-                    Image.asset(
-                      'assets/images/Check.png',
+                    Assets.images.check.image(
                       height: 36,
                       width: 36,
                       fit: BoxFit.fill,
@@ -96,8 +95,7 @@ class InformationSummary extends StatelessWidget {
               InformationSummaryType.time => Row(
                   mainAxisSize: MainAxisSize.min,
                   children: [
-                    Image.asset(
-                      'assets/images/Reloj.png',
+                    Assets.images.reloj.image(
                       height: 36,
                       width: 36,
                       fit: BoxFit.fill,
@@ -118,7 +116,7 @@ class InformationSummary extends StatelessWidget {
             },
             switch (type) {
               InformationSummaryType.points => Text(
-                  'Puntaje',
+                  context.localizations.points,
                   style: context.theme.textStyles.headlineSmall!
                       .semibold()
                       .copyWith(
@@ -126,7 +124,7 @@ class InformationSummary extends StatelessWidget {
                       ),
                 ),
               InformationSummaryType.gestures => Text(
-                  'Gestos',
+                  context.localizations.gestures,
                   style: context.theme.textStyles.headlineSmall!
                       .semibold()
                       .copyWith(
@@ -134,7 +132,7 @@ class InformationSummary extends StatelessWidget {
                       ),
                 ),
               InformationSummaryType.time => Text(
-                  'Tiempo',
+                  context.localizations.time,
                   style: context.theme.textStyles.headlineSmall!
                       .semibold()
                       .copyWith(

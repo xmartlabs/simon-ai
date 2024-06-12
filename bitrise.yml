@@ -166,6 +166,14 @@ workflows:
                 #rbenv install || exit 0
           title: Update ruby version
       - cache-push@2: {}
+      - script@1:
+          inputs:
+            - content: |-
+                #!/usr/bin/env bash
+
+                fvm dart pub global activate arb_utils
+          title: Activate arb_utils
+
 meta:
   bitrise.io:
     stack: osx-xcode-14.3.x-ventura

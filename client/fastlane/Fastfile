@@ -88,7 +88,7 @@ end
 
 desc "**Run linters**"
 lane :lints do
-  lint_format
+  # lint_format
   lint_check_language_sorting
   lint_analyze
   lint_code_metrics

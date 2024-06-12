@@ -111,6 +111,17 @@ workflows:
 
                 cat $BITRISE_SOURCE_DIR/$FLUTTER_ENV_FILE
           title: Create env file
+      - script@1:
+          inputs:
+            - content: |-
+                #!/usr/bin/env bash
+
+                fvm flutter --version
+
+                fvm dart --version
+
+                fvm flutter doctor
+          title: Check fvm and dart versions
       - fastlane@3:
           title: Run linter
           inputs:

@@ -175,6 +175,7 @@ workflows:
                 #!/usr/bin/env bash
 
                 fvm install $FVM_FLUTTER_VERSION
+                fvm use $FVM_FLUTTER_VERSION
           title: Install fvm
       - script@1:
           inputs:

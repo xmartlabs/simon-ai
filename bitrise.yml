@@ -120,6 +120,7 @@ workflows:
             - password: null
             - app_password: null
             - connection: "off"
+            - verbose_log: "yes"
             - lane: lints
       - fastlane@3:
           inputs:
@@ -131,6 +132,7 @@ workflows:
             - connection: "off"
             - lane: ensure_no_change_in_generated_code
           title: Run check generated code
+          is_always_run: true
       - fastlane@3:
           inputs:
             - api_key_path: null
@@ -141,6 +143,7 @@ workflows:
             - connection: "off"
             - lane: tests
           title: Run tests
+          is_always_run: true
   setup:
     steps:
       - activate-ssh-key@4:
@@ -173,7 +176,6 @@ workflows:
 
                 fvm dart pub global activate arb_utils
           title: Activate arb_utils
-
 meta:
   bitrise.io:
     stack: osx-xcode-14.3.x-ventura

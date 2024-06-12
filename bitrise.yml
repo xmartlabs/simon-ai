@@ -170,6 +170,14 @@ workflows:
       - install-flutter-version-manager@2.0: {}
       - script@1:
           inputs:
+            - script_file_path: null
+            - content: |-
+                #!/usr/bin/env bash
+
+                fvm install
+          title: Install fvm
+      - script@1:
+          inputs:
             - content: |-
                 #!/usr/bin/env bash
 

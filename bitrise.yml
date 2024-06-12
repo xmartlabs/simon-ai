@@ -189,12 +189,16 @@ workflows:
                 #rbenv install || exit 0
           title: Update ruby version
       - cache-push@2: {}
+      - flutter-installer@0:
+          inputs:
+            - installation_bundle_url: null
       - script@1:
           inputs:
+            - script_file_path: null
             - content: |-
                 #!/usr/bin/env bash
 
-                fvm dart pub global activate arb_utils
+                dart pub global activate arb_utils
           title: Activate arb_utils
 meta:
   bitrise.io:

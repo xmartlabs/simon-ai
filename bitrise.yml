@@ -122,6 +122,18 @@ workflows:
 
                 fvm flutter doctor
           title: Check fvm and dart versions
+      - script@1:
+          inputs:
+            - script_file_path: null
+            - content: |-
+                #!/usr/bin/env bash
+
+                set -e
+                set -o pipefail
+                set -x
+
+                fvm flutter pub get --directory design_system
+                fvm flutter pub get --directory design_system/design_system_gallery
       - fastlane@3:
           title: Run linter
           inputs:
@@ -143,7 +155,6 @@ workflows:
             - connection: "off"
             - lane: ensure_no_change_in_generated_code
           title: Run check generated code
-          is_always_run: true
       - fastlane@3:
           inputs:
             - api_key_path: null
@@ -154,7 +165,6 @@ workflows:
             - connection: "off"
             - lane: tests
           title: Run tests
-          is_always_run: true
   setup:
     steps:
       - activate-ssh-key@4:
@@ -167,39 +177,36 @@ workflows:
           inputs:
             - is_create_path: "false"
             - path: client
-      - install-flutter-version-manager@2.0: {}
       - script@1:
           inputs:
             - script_file_path: null
             - content: |-
                 #!/usr/bin/env bash
-
-                fvm install $FVM_FLUTTER_VERSION
-                fvm use $FVM_FLUTTER_VERSION
-          title: Install fvm
-      - script@1:
-          inputs:
-            - content: |-
-                #!/usr/bin/env bash
-
-                rm android/.ruby-version
-                rm ios/.ruby-version
-                rm .ruby-version
-
-                #rbenv install || exit 0
+                set -ex
+                RUBY_VERSION=$(cat .ruby-version)
+                asdf install ruby $RUBY_VERSION
           title: Update ruby version
-      - cache-push@2: {}
       - flutter-installer@0:
           inputs:
             - installation_bundle_url: null
+            - is_update: "false"
+            - version: 3.22.1
+      - script@1:
+          inputs:
+            - script_file_path: null
+            - content: "#!/usr/bin/env bash\n\nset -e\nset -o pipefail\nset -x\nFVM_FLUTTER_VERSION=\"$(grep -o '\"flutter\": \"[^\"]*' .fvmrc | grep -o '[^\"]*$')\"\nfvm install $FVM_FLUTTER_VERSION\nfvm global $FVM_FLUTTER_VERSION \n"
+          title: Install FVM
       - script@1:
           inputs:
             - script_file_path: null
             - content: |-
                 #!/usr/bin/env bash
 
+                flutter --version
+                flutter clean
                 dart pub global activate arb_utils
           title: Activate arb_utils
+      - cache-push@2: {}
 meta:
   bitrise.io:
     stack: osx-xcode-14.3.x-ventura

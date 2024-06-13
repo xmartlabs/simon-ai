@@ -261,3 +261,7 @@ app:
           "FIREBASE_PROJECT_ID": "simon-ai",
           "GCM_SENDER_ID": "GCM_SENDER_ID"
         }
+trigger_map:
+  - pull_request_target_branch: main
+    type: pull_request
+    workflow: run_test_and_analyzer

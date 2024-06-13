@@ -25,39 +25,8 @@ workflows:
                 #!/usr/bin/env bash
 
                 echo -e $ENV_DEV_CONFIG >> $BITRISE_SOURCE_DIR/$FLUTTER_ENV_FILE
-
-                cat $BITRISE_SOURCE_DIR/$FLUTTER_ENV_FILE
           title: Create env file
-  deploy:
-    description: |
-      Builds and deploys app using [Deploy to bitrise.io Step](https://devcenter.bitrise.io/en/getting-started/getting-started-with-flutter-apps.html#deploying-a-flutter-app).
-
-      If you build for iOS, make sure to set up code signing secrets on Bitrise for a successful build.
-
-      Next steps:
-      - Check out [Getting started with Flutter apps](https://devcenter.bitrise.io/en/getting-started/getting-started-with-flutter-apps.html) for signing and deployment options.
-      - Check out the [Code signing guide](https://devcenter.bitrise.io/en/code-signing.html) for iOS and Android
-    steps:
-      - activate-ssh-key@4: {}
-      - git-clone@8: {}
-      - certificate-and-profile-installer@1: {}
-      - flutter-installer@0:
-          inputs:
-            - version: 3.13.2
-            - is_update: "false"
-      - flutter-analyze@0:
-          inputs:
-            - project_location: $BITRISE_FLUTTER_PROJECT_LOCATION
-      - flutter-test@1:
-          inputs:
-            - project_location: $BITRISE_FLUTTER_PROJECT_LOCATION
-      - flutter-build@0:
-          inputs:
-            - project_location: $BITRISE_FLUTTER_PROJECT_LOCATION
-            - platform: both
-            - ios_output_type: archive
-      - deploy-to-bitrise-io@2: {}
-  deploy_dev_firebase:
+  _deploy_dev_firebase:
     before_run:
       - setup
       - _dev_setup
@@ -108,8 +77,6 @@ workflows:
                 #!/usr/bin/env bash
 
                 echo -e $ENV_DEV_CONFIG >> $BITRISE_SOURCE_DIR/$FLUTTER_ENV_FILE
-
-                cat $BITRISE_SOURCE_DIR/$FLUTTER_ENV_FILE
           title: Create env file
       - script@1:
           inputs:
@@ -194,7 +161,17 @@ workflows:
       - script@1:
           inputs:
             - script_file_path: null
-            - content: "#!/usr/bin/env bash\n\nset -e\nset -o pipefail\nset -x\nFVM_FLUTTER_VERSION=\"$(grep -o '\"flutter\": \"[^\"]*' .fvmrc | grep -o '[^\"]*$')\"\nfvm install $FVM_FLUTTER_VERSION\nfvm global $FVM_FLUTTER_VERSION \n"
+            - content: |-
+                #!/usr/bin/env bash
+
+                set -e
+                set -o pipefail
+                set -x
+
+                FVM_FLUTTER_VERSION=\"$(grep -o '\"flutter\": \"[^\"]*' .fvmrc | grep -o '[^\"]*$')\"
+                fvm install $FVM_FLUTTER_VERSION
+                fvm global $FVM_FLUTTER_VERSION
+
           title: Install FVM
       - script@1:
           inputs:

@@ -2,6 +2,12 @@ format_version: "13"
 default_step_lib_source: https://github.com/bitrise-io/bitrise-steplib.git
 project_type: flutter
 workflows:
+  _deploy_dev_firebase:
+    before_run:
+      - setup
+      - _dev_setup
+      - firebase_dev_android
+      - firebase_dev_ios
   _dev_setup:
     steps:
       - file-downloader@1:
@@ -26,12 +32,6 @@ workflows:
 
                 echo -e $ENV_DEV_CONFIG >> $BITRISE_SOURCE_DIR/$FLUTTER_ENV_FILE
           title: Create env file
-  _deploy_dev_firebase:
-    before_run:
-      - setup
-      - _dev_setup
-      - firebase_dev_android
-      - firebase_dev_ios
   deploy_dev_testflight:
     before_run:
       - setup
@@ -153,11 +153,6 @@ workflows:
                 RUBY_VERSION=$(cat .ruby-version)
                 asdf install ruby $RUBY_VERSION
           title: Update ruby version
-      - flutter-installer@0:
-          inputs:
-            - installation_bundle_url: null
-            - is_update: "false"
-            - version: 3.22.1
       - script@1:
           inputs:
             - script_file_path: null
@@ -168,11 +163,16 @@ workflows:
                 set -o pipefail
                 set -x
 
-                FVM_FLUTTER_VERSION=\"$(grep -o '\"flutter\": \"[^\"]*' .fvmrc | grep -o '[^\"]*$')\"
+                FVM_FLUTTER_VERSION=$(grep -o '\"flutter\": \"[^\"]*' .fvmrc | grep -o '[^\"]*$')
                 fvm install $FVM_FLUTTER_VERSION
                 fvm global $FVM_FLUTTER_VERSION
 
           title: Install FVM
+      - flutter-installer@0:
+          inputs:
+            - installation_bundle_url: null
+            - is_update: "false"
+            - version: 3.22.1
       - script@1:
           inputs:
             - script_file_path: null

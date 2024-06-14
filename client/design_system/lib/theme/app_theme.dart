@@ -122,9 +122,12 @@ class AppTheme {
       textButtonTheme: TextButtonThemeData(
         style: buttonTheme.textButton,
       ),
+      elevatedButtonTheme: ElevatedButtonThemeData(
+        style: buttonTheme.filledButton,
+      ),
       textTheme: textTheme.apply(
         bodyColor: CustomColors.getCustomColors().textColor,
-        displayColor: CustomColors.getCustomColors().textColor!.getShade(500),
+        displayColor: CustomColors.getCustomColors().textColor,
       ),
       appBarTheme: AppBarTheme(
         backgroundColor: colors.primary.shade400,

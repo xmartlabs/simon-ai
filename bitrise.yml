@@ -189,28 +189,29 @@ meta:
     stack: osx-xcode-14.3.x-ventura
     machine_type_id: g2-m1.4core
 app:
+  #! CD env variables
   envs:
     - opts:
         is_expand: false
       FASTLANE_XCODE_LIST_TIMEOUT: "120"
     - opts:
         is_expand: false
-      FIREBASE_PROJECT_ID: simon-ai
+      FIREBASE_PROJECT_ID: FIREBASE_PROJECT_ID-ai
     - opts:
         is_expand: false
-      FIREBASE_SERVICE_ACCOUNT_FILE: ../service_account.json
+      FIREBASE_SERVICE_ACCOUNT_FILE: FIREBASE_SERVICE_ACCOUNT_FILE
     - opts:
         is_expand: false
-      FIREBASE_SERVICE_ACCOUNT_FILE_NAME: service_account.json
+      FIREBASE_SERVICE_ACCOUNT_FILE_NAME: FIREBASE_SERVICE_ACCOUNT_FILE_NAME
     - opts:
         is_expand: false
       FIREBASE_TESTER_GROUPS: xl-testing
     - opts:
         is_expand: false
-      DIST_CERTIFICATE_FILE_NAME: dist_certificate.p12
+      DIST_CERTIFICATE_FILE_NAME: DIST_CERTIFICATE_FILE_NAME
     - opts:
         is_expand: false
-      DIST_CERTIFICATE_PATH: ../dist_certificate.p12
+      DIST_CERTIFICATE_PATH: DIST_CERTIFICATE_PATH
     - opts:
         is_expand: false
       TEMP_KEYCHAIN_NAME: fastlane-keychain
@@ -232,11 +233,7 @@ app:
         is_expand: false
       FIREBAE_APP_ID_JSON_CONTENT: |-
         {
-          "file_generated_by": "FlutterFire CLI",
-          "purpose": "FirebaseAppID & ProjectID for this Firebase app in this directory",
-          "GOOGLE_APP_ID": "GOOGLE_APP_ID",
-          "FIREBASE_PROJECT_ID": "simon-ai",
-          "GCM_SENDER_ID": "GCM_SENDER_ID"
+         
         }
 trigger_map:
   - pull_request_target_branch: main

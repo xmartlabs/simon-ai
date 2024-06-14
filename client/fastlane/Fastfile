@@ -57,13 +57,33 @@ lane :lint_format do
   dart_command(command: "format --set-exit-if-changed lib")
 end
 
-desc "**Lint: Check code format**"
-lane :lint_check_language_sorting do
+desc "Lint: Check if English language file is sorted"
+lane :lint_check_english_sorting do
   current_content = sh_on_root(command: "cat lib/l10n/intl_en.arb")
   sh_on_root(command: "arb_utils sort lib/l10n/intl_en.arb")
   new_content = sh_on_root(command: "cat lib/l10n/intl_en.arb")
   unless current_content == new_content
-    UI.user_error!("Language file is not sorted")
+    UI.user_error!("English language file is not sorted")
+  end
+end
+
+desc "Lint: Check if Spanish language file is sorted"
+lane :lint_check_spanish_sorting do
+  current_content = sh_on_root(command: "cat lib/l10n/intl_es.arb")
+  sh_on_root(command: "arb_utils sort lib/l10n/intl_es.arb")
+  new_content = sh_on_root(command: "cat lib/l10n/intl_es.arb")
+  unless current_content == new_content
+    UI.user_error!("Spanish language file is not sorted")
+  end
+end
+
+desc "Lint: Check code format"
+lane :lint_check_language_sorting do
+  begin
+    lint_check_english_sorting
+    lint_check_spanish_sorting
+  rescue => e
+    UI.user_error!("Language file sorting check failed: #{e.message}")
   end
 end
 

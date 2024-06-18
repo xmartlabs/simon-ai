@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_animate/flutter_animate.dart';
 import 'package:flutter_native_splash/flutter_native_splash.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:hive/hive.dart';
@@ -33,6 +34,7 @@ Future _initSdks() async {
     final dir = await getApplicationDocumentsDirectory();
     Hive.init(dir.path);
   }
+  Animate.restartOnHotReload = true;
 
   await Future.wait([
     DiProvider.init(),

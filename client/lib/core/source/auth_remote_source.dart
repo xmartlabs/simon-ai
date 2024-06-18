@@ -9,11 +9,10 @@ class AuthRemoteSource {
 
   AuthRemoteSource(this._httpService);
 
-  Future<SignInResponse> signIn(String email, String password) async =>
+  Future<SignInResponse> signIn(String email, String? username) async =>
       (await _httpService.postAndProcessResponse(
         _urlLogin,
-        queryParameters: {'grant_type': 'password'},
-        data: SignInRequest(email: email, password: password).toJson(),
+        data: SignInRequest(email: email, username: username).toJson(),
         serializer: (data) => SignInResponse.fromJson(data),
       ))
           .getDataOrThrow();

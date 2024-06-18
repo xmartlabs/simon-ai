@@ -1,6 +1,9 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:simon_ai/core/repository/session_repository.dart';
 import 'package:simon_ai/ui/onboarding/register_user_email/register_user_screen.dart';
+import 'package:simon_ai/ui/onboarding/register_username/register_username_screen.dart';
+import 'package:simon_ai/ui/onboarding/tutorial/tutorial_example/tutorial_example_screen.dart';
+import 'package:simon_ai/ui/onboarding/tutorial/tutorial_explanation/tutorial_explanation_screen.dart';
 import 'package:simon_ai/ui/router/app_router_guards.dart';
 import 'package:simon_ai/ui/section/section_router.dart';
 import 'package:simon_ai/ui/welcome/welcome_screen.dart';

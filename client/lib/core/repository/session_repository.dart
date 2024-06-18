@@ -26,11 +26,21 @@ class SessionRepository {
 
   Future<void> signInUser({
     required String email,
-    required String nickname,
+    String? username,
   }) async {
-    final response = await _authRemoteSource.signIn(email, nickname);
+    final response = await _authRemoteSource.signIn(email, username);
     await _authLocalSource.saveUserToken(response.accessToken);
     await _authLocalSource.saveUserInfo(response.user);
+  }
+
+  Future<void> saveUsername(String username) async {
+    final user = await _authLocalSource.getUser().first;
+    await _authLocalSource.saveUserInfo(user!.copyWith(name: username));
+  }
+
+  Future<void> saveEmail(String email) async {
+    final user = await _authLocalSource.getUser().first ?? User(email: email);
+    await _authLocalSource.saveUserInfo(user.copyWith(email: email));
   }
 
   Future<void> logOut() async {

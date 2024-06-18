@@ -3,9 +3,11 @@ import 'package:design_system/design_system.dart';
 import 'package:design_system/extensions/color_extensions.dart';
 import 'package:design_system/widgets/app_scaffold.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_animate/flutter_animate.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:simon_ai/ui/onboarding/register_user_email/register_user_cubit.dart';
+import 'package:simon_ai/ui/router/app_router.dart';
 import 'package:simon_ai/ui/section/error_handler/global_event_handler_cubit.dart';
 
 @RoutePage()
@@ -50,7 +52,14 @@ class _SignInContentScreen extends StatelessWidget {
                 ),
               ),
               FilledButton(
-                onPressed: context.read<RegisterUserCubit>().signIn,
+                onPressed: () => context
+                    .read<RegisterUserCubit>()
+                    .saveEmail()
+                    .then((onValue) {
+                  if (onValue) {
+                    context.router.push(const RegisterUsernameRoute());
+                  }
+                }),
                 child: Text(
                   context.localizations.continue_button,
                   style: context.theme.textStyles.bodyLarge!.bold().copyWith(
@@ -59,7 +68,19 @@ class _SignInContentScreen extends StatelessWidget {
                       ),
                 ),
               ),
-            ],
+            ]
+                .animate(
+                  interval: 100.ms,
+                )
+                .fadeIn(
+                  duration: 400.ms,
+                  curve: Curves.easeIn,
+                )
+                .slideY(
+                  duration: 300.ms,
+                  begin: -.5,
+                  curve: Curves.easeOut,
+                ),
           ),
         ),
       );

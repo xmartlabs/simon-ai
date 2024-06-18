@@ -26,7 +26,11 @@ class RegisterUserCubit extends Cubit<RegisterUserBaseState> {
   void changeNickname(String nickname) =>
       emit(state.copyWith(nickname: nickname));
 
-  Future<void> signIn() => _sessionRepository
-      .signInUser(email: state.email!, nickname: state.nickname!)
-      .filterSuccess(_globalEventHandler.handleError);
+  Future<bool> saveEmail() async {
+    final response = await _sessionRepository
+        .saveEmail(state.email!)
+        .filterSuccess(_globalEventHandler.handleError)
+        .mapToResult();
+    return response.isSuccess;
+  }
 }

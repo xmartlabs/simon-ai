@@ -27,6 +27,24 @@ abstract class _$AppRouter extends RootStackRouter {
         child: const RegisterUserScreen(),
       );
     },
+    RegisterUsernameRoute.name: (routeData) {
+      return AutoRoutePage<dynamic>(
+        routeData: routeData,
+        child: const RegisterUsernameScreen(),
+      );
+    },
+    TutorialExampleRoute.name: (routeData) {
+      return AutoRoutePage<dynamic>(
+        routeData: routeData,
+        child: const TutorialExampleScreen(),
+      );
+    },
+    TutorialExplanationRoute.name: (routeData) {
+      return AutoRoutePage<dynamic>(
+        routeData: routeData,
+        child: const TutorialExplanationScreen(),
+      );
+    },
     UnauthenticatedSectionRoute.name: (routeData) {
       return AutoRoutePage<dynamic>(
         routeData: routeData,
@@ -66,6 +84,48 @@ class RegisterUserRoute extends PageRouteInfo<void> {
         );
 
   static const String name = 'RegisterUserRoute';
+
+  static const PageInfo<void> page = PageInfo<void>(name);
+}
+
+/// generated route for
+/// [RegisterUsernameScreen]
+class RegisterUsernameRoute extends PageRouteInfo<void> {
+  const RegisterUsernameRoute({List<PageRouteInfo>? children})
+      : super(
+          RegisterUsernameRoute.name,
+          initialChildren: children,
+        );
+
+  static const String name = 'RegisterUsernameRoute';
+
+  static const PageInfo<void> page = PageInfo<void>(name);
+}
+
+/// generated route for
+/// [TutorialExampleScreen]
+class TutorialExampleRoute extends PageRouteInfo<void> {
+  const TutorialExampleRoute({List<PageRouteInfo>? children})
+      : super(
+          TutorialExampleRoute.name,
+          initialChildren: children,
+        );
+
+  static const String name = 'TutorialExampleRoute';
+
+  static const PageInfo<void> page = PageInfo<void>(name);
+}
+
+/// generated route for
+/// [TutorialExplanationScreen]
+class TutorialExplanationRoute extends PageRouteInfo<void> {
+  const TutorialExplanationRoute({List<PageRouteInfo>? children})
+      : super(
+          TutorialExplanationRoute.name,
+          initialChildren: children,
+        );
+
+  static const String name = 'TutorialExplanationRoute';
 
   static const PageInfo<void> page = PageInfo<void>(name);
 }

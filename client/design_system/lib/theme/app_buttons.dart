@@ -34,7 +34,7 @@ class AppButtonsStyle extends ThemeExtension<AppButtonsStyle> {
 
     filledButton = FilledButton.styleFrom(
       shape: circularRectangleBorder,
-      textStyle: _customTextStyles.buttonLarge,
+      textStyle: _customTextStyles.buttonMedium,
       padding: EdgeInsets.symmetric(
         vertical: 16.h,
         horizontal: 12.w,
@@ -50,13 +50,13 @@ class AppButtonsStyle extends ThemeExtension<AppButtonsStyle> {
         width: 2,
         color: _colorScheme.primary,
       ),
-      textStyle: _customTextStyles.buttonLarge,
+      textStyle: _customTextStyles.buttonMedium,
       elevation: 0.0,
     );
 
     textButton = TextButton.styleFrom(
       shape: roundedRectangleBorder,
-      textStyle: _customTextStyles.buttonLarge,
+      textStyle: _customTextStyles.buttonMedium,
       elevation: 0.0,
     );
 

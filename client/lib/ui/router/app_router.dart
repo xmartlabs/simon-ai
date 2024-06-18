@@ -1,5 +1,6 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:simon_ai/core/repository/session_repository.dart';
+import 'package:simon_ai/ui/onboarding/register_user_email/register_user_screen.dart';
 import 'package:simon_ai/ui/router/app_router_guards.dart';
 import 'package:simon_ai/ui/section/section_router.dart';
 import 'package:simon_ai/ui/welcome/welcome_screen.dart';
@@ -25,8 +26,16 @@ class AppRouter extends _$AppRouter {
             path: '/',
             guards: [UnauthenticatedGuard(sessionRepository)],
             children: [
-              RedirectRoute(path: '', redirectTo: 'login'),
-              AutoRoute(path: 'login', page: RegisterUserRoute.page),
+              RedirectRoute(path: '', redirectTo: 'onboarding_email'),
+              AutoRoute(path: 'onboarding_email', page: RegisterUserRoute.page),
+              AutoRoute(
+                path: 'onboarding_username',
+                page: RegisterUsernameRoute.page,
+              ),
+              AutoRoute(
+                path: 'onboarding_tutorial',
+                page: TutorialExplanationRoute.page,
+              ),
             ],
           ),
           AutoRoute(

@@ -47,43 +47,43 @@ class AppTheme {
         hintStyle: textTheme.bodyMedium
             ?.copyWith(color: customColors.textColor!.getShade(300)),
         border: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(4.r),
+          borderRadius: BorderRadius.circular(12.r),
           borderSide: BorderSide(
-            width: 2,
-            color: customColors.textColor!.getShade(100),
+            width: 1,
+            color: customColors.textColor!.getShade(500),
           ),
         ),
         fillColor: colors.surface.shade100,
         enabledBorder: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(4.r),
+          borderRadius: BorderRadius.circular(12.r),
           borderSide: BorderSide(
-            width: 2,
-            color: customColors.textColor!.getShade(200),
+            width: 1,
+            color: customColors.textColor!.getShade(500),
           ),
         ),
         errorBorder: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(4.r),
+          borderRadius: BorderRadius.circular(12.r),
           borderSide: BorderSide(
             width: 2,
             color: customColors.danger!.getShade(300),
           ),
         ),
         focusedBorder: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(4.r),
+          borderRadius: BorderRadius.circular(12.r),
           borderSide: BorderSide(
             width: 2,
-            color: colors.primary.shade800,
+            color: customColors.textColor!.getShade(500),
           ),
         ),
         disabledBorder: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(4.r),
+          borderRadius: BorderRadius.circular(12.r),
           borderSide: BorderSide(
             width: 2,
             color: customColors.textColor!.getShade(200),
           ),
         ),
         focusedErrorBorder: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(4.r),
+          borderRadius: BorderRadius.circular(12.r),
           borderSide: BorderSide(
             width: 2,
             color: colors.error,

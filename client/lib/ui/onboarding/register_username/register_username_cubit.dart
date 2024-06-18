@@ -20,7 +20,12 @@ class RegisterUsernameCubit extends Cubit<RegisterUsernameState> {
         state.copyWith(username: username),
       );
 
-  Future<void> signIn() => _sessionRepository
-      .saveUsername(state.username)
-      .filterSuccess(_globalEventHandler.handleError);
+  Future<bool> signInUser() async {
+    final user = await _sessionRepository.getUser();
+    final res = await _sessionRepository
+        .signInUser(email: user!.email, username: state.username)
+        .mapToResult();
+    if (res.isFailure) _globalEventHandler.handleError(res.error);
+    return res.isSuccess;
+  }
 }

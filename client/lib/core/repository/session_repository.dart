@@ -24,6 +24,8 @@ class SessionRepository {
 
   Stream<User?> getUserInfo() => _authLocalSource.getUser();
 
+  Future<User?> getUser() => _authLocalSource.getUser().first;
+
   Future<void> signInUser({
     required String email,
     String? username,

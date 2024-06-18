@@ -7,6 +7,7 @@ import 'package:flutter_animate/flutter_animate.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:simon_ai/ui/onboarding/register_username/register_username_cubit.dart';
+import 'package:simon_ai/ui/router/app_router.dart';
 import 'package:simon_ai/ui/section/error_handler/global_event_handler_cubit.dart';
 
 @RoutePage()
@@ -52,7 +53,14 @@ class _Content extends StatelessWidget {
               ),
             ),
             FilledButton(
-              onPressed: context.read<RegisterUsernameCubit>().close,
+              onPressed: () => context
+                  .read<RegisterUsernameCubit>()
+                  .signInUser()
+                  .then((onValue) {
+                if (onValue) {
+                  context.router.push(const RegisterUsernameRoute());
+                }
+              }),
               child: Text(
                 context.localizations.continue_button,
                 style: context.theme.textStyles.bodyLarge!.bold().copyWith(

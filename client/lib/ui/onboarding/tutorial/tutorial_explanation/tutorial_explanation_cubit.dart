@@ -5,5 +5,10 @@ part 'tutorial_explanation_cubit.freezed.dart';
 part 'tutorial_explanation_state.dart';
 
 class TutorialExplanationCubit extends Cubit<TutorialExplanationState> {
-  TutorialExplanationCubit() : super(const TutorialExplanationState.initial());
+  TutorialExplanationCubit()
+      : super(
+          const TutorialExplanationState.initial(
+            step: Steps.initial,
+          ),
+        );
 }

@@ -21,6 +21,12 @@ abstract class _$AppRouter extends RootStackRouter {
         child: const AuthenticatedSectionRouter(),
       );
     },
+    OnboardingHandlerRoute.name: (routeData) {
+      return AutoRoutePage<dynamic>(
+        routeData: routeData,
+        child: const OnboardingHandlerScreen(),
+      );
+    },
     RegisterUserRoute.name: (routeData) {
       return AutoRoutePage<dynamic>(
         routeData: routeData,
@@ -70,6 +76,20 @@ class AuthenticatedSectionRoute extends PageRouteInfo<void> {
         );
 
   static const String name = 'AuthenticatedSectionRoute';
+
+  static const PageInfo<void> page = PageInfo<void>(name);
+}
+
+/// generated route for
+/// [OnboardingHandlerScreen]
+class OnboardingHandlerRoute extends PageRouteInfo<void> {
+  const OnboardingHandlerRoute({List<PageRouteInfo>? children})
+      : super(
+          OnboardingHandlerRoute.name,
+          initialChildren: children,
+        );
+
+  static const String name = 'OnboardingHandlerRoute';
 
   static const PageInfo<void> page = PageInfo<void>(name);
 }

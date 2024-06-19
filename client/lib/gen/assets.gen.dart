@@ -29,7 +29,12 @@ class $AssetsImagesGen {
 class Assets {
   Assets._();
 
+  static const String handLandmarksDetector =
+      'assets/hand_landmarks_detector.tflite';
   static const $AssetsImagesGen images = $AssetsImagesGen();
+
+  /// List of all assets
+  static List<String> get values => [handLandmarksDetector];
 }
 
 class AssetGenImage {

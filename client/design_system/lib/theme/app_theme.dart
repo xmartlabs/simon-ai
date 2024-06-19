@@ -114,7 +114,9 @@ class AppTheme {
         ),
       ),
       filledButtonTheme: FilledButtonThemeData(
-        style: buttonTheme.filledButton,
+        style: buttonTheme.filledButton.copyWith(
+          textStyle: WidgetStatePropertyAll(customTextStyles.buttonMedium),
+        ),
       ),
       outlinedButtonTheme: OutlinedButtonThemeData(
         style: buttonTheme.outlineButton,

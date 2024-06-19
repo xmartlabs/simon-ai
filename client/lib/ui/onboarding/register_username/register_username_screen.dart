@@ -58,7 +58,7 @@ class _Content extends StatelessWidget {
                   .signInUser()
                   .then((onValue) {
                 if (onValue) {
-                  context.router.push(const RegisterUsernameRoute());
+                  context.router.push(const OnboardingHandlerRoute());
                 }
               }),
               child: Text(

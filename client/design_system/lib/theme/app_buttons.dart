@@ -25,16 +25,13 @@ class AppButtonsStyle extends ThemeExtension<AppButtonsStyle> {
     this._customTextStyles,
     this._colorScheme,
   ) {
-    final roundedRectangleBorder = RoundedRectangleBorder(
-      borderRadius: BorderRadius.circular(16.r),
-    );
     final circularRectangleBorder = RoundedRectangleBorder(
       borderRadius: BorderRadius.circular(100.r),
     );
 
     filledButton = FilledButton.styleFrom(
       shape: circularRectangleBorder,
-      textStyle: _customTextStyles.buttonMedium,
+      textStyle: _customTextStyles.buttonLarge.bold(),
       padding: EdgeInsets.symmetric(
         vertical: 16.h,
         horizontal: 12.w,
@@ -45,18 +42,23 @@ class AppButtonsStyle extends ThemeExtension<AppButtonsStyle> {
     );
 
     outlineButton = OutlinedButton.styleFrom(
-      shape: roundedRectangleBorder,
+      shape: circularRectangleBorder,
+      padding: EdgeInsets.symmetric(
+        vertical: 16.h,
+        horizontal: 12.w,
+      ),
       side: BorderSide(
         width: 2,
-        color: _colorScheme.primary,
+        color: _customColors.textColor!.getShade(500),
       ),
-      textStyle: _customTextStyles.buttonMedium,
+      textStyle: _customTextStyles.buttonLarge.bold(),
       elevation: 0.0,
+      foregroundColor: _customColors.textColor!.getShade(500),
     );
 
     textButton = TextButton.styleFrom(
-      shape: roundedRectangleBorder,
-      textStyle: _customTextStyles.buttonMedium,
+      shape: circularRectangleBorder,
+      textStyle: _customTextStyles.buttonLarge.bold(),
       elevation: 0.0,
     );
 

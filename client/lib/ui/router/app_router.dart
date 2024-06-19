@@ -5,7 +5,6 @@ import 'package:simon_ai/ui/onboarding/register_user_email/register_user_screen.
 import 'package:simon_ai/ui/onboarding/register_username/register_username_screen.dart';
 import 'package:simon_ai/ui/onboarding/tutorial/tutorial_example/tutorial_example_screen.dart';
 import 'package:simon_ai/ui/onboarding/tutorial/tutorial_explanation/tutorial_explanation_screen.dart';
-import 'package:simon_ai/ui/router/app_router_guards.dart';
 import 'package:simon_ai/ui/section/section_router.dart';
 import 'package:simon_ai/ui/welcome/welcome_screen.dart';
 
@@ -26,9 +25,9 @@ class AppRouter extends _$AppRouter {
         ),
         routes = [
           AutoRoute(
-            page: UnauthenticatedSectionRoute.page,
+            page: AuthenticatedSectionRoute.page,
             path: '/',
-            guards: [UnauthenticatedGuard(sessionRepository)],
+            // guards: [UnauthenticatedGuard(sessionRepository)],
             children: [
               RedirectRoute(path: '', redirectTo: 'onboarding_email'),
               AutoRoute(path: 'onboarding_email', page: RegisterUserRoute.page),
@@ -48,14 +47,6 @@ class AppRouter extends _$AppRouter {
                 path: 'onboarding_example',
                 page: TutorialExampleRoute.page,
               ),
-            ],
-          ),
-          AutoRoute(
-            page: AuthenticatedSectionRoute.page,
-            guards: [AuthenticatedGuard(sessionRepository)],
-            path: '/',
-            children: [
-              RedirectRoute(path: '', redirectTo: 'welcome'),
               AutoRoute(path: 'welcome', page: WelcomeRoute.page),
             ],
           ),

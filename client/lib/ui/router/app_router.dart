@@ -27,7 +27,7 @@ class AppRouter extends _$AppRouter {
           AutoRoute(
             page: AuthenticatedSectionRoute.page,
             path: '/',
-            // guards: [UnauthenticatedGuard(sessionRepository)],
+            // guards: [UnauthenticatedGuard(sessionRepository), ],
             children: [
               RedirectRoute(path: '', redirectTo: 'onboarding_email'),
               AutoRoute(path: 'onboarding_email', page: RegisterUserRoute.page),

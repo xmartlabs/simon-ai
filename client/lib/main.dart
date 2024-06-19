@@ -34,6 +34,7 @@ Future _initSdks() async {
     final dir = await getApplicationDocumentsDirectory();
     Hive.init(dir.path);
   }
+  //TODO: Remove this later
   Animate.restartOnHotReload = true;
 
   await Future.wait([

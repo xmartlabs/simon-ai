@@ -35,6 +35,7 @@
   "tutorial_camera_permissions_title": "Ya casi estamos listos",
   "tutorial_camera_permissions_description": "Para jugar, necesitamos acceso a tu cámara./nDespués de activarla, asegúrate de colocar tu mano de manera que quede claramente visible en la pantalla..",
   "left": "izquierda",
+  "activate_camera": "Activar cámara",
   "right": "derecha",
   "play": "Jugar",
   "game_position_hands": "Posiciona tu mano en el área del recuadro para que sea visible en la pantalla",

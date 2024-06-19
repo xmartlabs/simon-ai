@@ -118,6 +118,8 @@ analyzer:
     - "**/*.g.dart"
     - "**/*.gen.dart"
     - "**/*.gr.dart"
+    # TODO: Remove this after using guards
+    - "**/app_router_guards.dart"
     - "bricks"
     - "lib/generated_plugin_registrant.dart"
   errors:

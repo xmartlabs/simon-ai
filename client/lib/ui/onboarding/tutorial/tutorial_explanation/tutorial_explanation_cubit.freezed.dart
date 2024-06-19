@@ -16,20 +16,20 @@ final _privateConstructorUsedError = UnsupportedError(
 
 /// @nodoc
 mixin _$TutorialExplanationState {
-  Steps get step => throw _privateConstructorUsedError;
+  OnboardingSteps get step => throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
-    required TResult Function(Steps step) initial,
+    required TResult Function(OnboardingSteps step) initial,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
-    TResult? Function(Steps step)? initial,
+    TResult? Function(OnboardingSteps step)? initial,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
-    TResult Function(Steps step)? initial,
+    TResult Function(OnboardingSteps step)? initial,
     required TResult orElse(),
   }) =>
       throw _privateConstructorUsedError;
@@ -61,7 +61,7 @@ abstract class $TutorialExplanationStateCopyWith<$Res> {
           $Res Function(TutorialExplanationState) then) =
       _$TutorialExplanationStateCopyWithImpl<$Res, TutorialExplanationState>;
   @useResult
-  $Res call({Steps step});
+  $Res call({OnboardingSteps step});
 }
 
 /// @nodoc
@@ -84,7 +84,7 @@ class _$TutorialExplanationStateCopyWithImpl<$Res,
       step: null == step
           ? _value.step
           : step // ignore: cast_nullable_to_non_nullable
-              as Steps,
+              as OnboardingSteps,
     ) as $Val);
   }
 }
@@ -97,7 +97,7 @@ abstract class _$$InitialImplCopyWith<$Res>
       __$$InitialImplCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({Steps step});
+  $Res call({OnboardingSteps step});
 }
 
 /// @nodoc
@@ -117,7 +117,7 @@ class __$$InitialImplCopyWithImpl<$Res>
       step: null == step
           ? _value.step
           : step // ignore: cast_nullable_to_non_nullable
-              as Steps,
+              as OnboardingSteps,
     ));
   }
 }
@@ -128,7 +128,7 @@ class _$InitialImpl implements _Initial {
   const _$InitialImpl({required this.step});
 
   @override
-  final Steps step;
+  final OnboardingSteps step;
 
   @override
   String toString() {
@@ -155,7 +155,7 @@ class _$InitialImpl implements _Initial {
   @override
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
-    required TResult Function(Steps step) initial,
+    required TResult Function(OnboardingSteps step) initial,
   }) {
     return initial(step);
   }
@@ -163,7 +163,7 @@ class _$InitialImpl implements _Initial {
   @override
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
-    TResult? Function(Steps step)? initial,
+    TResult? Function(OnboardingSteps step)? initial,
   }) {
     return initial?.call(step);
   }
@@ -171,7 +171,7 @@ class _$InitialImpl implements _Initial {
   @override
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
-    TResult Function(Steps step)? initial,
+    TResult Function(OnboardingSteps step)? initial,
     required TResult orElse(),
   }) {
     if (initial != null) {
@@ -210,10 +210,10 @@ class _$InitialImpl implements _Initial {
 }
 
 abstract class _Initial implements TutorialExplanationState {
-  const factory _Initial({required final Steps step}) = _$InitialImpl;
+  const factory _Initial({required final OnboardingSteps step}) = _$InitialImpl;
 
   @override
-  Steps get step;
+  OnboardingSteps get step;
   @override
   @JsonKey(ignore: true)
   _$$InitialImplCopyWith<_$InitialImpl> get copyWith =>

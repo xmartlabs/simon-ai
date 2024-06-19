@@ -8,7 +8,7 @@ class TutorialExplanationCubit extends Cubit<TutorialExplanationState> {
   TutorialExplanationCubit()
       : super(
           const TutorialExplanationState.initial(
-            step: Steps.initial,
+            step: OnboardingSteps.initial,
           ),
         );
 }

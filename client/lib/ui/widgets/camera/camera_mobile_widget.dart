@@ -3,7 +3,6 @@
 import 'dart:io';
 
 import 'package:camera/camera.dart';
-import 'package:dartx/dartx.dart';
 import 'package:flutter/material.dart';
 import 'package:simon_ai/core/common/logger.dart';
 import 'package:simon_ai/ui/hand/hand_render_painter.dart';
@@ -80,7 +79,8 @@ class CameraPlatformWidgetState extends State<CameraWidget>
       return Container();
     }
     return CustomPaint(
-      foregroundPainter: HandRenderPainter(keypoints ?? const Pair(0.0, [])),
+      foregroundPainter:
+          HandRenderPainter(keypoints ?? (confidence: 0.0, keyPoints: [])),
       child: CameraPreview(_cameraController!),
     );
   }

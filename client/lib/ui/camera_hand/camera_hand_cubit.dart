@@ -1,10 +1,9 @@
 import 'dart:async';
-import 'package:dartx/dartx.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:simon_ai/core/di/di_provider.dart';
 import 'package:simon_ai/core/manager/keypoints/keypoints_manager.dart';
-import 'package:simon_ai/core/manager/keypoints/movenet_points.dart';
+import 'package:simon_ai/core/manager/keypoints/keypoints_manager_mobile.dart';
 import 'package:simon_ai/ui/extensions/stream_extensions.dart';
 
 part 'camera_hand_state.dart';

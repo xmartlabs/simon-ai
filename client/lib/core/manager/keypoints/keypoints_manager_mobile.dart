@@ -1,64 +1,74 @@
 import 'dart:async';
 import 'dart:isolate';
 
-import 'package:dartx/dartx.dart';
 import 'package:simon_ai/core/common/logger.dart';
 import 'package:simon_ai/core/manager/keypoints/keypoints_manager.dart';
-import 'package:simon_ai/core/manager/keypoints/movenet_classifier.dart';
-import 'package:simon_ai/core/manager/keypoints/movenet_isolate.dart';
-import 'package:simon_ai/core/manager/keypoints/movenet_points.dart';
+import 'package:simon_ai/core/manager/keypoints/hand_tracking_classifier.dart';
+import 'package:simon_ai/core/manager/keypoints/hand_tracking_isolate.dart';
+import 'package:simon_ai/core/manager/keypoints/hand_tracking_points.dart';
+
+typedef HandLandmarksData = ({
+  double confidence,
+  List<KeyPointData> keyPoints,
+});
+
+typedef HandLandmarksResultData = ({
+  double confidence,
+  List<double> keyPoints,
+});
 
 class KeyPointsMobileManager implements KeyPointsManager {
-  late MoveNetClassifier classifier;
-  late MoveNetIsolateUtils isolate;
-  var currentFrame = 0;
-  var lastCurrentFrame = 0;
+  late HandTrackingClassifier classifier;
+  late HandTrackingIsolateUtils isolate;
+  var _currentFrame = 0;
+  var _lastCurrentFrame = 0;
 
   @override
   Future<void> init() async {
-    isolate = MoveNetIsolateUtils();
+    isolate = HandTrackingIsolateUtils();
     await isolate.start();
-    classifier = MoveNetClassifier();
+    classifier = HandTrackingClassifier();
 
     Timer.periodic(const Duration(seconds: 1), (timer) {
-      final currentFrame = this.currentFrame;
-      Logger.d('FPS: ${currentFrame - lastCurrentFrame}');
-      lastCurrentFrame = currentFrame;
+      final currentFrame = _currentFrame;
+      Logger.d('FPS: ${currentFrame - _lastCurrentFrame}');
+      _lastCurrentFrame = currentFrame;
     });
   }
 
   @override
-  Future<Pair<double, List<KeyPointData>>> processFrame(
+  Future<HandLandmarksData> processFrame(
     dynamic newFrame,
   ) async {
-    final isolateData = IsolateData(newFrame, classifier.interpreter.address);
-    final keypoints = await _inference(isolateData);
-    // Logger.d('Keypoints: $keypoints');
-    currentFrame++;
-    final result = processKeypoints(keypoints.second);
-    return Pair(keypoints.first, result);
+    final resultData = await _inference(newFrame);
+    _currentFrame++;
+    final processedKeyPoints = _processKeypoints(resultData.keyPoints);
+    return (confidence: resultData.confidence, keyPoints: processedKeyPoints);
   }
 
-  Future<Pair<double, List<double>>> _inference(IsolateData isolateData) async {
+  Future<HandLandmarksResultData> _inference(dynamic newFrame) async {
     final responsePort = ReceivePort();
-    isolate.sendPort.send(isolateData..responsePort = responsePort.sendPort);
+    final IsolateData isolateData = (
+      cameraImage: newFrame,
+      interpreterAddress: classifier.interpreter.address,
+      responsePort: responsePort.sendPort
+    );
+    isolate.sendPort.send(isolateData);
     final result = await responsePort.first;
-    // Logger.d('Isolate response: $result');
     return result;
   }
 
-  List<KeyPointData> processKeypoints(List<double>? keypoints) {
+  List<KeyPointData> _processKeypoints(List<double>? keypoints) {
     final result = <KeyPointData>[];
     if (keypoints != null &&
         keypoints.length == (HandLandmark.values.length * 3)) {
       for (var i = 0; i < HandLandmark.values.length * 3; i += 3) {
-        result.add(
-          KeyPointData(
-            x: keypoints[i + 1],
-            y: keypoints[i + 0],
-            z: keypoints[i + 2],
-          ),
+        final KeyPointData keyPointData = (
+          x: keypoints[i + 1],
+          y: keypoints[i + 0],
+          z: keypoints[i + 2],
         );
+        result.add(keyPointData);
       }
     }
     return result;

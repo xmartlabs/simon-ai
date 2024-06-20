@@ -7,9 +7,9 @@ import 'package:simon_ai/core/common/logger.dart';
 import 'package:simon_ai/core/manager/keypoints/image_utils.dart';
 import 'package:tflite_flutter/tflite_flutter.dart';
 
-import 'package:simon_ai/core/manager/keypoints/movenet_classifier.dart';
+import 'package:simon_ai/core/manager/keypoints/hand_tracking_classifier.dart';
 
-class MoveNetIsolateUtils {
+class HandTrackingIsolateUtils {
   static const _logTimes = false;
 
   final ReceivePort _receivePort = ReceivePort();
@@ -32,7 +32,7 @@ class MoveNetIsolateUtils {
     sendPort.send(port.sendPort);
 
     await for (final IsolateData isolateData in port) {
-      final classifier = MoveNetClassifier(
+      final classifier = HandTrackingClassifier(
         interpreter: Interpreter.fromAddress(isolateData.interpreterAddress),
       );
       final stopwatch = Stopwatch()..start();
@@ -57,10 +57,8 @@ class MoveNetIsolateUtils {
 }
 
 /// Bundles data to pass between Isolate
-class IsolateData {
-  CameraImage cameraImage;
-  int interpreterAddress;
-  late SendPort responsePort;
-
-  IsolateData(this.cameraImage, this.interpreterAddress);
-}
+typedef IsolateData = ({
+  CameraImage cameraImage,
+  int interpreterAddress,
+  SendPort responsePort,
+});

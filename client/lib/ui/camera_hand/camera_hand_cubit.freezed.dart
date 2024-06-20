@@ -16,27 +16,39 @@ final _privateConstructorUsedError = UnsupportedError(
 
 /// @nodoc
 mixin _$CameraHandState {
-  Pair<List<KeyPointData>, bool>? get handData =>
-      throw _privateConstructorUsedError;
+  ({double confidence, List<({double x, double y, double z})> keyPoints})?
+      get handData => throw _privateConstructorUsedError;
   Stream<dynamic>? get movenetResultStream =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
-    required TResult Function(Pair<List<KeyPointData>, bool>? handData,
+    required TResult Function(
+            ({
+              double confidence,
+              List<({double x, double y, double z})> keyPoints
+            })? handData,
             Stream<dynamic>? movenetResultStream)
         state,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
-    TResult? Function(Pair<List<KeyPointData>, bool>? handData,
+    TResult? Function(
+            ({
+              double confidence,
+              List<({double x, double y, double z})> keyPoints
+            })? handData,
             Stream<dynamic>? movenetResultStream)?
         state,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
-    TResult Function(Pair<List<KeyPointData>, bool>? handData,
+    TResult Function(
+            ({
+              double confidence,
+              List<({double x, double y, double z})> keyPoints
+            })? handData,
             Stream<dynamic>? movenetResultStream)?
         state,
     required TResult orElse(),
@@ -71,7 +83,10 @@ abstract class $CameraHandStateCopyWith<$Res> {
       _$CameraHandStateCopyWithImpl<$Res, CameraHandState>;
   @useResult
   $Res call(
-      {Pair<List<KeyPointData>, bool>? handData,
+      {({
+        double confidence,
+        List<({double x, double y, double z})> keyPoints
+      })? handData,
       Stream<dynamic>? movenetResultStream});
 }
 
@@ -95,7 +110,10 @@ class _$CameraHandStateCopyWithImpl<$Res, $Val extends CameraHandState>
       handData: freezed == handData
           ? _value.handData
           : handData // ignore: cast_nullable_to_non_nullable
-              as Pair<List<KeyPointData>, bool>?,
+              as ({
+              double confidence,
+              List<({double x, double y, double z})> keyPoints
+            })?,
       movenetResultStream: freezed == movenetResultStream
           ? _value.movenetResultStream
           : movenetResultStream // ignore: cast_nullable_to_non_nullable
@@ -113,7 +131,10 @@ abstract class _$$CameraHandStateImplCopyWith<$Res>
   @override
   @useResult
   $Res call(
-      {Pair<List<KeyPointData>, bool>? handData,
+      {({
+        double confidence,
+        List<({double x, double y, double z})> keyPoints
+      })? handData,
       Stream<dynamic>? movenetResultStream});
 }
 
@@ -135,7 +156,10 @@ class __$$CameraHandStateImplCopyWithImpl<$Res>
       handData: freezed == handData
           ? _value.handData
           : handData // ignore: cast_nullable_to_non_nullable
-              as Pair<List<KeyPointData>, bool>?,
+              as ({
+              double confidence,
+              List<({double x, double y, double z})> keyPoints
+            })?,
       movenetResultStream: freezed == movenetResultStream
           ? _value.movenetResultStream
           : movenetResultStream // ignore: cast_nullable_to_non_nullable
@@ -150,7 +174,10 @@ class _$CameraHandStateImpl implements _CameraHandState {
   const _$CameraHandStateImpl({this.handData, this.movenetResultStream = null});
 
   @override
-  final Pair<List<KeyPointData>, bool>? handData;
+  final ({
+    double confidence,
+    List<({double x, double y, double z})> keyPoints
+  })? handData;
   @override
   @JsonKey()
   final Stream<dynamic>? movenetResultStream;
@@ -184,7 +211,11 @@ class _$CameraHandStateImpl implements _CameraHandState {
   @override
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
-    required TResult Function(Pair<List<KeyPointData>, bool>? handData,
+    required TResult Function(
+            ({
+              double confidence,
+              List<({double x, double y, double z})> keyPoints
+            })? handData,
             Stream<dynamic>? movenetResultStream)
         state,
   }) {
@@ -194,7 +225,11 @@ class _$CameraHandStateImpl implements _CameraHandState {
   @override
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
-    TResult? Function(Pair<List<KeyPointData>, bool>? handData,
+    TResult? Function(
+            ({
+              double confidence,
+              List<({double x, double y, double z})> keyPoints
+            })? handData,
             Stream<dynamic>? movenetResultStream)?
         state,
   }) {
@@ -204,7 +239,11 @@ class _$CameraHandStateImpl implements _CameraHandState {
   @override
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
-    TResult Function(Pair<List<KeyPointData>, bool>? handData,
+    TResult Function(
+            ({
+              double confidence,
+              List<({double x, double y, double z})> keyPoints
+            })? handData,
             Stream<dynamic>? movenetResultStream)?
         state,
     required TResult orElse(),
@@ -246,11 +285,15 @@ class _$CameraHandStateImpl implements _CameraHandState {
 
 abstract class _CameraHandState implements CameraHandState {
   const factory _CameraHandState(
-      {final Pair<List<KeyPointData>, bool>? handData,
+      {final ({
+        double confidence,
+        List<({double x, double y, double z})> keyPoints
+      })? handData,
       final Stream<dynamic>? movenetResultStream}) = _$CameraHandStateImpl;
 
   @override
-  Pair<List<KeyPointData>, bool>? get handData;
+  ({double confidence, List<({double x, double y, double z})> keyPoints})?
+      get handData;
   @override
   Stream<dynamic>? get movenetResultStream;
   @override

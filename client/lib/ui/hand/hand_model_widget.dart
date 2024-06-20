@@ -1,8 +1,7 @@
 import 'dart:async';
 
-import 'package:dartx/dartx.dart';
 import 'package:flutter/widgets.dart';
-import 'package:simon_ai/core/manager/keypoints/movenet_points.dart';
+import 'package:simon_ai/core/manager/keypoints/keypoints_manager_mobile.dart';
 
 mixin HandModelWidget implements StatefulWidget {
   abstract final Stream<dynamic>? movenetStream;
@@ -11,7 +10,7 @@ mixin HandModelWidget implements StatefulWidget {
 mixin HandModelWidgetState<T extends HandModelWidget> implements State<T> {
   StreamSubscription? _keypointsSubscription;
 
-  Pair<double, List<KeyPointData>>? keypoints;
+  HandLandmarksData? keypoints;
 
   void _initKeypointsStream() {
     final stream = widget.movenetStream;

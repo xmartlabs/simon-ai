@@ -1,36 +1,29 @@
 import 'dart:io';
 import 'dart:math';
 
-import 'package:dartx/dartx.dart';
 import 'package:image/image.dart' as img;
 import 'package:simon_ai/core/common/logger.dart';
+import 'package:simon_ai/core/manager/keypoints/image_utils.dart';
+import 'package:simon_ai/core/manager/keypoints/keypoints_manager_mobile.dart';
 import 'package:tflite_flutter/tflite_flutter.dart';
 
-class MoveNetClassifier {
+class HandTrackingClassifier {
   static const bool _logInit = true;
   static const bool _logResultTime = false;
   static const bool useLightingModel = true;
 
-  static const int lightingModelInputSize = 224;
-  static const int thunderModelInputSize = 224;
-
-  static const lightingModelName = 'hand_landmarks_detector.tflite';
-  static const thunderModelName = 'hand_landmarks_detector.tflite';
-
-  static String get _modelName =>
-      useLightingModel ? lightingModelName : thunderModelName;
-
-  static int get _targetSize =>
-      useLightingModel ? lightingModelInputSize : thunderModelInputSize;
+  static const int modelInputSize = 224;
+  static const modelName = 'hand_landmarks_detector.tflite';
 
   late Interpreter _interpreter;
+  Interpreter get interpreter => _interpreter;
 
   Map<int, Object> outputs = {};
   late Tensor outputTensor;
 
   final stopwatch = Stopwatch();
 
-  MoveNetClassifier({Interpreter? interpreter}) {
+  HandTrackingClassifier({Interpreter? interpreter}) {
     loadModel(interpreter: interpreter);
   }
 
@@ -47,7 +40,7 @@ class MoveNetClassifier {
       );
     }
     return Interpreter.fromAsset(
-      'assets/models/$_modelName',
+      'assets/models/$modelName',
       options: options,
     );
   }
@@ -73,44 +66,10 @@ class MoveNetClassifier {
     }
   }
 
-  img.Image getProcessedImage(img.Image inputImage) {
-    final padSize = max(inputImage.height, inputImage.width);
-
-    final paddedImage = img.Image(width: padSize, height: padSize);
-
-    final int offsetX = (padSize - inputImage.width) ~/ 2;
-    final int offsetY = (padSize - inputImage.height) ~/ 2;
-
-    for (int x = 0; x < inputImage.width; x++) {
-      for (int y = 0; y < inputImage.height; y++) {
-        final int paddedX = x + offsetX;
-        final int paddedY = y + offsetY;
-        if (paddedX < paddedImage.width && paddedY < paddedImage.height) {
-          final pixel = inputImage.getPixelSafe(x, y);
-          final color = img.ColorFloat16.rgba(
-            pixel.r.toInt(),
-            pixel.g.toInt(),
-            pixel.b.toInt(),
-            pixel.a.toInt(),
-          );
-          paddedImage.setPixel(paddedX, paddedY, color);
-        } else {
-          throw ArgumentError(
-            'Pixel coordinates are out of bounds for the padded image.',
-          );
-        }
-      }
-    }
-    final processedImage =
-        img.copyResize(paddedImage, width: _targetSize, height: _targetSize);
-
-    return processedImage;
-  }
-
-  Future<Pair<double, List<double>>> performOperations(img.Image image) async {
+  Future<HandLandmarksResultData> performOperations(img.Image image) async {
     stopwatch.start();
 
-    final inputImage = getProcessedImage(image);
+    final inputImage = ImageUtils.getProcessedImage(image, modelInputSize);
     stopwatch.stop();
     final processImageTime = stopwatch.elapsedMilliseconds;
 
@@ -137,21 +96,33 @@ class MoveNetClassifier {
         inputImage.width,
         (x) {
           final pixel = inputImage.getPixel(x, y);
+          // Normalize pixel values to [0, 1]
           return [pixel.r / 255.0, pixel.g / 255.0, pixel.b / 255.0];
         },
       ),
     );
     final inputs = [imageMatrix];
     outputs = <int, Object>{
+      // Output 0: Presence of a hand in the image. A float scalar value.
       0: [List<double>.filled(outputTensor.shape[1], 0.0)],
+      // Output 1: 21 3D screen landmarks normalized by image size.
+      // Represented as a 1x63 tensor.Only valid when the presence score
+      // (Output 0) is above a certain threshold.
       1: [List<double>.filled(outputTensor.shape[0], 0.0)],
+      // Output 2: Handedness of the predicted hand. A float scalar value.
+      // Only valid when the presence score (Output 0) is above a certain
+      // threshold.
       2: [List<double>.filled(outputTensor.shape[0], 0.0)],
+      // Output 3: 21 3D world landmarks based on the GHUM hand model.
+      // Represented as a 1x63 tensor.
+      // Only valid when the presence score (Output 0) is above a
+      // certain threshold.
       3: [List<double>.filled(outputTensor.shape[1], 0.0)],
     };
     interpreter.runForMultipleInputs([inputs], outputs);
   }
 
-  Pair<double, List<double>> parseLandmarkData(img.Image image) {
+  HandLandmarksResultData parseLandmarkData(img.Image image) {
     final data = (outputs.values.elementAt(0) as List<List<double>>).first;
     final confidence =
         (outputs.values.elementAt(1) as List<List<double>>).first.first;
@@ -160,17 +131,32 @@ class MoveNetClassifier {
     double y;
     double z;
 
+    final padSize = max(image.height, image.width);
     final padY = max(0, (image.width - image.height) / 2);
     final padX = max(0, (image.height - image.width) / 2);
 
-    for (var i = 0; i < 63; i += 3) {
-      x = (data[0 + i] - (padX / image.width * 224)) / 224 * image.width;
-      y = (data[1 + i] - (padY / image.height * 224)) / 224 * image.height;
+    const landmarksOutputDimensions = 63;
+
+    for (var i = 0; i < landmarksOutputDimensions; i += 3) {
+      final double padXRatio = padX / padSize;
+      final double padYRatio = padY / padSize;
+
+      final double normalizedPadX = padXRatio * modelInputSize;
+      final double normalizedPadY = padYRatio * modelInputSize;
+
+      final double adjustedModelInputSizeX =
+          modelInputSize - (2 * normalizedPadX);
+      final double adjustedModelInputSizeY =
+          modelInputSize - (2 * normalizedPadY);
+
+      final double normalizedDataX = data[0 + i] - normalizedPadX;
+      final double normalizedDataY = data[1 + i] - normalizedPadY;
+
+      x = (normalizedDataX / adjustedModelInputSizeX) * image.width;
+      y = (normalizedDataY / adjustedModelInputSizeY) * image.height;
       z = data[2 + i];
       result.addAll([y, x, z]);
     }
-    return Pair(confidence, result);
+    return (confidence: confidence, keyPoints: result);
   }
-
-  Interpreter get interpreter => _interpreter;
 }

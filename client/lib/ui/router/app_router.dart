@@ -28,7 +28,7 @@ class AppRouter extends _$AppRouter {
             guards: [UnauthenticatedGuard(sessionRepository)],
             children: [
               RedirectRoute(path: '', redirectTo: 'login'),
-              AutoRoute(path: 'login', page: SignInRoute.page),
+              AutoRoute(path: 'login', page: CameraHandRoute.page),
             ],
           ),
           AutoRoute(

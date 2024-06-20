@@ -1,8 +1,7 @@
-import 'package:dartx/dartx.dart';
-import 'package:simon_ai/core/manager/keypoints/movenet_points.dart';
+import 'package:simon_ai/core/manager/keypoints/keypoints_manager_mobile.dart';
 
 abstract class KeyPointsManager {
-  Future<Pair<double, List<KeyPointData>>?> processFrame(dynamic newFrame);
+  Future<HandLandmarksData?> processFrame(dynamic newFrame);
 
   Future<void> init();
 }

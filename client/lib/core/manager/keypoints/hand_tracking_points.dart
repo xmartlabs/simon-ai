@@ -1,4 +1,4 @@
-import 'package:equatable/equatable.dart';
+import 'dart:ui';
 
 // The order is important, it follows the model order
 enum HandLandmark {
@@ -25,20 +25,12 @@ enum HandLandmark {
   pinkyTip,
 }
 
-class KeyPointData extends Equatable {
-  const KeyPointData({
-    required this.x,
-    required this.y,
-    required this.z,
-  });
+typedef KeyPointData = ({
+  double x,
+  double y,
+  double z,
+});
 
-  final double x;
-  final double y;
-  final double z;
-
-  @override
-  String toString() => '($x, $y, $z)';
-
-  @override
-  List<Object> get props => [x, y, z];
+extension MoveNetPointDataExtensions on KeyPointData {
+  Offset getOffset(Size size) => Offset(x, y);
 }

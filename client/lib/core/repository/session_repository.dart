@@ -31,7 +31,6 @@ class SessionRepository {
     String? username,
   }) async {
     final response = await _authRemoteSource.signIn(email, username);
-    await _authLocalSource.saveUserToken(response.accessToken);
     await _authLocalSource.saveUserInfo(response.user);
   }
 

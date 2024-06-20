@@ -1,8 +1,11 @@
+import 'dart:async';
+
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:simon_ai/core/common/extension/stream_future_extensions.dart';
 import 'package:simon_ai/core/di/di_provider.dart';
 import 'package:simon_ai/core/repository/session_repository.dart';
+import 'package:simon_ai/ui/router/app_router.dart';
 import 'package:simon_ai/ui/section/error_handler/global_event_handler_cubit.dart';
 
 part 'register_user_cubit.freezed.dart';
@@ -11,6 +14,7 @@ part 'register_user_state.dart';
 class RegisterUserCubit extends Cubit<RegisterUserBaseState> {
   final GlobalEventHandler _globalEventHandler;
   final SessionRepository _sessionRepository = DiProvider.get();
+  final AppRouter _appRouter = DiProvider.get();
 
   RegisterUserCubit(this._globalEventHandler)
       : super(
@@ -26,11 +30,13 @@ class RegisterUserCubit extends Cubit<RegisterUserBaseState> {
   void changeNickname(String nickname) =>
       emit(state.copyWith(nickname: nickname));
 
-  Future<bool> saveEmail() async {
+  Future<void> saveEmail() async {
     final response = await _sessionRepository
         .saveEmail(state.email!)
         .filterSuccess(_globalEventHandler.handleError)
         .mapToResult();
-    return response.isSuccess;
+    if (response.isSuccess) {
+      unawaited(_appRouter.push(const RegisterUsernameRoute()));
+    }
   }
 }

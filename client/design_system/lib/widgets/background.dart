@@ -1,4 +1,5 @@
 import 'package:design_system/extensions/context_extensions.dart';
+import 'package:design_system/gen/assets.gen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
@@ -15,16 +16,12 @@ class Background extends StatelessWidget {
             Positioned(
               top: 0,
               left: 0,
-              child: Image.asset(
-                'assets/images/background_green_prop.png',
-              ),
+              child: Assets.images.backgroundGreenProp.image(),
             ),
             Positioned(
               bottom: 0,
               right: 0,
-              child: Image.asset(
-                'assets/images/background_red_prop.png',
-              ),
+              child: Assets.images.backgroundRedProp.image(),
             ),
           ],
         ),

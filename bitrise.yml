@@ -1,0 +1,230 @@
+format_version: "13"
+default_step_lib_source: https://github.com/bitrise-io/bitrise-steplib.git
+project_type: flutter
+workflows:
+  _deploy_dev_firebase:
+    before_run:
+      - _setup
+      - _dev_setup
+      - firebase_dev_android
+      - firebase_dev_ios
+  _dev_setup:
+    steps:
+      - file-downloader@1:
+          title: Download Service Account
+          inputs:
+            - destination: $BITRISE_SOURCE_DIR/$FIREBASE_SERVICE_ACCOUNT_FILE_NAME
+            - source: $BITRISEIO_FIREBASE_SERVICE_ACCOUNT_URL
+      - file-downloader@1:
+          title: Download IOS Dist Certificate
+          inputs:
+            - destination: $BITRISE_SOURCE_DIR/$DIST_CERTIFICATE_FILE_NAME
+            - source: $BITRISEIO_IOS_DIST_CERTIFICATE_URL
+      - file-downloader@1:
+          title: Download Android keystore
+          inputs:
+            - destination: $BITRISE_SOURCE_DIR/android/app/$KEYSTORE_FILE
+            - source: $BITRISEIO_KEYSTORE_URL
+      - script@1:
+          inputs:
+            - content: |-
+                #!/usr/bin/env bash
+
+                echo -e $ENV_DEV_CONFIG >> $BITRISE_SOURCE_DIR/$FLUTTER_ENV_FILE
+          title: Create env file
+  deploy_dev_testflight:
+    before_run:
+      - _setup
+      - _dev_setup
+    steps:
+      - fastlane@3:
+          inputs:
+            - work_dir: $BITRISE_SOURCE_DIR/ios
+            - connection: "off"
+            - lane: ios publish_dev_testflight
+          title: deploy_dev_testflight
+  firebase_dev_android:
+    steps:
+      - fastlane@3:
+          inputs:
+            - work_dir: $BITRISE_SOURCE_DIR/android
+            - connection: "off"
+            - lane: android deploy_firebase_dev --verbose
+          title: firebase dev android
+    envs:
+      - opts:
+          is_expand: false
+        FIREBASE_APP_ID_DEV: FIREBASE_APP_ID_DEV
+  firebase_dev_ios:
+    steps:
+      - fastlane@3:
+          inputs:
+            - work_dir: $BITRISE_SOURCE_DIR/ios
+            - connection: "off"
+            - lane: ios publish_dev_firebase
+          title: firebase_dev_ios
+    envs:
+      - opts:
+          is_expand: false
+        FIREBASE_APP_ID_DEV: FIREBASE_APP_ID_DEV
+  run_test_and_analyzer:
+    before_run:
+      - _setup
+    steps:
+      - script@1:
+          inputs:
+            - content: |-
+                #!/usr/bin/env bash
+
+                echo -e $ENV_DEV_CONFIG >> $BITRISE_SOURCE_DIR/$FLUTTER_ENV_FILE
+          title: Create env file
+      - script@1:
+          inputs:
+            - script_file_path: null
+            - content: |-
+                #!/usr/bin/env bash
+
+                set -e
+                set -o pipefail
+                set -x
+
+                fvm flutter pub get --directory design_system
+                fvm flutter pub get --directory design_system/design_system_gallery
+      - fastlane@3:
+          title: Run linter
+          inputs:
+            - api_key_path: null
+            - api_issuer: null
+            - apple_id: null
+            - password: null
+            - app_password: null
+            - connection: "off"
+            - verbose_log: "yes"
+            - lane: lints
+      - fastlane@3:
+          inputs:
+            - api_key_path: null
+            - api_issuer: null
+            - apple_id: null
+            - password: null
+            - app_password: null
+            - connection: "off"
+            - lane: ensure_no_change_in_generated_code
+          title: Run check generated code
+      - fastlane@3:
+          inputs:
+            - api_key_path: null
+            - api_issuer: null
+            - apple_id: null
+            - password: null
+            - app_password: null
+            - connection: "off"
+            - lane: tests
+          title: Run tests
+  _setup:
+    steps:
+      - activate-ssh-key@4:
+          run_if: '{{getenv "SSH_RSA_PRIVATE_KEY" | ne ""}}'
+      - git-clone@8:
+          inputs:
+            - clone_depth: "15"
+      - cache-pull@2: {}
+      - change-workdir@1:
+          inputs:
+            - is_create_path: "false"
+            - path: client
+      - script@1:
+          inputs:
+            - script_file_path: null
+            - content: |-
+                #!/usr/bin/env bash
+                set -ex
+                RUBY_VERSION=$(cat .ruby-version)
+                asdf install ruby $RUBY_VERSION
+          title: Update ruby version
+      - script@1:
+          inputs:
+            - script_file_path: null
+            - content: |-
+                #!/usr/bin/env bash
+
+                set -e
+                set -o pipefail
+                set -x
+
+                FVM_FLUTTER_VERSION=$(grep -o '\"flutter\": \"[^\"]*' .fvmrc | grep -o '[^\"]*$')
+                fvm install $FVM_FLUTTER_VERSION
+                fvm global $FVM_FLUTTER_VERSION
+
+          title: Install FVM
+      - flutter-installer@0:
+          inputs:
+            - installation_bundle_url: null
+            - is_update: "false"
+            - version: 3.22.1
+      - script@1:
+          inputs:
+            - script_file_path: null
+            - content: |-
+                #!/usr/bin/env bash
+
+                flutter --version
+                flutter clean
+                dart pub global activate arb_utils
+          title: Activate arb_utils
+      - cache-push@2: {}
+meta:
+  bitrise.io:
+    stack: osx-xcode-14.3.x-ventura
+    machine_type_id: g2-m1.4core
+app:
+  #! CD env variables
+  envs:
+    - opts:
+        is_expand: false
+      FASTLANE_XCODE_LIST_TIMEOUT: "120"
+    - opts:
+        is_expand: false
+      FIREBASE_PROJECT_ID: FIREBASE_PROJECT_ID-ai
+    - opts:
+        is_expand: false
+      FIREBASE_SERVICE_ACCOUNT_FILE: FIREBASE_SERVICE_ACCOUNT_FILE
+    - opts:
+        is_expand: false
+      FIREBASE_SERVICE_ACCOUNT_FILE_NAME: FIREBASE_SERVICE_ACCOUNT_FILE_NAME
+    - opts:
+        is_expand: false
+      FIREBASE_TESTER_GROUPS: xl-testing
+    - opts:
+        is_expand: false
+      DIST_CERTIFICATE_FILE_NAME: DIST_CERTIFICATE_FILE_NAME
+    - opts:
+        is_expand: false
+      DIST_CERTIFICATE_PATH: DIST_CERTIFICATE_PATH
+    - opts:
+        is_expand: false
+      TEMP_KEYCHAIN_NAME: fastlane-keychain
+    - opts:
+        is_expand: false
+      TEMP_KEYCHAIN_PASSWORD: fastlane-keychain-password
+    - opts:
+        is_expand: false
+      APPLE_TEAM_ID: APPLE_TEAM_ID
+    - opts:
+        is_expand: false
+      FLUTTER_ENV_FILE: .env
+    - opts:
+        is_expand: false
+      ENV_DEV_CONFIG: |-
+        API_BASE_URL=\n
+        BUGSEE_API_KEY=\n
+    - opts:
+        is_expand: false
+      FIREBAE_APP_ID_JSON_CONTENT: |-
+        {
+         
+        }
+trigger_map:
+  - pull_request_target_branch: main
+    type: pull_request
+    workflow: run_test_and_analyzer

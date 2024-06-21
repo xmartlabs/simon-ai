@@ -15,8 +15,8 @@
   "error_no_internet_connection_error_title": "Error",
   "error_unknown_error_description": "¡Algo salió mal!",
   "error_unknown_error_title": "¡Ops!",
-  "skip": "Omitir",
-  "points": "Puntaje",
   "gestures": "Gestos",
+  "points": "Puntaje",
+  "skip": "Omitir",
   "time": "Tiempo"
 }

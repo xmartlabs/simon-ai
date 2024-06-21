@@ -15,8 +15,8 @@
   "error_no_internet_connection_error_title": "Error",
   "error_unknown_error_description": "Something went wrong!",
   "error_unknown_error_title": "Oops!",
-  "skip": "Skip",
-  "points": "Score",
   "gestures": "Gestures",
+  "points": "Score",
+  "skip": "Skip",
   "time": "Time"
 }

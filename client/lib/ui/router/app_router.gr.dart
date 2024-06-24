@@ -21,6 +21,12 @@ abstract class _$AppRouter extends RootStackRouter {
         child: const AuthenticatedSectionRouter(),
       );
     },
+    GameRoute.name: (routeData) {
+      return AutoRoutePage<dynamic>(
+        routeData: routeData,
+        child: const GameScreen(),
+      );
+    },
     SignInRoute.name: (routeData) {
       return AutoRoutePage<dynamic>(
         routeData: routeData,
@@ -52,6 +58,20 @@ class AuthenticatedSectionRoute extends PageRouteInfo<void> {
         );
 
   static const String name = 'AuthenticatedSectionRoute';
+
+  static const PageInfo<void> page = PageInfo<void>(name);
+}
+
+/// generated route for
+/// [GameScreen]
+class GameRoute extends PageRouteInfo<void> {
+  const GameRoute({List<PageRouteInfo>? children})
+      : super(
+          GameRoute.name,
+          initialChildren: children,
+        );
+
+  static const String name = 'GameRoute';
 
   static const PageInfo<void> page = PageInfo<void>(name);
 }

@@ -28,9 +28,10 @@ interface class Config {
   }
 
   static void _initializeEnvVariables() {
-    apiBaseUrl = _EnvConfig.getEnvVariable(_EnvConfig.ENV_KEY_API_BASE_URL)!;
+    apiBaseUrl =
+        _EnvConfig.getEnvVariable(_EnvConfig.ENV_KEY_API_BASE_URL) ?? '';
     supabaseApiKey =
-        _EnvConfig.getEnvVariable(_EnvConfig.ENV_KEY_SUPABASE_API_KEY)!;
+        _EnvConfig.getEnvVariable(_EnvConfig.ENV_KEY_SUPABASE_API_KEY) ?? '';
   }
 }
 

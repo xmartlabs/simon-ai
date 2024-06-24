@@ -3,8 +3,8 @@ import 'package:design_system/gen/assets.gen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
-class Background extends StatelessWidget {
-  const Background({super.key});
+class ScreenBackgroundContainer extends StatelessWidget {
+  const ScreenBackgroundContainer({super.key});
 
   @override
   Widget build(BuildContext context) => Container(

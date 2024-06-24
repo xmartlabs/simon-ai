@@ -18,7 +18,7 @@ class AppScaffold extends StatelessWidget {
   Widget build(BuildContext context) => Scaffold(
         body: Stack(
           children: [
-            const Background(),
+            const ScreenBackgroundContainer(),
             SafeArea(
               child: Container(
                 width: 1.sw,

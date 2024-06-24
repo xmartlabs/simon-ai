@@ -22,4 +22,5 @@ targets:
           include:
             - "lib/ui/**_router.dart"
             - "lib/ui/**_screen.dart"
+            - "lib/ui/**_page.dart"
             - "lib/ui/**_section.dart"

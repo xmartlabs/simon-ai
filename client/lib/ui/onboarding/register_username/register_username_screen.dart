@@ -17,12 +17,12 @@ class RegisterUsernameScreen extends StatelessWidget {
   Widget build(BuildContext context) => BlocProvider(
         create: (context) =>
             RegisterUsernameCubit(context.read<GlobalEventHandlerCubit>()),
-        child: const _Content(),
+        child: const _RegisterUsernameContent(),
       );
 }
 
-class _Content extends StatelessWidget {
-  const _Content({
+class _RegisterUsernameContent extends StatelessWidget {
+  const _RegisterUsernameContent({
     super.key,
   });
 

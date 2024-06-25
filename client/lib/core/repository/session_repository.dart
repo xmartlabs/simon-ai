@@ -1,6 +1,8 @@
 import 'dart:async';
 
 import 'package:hive/hive.dart';
+import 'package:simon_ai/core/common/extension/stream_future_extensions.dart';
+import 'package:simon_ai/core/common/result.dart';
 import 'package:simon_ai/core/model/authentication_status.dart';
 import 'package:simon_ai/core/model/user.dart';
 import 'package:simon_ai/core/source/auth_local_source.dart';
@@ -24,13 +26,28 @@ class SessionRepository {
 
   Stream<User?> getUserInfo() => _authLocalSource.getUser();
 
-  Future<void> signInUser({
+  Future<User?> getUser() => _authLocalSource.getUser().first;
+
+  Future<Result<void>> signInUser({
     required String email,
-    required String password,
+    String? username,
   }) async {
-    final response = await _authRemoteSource.signIn(email, password);
-    await _authLocalSource.saveUserToken(response.accessToken);
-    await _authLocalSource.saveUserInfo(response.user);
+    final response = await _authRemoteSource.signIn(email, username);
+    return _authLocalSource.saveUserInfo(response.user).mapToResult();
+  }
+
+  Future<Result<void>> saveUsername(String username) async {
+    final user = await _authLocalSource.getUser().first;
+    return _authLocalSource
+        .saveUserInfo(user!.copyWith(name: username))
+        .mapToResult();
+  }
+
+  Future<Result<void>> saveEmail(String email) async {
+    final user = await _authLocalSource.getUser().first ?? User(email: email);
+    return _authLocalSource
+        .saveUserInfo(user.copyWith(email: email))
+        .mapToResult();
   }
 
   Future<void> logOut() async {

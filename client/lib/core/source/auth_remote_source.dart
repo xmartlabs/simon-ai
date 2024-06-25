@@ -1,20 +1,16 @@
 import 'package:simon_ai/core/model/service/auth_models.dart';
-import 'package:simon_ai/core/model/service/service_response.dart';
+import 'package:simon_ai/core/model/user.dart';
 import 'package:simon_ai/core/source/common/http_service.dart';
 
 class AuthRemoteSource {
+  // ignore: unused_field
   final HttpServiceDio _httpService;
-
-  static const _urlLogin = 'auth/v1/token';
 
   AuthRemoteSource(this._httpService);
 
-  Future<SignInResponse> signIn(String email, String password) async =>
-      (await _httpService.postAndProcessResponse(
-        _urlLogin,
-        queryParameters: {'grant_type': 'password'},
-        data: SignInRequest(email: email, password: password).toJson(),
-        serializer: (data) => SignInResponse.fromJson(data),
-      ))
-          .getDataOrThrow();
+  Future<SignInResponse> signIn(String email, String? username) async =>
+      SignInResponse(
+        accessToken: email,
+        user: User(email: email, name: username),
+      );
 }

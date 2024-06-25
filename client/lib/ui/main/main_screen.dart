@@ -23,6 +23,7 @@ class MainScreen extends StatelessWidget {
         GlobalCupertinoLocalizations.delegate,
       ],
       supportedLocales: AppLocalizations.supportedLocales,
+      locale: const Locale.fromSubtags(languageCode: 'es'),
       builder: (context, child) {
         Resources.setup(context);
         return child!;

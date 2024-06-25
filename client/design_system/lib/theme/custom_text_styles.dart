@@ -1,10 +1,9 @@
 // ignore_for_file: overridden_fields
 
 import 'package:design_system/extensions/color_extensions.dart';
-import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:design_system/theme/custom_colors.dart';
+import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 const FontWeight _semiboldWeight = FontWeight.w600;
 
@@ -38,17 +37,16 @@ class CustomTextStyles extends ThemeExtension<CustomTextStyles> {
 
   static CustomTextStyles getCustomTextStyles(CustomColors customColors) =>
       CustomTextStyles(
-        tinyText: _robotoTextStyle(10.sp, FontWeight.normal, customColors),
-        customOverline:
-            _robotoTextStyle(10.sp, FontWeight.normal, customColors),
-        buttonXLarge: _robotoTextStyle(24.sp, _semiboldWeight, customColors),
-        buttonLarge: _robotoTextStyle(16.sp, _semiboldWeight, customColors),
-        buttonMedium: _robotoTextStyle(14.sp, _semiboldWeight, customColors),
-        buttonSmall: _robotoTextStyle(12.sp, _semiboldWeight, customColors),
-        buttonXSmall: _robotoTextStyle(10.sp, _semiboldWeight, customColors),
-        bodyXSmall: _robotoTextStyle(12.sp, _semiboldWeight, customColors),
-        labelXSmall: _robotoTextStyle(12.sp, _semiboldWeight, customColors),
-        buttonTiny: _robotoTextStyle(10.sp, _semiboldWeight, customColors),
+        tinyText: _robotoTextStyle(10, FontWeight.normal, customColors),
+        customOverline: _robotoTextStyle(10, FontWeight.normal, customColors),
+        buttonXLarge: _robotoTextStyle(24, _semiboldWeight, customColors),
+        buttonLarge: _robotoTextStyle(20, _semiboldWeight, customColors),
+        buttonMedium: _robotoTextStyle(16, _semiboldWeight, customColors),
+        buttonSmall: _robotoTextStyle(14, _semiboldWeight, customColors),
+        buttonXSmall: _robotoTextStyle(10, _semiboldWeight, customColors),
+        bodyXSmall: _robotoTextStyle(12, _semiboldWeight, customColors),
+        labelXSmall: _robotoTextStyle(12, _semiboldWeight, customColors),
+        buttonTiny: _robotoTextStyle(10, _semiboldWeight, customColors),
         customColors: customColors,
       );
 

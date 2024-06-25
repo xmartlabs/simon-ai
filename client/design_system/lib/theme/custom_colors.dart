@@ -10,6 +10,7 @@ class CustomColors extends ThemeExtension<CustomColors> {
     required this.success,
     required this.warning,
     required this.danger,
+    required this.lightSurfaceColor,
   }) : super();
 
   final Color? textColor;
@@ -17,8 +18,19 @@ class CustomColors extends ThemeExtension<CustomColors> {
   final Color? success;
   final Color? warning;
   final Color? danger;
+  final Color? lightSurfaceColor;
 
   static CustomColors getCustomColors() => const CustomColors(
+        lightSurfaceColor: MaterialColor(
+          0xffFAFCFD,
+          <int, Color>{
+            100: Color(0xffffffff),
+            200: Color(0xffFAFCFD),
+            300: Color(0xffF5F7FA),
+            400: Color(0xffEAEFF4),
+            500: Color(0xffDCE1E5),
+          },
+        ),
         textColor: MaterialColor(
           0xff414158,
           <int, Color>{
@@ -86,6 +98,8 @@ class CustomColors extends ThemeExtension<CustomColors> {
       success: Color.lerp(success, other.success, t),
       warning: Color.lerp(warning, other.warning, t),
       danger: Color.lerp(danger, other.danger, t),
+      lightSurfaceColor:
+          Color.lerp(lightSurfaceColor, other.lightSurfaceColor, t),
     );
   }
 

@@ -9,10 +9,12 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 class AppScaffold extends StatelessWidget {
   const AppScaffold({
     required this.child,
+    this.showBackButton,
     super.key,
   });
 
   final Widget child;
+  final bool? showBackButton;
 
   @override
   Widget build(BuildContext context) => Scaffold(
@@ -30,7 +32,7 @@ class AppScaffold extends StatelessWidget {
                 child: child,
               ),
             ),
-            if (context.router.canNavigateBack)
+            if (showBackButton ?? context.router.canNavigateBack)
               Positioned(
                 top: .07.sh,
                 left: .07.sw,

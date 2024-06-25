@@ -11,13 +11,14 @@ class PermissionHandlerService implements PermissionHandlerInterface {
 
   @override
   Future<bool?> requestCameraPermission() async {
+    if (await hasCameraPermisssion()) return true;
     final hasNotRequestedPermissions = await hasNotRequestedCameraPermission();
 
     if (hasNotRequestedPermissions) {
-      return Permission.contacts.request().isGranted;
+      return Permission.camera.request().isGranted;
     } else {
       await AppSettings.openAppSettings();
-      return null;
+      return hasCameraPermisssion();
     }
   }
 

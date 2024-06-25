@@ -1,4 +1,5 @@
 import 'package:design_system/design_system.dart';
+import 'package:design_system/extensions/color_extensions.dart';
 import 'package:design_system/gen/assets.gen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
@@ -40,20 +41,16 @@ class InformationSummary extends StatelessWidget {
   @override
   Widget build(BuildContext context) => Container(
         padding: const EdgeInsets.all(12),
-        decoration: BoxDecoration(
-          color: context.theme.colorScheme.surfaceBright,
-          border: Border.all(
-            color: context.theme.customColors.textColor!,
-            width: 2,
-          ),
-          borderRadius: BorderRadius.circular(24),
+        decoration: ShapeDecoration(
+          color: context.theme.customColors.lightSurfaceColor!.getShade(300),
+          shape: const StadiumBorder(),
         ),
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
             switch (type) {
               InformationSummaryType.points => Row(
-                  mainAxisSize: MainAxisSize.min,
+                  mainAxisAlignment: MainAxisAlignment.start,
                   children: [
                     Assets.images.estrella.image(
                       height: 36,
@@ -61,7 +58,7 @@ class InformationSummary extends StatelessWidget {
                       fit: BoxFit.fill,
                       filterQuality: FilterQuality.high,
                     ),
-                    const SizedBox(width: 8),
+                    const SizedBox(width: 20),
                     Text(
                       '$value',
                       style: context.theme.textStyles.headlineSmall!
@@ -115,14 +112,7 @@ class InformationSummary extends StatelessWidget {
                 )
             },
             switch (type) {
-              InformationSummaryType.points => Text(
-                  context.localizations.points,
-                  style: context.theme.textStyles.headlineSmall!
-                      .semibold()
-                      .copyWith(
-                        color: context.theme.customColors.textColor!,
-                      ),
-                ),
+              InformationSummaryType.points => Container(),
               InformationSummaryType.gestures => Text(
                   context.localizations.gestures,
                   style: context.theme.textStyles.headlineSmall!

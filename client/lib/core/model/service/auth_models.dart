@@ -21,7 +21,7 @@ class SignInRequest with _$SignInRequest {
   @JsonSerializable()
   factory SignInRequest({
     @JsonKey(name: 'email') required String email,
-    @JsonKey(name: 'password') required String password,
+    @JsonKey(name: 'username') String? username,
   }) = _SignInRequest;
 
   factory SignInRequest.fromJson(Map<String, dynamic> json) =>

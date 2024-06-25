@@ -10,6 +10,9 @@ if ! command -v dart >/dev/null 2>&1 || ! dart pub global list | grep -q arb_uti
   dart pub global activate arb_utils 0.8.1
 fi
 arb_utils sort lib/l10n/intl_en.arb
+arb_utils sort lib/l10n/intl_es.arb
+arb_utils sort design_system/lib/l10n/intl_en.arb
+arb_utils sort design_system/lib/l10n/intl_es.arb
 
 echo ':: Check code format ::'
 # https://github.com/dart-lang/dart_style/issues/864#issuecomment-1092199174

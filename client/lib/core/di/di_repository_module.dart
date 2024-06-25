@@ -1,6 +1,8 @@
 import 'package:get_it/get_it.dart';
+import 'package:simon_ai/core/interfaces/permission_handler_interface.dart';
 import 'package:simon_ai/core/repository/project_repository.dart';
 import 'package:simon_ai/core/repository/session_repository.dart';
+import 'package:simon_ai/core/services/permission_handler_service.dart';
 import 'package:simon_ai/core/source/auth_local_source.dart';
 import 'package:simon_ai/core/source/auth_remote_source.dart';
 import 'package:simon_ai/core/source/common/auth_interceptor.dart';
@@ -27,6 +29,9 @@ class RepositoryDiModule {
 extension _GetItDiModuleExtensions on GetIt {
   void _setupProvidersAndUtils() {
     registerLazySingleton(() => HttpServiceDio([AuthInterceptor(get())]));
+    registerLazySingleton<PermissionHandlerInterface>(
+      () => PermissionHandlerService(),
+    );
   }
 
   void _setupRepositories() {

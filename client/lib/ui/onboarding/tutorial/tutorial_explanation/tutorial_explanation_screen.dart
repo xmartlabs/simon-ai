@@ -217,7 +217,11 @@ class _PermissionsExplanationStep extends StatelessWidget {
           ),
           SizedBox(height: 24.h),
           FilledButton(
-            onPressed: onPressed,
+            onPressed: () {
+              context
+                  .read<TutorialExplanationCubit>()
+                  .requestCameraPermission();
+            },
             child: Text(
               context.localizations.activate_camera,
               style: context.theme.textStyles.bodyLarge!.bold().copyWith(

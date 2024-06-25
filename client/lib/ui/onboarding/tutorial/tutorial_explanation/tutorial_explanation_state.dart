@@ -4,6 +4,7 @@ part of 'tutorial_explanation_cubit.dart';
 class TutorialExplanationState with _$TutorialExplanationState {
   const factory TutorialExplanationState.initial({
     required OnboardingSteps step,
+    required bool hasCameraPermission,
   }) = _Initial;
 }
 

@@ -38,6 +38,7 @@ class AppRouter extends _$AppRouter {
                 redirectTo: OnboardingRoutes.onboarding,
               ),
               OnboardingRoutes.providerRoutes(),
+              AutoRoute(path: GameRoute.name, page: GameRoute.page),
             ],
           ),
           AutoRoute(

@@ -27,7 +27,7 @@ class OnboardingHandlerScreen extends StatelessWidget {
               width: .3.sw,
               child: FilledButton(
                 onPressed: () =>
-                    context.router.push(const TutorialExampleRoute()),
+                    context.router.push(const TutorialExplanationRoute()),
                 child: Text(
                   context.localizations.play,
                 ),

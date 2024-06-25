@@ -2,12 +2,26 @@ import 'package:auto_route/auto_route.dart';
 import 'package:design_system/extensions/color_extensions.dart';
 import 'package:design_system/extensions/context_extensions.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:simon_ai/ui/common/dashed_stadium_border.dart';
+import 'package:simon_ai/ui/game_screen/game_screen_cubit.dart';
 
 @RoutePage()
 class GameScreen extends StatelessWidget {
   const GameScreen({super.key});
+
+  @override
+  Widget build(BuildContext context) => BlocProvider(
+        create: (context) => GameScreenCubit(),
+        child: const _GameScreenContent(),
+      );
+}
+
+class _GameScreenContent extends StatelessWidget {
+  const _GameScreenContent({
+    super.key,
+  });
 
   @override
   Widget build(BuildContext context) => Scaffold(

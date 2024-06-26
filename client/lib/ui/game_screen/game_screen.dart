@@ -1,7 +1,9 @@
+import 'dart:async';
+
 import 'package:auto_route/auto_route.dart';
 import 'package:camera/camera.dart';
+import 'package:design_system/design_system.dart';
 import 'package:design_system/extensions/color_extensions.dart';
-import 'package:design_system/extensions/context_extensions.dart';
 import 'package:design_system/widgets/app_scaffold.dart';
 import 'package:design_system/widgets/summary_widget.dart';
 import 'package:flutter/material.dart';
@@ -27,35 +29,130 @@ class _GameScreenContent extends StatelessWidget {
   });
 
   @override
-  Widget build(BuildContext context) => AppScaffold(
-        showBackButton: false,
-        child: Stack(
-          children: [
-            SizedBox(
-              width: 1.sw,
-              height: 1.sh,
-            ),
-            Align(
-              child: Opacity(
-                opacity: .5,
-                child: Container(
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(32),
-                    color: context.theme.colorScheme.surface.getShade(400),
-                  ),
-                  width: .8.sw,
-                  height: .8.sh,
-                  child: const _CameraLiveView(),
-                ),
+  Widget build(BuildContext context) =>
+      BlocBuilder<GameScreenCubit, GameScreenState>(
+        builder: (context, state) => AppScaffold(
+          showBackButton: false,
+          child: Stack(
+            children: [
+              SizedBox(
+                width: 1.sw,
+                height: 1.sh,
               ),
-            ),
-            const Align(
-              alignment: Alignment.topRight,
-              child: _Points(),
-            ),
-          ],
+              const Align(
+                alignment: Alignment.center,
+                child: _CameraLiveView(),
+              ),
+              const Align(child: GameOverlay()),
+              const Align(
+                alignment: Alignment.topRight,
+                child: _Points(),
+              ),
+            ],
+          ),
         ),
       );
+}
+
+class GameOverlay extends StatefulWidget {
+  const GameOverlay({
+    super.key,
+  });
+
+  @override
+  State<GameOverlay> createState() => _GameOverlayState();
+}
+
+class _GameOverlayState extends State<GameOverlay> {
+  late final Timer timer;
+  int _counter = 3;
+  bool startGame = false;
+
+  @override
+  void initState() {
+    Timer(
+      const Duration(seconds: 3),
+      () {
+        context.read<GameScreenCubit>().startCountdown();
+        timer = Timer.periodic(
+          const Duration(seconds: 1),
+          (timer) {
+            setState(() {
+              _counter--;
+            });
+            if (_counter == 0) {
+              timer.cancel();
+              context.read<GameScreenCubit>().startSequence();
+            }
+          },
+        );
+      },
+    );
+
+    super.initState();
+  }
+
+  @override
+  void dispose() {
+    timer.cancel();
+
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final GameState gameState = context.select(
+      (GameScreenCubit cubit) => cubit.state.gameState,
+    );
+    final HandGesutre? currentHandValue = context.select(
+      (GameScreenCubit cubit) => cubit.state.currentHandValue,
+    );
+    final localizations = context.localizations;
+    final headlineLarge = context.theme.textStyles.headlineLarge;
+    return Opacity(
+      opacity: .7,
+      child: Container(
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(32),
+          color: context.theme.colorScheme.surface.getShade(400),
+        ),
+        width: .8.sw,
+        height: .8.sh,
+        child: Container(
+          margin: const EdgeInsets.all(42),
+          padding: const EdgeInsets.all(8),
+          alignment: Alignment.center,
+          decoration: ShapeDecoration(
+            shape: DashedStadiumBorder(
+              side: BorderSide(
+                color: context.theme.colorScheme.surfaceBright,
+                width: 2,
+              ),
+            ),
+          ),
+          child: switch (gameState) {
+            GameState.initial => Text(
+                localizations.game_position_hands,
+                style: headlineLarge!,
+              ),
+            GameState.showingSequence => Text(
+                currentHandValue ?? '',
+                style: headlineLarge!.copyWith(
+                  fontSize: 120,
+                ),
+              ),
+            GameState.countDown => Text(
+                '$_counter',
+                style: headlineLarge!.copyWith(
+                  fontSize: 120,
+                ),
+              ),
+            _ => Container(),
+          },
+        ),
+      ),
+    );
+  }
 }
 
 class _CameraLiveView extends StatefulWidget {
@@ -94,7 +191,9 @@ class _CameraLiveViewState extends State<_CameraLiveView> {
       if (!mounted) {
         return;
       }
-      setState(() {});
+      setState(() {
+        _cameraController = _cameraController;
+      });
     }).catchError((Object e) {
       if (e is CameraException) {
         switch (e.code) {
@@ -114,17 +213,9 @@ class _CameraLiveViewState extends State<_CameraLiveView> {
     if (_cameraController == null || !_cameraController!.value.isInitialized) {
       return Container();
     }
-    return Container(
-      margin: const EdgeInsets.all(42),
-      padding: const EdgeInsets.all(8),
-      decoration: ShapeDecoration(
-        shape: DashedStadiumBorder(
-          side: BorderSide(
-            color: context.theme.colorScheme.surfaceBright,
-            width: 2,
-          ),
-        ),
-      ),
+    return Transform.scale(
+      scaleX: .92,
+      scaleY: .85,
       child: ClipRRect(
         borderRadius: BorderRadius.circular(32),
         child: CameraPreview(

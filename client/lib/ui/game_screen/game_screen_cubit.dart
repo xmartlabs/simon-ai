@@ -17,7 +17,7 @@ class GameScreenCubit extends Cubit<GameScreenState> {
           ),
         );
 
-//!Temporary
+//!Temporary, update to use better state transitions and different widgets
 
   void startSequence() {
     emit(

@@ -4,6 +4,7 @@ import 'package:auto_route/auto_route.dart';
 import 'package:simon_ai/core/model/authentication_status.dart';
 import 'package:simon_ai/core/repository/session_repository.dart';
 import 'package:simon_ai/ui/router/app_router.dart';
+// ignore_for_file: unused_class
 
 class _AppAuthStatusGuard extends AutoRouteGuard {
   final SessionRepository _sessionRepository;

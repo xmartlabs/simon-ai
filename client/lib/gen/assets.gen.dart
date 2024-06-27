@@ -22,8 +22,17 @@ class $AssetsImagesGen {
   /// File path: assets/images/Reloj.png
   AssetGenImage get reloj => const AssetGenImage('assets/images/Reloj.png');
 
+  /// File path: assets/images/background_green_prop.png
+  AssetGenImage get backgroundGreenProp =>
+      const AssetGenImage('assets/images/background_green_prop.png');
+
+  /// File path: assets/images/background_red_prop.png
+  AssetGenImage get backgroundRedProp =>
+      const AssetGenImage('assets/images/background_red_prop.png');
+
   /// List of all assets
-  List<AssetGenImage> get values => [check, estrella, reloj];
+  List<AssetGenImage> get values =>
+      [check, estrella, reloj, backgroundGreenProp, backgroundRedProp];
 }
 
 class $AssetsModelsGen {

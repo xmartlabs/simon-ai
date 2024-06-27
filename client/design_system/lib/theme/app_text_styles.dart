@@ -1,7 +1,6 @@
 //ignore_for_file: unused-files, unused-code
 
 import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 const FontWeight _semiboldWeight = FontWeight.w600;
@@ -51,11 +50,11 @@ class AppTextStyles extends TextTheme {
 
   static AppTextStyles getDefaultAppStyles() => AppTextStyles.fromTextTheme(
         textTheme: GoogleFonts.sourceSans3TextTheme().copyWith(
-          labelLarge: _sourceSansTextStyle(20.sp, FontWeight.normal),
-          labelMedium: _sourceSansTextStyle(16.sp, FontWeight.normal),
-          labelSmall: _sourceSansTextStyle(14.sp, FontWeight.normal),
-          headlineMedium: _sourceSansTextStyle(20.sp, FontWeight.bold),
-          headlineLarge: _sourceSansTextStyle(24.sp, FontWeight.bold),
+          labelLarge: _sourceSansTextStyle(20, FontWeight.normal),
+          labelMedium: _sourceSansTextStyle(16, FontWeight.normal),
+          labelSmall: _sourceSansTextStyle(14, FontWeight.normal),
+          headlineMedium: _sourceSansTextStyle(20, FontWeight.bold),
+          headlineLarge: _sourceSansTextStyle(24, FontWeight.bold),
         ),
       );
 

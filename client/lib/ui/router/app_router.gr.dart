@@ -27,10 +27,40 @@ abstract class _$AppRouter extends RootStackRouter {
         child: const CameraHandScreen(),
       );
     },
-    SignInRoute.name: (routeData) {
+    EmptyRouteRoute.name: (routeData) {
       return AutoRoutePage<dynamic>(
         routeData: routeData,
-        child: const SignInScreen(),
+        child: const EmptyRouterPage(),
+      );
+    },
+    OnboardingHandlerRoute.name: (routeData) {
+      return AutoRoutePage<dynamic>(
+        routeData: routeData,
+        child: const OnboardingHandlerScreen(),
+      );
+    },
+    RegisterUserRoute.name: (routeData) {
+      return AutoRoutePage<dynamic>(
+        routeData: routeData,
+        child: const RegisterUserScreen(),
+      );
+    },
+    RegisterUsernameRoute.name: (routeData) {
+      return AutoRoutePage<dynamic>(
+        routeData: routeData,
+        child: const RegisterUsernameScreen(),
+      );
+    },
+    TutorialExampleRoute.name: (routeData) {
+      return AutoRoutePage<dynamic>(
+        routeData: routeData,
+        child: const TutorialExampleScreen(),
+      );
+    },
+    TutorialExplanationRoute.name: (routeData) {
+      return AutoRoutePage<dynamic>(
+        routeData: routeData,
+        child: const TutorialExplanationScreen(),
       );
     },
     UnauthenticatedSectionRoute.name: (routeData) {
@@ -77,15 +107,85 @@ class CameraHandRoute extends PageRouteInfo<void> {
 }
 
 /// generated route for
-/// [SignInScreen]
-class SignInRoute extends PageRouteInfo<void> {
-  const SignInRoute({List<PageRouteInfo>? children})
+/// [EmptyRouterPage]
+class EmptyRouteRoute extends PageRouteInfo<void> {
+  const EmptyRouteRoute({List<PageRouteInfo>? children})
       : super(
-          SignInRoute.name,
+          EmptyRouteRoute.name,
           initialChildren: children,
         );
 
-  static const String name = 'SignInRoute';
+  static const String name = 'EmptyRouteRoute';
+
+  static const PageInfo<void> page = PageInfo<void>(name);
+}
+
+/// generated route for
+/// [OnboardingHandlerScreen]
+class OnboardingHandlerRoute extends PageRouteInfo<void> {
+  const OnboardingHandlerRoute({List<PageRouteInfo>? children})
+      : super(
+          OnboardingHandlerRoute.name,
+          initialChildren: children,
+        );
+
+  static const String name = 'OnboardingHandlerRoute';
+
+  static const PageInfo<void> page = PageInfo<void>(name);
+}
+
+/// generated route for
+/// [RegisterUserScreen]
+class RegisterUserRoute extends PageRouteInfo<void> {
+  const RegisterUserRoute({List<PageRouteInfo>? children})
+      : super(
+          RegisterUserRoute.name,
+          initialChildren: children,
+        );
+
+  static const String name = 'RegisterUserRoute';
+
+  static const PageInfo<void> page = PageInfo<void>(name);
+}
+
+/// generated route for
+/// [RegisterUsernameScreen]
+class RegisterUsernameRoute extends PageRouteInfo<void> {
+  const RegisterUsernameRoute({List<PageRouteInfo>? children})
+      : super(
+          RegisterUsernameRoute.name,
+          initialChildren: children,
+        );
+
+  static const String name = 'RegisterUsernameRoute';
+
+  static const PageInfo<void> page = PageInfo<void>(name);
+}
+
+/// generated route for
+/// [TutorialExampleScreen]
+class TutorialExampleRoute extends PageRouteInfo<void> {
+  const TutorialExampleRoute({List<PageRouteInfo>? children})
+      : super(
+          TutorialExampleRoute.name,
+          initialChildren: children,
+        );
+
+  static const String name = 'TutorialExampleRoute';
+
+  static const PageInfo<void> page = PageInfo<void>(name);
+}
+
+/// generated route for
+/// [TutorialExplanationScreen]
+class TutorialExplanationRoute extends PageRouteInfo<void> {
+  const TutorialExplanationRoute({List<PageRouteInfo>? children})
+      : super(
+          TutorialExplanationRoute.name,
+          initialChildren: children,
+        );
+
+  static const String name = 'TutorialExplanationRoute';
 
   static const PageInfo<void> page = PageInfo<void>(name);
 }

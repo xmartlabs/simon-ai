@@ -67,6 +67,12 @@ def draw_landmarks_on_image(rgb_image, detection_result):
     handedness_list = detection_result.handedness
     annotated_image = np.copy(rgb_image)
 
+    # Check alfa channel is all 255
+    if np.all(annotated_image[:, :, 3] == 255):
+        annotated_image = annotated_image[:, :, :3].astype(np.uint8)
+    else:
+        raise ValueError('Input image must contain three channel bgr data. Not all alfa channel are 255')
+
     # Loop through the detected hands to visualize.
     for idx, _ in enumerate(hand_landmarks_list):
         hand_landmarks = hand_landmarks_list[idx]
@@ -77,11 +83,11 @@ def draw_landmarks_on_image(rgb_image, detection_result):
         hand_landmarks_proto.landmark.extend([
         landmark_pb2.NormalizedLandmark(x=landmark.x, y=landmark.y, z=landmark.z) for landmark in hand_landmarks])
         solutions.drawing_utils.draw_landmarks(
-        annotated_image,
-        hand_landmarks_proto,
-        solutions.hands.HAND_CONNECTIONS,
-        solutions.drawing_styles.get_default_hand_landmarks_style(),
-        solutions.drawing_styles.get_default_hand_connections_style())
+            annotated_image,
+            hand_landmarks_proto,
+            solutions.hands.HAND_CONNECTIONS,
+            solutions.drawing_styles.get_default_hand_landmarks_style(),
+            solutions.drawing_styles.get_default_hand_connections_style())
 
         # Get the top left corner of the detected hand's bounding box.
         height, width, _ = annotated_image.shape

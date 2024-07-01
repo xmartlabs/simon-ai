@@ -45,7 +45,10 @@ class CameraPlatformWidgetState extends State<CameraWidget>
         return;
       } else {
         _cameraController!.startImageStream(widget.onNewFrame);
-        setState(() {});
+        // ignore: no-empty-block
+        setState(() {
+          // Camera initialized and started streaming
+        });
       }
     }).catchError((Object e) {
       Logger.w(e, 'Camera initialization error');

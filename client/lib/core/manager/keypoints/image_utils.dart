@@ -22,9 +22,9 @@ class ImageUtils {
   /// Converts a [CameraImage] in BGRA888 format to [img.Image] in RGB format
   static img.Image convertBGRA8888ToImage(CameraImage cameraImage) =>
       img.Image.fromBytes(
-        width: cameraImage.planes[0].width!,
-        height: cameraImage.planes[0].height!,
-        bytes: cameraImage.planes[0].bytes.buffer,
+        width: cameraImage.planes.first.width!,
+        height: cameraImage.planes.first.height!,
+        bytes: cameraImage.planes.first.bytes.buffer,
         order: img.ChannelOrder.bgra,
       );
 
@@ -44,7 +44,7 @@ class ImageUtils {
             uvPixelStride * (w / 2).floor() + uvRowStride * (h / 2).floor();
         final index = h * width + w;
 
-        final y = cameraImage.planes[0].bytes[index];
+        final y = cameraImage.planes.first.bytes[index];
         final u = cameraImage.planes[1].bytes[uvIndex];
         final v = cameraImage.planes[2].bytes[uvIndex];
 
@@ -120,12 +120,10 @@ class ImageUtils {
         }
       }
     }
-    final processedImage = img.copyResize(
+    return img.copyResize(
       paddedImage,
       width: modelInputSize,
       height: modelInputSize,
     );
-
-    return processedImage;
   }
 }

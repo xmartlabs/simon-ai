@@ -27,32 +27,35 @@ class HandTrackingIsolateUtils {
     _sendPort = await _receivePort.first;
   }
 
-  static Future<void> entryPoint(SendPort sendPort) async {
+  static void entryPoint(SendPort sendPort) {
     final port = ReceivePort();
     sendPort.send(port.sendPort);
 
-    await for (final IsolateData isolateData in port) {
-      final classifier = HandTrackingClassifier(
-        interpreter: Interpreter.fromAddress(isolateData.interpreterAddress),
-      );
-      final stopwatch = Stopwatch()..start();
-      var image = ImageUtils.convertCameraImage(isolateData.cameraImage)!;
-      if (Platform.isAndroid) {
-        image = img.copyRotate(image, angle: 270);
-        image = img.flipHorizontal(image);
-      }
-      stopwatch.stop();
-      final elapsedToProcessImage = stopwatch.elapsedMilliseconds;
-      stopwatch.start();
+    port.listen((data) {
+      if (data is IsolateData) {
+        final classifier = HandTrackingClassifier(
+          interpreter: Interpreter.fromAddress(data.interpreterAddress),
+        );
+        final stopwatch = Stopwatch()..start();
+        var image = ImageUtils.convertCameraImage(data.cameraImage)!;
+        if (Platform.isAndroid) {
+          image = img.copyRotate(image, angle: 270);
+          image = img.flipHorizontal(image);
+        }
+        stopwatch.stop();
+        final elapsedToProcessImage = stopwatch.elapsedMilliseconds;
+        stopwatch.start();
 
-      final result = await classifier.performOperations(image);
-      isolateData.responsePort.send(result);
+        classifier.performOperations(image).then((result) {
+          data.responsePort.send(result);
 
-      if (_logTimes) {
-        Logger.d('Process image $elapsedToProcessImage ms, process model '
-            '${stopwatch.elapsedMilliseconds}ms');
+          if (_logTimes) {
+            Logger.d('Process image $elapsedToProcessImage ms, process model '
+                '${stopwatch.elapsedMilliseconds}ms');
+          }
+        });
       }
-    }
+    });
   }
 }
 

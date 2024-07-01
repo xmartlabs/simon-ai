@@ -77,20 +77,19 @@ class HandRenderPainter extends CustomPainter {
   void drawBodyLine(
     Canvas canvas,
     Size size,
-    HandLandmark start,
-    HandLandmark end,
+    Pair<HandLandmark, HandLandmark> line,
     Paint paint,
   ) {
     canvas.drawLine(
-      keypointsData.keyPoints[start.index].getOffset(size),
-      keypointsData.keyPoints[end.index].getOffset(size),
+      keypointsData.keyPoints[line.first.index].getOffset(size),
+      keypointsData.keyPoints[line.second.index].getOffset(size),
       paint,
     );
   }
 
   void drawBody(Canvas canvas, Size size, Paint paint) {
     for (final points in _drawableBodyEdges) {
-      drawBodyLine(canvas, size, points.first, points.second, paint);
+      drawBodyLine(canvas, size, Pair(points.first, points.second), paint);
     }
   }
 }

@@ -108,11 +108,11 @@ class HandTrackingClassifier {
       // Output 1: 21 3D screen landmarks normalized by image size.
       // Represented as a 1x63 tensor.Only valid when the presence score
       // (Output 0) is above a certain threshold.
-      1: [List<double>.filled(outputTensor.shape[0], 0.0)],
+      1: [List<double>.filled(outputTensor.shape.first, 0.0)],
       // Output 2: Handedness of the predicted hand. A float scalar value.
       // Only valid when the presence score (Output 0) is above a certain
       // threshold.
-      2: [List<double>.filled(outputTensor.shape[0], 0.0)],
+      2: [List<double>.filled(outputTensor.shape.first, 0.0)],
       // Output 3: 21 3D world landmarks based on the GHUM hand model.
       // Represented as a 1x63 tensor.
       // Only valid when the presence score (Output 0) is above a
@@ -123,7 +123,7 @@ class HandTrackingClassifier {
   }
 
   HandLandmarksResultData parseLandmarkData(img.Image image) {
-    final data = (outputs.values.elementAt(0) as List<List<double>>).first;
+    final data = (outputs.values.first as List<List<double>>).first;
     final confidence =
         (outputs.values.elementAt(1) as List<List<double>>).first.first;
     final result = <double>[];

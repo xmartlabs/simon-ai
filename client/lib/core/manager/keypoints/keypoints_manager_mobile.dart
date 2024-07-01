@@ -54,8 +54,7 @@ class KeyPointsMobileManager implements KeyPointsManager {
       responsePort: responsePort.sendPort
     );
     isolate.sendPort.send(isolateData);
-    final result = await responsePort.first;
-    return result;
+    return await responsePort.first;
   }
 
   List<KeyPointData> _processKeypoints(List<double>? keypoints) {

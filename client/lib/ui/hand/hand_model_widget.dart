@@ -15,8 +15,7 @@ mixin HandModelWidgetState<T extends HandModelWidget> implements State<T> {
   void _initKeypointsStream() {
     final stream = widget.movenetStream;
     if (stream != null &&
-        (_keypointsSubscription == null ||
-            _keypointsSubscription!.isPaused == true)) {
+        (_keypointsSubscription == null || _keypointsSubscription!.isPaused)) {
       _keypointsSubscription = stream.listen((keypoints) {
         setState(() {
           this.keypoints = keypoints;

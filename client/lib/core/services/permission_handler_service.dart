@@ -2,7 +2,7 @@ import 'package:app_settings/app_settings.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:simon_ai/core/interfaces/permission_handler_interface.dart';
 
-class PermissionHandlerService implements PermissionHandlerInterface {
+class MobilePermissionHandlerService implements PermissionHandlerInterface {
   @override
   Future<bool> hasCameraPermisssion() => Permission.camera.status.isGranted;
 

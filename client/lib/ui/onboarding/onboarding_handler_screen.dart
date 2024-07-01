@@ -19,7 +19,7 @@ class OnboardingHandlerScreen extends StatelessWidget {
             Text(
               context.localizations.onboarding_ready_to_play_title,
               style: context.theme.textStyles.displaySmall!.bold().copyWith(
-                    color: context.theme.customColors.textColor!.getShade(500),
+                    color: context.theme.customColors.textColor.getShade(500),
                   ),
             ),
             const SizedBox(height: 20),

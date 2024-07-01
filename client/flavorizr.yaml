@@ -1,34 +1,34 @@
 flavors:
   dev:
     app:
-      name: 'Template Dev'
+      name: "Template Dev"
     android:
-      applicationId: 'com.xmartlabs.template.dev'
+      applicationId: "com.xmartlabs.simonai.dev"
     ios:
-      bundleId: 'com.xmartlabs.template.dev'
+      bundleId: "com.xmartlabs.simonai.dev"
       variables:
         FLUTTER_TARGET:
-          value: 'lib/main.dart'
+          value: "lib/main.dart"
   staging:
     app:
-      name: 'Template Sta'
+      name: "Template Sta"
     android:
-      applicationId: 'com.xmartlabs.template.sta'
+      applicationId: "com.xmartlabs.simonai.dev"
     ios:
-      bundleId: 'com.xmartlabs.template.sta'
+      bundleId: "com.xmartlabs.simonai.dev"
       variables:
         FLUTTER_TARGET:
-          value: 'lib/main.dart'
+          value: "lib/main.dart"
   prod:
     app:
-      name: 'Template'
+      name: "Template"
     android:
-      applicationId: 'com.xmartlabs.template'
+      applicationId: "com.xmartlabs.simonai"
     ios:
-      bundleId: 'com.xmartlabs.template'
+      bundleId: "com.xmartlabs.simonai"
       variables:
         FLUTTER_TARGET:
-          value: 'lib/main.dart'
+          value: "lib/main.dart"
 instructions:
   - assets:download
   - assets:extract

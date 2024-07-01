@@ -21,18 +21,10 @@ class TutorialExplanationCubit extends Cubit<TutorialExplanationState> {
           ),
         );
 
-  void incrementSteps() {
-    final currentStep = state.step;
-    final nextStep = OnboardingSteps.values[currentStep.index + 1];
-    emit(state.copyWith(step: nextStep));
-  }
-
   Future<void> requestCameraPermission() async {
     final gotPermission = await _permissionHandler.requestCameraPermission();
-
-    if (gotPermission != null) {
-      emit(state.copyWith(hasCameraPermission: gotPermission));
-      if (gotPermission) unawaited(_appRouter.navigate(const GameRoute()));
+    if (gotPermission != null && gotPermission) {
+      unawaited(_appRouter.navigate(const GameRoute()));
     }
   }
 }

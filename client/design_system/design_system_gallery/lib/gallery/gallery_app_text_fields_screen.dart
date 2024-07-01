@@ -2,9 +2,9 @@ import 'package:auto_route/auto_route.dart';
 import 'package:design_system/design_system.dart';
 import 'package:design_system/extensions/color_extensions.dart';
 import 'package:design_system/widgets/app_text_fields.dart';
+import 'package:design_system_gallery/gallery/gallery_scaffold_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:design_system_gallery/gallery/gallery_scaffold_screen.dart';
 
 @RoutePage()
 class GalleryTextFieldsScreen extends StatefulWidget {
@@ -34,11 +34,11 @@ class _GalleryTextFieldsScreenState extends State<GalleryTextFieldsScreen> {
                 hintText: 'Text',
                 suffixIcon: Icon(
                   Icons.close,
-                  color: context.theme.customColors.textColor!.getShade(200),
+                  color: context.theme.customColors.textColor.getShade(200),
                 ),
                 prefixIcon: Icon(
                   Icons.close,
-                  color: context.theme.customColors.textColor!.getShade(200),
+                  color: context.theme.customColors.textColor.getShade(200),
                 ),
                 keyboardType: TextInputType.emailAddress,
               ),

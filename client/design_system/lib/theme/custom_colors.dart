@@ -13,12 +13,12 @@ class CustomColors extends ThemeExtension<CustomColors> {
     required this.lightSurfaceColor,
   }) : super();
 
-  final Color? textColor;
-  final Color? info;
-  final Color? success;
-  final Color? warning;
-  final Color? danger;
-  final Color? lightSurfaceColor;
+  final Color textColor;
+  final Color info;
+  final Color success;
+  final Color warning;
+  final Color danger;
+  final Color lightSurfaceColor;
 
   static CustomColors getCustomColors() => const CustomColors(
         lightSurfaceColor: MaterialColor(
@@ -84,8 +84,7 @@ class CustomColors extends ThemeExtension<CustomColors> {
       );
 
   @override
-  CustomColors copyWith({MaterialColor? primary}) =>
-      CustomColors.getCustomColors();
+  CustomColors copyWith() => CustomColors.getCustomColors();
 
   @override
   CustomColors lerp(CustomColors? other, double t) {
@@ -93,13 +92,13 @@ class CustomColors extends ThemeExtension<CustomColors> {
       return this;
     }
     return CustomColors(
-      textColor: Color.lerp(textColor, other.textColor, t),
-      info: Color.lerp(info, other.info, t),
-      success: Color.lerp(success, other.success, t),
-      warning: Color.lerp(warning, other.warning, t),
-      danger: Color.lerp(danger, other.danger, t),
+      textColor: Color.lerp(textColor, other.textColor, t)!,
+      info: Color.lerp(info, other.info, t)!,
+      success: Color.lerp(success, other.success, t)!,
+      warning: Color.lerp(warning, other.warning, t)!,
+      danger: Color.lerp(danger, other.danger, t)!,
       lightSurfaceColor:
-          Color.lerp(lightSurfaceColor, other.lightSurfaceColor, t),
+          Color.lerp(lightSurfaceColor, other.lightSurfaceColor, t)!,
     );
   }
 

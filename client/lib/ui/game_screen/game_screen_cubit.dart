@@ -11,6 +11,7 @@ class GameScreenCubit extends Cubit<GameScreenState> {
       : super(
           const GameScreenState.initial(
             currentPoints: 0,
+            //TODO: Change to hand gesture sequence
             currentSequence: ['a', 'b'],
             gameState: GameState.initial,
             currentHandValueIndex: 0,
@@ -44,6 +45,14 @@ class GameScreenCubit extends Cubit<GameScreenState> {
         currentHandValue: state.currentSequence!.first,
         currentHandValueIndex: 0,
         userGesture: null,
+      ),
+    );
+  }
+
+  void endGame() {
+    emit(
+      state.copyWith(
+        gameState: GameState.ended,
       ),
     );
   }

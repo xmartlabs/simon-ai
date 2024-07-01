@@ -11,6 +11,9 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:simon_ai/ui/common/dashed_stadium_border.dart';
 import 'package:simon_ai/ui/game_screen/game_screen_cubit.dart';
+import 'package:simon_ai/ui/game_screen/game_state_screens/finish_game_screen.dart';
+import 'package:simon_ai/ui/game_screen/game_state_screens/playing_screen.dart';
+import 'package:simon_ai/ui/game_screen/game_state_screens/show_sequence_screen.dart';
 
 @RoutePage()
 class GameScreen extends StatelessWidget {
@@ -35,19 +38,23 @@ class _GameScreenContent extends StatelessWidget {
           showBackButton: false,
           child: Stack(
             children: [
-              SizedBox(
-                width: 1.sw,
-                height: 1.sh,
-              ),
-              const Align(
-                alignment: Alignment.center,
-                child: _CameraLiveView(),
-              ),
-              const Align(child: GameOverlay()),
-              const Align(
-                alignment: Alignment.topRight,
-                child: _Points(),
-              ),
+              if (state.gameState != GameState.ended)
+                const Align(
+                  alignment: Alignment.center,
+                  child: _CameraLiveView(),
+                ),
+              switch (state.gameState) {
+                GameState.initial => const Align(child: GameOverlay()),
+                GameState.countDown => const Align(child: GameOverlay()),
+                GameState.showingSequence => const Align(child: GameOverlay()),
+                GameState.playing => const PlayingGameScreen(),
+                GameState.ended => const FinishGameScreen()
+              },
+              if (state.gameState != GameState.ended)
+                const Align(
+                  alignment: Alignment.topRight,
+                  child: _Points(),
+                ),
             ],
           ),
         ),
@@ -64,7 +71,7 @@ class GameOverlay extends StatefulWidget {
 }
 
 class _GameOverlayState extends State<GameOverlay> {
-  late final Timer timer;
+  late final Timer _timer;
   int _counter = 3;
   bool startGame = false;
 
@@ -74,7 +81,7 @@ class _GameOverlayState extends State<GameOverlay> {
       const Duration(seconds: 3),
       () {
         context.read<GameScreenCubit>().startCountdown();
-        timer = Timer.periodic(
+        _timer = Timer.periodic(
           const Duration(seconds: 1),
           (timer) {
             setState(() {
@@ -94,7 +101,7 @@ class _GameOverlayState extends State<GameOverlay> {
 
   @override
   void dispose() {
-    timer.cancel();
+    _timer.cancel();
 
     super.dispose();
   }
@@ -104,9 +111,7 @@ class _GameOverlayState extends State<GameOverlay> {
     final GameState gameState = context.select(
       (GameScreenCubit cubit) => cubit.state.gameState,
     );
-    final HandGesutre? currentHandValue = context.select(
-      (GameScreenCubit cubit) => cubit.state.currentHandValue,
-    );
+
     final localizations = context.localizations;
     final headlineLarge = context.theme.textStyles.headlineLarge;
     return Opacity(
@@ -135,12 +140,7 @@ class _GameOverlayState extends State<GameOverlay> {
                 localizations.game_position_hands,
                 style: headlineLarge!,
               ),
-            GameState.showingSequence => Text(
-                currentHandValue ?? '',
-                style: headlineLarge!.copyWith(
-                  fontSize: 120,
-                ),
-              ),
+            GameState.showingSequence => const ShowSequenceScreen(),
             GameState.countDown => Text(
                 '$_counter',
                 style: headlineLarge!.copyWith(
@@ -241,6 +241,7 @@ class _Points extends StatelessWidget {
         child: InformationSummary(
           type: InformationSummaryType.points,
           value: points,
+          showBorder: false,
         ),
       ),
     );

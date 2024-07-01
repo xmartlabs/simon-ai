@@ -41,7 +41,7 @@ class AppScaffold extends StatelessWidget {
                   icon: Icon(
                     Icons.arrow_back,
                     size: 32,
-                    color: context.theme.customColors.textColor!.getShade(500),
+                    color: context.theme.customColors.textColor.getShade(500),
                   ),
                 ),
               ),

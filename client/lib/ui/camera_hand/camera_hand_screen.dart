@@ -1,3 +1,4 @@
+// ignore_for_file: unused-files, unused-code
 import 'package:auto_route/auto_route.dart';
 import 'package:design_system/extensions/context_extensions.dart';
 import 'package:flutter/material.dart';

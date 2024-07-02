@@ -36,17 +36,17 @@ android {
         dev {
             dimension "flavor-type"
             applicationId "com.xmartlabs.simonai.dev"
-            resValue "string", "app_name", "Template Dev"
+            resValue "string", "app_name", "Simon AI Dev"
         }
         staging {
             dimension "flavor-type"
             applicationId "com.xmartlabs.simonai.dev"
-            resValue "string", "app_name", "Template Sta"
+            resValue "string", "app_name", "Simon AI Sta"
         }
         prod {
             dimension "flavor-type"
             applicationId "com.xmartlabs.simonai"
-            resValue "string", "app_name", "Template"
+            resValue "string", "app_name", "Simon AI"
         }
     }
 

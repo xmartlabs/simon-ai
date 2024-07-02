@@ -1,7 +1,7 @@
 flavors:
   dev:
     app:
-      name: "Template Dev"
+      name: "Simon AI Dev"
     android:
       applicationId: "com.xmartlabs.simonai.dev"
     ios:
@@ -11,7 +11,7 @@ flavors:
           value: "lib/main.dart"
   staging:
     app:
-      name: "Template Sta"
+      name: "Simon AI Sta"
     android:
       applicationId: "com.xmartlabs.simonai.dev"
     ios:
@@ -21,7 +21,7 @@ flavors:
           value: "lib/main.dart"
   prod:
     app:
-      name: "Template"
+      name: "Simon AI"
     android:
       applicationId: "com.xmartlabs.simonai"
     ios:

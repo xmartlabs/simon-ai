@@ -18,7 +18,7 @@ class _PlayingGameScreenState extends State<PlayingGameScreen> {
   void initState() {
     timer = Timer(
       const Duration(seconds: 5),
-      context.read<GameScreenCubit>().endGame,
+      context.read<GameScreenCubit>().startCountdown,
     );
     super.initState();
   }

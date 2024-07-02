@@ -17,7 +17,6 @@ class ShowSequenceScreen extends StatefulWidget {
 class _ShowSequenceScreenState extends State<ShowSequenceScreen> {
   late final Timer sequenceTimer;
   late final Timer yourTurnTimer;
-  int _currentSequenceIndex = 0;
   bool showYourTurn = false;
 
   @override
@@ -25,11 +24,10 @@ class _ShowSequenceScreenState extends State<ShowSequenceScreen> {
     sequenceTimer = Timer.periodic(
       const Duration(seconds: 2),
       (timer) {
-        setState(() {
-          _currentSequenceIndex++;
-        });
-        if (_currentSequenceIndex ==
-            context.read<GameScreenCubit>().state.currentSequence!.length - 1) {
+        final currentSequenceIndex =
+            context.read<GameScreenCubit>().advanceSequence();
+        if (currentSequenceIndex ==
+            context.read<GameScreenCubit>().state.currentSequence!.length) {
           sequenceTimer.cancel();
           setState(() {
             showYourTurn = true;
@@ -62,7 +60,9 @@ class _ShowSequenceScreenState extends State<ShowSequenceScreen> {
     final headlineLarge = context.theme.textStyles.headlineLarge;
 
     return Text(
-      showYourTurn ? context.localizations.your_turn : currentHandValue ?? '',
+      showYourTurn
+          ? context.localizations.your_turn
+          : currentHandValue?.name ?? '',
       style: headlineLarge!.copyWith(
         fontSize: 120,
       ),

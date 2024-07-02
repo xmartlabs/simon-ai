@@ -11,6 +11,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:simon_ai/ui/common/dashed_stadium_border.dart';
 import 'package:simon_ai/ui/game_screen/game_screen_cubit.dart';
+import 'package:simon_ai/ui/game_screen/game_state_screens/error_state_screen.dart';
 import 'package:simon_ai/ui/game_screen/game_state_screens/finish_game_screen.dart';
 import 'package:simon_ai/ui/game_screen/game_state_screens/playing_screen.dart';
 import 'package:simon_ai/ui/game_screen/game_state_screens/show_sequence_screen.dart';
@@ -48,7 +49,8 @@ class _GameScreenContent extends StatelessWidget {
                 GameState.countDown => const Align(child: GameOverlay()),
                 GameState.showingSequence => const Align(child: GameOverlay()),
                 GameState.playing => const PlayingGameScreen(),
-                GameState.ended => const FinishGameScreen()
+                GameState.ended => const FinishGameScreen(),
+                GameState.error => const ErrorStateScreen(),
               },
               if (state.gameState != GameState.ended)
                 const Align(
@@ -61,50 +63,10 @@ class _GameScreenContent extends StatelessWidget {
       );
 }
 
-class GameOverlay extends StatefulWidget {
+class GameOverlay extends StatelessWidget {
   const GameOverlay({
     super.key,
   });
-
-  @override
-  State<GameOverlay> createState() => _GameOverlayState();
-}
-
-class _GameOverlayState extends State<GameOverlay> {
-  late final Timer _timer;
-  int _counter = 3;
-  bool startGame = false;
-
-  @override
-  void initState() {
-    Timer(
-      const Duration(seconds: 3),
-      () {
-        context.read<GameScreenCubit>().startCountdown();
-        _timer = Timer.periodic(
-          const Duration(seconds: 1),
-          (timer) {
-            setState(() {
-              _counter--;
-            });
-            if (_counter == 0) {
-              timer.cancel();
-              context.read<GameScreenCubit>().startSequence();
-            }
-          },
-        );
-      },
-    );
-
-    super.initState();
-  }
-
-  @override
-  void dispose() {
-    _timer.cancel();
-
-    super.dispose();
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -141,18 +103,61 @@ class _GameOverlayState extends State<GameOverlay> {
                 style: headlineLarge!,
               ),
             GameState.showingSequence => const ShowSequenceScreen(),
-            GameState.countDown => Text(
-                '$_counter',
-                style: headlineLarge!.copyWith(
-                  fontSize: 120,
-                ),
-              ),
+            GameState.countDown => const CountDownScreen(),
             _ => Container(),
           },
         ),
       ),
     );
   }
+}
+
+class CountDownScreen extends StatefulWidget {
+  const CountDownScreen({
+    super.key,
+  });
+
+  @override
+  State<CountDownScreen> createState() => _CountDownScreenState();
+}
+
+class _CountDownScreenState extends State<CountDownScreen> {
+  late Timer _timer;
+  int _counter = 3;
+
+  @override
+  void initState() {
+    context.read<GameScreenCubit>().startCountdown();
+    _timer = Timer.periodic(
+      const Duration(seconds: 1),
+      (timer) {
+        setState(() {
+          _counter--;
+        });
+        if (_counter <= 0) {
+          context.read<GameScreenCubit>().startNewSequence();
+          timer.cancel();
+        }
+      },
+    );
+
+    super.initState();
+  }
+
+  @override
+  void dispose() {
+    _timer.cancel();
+
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) => Text(
+        '$_counter',
+        style: context.theme.textStyles.headlineLarge!.copyWith(
+          fontSize: 120,
+        ),
+      );
 }
 
 class _CameraLiveView extends StatefulWidget {
@@ -169,7 +174,7 @@ class _CameraLiveViewState extends State<_CameraLiveView> {
 
   @override
   void initState() {
-    aux();
+    initCameraController();
     super.initState();
   }
 
@@ -179,7 +184,7 @@ class _CameraLiveViewState extends State<_CameraLiveView> {
     super.dispose();
   }
 
-  Future<void> aux() async {
+  Future<void> initCameraController() async {
     final list = await availableCameras();
     _cameraController = CameraController(
       list.firstWhere(
@@ -198,10 +203,10 @@ class _CameraLiveViewState extends State<_CameraLiveView> {
       if (e is CameraException) {
         switch (e.code) {
           case 'CameraAccessDenied':
-            // Handle access errors here.
+            //TODO: Handle access errors here.
             break;
           default:
-            // Handle other errors here.
+            //TODO: Handle other errors here.
             break;
         }
       }

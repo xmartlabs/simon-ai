@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:design_system/design_system.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:simon_ai/core/model/hand_gestures.dart';
 import 'package:simon_ai/ui/game_screen/game_screen_cubit.dart';
 
 class ShowSequenceScreen extends StatefulWidget {

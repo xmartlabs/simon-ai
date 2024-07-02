@@ -12,7 +12,7 @@ class ErrorStateScreen extends StatelessWidget {
       (GameScreenCubit cubit) => cubit.state.error,
     );
     return Text(
-      errorMessage ?? 'An error occurred',
+      errorMessage ?? context.localizations.error_unknown_error_description,
       style: context.theme.textStyles.displayMedium!
           .copyWith(color: context.theme.customColors.textColor),
     );

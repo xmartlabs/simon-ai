@@ -14,34 +14,4 @@ class GameScreenState with _$GameScreenState {
   }) = _Initial;
 }
 
-//TODO: Update when the HandGesture model is created
-enum HandGesutre {
-  A,
-  B,
-  C,
-  D,
-  E,
-  F,
-  G,
-  H,
-  I,
-  J,
-  K,
-  L,
-  M,
-  N,
-  O,
-  P,
-  Q,
-  R,
-  S,
-  T,
-  U,
-  V,
-  W,
-  X,
-  Y,
-  Z
-}
-
 enum GameState { initial, countDown, showingSequence, playing, ended, error }

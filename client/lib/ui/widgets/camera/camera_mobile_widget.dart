@@ -68,11 +68,9 @@ class CameraPlatformWidgetState extends State<CameraWidget>
         }
         break;
       case AppLifecycleState.detached:
-      // TODO: Handle this case.
       case AppLifecycleState.inactive:
-      // TODO: Handle this case.
       case AppLifecycleState.hidden:
-      // TODO: Handle this case.
+        break;
     }
   }
 

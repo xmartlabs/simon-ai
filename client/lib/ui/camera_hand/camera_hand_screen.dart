@@ -33,9 +33,8 @@ class _CameraHandContentScreen extends StatelessWidget {
                   width: 480,
                   height: 640,
                   enableBorderRadius: true,
-                  onNewFrame: (dynamic frame) {
-                    context.read<CameraHandCubit>().onNewFrame(frame);
-                  },
+                  onNewFrame: (dynamic frame) =>
+                      context.read<CameraHandCubit>().onNewFrame(frame),
                   movenetStream: state.movenetResultStream,
                 ),
               ],

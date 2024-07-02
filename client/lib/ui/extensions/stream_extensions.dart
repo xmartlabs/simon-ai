@@ -21,19 +21,14 @@ extension StreamExtensions<T> on Stream<T> {
           if (!isProcessing) {
             isProcessing = true;
             // Execute async work in a separate function.
-            processValue(value, sink).then((_) {
-              isProcessing = false;
-            });
+            processValue(value, sink).then((_) => isProcessing = false);
           } else {
             lastUnprocessedValue = value;
           }
         },
-        handleError: (Object error, StackTrace stackTrace, EventSink<R> sink) {
-          sink.addError(error, stackTrace);
-        },
-        handleDone: (EventSink<R> sink) {
-          sink.close();
-        },
+        handleError: (Object error, StackTrace stackTrace, EventSink<R> sink) =>
+            sink.addError(error, stackTrace),
+        handleDone: (EventSink<R> sink) => sink.close(),
       ),
     );
   }

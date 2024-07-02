@@ -46,6 +46,8 @@ class CameraHandCubit extends Cubit<CameraHandState> {
     _newFrameStream = _frameController.stream;
     emit(state.copyWith(movenetResultStream: _movenetStream));
     // ignore: no-empty-block
-    _newFrameStream.discardWhileProcessing(_processNewFrame).listen((event) {});
+    _newFrameStream.discardWhileProcessing(_processNewFrame).listen((event) {
+      // TODO add implementation for after-processing frame
+    });
   }
 }

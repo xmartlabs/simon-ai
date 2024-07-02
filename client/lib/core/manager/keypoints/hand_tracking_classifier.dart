@@ -5,15 +5,15 @@ import 'package:image/image.dart' as img;
 import 'package:simon_ai/core/common/logger.dart';
 import 'package:simon_ai/core/manager/keypoints/image_utils.dart';
 import 'package:simon_ai/core/manager/keypoints/keypoints_manager_mobile.dart';
+import 'package:simon_ai/gen/assets.gen.dart';
 import 'package:tflite_flutter/tflite_flutter.dart';
 
 class HandTrackingClassifier {
-  static const bool _logInit = true;
-  static const bool _logResultTime = false;
-  static const bool useLightingModel = true;
+  final bool _logInit = true;
+  final bool _logResultTime = false;
 
-  static const int modelInputSize = 224;
-  static const modelName = 'hand_landmarks_detector.tflite';
+  final int modelInputSize = 224;
+  final String modelName = Assets.models.handLandmarksDetector;
 
   late Interpreter _interpreter;
   Interpreter get interpreter => _interpreter;
@@ -40,7 +40,7 @@ class HandTrackingClassifier {
       );
     }
     return Interpreter.fromAsset(
-      'assets/models/$modelName',
+      modelName,
       options: options,
     );
   }

@@ -11,8 +11,6 @@ class HandRenderPainter extends CustomPainter {
   static const _scoreThreshold = 0.6;
 
   late HandLandmarksData keypointsData;
-  late double confidence;
-  late PointMode pointMode;
 
   final _pointGreen = Paint()
     ..color = Colors.green

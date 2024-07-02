@@ -85,97 +85,127 @@ class InformationSummary extends StatelessWidget {
       child: Column(
         mainAxisSize: MainAxisSize.min,
         children: [
-          switch (type) {
-            InformationSummaryType.points => Row(
-                mainAxisAlignment: MainAxisAlignment.start,
-                children: [
-                  Assets.images.estrella.image(
-                    height: 36,
-                    width: 36,
-                    fit: BoxFit.fill,
-                    filterQuality: FilterQuality.high,
-                  ),
-                  const SizedBox(width: 20),
-                  Text(
-                    '$value',
-                    style:
-                        context.theme.textStyles.headlineSmall!.bold().copyWith(
-                              color: context.theme.customColors.textColor,
-                            ),
-                  ),
-                ],
-              ),
-            InformationSummaryType.gestures => Row(
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  Assets.images.check.image(
-                    height: 36,
-                    width: 36,
-                    fit: BoxFit.fill,
-                    filterQuality: FilterQuality.high,
-                  ),
-                  const SizedBox(width: 8),
-                  Text(
-                    '$value',
-                    style:
-                        context.theme.textStyles.headlineSmall!.bold().copyWith(
-                              color: context.theme.customColors.textColor,
-                            ),
-                  ),
-                ],
-              ),
-            InformationSummaryType.time => Row(
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  Assets.images.reloj.image(
-                    height: 36,
-                    width: 36,
-                    fit: BoxFit.fill,
-                    filterQuality: FilterQuality.high,
-                  ),
-                  const SizedBox(width: 8),
-                  Text(
-                    '$minutes:'
-                    '$seconds',
-                    style:
-                        context.theme.textStyles.headlineSmall!.bold().copyWith(
-                              color: context.theme.customColors.textColor,
-                            ),
-                  ),
-                ],
-              )
-          },
-          if (showBorder)
-            switch (type) {
-              InformationSummaryType.points => Text(
-                  context.localizations.points,
-                  style: context.theme.textStyles.headlineSmall!
-                      .semibold()
-                      .copyWith(
-                        color: context.theme.customColors.textColor,
-                      ),
-                ),
-              InformationSummaryType.gestures => Text(
-                  context.localizations.gestures,
-                  style: context.theme.textStyles.headlineSmall!
-                      .semibold()
-                      .copyWith(
-                        color: context.theme.customColors.textColor,
-                      ),
-                ),
-              InformationSummaryType.time => Text(
-                  context.localizations.time,
-                  style: context.theme.textStyles.headlineSmall!
-                      .semibold()
-                      .copyWith(
-                        color: context.theme.customColors.textColor,
-                      ),
-                ),
-            },
+          _Icon(type: type, value: value, minutes: minutes, seconds: seconds),
+          if (showBorder) _Subtitle(type: type),
         ],
       ),
     );
   }
+}
+
+class _Icon extends StatelessWidget {
+  const _Icon({
+    required this.type,
+    required this.value,
+    required this.minutes,
+    required this.seconds,
+    super.key,
+  });
+
+  final InformationSummaryType type;
+  final int value;
+  final String minutes;
+  final String seconds;
+
+  @override
+  Widget build(BuildContext context) => SizedBox(
+        child: switch (type) {
+          InformationSummaryType.points => Row(
+              mainAxisAlignment: MainAxisAlignment.start,
+              children: [
+                Assets.images.estrella.image(
+                  height: 36,
+                  width: 36,
+                  fit: BoxFit.fill,
+                  filterQuality: FilterQuality.high,
+                ),
+                const SizedBox(width: 20),
+                Text(
+                  '$value',
+                  style:
+                      context.theme.textStyles.headlineSmall!.bold().copyWith(
+                            color: context.theme.customColors.textColor,
+                          ),
+                ),
+              ],
+            ),
+          InformationSummaryType.gestures => Row(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Assets.images.check.image(
+                  height: 36,
+                  width: 36,
+                  fit: BoxFit.fill,
+                  filterQuality: FilterQuality.high,
+                ),
+                const SizedBox(width: 8),
+                Text(
+                  '$value',
+                  style:
+                      context.theme.textStyles.headlineSmall!.bold().copyWith(
+                            color: context.theme.customColors.textColor,
+                          ),
+                ),
+              ],
+            ),
+          InformationSummaryType.time => Row(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Assets.images.reloj.image(
+                  height: 36,
+                  width: 36,
+                  fit: BoxFit.fill,
+                  filterQuality: FilterQuality.high,
+                ),
+                const SizedBox(width: 8),
+                Text(
+                  '$minutes:'
+                  '$seconds',
+                  style:
+                      context.theme.textStyles.headlineSmall!.bold().copyWith(
+                            color: context.theme.customColors.textColor,
+                          ),
+                ),
+              ],
+            )
+        },
+      );
+}
+
+class _Subtitle extends StatelessWidget {
+  const _Subtitle({
+    required this.type,
+    super.key,
+  });
+
+  final InformationSummaryType type;
+
+  @override
+  Widget build(BuildContext context) => Container(
+        child: switch (type) {
+          InformationSummaryType.points => Text(
+              context.localizations.points,
+              style:
+                  context.theme.textStyles.headlineSmall!.semibold().copyWith(
+                        color: context.theme.customColors.textColor,
+                      ),
+            ),
+          InformationSummaryType.gestures => Text(
+              context.localizations.gestures,
+              style:
+                  context.theme.textStyles.headlineSmall!.semibold().copyWith(
+                        color: context.theme.customColors.textColor,
+                      ),
+            ),
+          InformationSummaryType.time => Text(
+              context.localizations.time,
+              style:
+                  context.theme.textStyles.headlineSmall!.semibold().copyWith(
+                        color: context.theme.customColors.textColor,
+                      ),
+            ),
+        },
+      );
 }
 
 enum InformationSummaryType {

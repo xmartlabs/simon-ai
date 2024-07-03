@@ -1,5 +1,6 @@
 import 'package:get_it/get_it.dart';
 import 'package:simon_ai/core/interfaces/permission_handler_interface.dart';
+import 'package:simon_ai/core/repository/game_repository.dart';
 import 'package:simon_ai/core/repository/project_repository.dart';
 import 'package:simon_ai/core/repository/session_repository.dart';
 import 'package:simon_ai/core/services/permission_handler_service.dart';
@@ -37,6 +38,7 @@ extension _GetItDiModuleExtensions on GetIt {
   void _setupRepositories() {
     registerLazySingleton(() => SessionRepository(get(), get()));
     registerLazySingleton(() => ProjectRepository(get(), get()));
+    registerLazySingleton(() => GameRepository());
   }
 
   void _setupSources() {

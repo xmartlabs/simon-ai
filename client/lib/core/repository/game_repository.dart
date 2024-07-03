@@ -24,10 +24,13 @@ class GameRepository {
 
     if (currentSequence.length == recognizedGestures.length) {
       _sequenceController.add(SequenceStatus.complete);
+      recognizedGestures.clear();
+
       return;
     }
     if (currentSequence[recognizedGestures.length] != recognizedGestures.last) {
       _sequenceController.add(SequenceStatus.wrong);
+      recognizedGestures.clear();
     } else {
       _sequenceController.add(SequenceStatus.correct);
       points += 10;
@@ -36,10 +39,6 @@ class GameRepository {
 
   void cacheCurrentSequence(List<HandGesutre> sequence) {
     currentSequence = sequence;
-  }
-
-  void addGestureToSequence(HandGesutre gesture) {
-    currentSequence = [...currentSequence, gesture];
   }
 
   void addRecognizedGesture(HandGesutre gesture) {
@@ -51,7 +50,7 @@ class GameRepository {
     _gameController.close();
   }
 
-  void reset() {
+  void resetGame() {
     recognizedGestures.clear();
     points = 0;
     currentSequence.clear();

@@ -31,7 +31,7 @@ class _SignInContentScreen extends StatelessWidget {
             Text(
               context.localizations.onboarding_email_title,
               style: context.theme.textStyles.displaySmall!.bold().copyWith(
-                    color: context.theme.customColors.textColor!.getShade(500),
+                    color: context.theme.customColors.textColor.getShade(500),
                   ),
             ),
             SizedBox(height: 24.h),
@@ -52,8 +52,7 @@ class _SignInContentScreen extends StatelessWidget {
               child: Text(
                 context.localizations.continue_button,
                 style: context.theme.textStyles.bodyLarge!.bold().copyWith(
-                      color:
-                          context.theme.customColors.textColor!.getShade(100),
+                      color: context.theme.customColors.textColor.getShade(100),
                     ),
               ),
             ),

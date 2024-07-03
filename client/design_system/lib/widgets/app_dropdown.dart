@@ -28,7 +28,7 @@ class _AppDropdownMenuState<T> extends State<AppDropdownMenu<T>> {
         initialSelection: widget.initialValue,
         trailingIcon: Icon(
           Icons.arrow_drop_down_outlined,
-          color: context.theme.customColors.textColor!.getShade(200),
+          color: context.theme.customColors.textColor.getShade(200),
         ),
         controller: _controller,
         onSelected: (T? value) => widget.onSelected(value),
@@ -44,7 +44,7 @@ class _AppDropdownMenuState<T> extends State<AppDropdownMenu<T>> {
                   ),
                   foregroundColor: WidgetStateColor.resolveWith(
                     (Set<WidgetState> states) =>
-                        context.theme.customColors.textColor!.getShade(400),
+                        context.theme.customColors.textColor.getShade(400),
                   ),
                 ),
               ),

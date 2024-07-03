@@ -17,19 +17,21 @@ final _privateConstructorUsedError = UnsupportedError(
 /// @nodoc
 mixin _$TutorialExplanationState {
   OnboardingSteps get step => throw _privateConstructorUsedError;
+  bool get hasCameraPermission => throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
-    required TResult Function(OnboardingSteps step) initial,
+    required TResult Function(OnboardingSteps step, bool hasCameraPermission)
+        initial,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
-    TResult? Function(OnboardingSteps step)? initial,
+    TResult? Function(OnboardingSteps step, bool hasCameraPermission)? initial,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
-    TResult Function(OnboardingSteps step)? initial,
+    TResult Function(OnboardingSteps step, bool hasCameraPermission)? initial,
     required TResult orElse(),
   }) =>
       throw _privateConstructorUsedError;
@@ -61,7 +63,7 @@ abstract class $TutorialExplanationStateCopyWith<$Res> {
           $Res Function(TutorialExplanationState) then) =
       _$TutorialExplanationStateCopyWithImpl<$Res, TutorialExplanationState>;
   @useResult
-  $Res call({OnboardingSteps step});
+  $Res call({OnboardingSteps step, bool hasCameraPermission});
 }
 
 /// @nodoc
@@ -79,12 +81,17 @@ class _$TutorialExplanationStateCopyWithImpl<$Res,
   @override
   $Res call({
     Object? step = null,
+    Object? hasCameraPermission = null,
   }) {
     return _then(_value.copyWith(
       step: null == step
           ? _value.step
           : step // ignore: cast_nullable_to_non_nullable
               as OnboardingSteps,
+      hasCameraPermission: null == hasCameraPermission
+          ? _value.hasCameraPermission
+          : hasCameraPermission // ignore: cast_nullable_to_non_nullable
+              as bool,
     ) as $Val);
   }
 }
@@ -97,7 +104,7 @@ abstract class _$$InitialImplCopyWith<$Res>
       __$$InitialImplCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({OnboardingSteps step});
+  $Res call({OnboardingSteps step, bool hasCameraPermission});
 }
 
 /// @nodoc
@@ -112,12 +119,17 @@ class __$$InitialImplCopyWithImpl<$Res>
   @override
   $Res call({
     Object? step = null,
+    Object? hasCameraPermission = null,
   }) {
     return _then(_$InitialImpl(
       step: null == step
           ? _value.step
           : step // ignore: cast_nullable_to_non_nullable
               as OnboardingSteps,
+      hasCameraPermission: null == hasCameraPermission
+          ? _value.hasCameraPermission
+          : hasCameraPermission // ignore: cast_nullable_to_non_nullable
+              as bool,
     ));
   }
 }
@@ -125,14 +137,16 @@ class __$$InitialImplCopyWithImpl<$Res>
 /// @nodoc
 
 class _$InitialImpl implements _Initial {
-  const _$InitialImpl({required this.step});
+  const _$InitialImpl({required this.step, required this.hasCameraPermission});
 
   @override
   final OnboardingSteps step;
+  @override
+  final bool hasCameraPermission;
 
   @override
   String toString() {
-    return 'TutorialExplanationState.initial(step: $step)';
+    return 'TutorialExplanationState.initial(step: $step, hasCameraPermission: $hasCameraPermission)';
   }
 
   @override
@@ -140,11 +154,13 @@ class _$InitialImpl implements _Initial {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$InitialImpl &&
-            (identical(other.step, step) || other.step == step));
+            (identical(other.step, step) || other.step == step) &&
+            (identical(other.hasCameraPermission, hasCameraPermission) ||
+                other.hasCameraPermission == hasCameraPermission));
   }
 
   @override
-  int get hashCode => Object.hash(runtimeType, step);
+  int get hashCode => Object.hash(runtimeType, step, hasCameraPermission);
 
   @JsonKey(ignore: true)
   @override
@@ -155,27 +171,28 @@ class _$InitialImpl implements _Initial {
   @override
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
-    required TResult Function(OnboardingSteps step) initial,
+    required TResult Function(OnboardingSteps step, bool hasCameraPermission)
+        initial,
   }) {
-    return initial(step);
+    return initial(step, hasCameraPermission);
   }
 
   @override
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
-    TResult? Function(OnboardingSteps step)? initial,
+    TResult? Function(OnboardingSteps step, bool hasCameraPermission)? initial,
   }) {
-    return initial?.call(step);
+    return initial?.call(step, hasCameraPermission);
   }
 
   @override
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
-    TResult Function(OnboardingSteps step)? initial,
+    TResult Function(OnboardingSteps step, bool hasCameraPermission)? initial,
     required TResult orElse(),
   }) {
     if (initial != null) {
-      return initial(step);
+      return initial(step, hasCameraPermission);
     }
     return orElse();
   }
@@ -210,10 +227,14 @@ class _$InitialImpl implements _Initial {
 }
 
 abstract class _Initial implements TutorialExplanationState {
-  const factory _Initial({required final OnboardingSteps step}) = _$InitialImpl;
+  const factory _Initial(
+      {required final OnboardingSteps step,
+      required final bool hasCameraPermission}) = _$InitialImpl;
 
   @override
   OnboardingSteps get step;
+  @override
+  bool get hasCameraPermission;
   @override
   @JsonKey(ignore: true)
   _$$InitialImplCopyWith<_$InitialImpl> get copyWith =>

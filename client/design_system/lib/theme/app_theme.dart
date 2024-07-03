@@ -33,24 +33,24 @@ class AppTheme {
           side: BorderSide(color: colors.surface.shade500),
         ),
         titleTextStyle: customTextStyles.customOverline
-            .copyWith(color: customColors.textColor!.getShade(300))
+            .copyWith(color: customColors.textColor.getShade(300))
             .semibold(),
         contentTextStyle: textTheme.bodyMedium
-            ?.copyWith(color: customColors.textColor!.getShade(400)),
+            ?.copyWith(color: customColors.textColor.getShade(400)),
       ),
       inputDecorationTheme: InputDecorationTheme(
         labelStyle: textTheme.bodyMedium
-            ?.copyWith(color: customColors.textColor!.getShade(400)),
+            ?.copyWith(color: customColors.textColor.getShade(400)),
         filled: true,
         helperStyle: textTheme.bodySmall
-            ?.copyWith(color: customColors.textColor!..getShade(300)),
+            ?.copyWith(color: customColors.textColor..getShade(300)),
         hintStyle: textTheme.bodyMedium
-            ?.copyWith(color: customColors.textColor!.getShade(300)),
+            ?.copyWith(color: customColors.textColor.getShade(300)),
         border: OutlineInputBorder(
           borderRadius: BorderRadius.circular(12.r),
           borderSide: BorderSide(
             width: 1,
-            color: customColors.textColor!.getShade(500),
+            color: customColors.textColor.getShade(500),
           ),
         ),
         fillColor: colors.surface.shade100,
@@ -58,28 +58,28 @@ class AppTheme {
           borderRadius: BorderRadius.circular(12.r),
           borderSide: BorderSide(
             width: 1,
-            color: customColors.textColor!.getShade(500),
+            color: customColors.textColor.getShade(500),
           ),
         ),
         errorBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(12.r),
           borderSide: BorderSide(
             width: 2,
-            color: customColors.danger!.getShade(300),
+            color: customColors.danger.getShade(300),
           ),
         ),
         focusedBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(12.r),
           borderSide: BorderSide(
             width: 2,
-            color: customColors.textColor!.getShade(500),
+            color: customColors.textColor.getShade(500),
           ),
         ),
         disabledBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(12.r),
           borderSide: BorderSide(
             width: 2,
-            color: customColors.textColor!.getShade(200),
+            color: customColors.textColor.getShade(200),
           ),
         ),
         focusedErrorBorder: OutlineInputBorder(
@@ -134,22 +134,22 @@ class AppTheme {
       appBarTheme: AppBarTheme(
         backgroundColor: colors.primary.shade400,
         titleTextStyle: TextStyle(
-          color: CustomColors.getCustomColors().textColor!.getShade(500),
+          color: CustomColors.getCustomColors().textColor.getShade(500),
         ),
       ),
       primaryTextTheme: textTheme,
       checkboxTheme: CheckboxThemeData(
         checkColor: getMaterialStatesColors(colors.primary.shade600),
         fillColor:
-            getMaterialStatesColors(customColors.textColor!..getShade(100)),
+            getMaterialStatesColors(customColors.textColor..getShade(100)),
         side: BorderSide(
           width: 2,
-          color: customColors.textColor!.getShade(400),
+          color: customColors.textColor.getShade(400),
         ),
       ),
       radioTheme: RadioThemeData(
         fillColor:
-            getMaterialStatesColors(customColors.textColor!.getShade(400)),
+            getMaterialStatesColors(customColors.textColor.getShade(400)),
       ),
     );
   }

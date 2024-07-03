@@ -27,6 +27,12 @@ abstract class _$AppRouter extends RootStackRouter {
         child: const EmptyRouterPage(),
       );
     },
+    GameRoute.name: (routeData) {
+      return AutoRoutePage<dynamic>(
+        routeData: routeData,
+        child: const GameScreen(),
+      );
+    },
     OnboardingHandlerRoute.name: (routeData) {
       return AutoRoutePage<dynamic>(
         routeData: routeData,
@@ -96,6 +102,20 @@ class EmptyRouteRoute extends PageRouteInfo<void> {
         );
 
   static const String name = 'EmptyRouteRoute';
+
+  static const PageInfo<void> page = PageInfo<void>(name);
+}
+
+/// generated route for
+/// [GameScreen]
+class GameRoute extends PageRouteInfo<void> {
+  const GameRoute({List<PageRouteInfo>? children})
+      : super(
+          GameRoute.name,
+          initialChildren: children,
+        );
+
+  static const String name = 'GameRoute';
 
   static const PageInfo<void> page = PageInfo<void>(name);
 }

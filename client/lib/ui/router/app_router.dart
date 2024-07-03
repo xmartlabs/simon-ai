@@ -1,5 +1,6 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:simon_ai/core/repository/session_repository.dart';
+import 'package:simon_ai/ui/game_screen/game_screen.dart';
 import 'package:simon_ai/ui/onboarding/onboarding_handler_screen.dart';
 import 'package:simon_ai/ui/onboarding/register_user_email/register_user_screen.dart';
 import 'package:simon_ai/ui/onboarding/register_username/register_username_screen.dart';
@@ -37,6 +38,7 @@ class AppRouter extends _$AppRouter {
                 redirectTo: OnboardingRoutes.onboarding,
               ),
               OnboardingRoutes.providerRoutes(),
+              AutoRoute(path: GameRoute.name, page: GameRoute.page),
             ],
           ),
           AutoRoute(
@@ -45,7 +47,7 @@ class AppRouter extends _$AppRouter {
             path: '/',
             children: [
               RedirectRoute(path: '', redirectTo: 'welcome'),
-              AutoRoute(path: 'welcome', page: WelcomeRoute.page),
+              AutoRoute(path: 'welcome', page: GameRoute.page),
             ],
           ),
         ];

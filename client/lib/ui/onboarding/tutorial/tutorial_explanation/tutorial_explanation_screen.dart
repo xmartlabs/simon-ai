@@ -86,7 +86,7 @@ class _InitialExplanationStep extends StatelessWidget {
           Text(
             context.localizations.tutorial_next_steps_title,
             style: context.theme.textStyles.displaySmall!.bold().copyWith(
-                  color: context.theme.customColors.textColor!.getShade(500),
+                  color: context.theme.customColors.textColor.getShade(500),
                 ),
           ),
           SizedBox(height: 24.h),
@@ -107,8 +107,7 @@ class _InitialExplanationStep extends StatelessWidget {
               child: Text(
                 context.localizations.continue_button,
                 style: context.theme.textStyles.bodyLarge!.bold().copyWith(
-                      color:
-                          context.theme.customColors.textColor!.getShade(100),
+                      color: context.theme.customColors.textColor.getShade(100),
                     ),
               ),
             ),
@@ -133,7 +132,7 @@ class _HandsExplanationStep extends StatelessWidget {
           Text(
             context.localizations.tutorial_what_hand_title,
             style: context.theme.textStyles.displaySmall!.bold().copyWith(
-                  color: context.theme.customColors.textColor!.getShade(500),
+                  color: context.theme.customColors.textColor.getShade(500),
                 ),
           ),
           SizedBox(height: 24.h),
@@ -159,7 +158,7 @@ class _HandsExplanationStep extends StatelessWidget {
                       context.localizations.left,
                       style:
                           context.theme.textStyles.bodyLarge!.bold().copyWith(
-                                color: context.theme.customColors.textColor!
+                                color: context.theme.customColors.textColor
                                     .getShade(100),
                               ),
                     ),
@@ -173,7 +172,7 @@ class _HandsExplanationStep extends StatelessWidget {
                       context.localizations.right,
                       style:
                           context.theme.textStyles.bodyLarge!.bold().copyWith(
-                                color: context.theme.customColors.textColor!
+                                color: context.theme.customColors.textColor
                                     .getShade(100),
                               ),
                     ),
@@ -202,7 +201,7 @@ class _PermissionsExplanationStep extends StatelessWidget {
           Text(
             context.localizations.tutorial_camera_permissions_title,
             style: context.theme.textStyles.displaySmall!.bold().copyWith(
-                  color: context.theme.customColors.textColor!.getShade(500),
+                  color: context.theme.customColors.textColor.getShade(500),
                 ),
           ),
           SizedBox(height: 24.h),
@@ -217,11 +216,15 @@ class _PermissionsExplanationStep extends StatelessWidget {
           ),
           SizedBox(height: 24.h),
           FilledButton(
-            onPressed: onPressed,
+            onPressed: () {
+              context
+                  .read<TutorialExplanationCubit>()
+                  .requestCameraPermission();
+            },
             child: Text(
               context.localizations.activate_camera,
               style: context.theme.textStyles.bodyLarge!.bold().copyWith(
-                    color: context.theme.customColors.textColor!.getShade(100),
+                    color: context.theme.customColors.textColor.getShade(100),
                   ),
             ),
           ),

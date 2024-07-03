@@ -38,7 +38,7 @@ class AppButtonsStyle extends ThemeExtension<AppButtonsStyle> {
       ),
       elevation: 0.0,
       backgroundColor: _colorScheme.onPrimary.getShade(500),
-      foregroundColor: _customColors.textColor!.getShade(100),
+      foregroundColor: _customColors.textColor.getShade(100),
     );
 
     outlineButton = OutlinedButton.styleFrom(
@@ -49,11 +49,11 @@ class AppButtonsStyle extends ThemeExtension<AppButtonsStyle> {
       ),
       side: BorderSide(
         width: 2,
-        color: _customColors.textColor!.getShade(500),
+        color: _customColors.textColor.getShade(500),
       ),
       textStyle: _customTextStyles.buttonLarge.bold(),
       elevation: 0.0,
-      foregroundColor: _customColors.textColor!.getShade(500),
+      foregroundColor: _customColors.textColor.getShade(500),
     );
 
     textButton = TextButton.styleFrom(
@@ -64,9 +64,9 @@ class AppButtonsStyle extends ThemeExtension<AppButtonsStyle> {
 
     secondaryFilledButton = filledButton.copyWith(
       backgroundColor:
-          getMaterialStatesColors(_customColors.textColor!.getShade(300)),
+          getMaterialStatesColors(_customColors.textColor.getShade(300)),
       foregroundColor: getMaterialStatesColors(
-        _customColors.textColor!.getShade(100),
+        _customColors.textColor.getShade(100),
       ),
     );
 
@@ -75,9 +75,9 @@ class AppButtonsStyle extends ThemeExtension<AppButtonsStyle> {
         _colorScheme.surface.getShade(100),
       ),
       foregroundColor: getMaterialStatesColors(
-        _customColors.textColor!.getShade(300),
+        _customColors.textColor.getShade(300),
       ),
-      side: getBorderSidesStates(_customColors.textColor!.getShade(300)),
+      side: getBorderSidesStates(_customColors.textColor.getShade(300)),
     );
 
     secondaryTextButton = textButton.copyWith(
@@ -85,7 +85,7 @@ class AppButtonsStyle extends ThemeExtension<AppButtonsStyle> {
         Colors.transparent,
       ),
       foregroundColor: getMaterialStatesColors(
-        _customColors.textColor!.getShade(300),
+        _customColors.textColor.getShade(300),
       ),
     );
   }

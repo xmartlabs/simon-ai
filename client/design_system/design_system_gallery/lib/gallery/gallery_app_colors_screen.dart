@@ -55,15 +55,15 @@ extension _GalleryScreenExtensions on _GalleryColors {
       case _GalleryColors.secondary:
         return context.theme.colorScheme.secondary;
       case _GalleryColors.success:
-        return context.theme.customColors.success!;
+        return context.theme.customColors.success;
       case _GalleryColors.info:
-        return context.theme.customColors.info!;
+        return context.theme.customColors.info;
       case _GalleryColors.warning:
-        return context.theme.customColors.warning!;
+        return context.theme.customColors.warning;
       case _GalleryColors.danger:
-        return context.theme.customColors.danger!;
+        return context.theme.customColors.danger;
       case _GalleryColors.text:
-        return context.theme.customColors.textColor!;
+        return context.theme.customColors.textColor;
     }
   }
 }

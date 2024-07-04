@@ -1,5 +1,6 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:simon_ai/core/repository/session_repository.dart';
+import 'package:simon_ai/ui/camera_hand/camera_hand_screen.dart';
 import 'package:simon_ai/ui/game_screen/game_screen.dart';
 import 'package:simon_ai/ui/onboarding/onboarding_handler_screen.dart';
 import 'package:simon_ai/ui/onboarding/register_user_email/register_user_screen.dart';

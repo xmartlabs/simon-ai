@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:dartx/dartx.dart';
 import 'package:rxdart/rxdart.dart';
 import 'package:simon_ai/core/model/hand_gestures.dart';
 
@@ -11,41 +12,51 @@ class GameRepository {
 
   List<HandGesutre> recognizedGestures = [];
 
-  List<HandGesutre> currentSequence = [];
-
   int points = 0;
 
   Stream<HandGesutre> get gameStream => _gameController.stream;
 
   Stream<SequenceStatus> get sequenceStream => _sequenceController.stream;
 
-  Future<void> takeSnapShot(HandGesutre gesture) async {
-    addRecognizedGesture(gesture);
+  final Stream<HandGesutre> _fakeMokedGestures = Stream.fromIterable([
+    HandGesutre.A,
+    HandGesutre.B,
+    HandGesutre.C,
+    HandGesutre.D,
+  ]).asyncMap((gesture) async {
+    await Future.delayed(const Duration(seconds: 1));
+    return gesture;
+  });
 
-    if (recognizedGestures.isNotEmpty && !_isCorrectGesture()) {
-      _sequenceController.add(SequenceStatus.wrong);
-      recognizedGestures.clear();
-    } else {
-      _sequenceController.add(SequenceStatus.correct);
-      points += 10;
-    }
-    if (currentSequence.length == recognizedGestures.length) {
-      _sequenceController.add(SequenceStatus.complete);
-      recognizedGestures.clear();
-    }
-  }
+  // [A, A, B, A, B, C] // Esto es lo que tendroa que hacer
+  // [A, B, C] // Esto es lo que hace esta funcion
 
-  bool _isCorrectGesture() =>
-      currentSequence[recognizedGestures.length - 1] == recognizedGestures.last;
+  Stream<GameResponse> startGame(List<HandGesutre> gameSequence) =>
+      _fakeMokedGestures.scan<List<HandGesutre>>(
+        (accumulated, value, index) => [...accumulated, value],
+        [],
+      ).map(
+        (currentSequence) => (
+          gesture: currentSequence.last,
+          points: points,
+          finishSequence: currentSequence.length == gameSequence.length,
+          isCorrect: gameSequence.startsWith(currentSequence),
+        ),
+      );
 
-  void cacheCurrentSequence(List<HandGesutre> sequence) {
-    currentSequence = sequence;
-  }
+  // Stream<bool> startGame(bool Function(List<HandGesutre>) secuenceComparator) =>
+  //     _fakeMokedGestures.scan<List<HandGesutre>>(
+  //       (accumulated, value, index) => [...accumulated, value],
+  //       [],
+  //     ).map((currentSequence) => secuenceComparator(currentSequence));
 
-  void addRecognizedGesture(HandGesutre gesture) {
-    recognizedGestures.add(gesture);
-    _gameController.add(gesture);
-  }
+// _gameSimulationStreamSubscription =
+//         Stream.fromIterable(state.currentSequence!).asyncMap((event) async {
+//       await Future.delayed(const Duration(seconds: 1));
+//       return event;
+//     }).listen((event) {
+//       _gameRepository.takeSnapShot(event);
+//     });
 
   void dispose() {
     _gameController.close();
@@ -54,7 +65,6 @@ class GameRepository {
   void resetGame() {
     recognizedGestures.clear();
     points = 0;
-    currentSequence.clear();
     _sequenceController.add(SequenceStatus.complete);
   }
 
@@ -62,3 +72,10 @@ class GameRepository {
 }
 
 enum SequenceStatus { correct, wrong, incomplete, complete }
+
+typedef GameResponse = ({
+  HandGesutre gesture,
+  int points,
+  bool finishSequence,
+  bool isCorrect,
+});

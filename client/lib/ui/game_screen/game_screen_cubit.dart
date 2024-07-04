@@ -14,7 +14,8 @@ class GameScreenCubit extends Cubit<GameScreenState> {
   final GameRepository _gameRepository = DiProvider.get();
   late final StreamSubscription<HandGesutre> _gameStreamSubscription;
   late final StreamSubscription<SequenceStatus> _sequenceStreamSubscription;
-  late final Timer _gameSimulationTimer;
+  late Timer _gameSimulationTimer;
+  final Stopwatch _stopwatch = Stopwatch();
 
   GameScreenCubit()
       : super(
@@ -22,10 +23,12 @@ class GameScreenCubit extends Cubit<GameScreenState> {
             currentPoints: 0,
             currentSequence: [],
             currentRound: 0,
+            gameDuration: Duration.zero,
             gameState: GameState.initial,
             currentHandValueIndex: 0,
           ),
         ) {
+    _stopwatch.start();
     Future.delayed(const Duration(seconds: 2), startCountdown);
     _gameStreamSubscription = _gameRepository.gameStream.listen((event) {
       if (state.gameState == GameState.playing) {
@@ -41,14 +44,24 @@ class GameScreenCubit extends Cubit<GameScreenState> {
     });
     _sequenceStreamSubscription =
         _gameRepository.sequenceStream.distinct().listen((event) {
+      print(event);
+
       if (event == SequenceStatus.complete) {
-        startNewSequence();
+        startCountdown();
       }
       if (event == SequenceStatus.wrong) {
         endGame();
       }
       if (event == SequenceStatus.correct) {
-        advanceSequence();
+        Future.delayed(const Duration(seconds: 1), () {
+          print('Advance sequence');
+          if (state.gameState == GameState.playing &&
+              state.currentHandValueIndex! < state.currentSequence!.length) {
+            final advanceSequence2 = advanceSequence();
+            _gameRepository
+                .takeSnapShot(state.currentSequence![advanceSequence2]);
+          }
+        });
         return;
       }
       if (event == SequenceStatus.incomplete) {
@@ -59,10 +72,9 @@ class GameScreenCubit extends Cubit<GameScreenState> {
           ),
         );
       }
-      _gameSimulationTimer.cancel();
     });
   }
-  final int _maxRounds = 4;
+  final int _maxRounds = 3;
 
   bool get isLastHandGesture =>
       state.currentHandValueIndex == state.currentSequence!.length - 1;
@@ -109,9 +121,6 @@ class GameScreenCubit extends Cubit<GameScreenState> {
   }
 
   void startGame() {
-    _gameSimulationTimer = Timer.periodic(const Duration(seconds: 2), (_) {
-      _gameRepository.takeSnapShot(_generateRandomUniqueHandGesture());
-    });
     emit(
       state.copyWith(
         gameState: GameState.playing,
@@ -120,15 +129,31 @@ class GameScreenCubit extends Cubit<GameScreenState> {
         userGesture: null,
       ),
     );
+    Future.delayed(const Duration(seconds: 1), takeSnapshot);
+  }
+
+  void takeSnapshot() {
+    if (state.gameState == GameState.playing &&
+        state.currentHandValueIndex! < state.currentSequence!.length) {
+      _gameRepository
+          .takeSnapShot(state.currentSequence![state.currentHandValueIndex!]);
+    }
   }
 
   void endGame() {
+    _gameSimulationTimer.cancel();
+    _stopwatch.stop();
     emit(
       state.copyWith(
         gameState: GameState.ended,
+        gameDuration: _stopwatch.elapsed,
       ),
     );
   }
+
+  int get currentRound => state.currentRound;
+
+  int get currentPoints => state.currentPoints;
 
   HandGesutre _generateRandomUniqueHandGesture() {
     HandGesutre randomLetter =
@@ -144,7 +169,7 @@ class GameScreenCubit extends Cubit<GameScreenState> {
   Future<void> close() {
     _gameStreamSubscription.cancel();
     _sequenceStreamSubscription.cancel();
-    _gameSimulationTimer.cancel();
+    // _gameSimulationTimer.cancel();
     return super.close();
   }
 }

@@ -6,6 +6,7 @@ class GameScreenState with _$GameScreenState {
     required int currentPoints,
     required int currentRound,
     required GameState gameState,
+    Duration? gameDuration,
     String? error,
     HandGesutre? currentHandValue,
     HandGesutre? userGesture,

@@ -2,7 +2,9 @@ import 'package:design_system/design_system.dart';
 import 'package:design_system/extensions/color_extensions.dart';
 import 'package:design_system/widgets/summary_widget.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:simon_ai/ui/game_screen/game_screen_cubit.dart';
 
 class FinishGameScreen extends StatelessWidget {
   const FinishGameScreen({super.key});
@@ -30,25 +32,67 @@ class FinishGameScreen extends StatelessWidget {
           Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              InformationSummary.gestures(
-                value: 12,
-                width: .11.sw,
-                showBorder: true,
-              ),
+              const _Gestures(),
               SizedBox(width: 20.w),
-              InformationSummary.points(
-                value: 120,
-                width: .11.sw,
-                showBorder: true,
-              ),
+              const _Points(),
               SizedBox(width: 20.w),
-              InformationSummary.time(
-                time: const Duration(minutes: 3),
-                width: .11.sw,
-                showBorder: true,
-              ),
+              const _Time(),
             ],
           ),
         ],
       );
+}
+
+class _Time extends StatelessWidget {
+  const _Time({
+    super.key,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    final Duration time = context.select(
+      (GameScreenCubit cubit) => cubit.state.gameDuration!,
+    );
+    return InformationSummary.time(
+      time: time,
+      width: .11.sw,
+      showBorder: true,
+    );
+  }
+}
+
+class _Points extends StatelessWidget {
+  const _Points({
+    super.key,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    final int points = context.select(
+      (GameScreenCubit cubit) => cubit.state.currentPoints,
+    );
+    return InformationSummary.points(
+      value: points,
+      width: .11.sw,
+      showBorder: true,
+    );
+  }
+}
+
+class _Gestures extends StatelessWidget {
+  const _Gestures({
+    super.key,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    final int gestures = context.select(
+      (GameScreenCubit cubit) => cubit.state.currentSequence!.length,
+    );
+    return InformationSummary.gestures(
+      value: gestures,
+      width: .11.sw,
+      showBorder: true,
+    );
+  }
 }

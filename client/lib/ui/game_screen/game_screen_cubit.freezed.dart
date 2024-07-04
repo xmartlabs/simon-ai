@@ -19,6 +19,7 @@ mixin _$GameScreenState {
   int get currentPoints => throw _privateConstructorUsedError;
   int get currentRound => throw _privateConstructorUsedError;
   GameState get gameState => throw _privateConstructorUsedError;
+  Duration? get gameDuration => throw _privateConstructorUsedError;
   String? get error => throw _privateConstructorUsedError;
   HandGesutre? get currentHandValue => throw _privateConstructorUsedError;
   HandGesutre? get userGesture => throw _privateConstructorUsedError;
@@ -30,6 +31,7 @@ mixin _$GameScreenState {
             int currentPoints,
             int currentRound,
             GameState gameState,
+            Duration? gameDuration,
             String? error,
             HandGesutre? currentHandValue,
             HandGesutre? userGesture,
@@ -44,6 +46,7 @@ mixin _$GameScreenState {
             int currentPoints,
             int currentRound,
             GameState gameState,
+            Duration? gameDuration,
             String? error,
             HandGesutre? currentHandValue,
             HandGesutre? userGesture,
@@ -58,6 +61,7 @@ mixin _$GameScreenState {
             int currentPoints,
             int currentRound,
             GameState gameState,
+            Duration? gameDuration,
             String? error,
             HandGesutre? currentHandValue,
             HandGesutre? userGesture,
@@ -99,6 +103,7 @@ abstract class $GameScreenStateCopyWith<$Res> {
       {int currentPoints,
       int currentRound,
       GameState gameState,
+      Duration? gameDuration,
       String? error,
       HandGesutre? currentHandValue,
       HandGesutre? userGesture,
@@ -122,6 +127,7 @@ class _$GameScreenStateCopyWithImpl<$Res, $Val extends GameScreenState>
     Object? currentPoints = null,
     Object? currentRound = null,
     Object? gameState = null,
+    Object? gameDuration = freezed,
     Object? error = freezed,
     Object? currentHandValue = freezed,
     Object? userGesture = freezed,
@@ -141,6 +147,10 @@ class _$GameScreenStateCopyWithImpl<$Res, $Val extends GameScreenState>
           ? _value.gameState
           : gameState // ignore: cast_nullable_to_non_nullable
               as GameState,
+      gameDuration: freezed == gameDuration
+          ? _value.gameDuration
+          : gameDuration // ignore: cast_nullable_to_non_nullable
+              as Duration?,
       error: freezed == error
           ? _value.error
           : error // ignore: cast_nullable_to_non_nullable
@@ -177,6 +187,7 @@ abstract class _$$InitialImplCopyWith<$Res>
       {int currentPoints,
       int currentRound,
       GameState gameState,
+      Duration? gameDuration,
       String? error,
       HandGesutre? currentHandValue,
       HandGesutre? userGesture,
@@ -198,6 +209,7 @@ class __$$InitialImplCopyWithImpl<$Res>
     Object? currentPoints = null,
     Object? currentRound = null,
     Object? gameState = null,
+    Object? gameDuration = freezed,
     Object? error = freezed,
     Object? currentHandValue = freezed,
     Object? userGesture = freezed,
@@ -217,6 +229,10 @@ class __$$InitialImplCopyWithImpl<$Res>
           ? _value.gameState
           : gameState // ignore: cast_nullable_to_non_nullable
               as GameState,
+      gameDuration: freezed == gameDuration
+          ? _value.gameDuration
+          : gameDuration // ignore: cast_nullable_to_non_nullable
+              as Duration?,
       error: freezed == error
           ? _value.error
           : error // ignore: cast_nullable_to_non_nullable
@@ -248,6 +264,7 @@ class _$InitialImpl implements _Initial {
       {required this.currentPoints,
       required this.currentRound,
       required this.gameState,
+      this.gameDuration,
       this.error,
       this.currentHandValue,
       this.userGesture,
@@ -261,6 +278,8 @@ class _$InitialImpl implements _Initial {
   final int currentRound;
   @override
   final GameState gameState;
+  @override
+  final Duration? gameDuration;
   @override
   final String? error;
   @override
@@ -281,7 +300,7 @@ class _$InitialImpl implements _Initial {
 
   @override
   String toString() {
-    return 'GameScreenState.initial(currentPoints: $currentPoints, currentRound: $currentRound, gameState: $gameState, error: $error, currentHandValue: $currentHandValue, userGesture: $userGesture, currentHandValueIndex: $currentHandValueIndex, currentSequence: $currentSequence)';
+    return 'GameScreenState.initial(currentPoints: $currentPoints, currentRound: $currentRound, gameState: $gameState, gameDuration: $gameDuration, error: $error, currentHandValue: $currentHandValue, userGesture: $userGesture, currentHandValueIndex: $currentHandValueIndex, currentSequence: $currentSequence)';
   }
 
   @override
@@ -295,6 +314,8 @@ class _$InitialImpl implements _Initial {
                 other.currentRound == currentRound) &&
             (identical(other.gameState, gameState) ||
                 other.gameState == gameState) &&
+            (identical(other.gameDuration, gameDuration) ||
+                other.gameDuration == gameDuration) &&
             (identical(other.error, error) || other.error == error) &&
             (identical(other.currentHandValue, currentHandValue) ||
                 other.currentHandValue == currentHandValue) &&
@@ -312,6 +333,7 @@ class _$InitialImpl implements _Initial {
       currentPoints,
       currentRound,
       gameState,
+      gameDuration,
       error,
       currentHandValue,
       userGesture,
@@ -331,6 +353,7 @@ class _$InitialImpl implements _Initial {
             int currentPoints,
             int currentRound,
             GameState gameState,
+            Duration? gameDuration,
             String? error,
             HandGesutre? currentHandValue,
             HandGesutre? userGesture,
@@ -338,7 +361,7 @@ class _$InitialImpl implements _Initial {
             List<HandGesutre>? currentSequence)
         initial,
   }) {
-    return initial(currentPoints, currentRound, gameState, error,
+    return initial(currentPoints, currentRound, gameState, gameDuration, error,
         currentHandValue, userGesture, currentHandValueIndex, currentSequence);
   }
 
@@ -349,6 +372,7 @@ class _$InitialImpl implements _Initial {
             int currentPoints,
             int currentRound,
             GameState gameState,
+            Duration? gameDuration,
             String? error,
             HandGesutre? currentHandValue,
             HandGesutre? userGesture,
@@ -356,8 +380,16 @@ class _$InitialImpl implements _Initial {
             List<HandGesutre>? currentSequence)?
         initial,
   }) {
-    return initial?.call(currentPoints, currentRound, gameState, error,
-        currentHandValue, userGesture, currentHandValueIndex, currentSequence);
+    return initial?.call(
+        currentPoints,
+        currentRound,
+        gameState,
+        gameDuration,
+        error,
+        currentHandValue,
+        userGesture,
+        currentHandValueIndex,
+        currentSequence);
   }
 
   @override
@@ -367,6 +399,7 @@ class _$InitialImpl implements _Initial {
             int currentPoints,
             int currentRound,
             GameState gameState,
+            Duration? gameDuration,
             String? error,
             HandGesutre? currentHandValue,
             HandGesutre? userGesture,
@@ -380,6 +413,7 @@ class _$InitialImpl implements _Initial {
           currentPoints,
           currentRound,
           gameState,
+          gameDuration,
           error,
           currentHandValue,
           userGesture,
@@ -423,6 +457,7 @@ abstract class _Initial implements GameScreenState {
       {required final int currentPoints,
       required final int currentRound,
       required final GameState gameState,
+      final Duration? gameDuration,
       final String? error,
       final HandGesutre? currentHandValue,
       final HandGesutre? userGesture,
@@ -435,6 +470,8 @@ abstract class _Initial implements GameScreenState {
   int get currentRound;
   @override
   GameState get gameState;
+  @override
+  Duration? get gameDuration;
   @override
   String? get error;
   @override

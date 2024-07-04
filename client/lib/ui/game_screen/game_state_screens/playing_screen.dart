@@ -1,8 +1,6 @@
 import 'dart:async';
 
 import 'package:flutter/widgets.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:simon_ai/ui/game_screen/game_screen_cubit.dart';
 
 class PlayingGameScreen extends StatefulWidget {
   const PlayingGameScreen({super.key});
@@ -17,10 +15,16 @@ class _PlayingGameScreenState extends State<PlayingGameScreen> {
   @override
   void initState() {
     timer = Timer(
-      const Duration(seconds: 5),
-      context.read<GameScreenCubit>().startCountdown,
+      const Duration(seconds: 30),
+      () => print('G'),
     );
     super.initState();
+  }
+
+  @override
+  void dispose() {
+    timer.cancel();
+    super.dispose();
   }
 
   @override

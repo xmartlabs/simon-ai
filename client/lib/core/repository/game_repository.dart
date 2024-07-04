@@ -22,20 +22,21 @@ class GameRepository {
   Future<void> takeSnapShot(HandGesutre gesture) async {
     addRecognizedGesture(gesture);
 
-    if (currentSequence.length == recognizedGestures.length) {
-      _sequenceController.add(SequenceStatus.complete);
-      recognizedGestures.clear();
-
-      return;
-    }
-    if (currentSequence[recognizedGestures.length] != recognizedGestures.last) {
+    if (recognizedGestures.isNotEmpty && !_isCorrectGesture()) {
       _sequenceController.add(SequenceStatus.wrong);
       recognizedGestures.clear();
     } else {
       _sequenceController.add(SequenceStatus.correct);
       points += 10;
     }
+    if (currentSequence.length == recognizedGestures.length) {
+      _sequenceController.add(SequenceStatus.complete);
+      recognizedGestures.clear();
+    }
   }
+
+  bool _isCorrectGesture() =>
+      currentSequence[recognizedGestures.length - 1] == recognizedGestures.last;
 
   void cacheCurrentSequence(List<HandGesutre> sequence) {
     currentSequence = sequence;
@@ -56,6 +57,8 @@ class GameRepository {
     currentSequence.clear();
     _sequenceController.add(SequenceStatus.complete);
   }
+
+  void clearRecognizedGestures() => recognizedGestures.clear();
 }
 
 enum SequenceStatus { correct, wrong, incomplete, complete }

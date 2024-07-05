@@ -7,68 +7,58 @@ import 'package:simon_ai/core/model/hand_gestures.dart';
 class GameRepository {
   final StreamController<HandGesutre> _gameController = BehaviorSubject();
 
+  final StreamController<GameResponse> _simulationController =
+      BehaviorSubject();
+
   final StreamController<SequenceStatus> _sequenceController =
       BehaviorSubject();
 
-  List<HandGesutre> recognizedGestures = [];
-
   int points = 0;
 
-  Stream<HandGesutre> get gameStream => _gameController.stream;
+  Stream<GameResponse> get gameStream => _simulationController.stream;
 
   Stream<SequenceStatus> get sequenceStream => _sequenceController.stream;
 
-  final Stream<HandGesutre> _fakeMokedGestures = Stream.fromIterable([
-    HandGesutre.A,
-    HandGesutre.B,
-    HandGesutre.C,
-    HandGesutre.D,
-  ]).asyncMap((gesture) async {
-    await Future.delayed(const Duration(seconds: 1));
-    return gesture;
-  });
+  Stream<HandGesutre> _fakeMokedGestures(List<HandGesutre> sequence) =>
+      Stream.fromIterable(sequence).asyncMap((gesture) async {
+        await Future.delayed(const Duration(milliseconds: 500));
+        return gesture;
+      });
 
-  // [A, A, B, A, B, C] // Esto es lo que tendroa que hacer
-  // [A, B, C] // Esto es lo que hace esta funcion
+  // currentSequence =[A, A, B, A, B, C] // Esto es lo que tendroa que hacer
+  // game sec = [A, B, C] // Esto es lo que hace esta funcion
 
-  Stream<GameResponse> startGame(List<HandGesutre> gameSequence) =>
-      _fakeMokedGestures.scan<List<HandGesutre>>(
-        (accumulated, value, index) => [...accumulated, value],
-        [],
-      ).map(
-        (currentSequence) => (
-          gesture: currentSequence.last,
-          points: points,
-          finishSequence: currentSequence.length == gameSequence.length,
-          isCorrect: gameSequence.startsWith(currentSequence),
-        ),
-      );
+  Stream startGame(List<HandGesutre> gameSequence) {
+    final realGameSequence = gameSequence
+        .map((gesture) => [gesture])
+        .fold<List<List<HandGesutre>>>([], (prev, element) {
+      final List<HandGesutre> newList =
+          prev.isEmpty ? element : [...prev.last, ...element];
+      return [...prev, newList];
+    }).flatten();
 
-  // Stream<bool> startGame(bool Function(List<HandGesutre>) secuenceComparator) =>
-  //     _fakeMokedGestures.scan<List<HandGesutre>>(
-  //       (accumulated, value, index) => [...accumulated, value],
-  //       [],
-  //     ).map((currentSequence) => secuenceComparator(currentSequence));
-
-// _gameSimulationStreamSubscription =
-//         Stream.fromIterable(state.currentSequence!).asyncMap((event) async {
-//       await Future.delayed(const Duration(seconds: 1));
-//       return event;
-//     }).listen((event) {
-//       _gameRepository.takeSnapShot(event);
-//     });
+    return _fakeMokedGestures(realGameSequence).scan<List<HandGesutre>>(
+      (accumulated, value, index) => [...accumulated, value],
+      [],
+    ).map(
+      (currentSequence) => (
+        gesture: currentSequence.last,
+        points: points,
+        finishSequence: currentSequence.length == gameSequence.length,
+        isCorrect: gameSequence.startsWith(currentSequence),
+      ),
+    );
+  }
 
   void dispose() {
     _gameController.close();
+    _simulationController.close();
   }
 
   void resetGame() {
-    recognizedGestures.clear();
     points = 0;
     _sequenceController.add(SequenceStatus.complete);
   }
-
-  void clearRecognizedGestures() => recognizedGestures.clear();
 }
 
 enum SequenceStatus { correct, wrong, incomplete, complete }

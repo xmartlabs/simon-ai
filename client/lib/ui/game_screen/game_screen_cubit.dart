@@ -13,9 +13,7 @@ part 'game_screen_state.dart';
 class GameScreenCubit extends Cubit<GameScreenState> {
   final GameRepository _gameRepository = DiProvider.get();
   late final StreamSubscription<GameResponse> _gameStreamSubscription;
-  late final StreamSubscription<HandGesutre> _gameSimulationStreamSubscription;
   late final StreamSubscription<SequenceStatus> _sequenceStreamSubscription;
-  late Timer _gameSimulationTimer;
   final Stopwatch _stopwatch = Stopwatch();
 
   GameScreenCubit()
@@ -31,13 +29,13 @@ class GameScreenCubit extends Cubit<GameScreenState> {
         ) {
     _stopwatch.start();
     Future.delayed(const Duration(seconds: 2), startCountdown);
+    _gameStreamSubscription = _gameRepository.gameStream.listen(_handleGame);
 
     _sequenceStreamSubscription =
         _gameRepository.sequenceStream.distinct().listen((event) {
       print(event);
 
       if (event == SequenceStatus.complete) {
-        _gameSimulationStreamSubscription.cancel();
         startCountdown();
       }
       if (event == SequenceStatus.wrong) {
@@ -103,8 +101,7 @@ class GameScreenCubit extends Cubit<GameScreenState> {
   }
 
   void startGame() {
-    _gameStreamSubscription =
-        _gameRepository.startGame(state.currentSequence!).listen(_handleGame);
+    _gameRepository.startGame(state.currentSequence!);
     emit(
       state.copyWith(
         gameState: GameState.playing,
@@ -115,15 +112,18 @@ class GameScreenCubit extends Cubit<GameScreenState> {
     );
   }
 
-  void _handleGame(event) {
+  void _handleGame(GameResponse event) {
+    print(event);
     if (event.isCorrect) {
       emit(
         state.copyWith(
+          currentHandValue: event.gesture,
+          currentHandValueIndex: state.currentHandValueIndex! + 1,
           currentPoints: state.currentPoints + 1,
         ),
       );
       if (event.finishSequence) {
-        startNewSequence();
+        startCountdown();
       }
     }
     if (!event.isCorrect) {
@@ -132,8 +132,8 @@ class GameScreenCubit extends Cubit<GameScreenState> {
   }
 
   void endGame() {
-    _gameSimulationTimer.cancel();
     _stopwatch.stop();
+    _gameStreamSubscription.cancel();
     emit(
       state.copyWith(
         gameState: GameState.ended,
@@ -160,7 +160,6 @@ class GameScreenCubit extends Cubit<GameScreenState> {
   Future<void> close() {
     _gameStreamSubscription.cancel();
     _sequenceStreamSubscription.cancel();
-    _gameSimulationStreamSubscription.cancel();
     // _gameSimulationTimer.cancel();
     return super.close();
   }

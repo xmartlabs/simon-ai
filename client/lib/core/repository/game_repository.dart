@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:math';
 
 import 'package:dartx/dartx.dart';
 import 'package:rxdart/rxdart.dart';
@@ -21,31 +22,39 @@ class GameRepository {
 
   Stream<HandGesutre> _fakeMokedGestures(List<HandGesutre> sequence) =>
       Stream.fromIterable(sequence).asyncMap((gesture) async {
-        await Future.delayed(const Duration(milliseconds: 500));
+        await Future.delayed(const Duration(milliseconds: 1000));
         return gesture;
       });
 
-  // currentSequence =[A, A, B, A, B, C] // Esto es lo que tendroa que hacer
-  // game sec = [A, B, C] // Esto es lo que hace esta funcion
+  HandGesutre getGestureAt(List<HandGesutre> gameSequence, int n) {
+    // Calcular el grupo
+    final int group = ((sqrt(8 * n + 1) - 1) ~/ 2).toInt();
+    // Calcular la posición del índice dentro del grupo
+    final int pos = n - (group * (group + 1)) ~/ 2;
+    // Obtener el carácter correspondiente
+    return gameSequence[pos];
+  }
 
-  Stream startGame(List<HandGesutre> gameSequence) {
-    final realGameSequence = gameSequence
-        .map((gesture) => [gesture])
-        .fold<List<List<HandGesutre>>>([], (prev, element) {
-      final List<HandGesutre> newList =
-          prev.isEmpty ? element : [...prev.last, ...element];
-      return [...prev, newList];
-    }).flatten();
+  Stream<GameResponse> startGame(List<HandGesutre> gameSequence) {
+    final aux = List.generate(
+      gameSequence.length,
+      (index) => gameSequence.sublist(0, index + 1),
+    );
 
-    return _fakeMokedGestures(realGameSequence).scan<List<HandGesutre>>(
+    return _fakeMokedGestures(aux.flatten()).scan<List<HandGesutre>>(
       (accumulated, value, index) => [...accumulated, value],
       [],
     ).map(
       (currentSequence) => (
         gesture: currentSequence.last,
-        points: points,
+        points: points += 5,
         finishSequence: currentSequence.length == gameSequence.length,
-        isCorrect: gameSequence.startsWith(currentSequence),
+        isCorrect: currentSequence.fold(
+          false,
+          (value, element) =>
+              element ==
+              getGestureAt(gameSequence, currentSequence.indexOf(element)),
+        ),
       ),
     );
   }

@@ -12,7 +12,7 @@ part 'game_screen_state.dart';
 
 class GameScreenCubit extends Cubit<GameScreenState> {
   final GameRepository _gameRepository = DiProvider.get();
-  late final StreamSubscription<GameResponse> _gameStreamSubscription;
+  late StreamSubscription<GameResponse> _gameStreamSubscription;
   late final StreamSubscription<SequenceStatus> _sequenceStreamSubscription;
   final Stopwatch _stopwatch = Stopwatch();
 
@@ -29,7 +29,6 @@ class GameScreenCubit extends Cubit<GameScreenState> {
         ) {
     _stopwatch.start();
     Future.delayed(const Duration(seconds: 2), startCountdown);
-    _gameStreamSubscription = _gameRepository.gameStream.listen(_handleGame);
 
     _sequenceStreamSubscription =
         _gameRepository.sequenceStream.distinct().listen((event) {
@@ -93,6 +92,7 @@ class GameScreenCubit extends Cubit<GameScreenState> {
   }
 
   void startCountdown() {
+    if (state.currentRound == _maxRounds) return endGame();
     emit(
       state.copyWith(
         gameState: GameState.countDown,
@@ -101,7 +101,8 @@ class GameScreenCubit extends Cubit<GameScreenState> {
   }
 
   void startGame() {
-    _gameRepository.startGame(state.currentSequence!);
+    _gameStreamSubscription =
+        _gameRepository.startGame(state.currentSequence!).listen(_handleGame);
     emit(
       state.copyWith(
         gameState: GameState.playing,
@@ -113,13 +114,12 @@ class GameScreenCubit extends Cubit<GameScreenState> {
   }
 
   void _handleGame(GameResponse event) {
-    print(event);
     if (event.isCorrect) {
       emit(
         state.copyWith(
           currentHandValue: event.gesture,
           currentHandValueIndex: state.currentHandValueIndex! + 1,
-          currentPoints: state.currentPoints + 1,
+          currentPoints: event.points,
         ),
       );
       if (event.finishSequence) {

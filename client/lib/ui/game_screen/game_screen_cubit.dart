@@ -13,7 +13,6 @@ part 'game_screen_state.dart';
 class GameScreenCubit extends Cubit<GameScreenState> {
   final GameRepository _gameRepository = DiProvider.get();
   late StreamSubscription<GameResponse> _gameStreamSubscription;
-  late final StreamSubscription<SequenceStatus> _sequenceStreamSubscription;
   final Stopwatch _stopwatch = Stopwatch();
 
   GameScreenCubit()
@@ -29,37 +28,12 @@ class GameScreenCubit extends Cubit<GameScreenState> {
         ) {
     _stopwatch.start();
     Future.delayed(const Duration(seconds: 2), startCountdown);
-
-    _sequenceStreamSubscription =
-        _gameRepository.sequenceStream.distinct().listen((event) {
-      print(event);
-
-      if (event == SequenceStatus.complete) {
-        startCountdown();
-      }
-      if (event == SequenceStatus.wrong) {
-        endGame();
-      }
-      if (event == SequenceStatus.correct) {
-        advanceSequence();
-        return;
-      }
-      if (event == SequenceStatus.incomplete) {
-        emit(
-          state.copyWith(
-            gameState: GameState.error,
-            error: 'Incomplete sequence',
-          ),
-        );
-      }
-    });
   }
   final int _maxRounds = 3;
 
   bool isLastHandGesture() =>
       state.currentHandValueIndex == state.currentSequence!.length - 1;
 
-//!Temporary, update to use better state transitions and different widgets
   void startNewSequence() {
     if (state.currentRound == _maxRounds) return endGame();
     final newSequence = [
@@ -159,8 +133,6 @@ class GameScreenCubit extends Cubit<GameScreenState> {
   @override
   Future<void> close() {
     _gameStreamSubscription.cancel();
-    _sequenceStreamSubscription.cancel();
-    // _gameSimulationTimer.cancel();
     return super.close();
   }
 }

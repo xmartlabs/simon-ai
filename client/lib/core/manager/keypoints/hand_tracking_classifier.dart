@@ -113,23 +113,10 @@ class HandTrackingClassifier {
   void _runModel(TensorImage inputImage) {
     final inputs = [inputImage.buffer];
 
-    outputs = <int, Object>{
-      // Output 0: Presence of a hand in the image. A float scalar value.
-      0: outputLocations.first.buffer,
-      // Output 1: 21 3D screen landmarks normalized by image size.
-      // Represented as a 1x63 tensor.Only valid when the presence score
-      // (Output 0) is above a certain threshold.
-      1: outputLocations[1].buffer,
-      // Output 2: Handedness of the predicted hand. A float scalar value.
-      // Only valid when the presence score (Output 0) is above a certain
-      // threshold.
-      2: outputLocations[2].buffer,
-      // Output 3: 21 3D world landmarks based on the GHUM hand model.
-      // Represented as a 1x63 tensor.
-      // Only valid when the presence score (Output 0) is above a
-      // certain threshold.
-      3: outputLocations[3].buffer,
-    };
+    outputs = Map.fromIterable(
+      Iterable.generate(outputLocations.length),
+      value: (index) => outputLocations[index].buffer,
+    );
     interpreter.runForMultipleInputs(inputs, outputs);
   }
 

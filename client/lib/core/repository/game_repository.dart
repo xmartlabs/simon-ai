@@ -6,19 +6,9 @@ import 'package:rxdart/rxdart.dart';
 import 'package:simon_ai/core/model/hand_gestures.dart';
 
 class GameRepository {
-  final StreamController<HandGesutre> _gameController = BehaviorSubject();
-
-  final StreamController<GameResponse> _simulationController =
-      BehaviorSubject();
-
-  final StreamController<SequenceStatus> _sequenceController =
-      BehaviorSubject();
-
   int points = 0;
 
-  Stream<GameResponse> get gameStream => _simulationController.stream;
-
-  Stream<SequenceStatus> get sequenceStream => _sequenceController.stream;
+  final _pointForSuccess = 5;
 
   Stream<HandGesutre> _fakeMokedGestures(List<HandGesutre> sequence) =>
       Stream.fromIterable(sequence).asyncMap((gesture) async {
@@ -27,11 +17,10 @@ class GameRepository {
       });
 
   HandGesutre getGestureAt(List<HandGesutre> gameSequence, int n) {
-    // Calcular el grupo
+    // Calculate numbers group
     final int group = ((sqrt(8 * n + 1) - 1) ~/ 2).toInt();
-    // Calcular la posición del índice dentro del grupo
+    // calculate index inside the group
     final int pos = n - (group * (group + 1)) ~/ 2;
-    // Obtener el carácter correspondiente
     return gameSequence[pos];
   }
 
@@ -47,7 +36,7 @@ class GameRepository {
     ).map(
       (currentSequence) => (
         gesture: currentSequence.last,
-        points: points += 5,
+        points: points += _pointForSuccess,
         finishSequence: currentSequence.length == gameSequence.length,
         isCorrect: currentSequence.fold(
           false,
@@ -58,19 +47,7 @@ class GameRepository {
       ),
     );
   }
-
-  void dispose() {
-    _gameController.close();
-    _simulationController.close();
-  }
-
-  void resetGame() {
-    points = 0;
-    _sequenceController.add(SequenceStatus.complete);
-  }
 }
-
-enum SequenceStatus { correct, wrong, incomplete, complete }
 
 typedef GameResponse = ({
   HandGesutre gesture,

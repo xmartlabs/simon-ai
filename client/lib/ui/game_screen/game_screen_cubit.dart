@@ -116,10 +116,6 @@ class GameScreenCubit extends Cubit<GameScreenState> {
     );
   }
 
-  int get currentRound => state.currentRound;
-
-  int get currentPoints => state.currentPoints;
-
   HandGesutre _generateRandomUniqueHandGesture() {
     HandGesutre randomLetter =
         HandGesutre.values[Random().nextInt(HandGesutre.values.length - 1)];

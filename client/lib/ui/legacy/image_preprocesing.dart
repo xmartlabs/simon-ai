@@ -1,3 +1,5 @@
+// ignore_for_file: unused-code
+
 import 'package:image/image.dart';
 
 extension ImagePreprocessing on Image {

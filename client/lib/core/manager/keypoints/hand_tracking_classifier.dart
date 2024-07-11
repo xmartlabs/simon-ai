@@ -6,7 +6,7 @@ import 'package:simon_ai/core/common/logger.dart';
 import 'package:simon_ai/core/manager/keypoints/keypoints_manager_mobile.dart';
 import 'package:simon_ai/gen/assets.gen.dart';
 import 'package:tflite_flutter/tflite_flutter.dart';
-import 'package:tflite_flutter_processing/tflite_flutter_processing.dart';
+import 'package:tflite_flutter_helper/tflite_flutter_helper.dart';
 
 class HandTrackingClassifier {
   final bool _logInit = true;

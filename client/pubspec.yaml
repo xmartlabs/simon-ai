@@ -46,7 +46,7 @@ dependencies:
   stack_trace: 1.11.1
   stock: 1.1.1
   tflite_flutter: 0.10.4
-  tflite_flutter_processing:
+  tflite_flutter_helper:
     git:
       url: https://github.com/xmartlabs/tflite_flutter_helper.git
       # TODO: change to master when PR merged

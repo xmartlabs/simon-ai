@@ -23,7 +23,7 @@ class OnboardingRoutes implements NavegableRoute {
           AutoRoute(
             initial: true,
             path: registerUserRoute,
-            page: CameraHandRoute.page,
+            page: RegisterUserRoute.page,
           ),
           AutoRoute(
             path: registerUsernameRoute,

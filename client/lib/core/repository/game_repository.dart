@@ -12,7 +12,7 @@ class GameRepository {
 
   Stream<HandGesutre> _fakeMokedGestures(List<HandGesutre> sequence) =>
       Stream.fromIterable(sequence).asyncMap((gesture) async {
-        await Future.delayed(const Duration(milliseconds: 1000));
+        await Future.delayed(const Duration(milliseconds: 2000));
         return gesture;
       });
 

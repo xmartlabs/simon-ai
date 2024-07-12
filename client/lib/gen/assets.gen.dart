@@ -35,10 +35,22 @@ class $AssetsImagesGen {
       [check, estrella, reloj, backgroundGreenProp, backgroundRedProp];
 }
 
+class $AssetsModelsGen {
+  const $AssetsModelsGen();
+
+  /// File path: assets/models/hand_landmarks_detector.tflite
+  String get handLandmarksDetector =>
+      'assets/models/hand_landmarks_detector.tflite';
+
+  /// List of all assets
+  List<String> get values => [handLandmarksDetector];
+}
+
 class Assets {
   Assets._();
 
   static const $AssetsImagesGen images = $AssetsImagesGen();
+  static const $AssetsModelsGen models = $AssetsModelsGen();
 }
 
 class AssetGenImage {

@@ -29,7 +29,7 @@ class GameScreenCubit extends Cubit<GameScreenState> {
     _stopwatch.start();
     Future.delayed(const Duration(seconds: 2), startCountdown);
   }
-  final int _maxRounds = 3;
+  final int _maxRounds = 5;
 
   bool isLastHandGesture() =>
       state.currentHandValueIndex == state.currentSequence!.length - 1;

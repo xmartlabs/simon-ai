@@ -1,11 +1,13 @@
 import 'dart:async';
 import 'dart:isolate';
 
+import 'package:flutter/services.dart';
 import 'package:simon_ai/core/common/logger.dart';
 import 'package:simon_ai/core/manager/keypoints/keypoints_manager.dart';
 import 'package:simon_ai/core/manager/keypoints/hand_tracking_classifier.dart';
 import 'package:simon_ai/core/manager/keypoints/hand_tracking_isolate.dart';
 import 'package:simon_ai/core/manager/keypoints/hand_tracking_points.dart';
+import 'package:simon_ai/gen/assets.gen.dart';
 
 typedef HandLandmarksData = ({
   double confidence,
@@ -46,11 +48,37 @@ class KeyPointsMobileManager implements KeyPointsManager {
     return (confidence: resultData.confidence, keyPoints: processedKeyPoints);
   }
 
+  Future<List<Anchor>> loadAnchorsFromCsv(String filePath) async {
+    final csvData = await rootBundle.loadString(filePath);
+    final List<Anchor> anchors = [];
+
+    final lines = csvData.split('\n');
+
+    for (final line in lines) {
+      final values = line.split(',');
+      if (values.length == 4) {
+        final anchor = (
+          x: double.parse(values.first),
+          y: double.parse(values[1]),
+          w: double.parse(values[2]),
+          h: double.parse(values[3]),
+        );
+        anchors.add(anchor);
+      }
+    }
+
+    return anchors;
+  }
+
   Future<HandLandmarksResultData> _inference(dynamic newFrame) async {
     final responsePort = ReceivePort();
+    final anchors = await loadAnchorsFromCsv(Assets.models.anchors);
     final IsolateData isolateData = (
       cameraImage: newFrame,
-      interpreterAddress: classifier.interpreter.address,
+      interpreterAddressList: classifier.interpreter
+          .map((interpreter) => interpreter.address)
+          .toList(),
+      anchors: anchors,
       responsePort: responsePort.sendPort
     );
     isolate.sendPort.send(isolateData);

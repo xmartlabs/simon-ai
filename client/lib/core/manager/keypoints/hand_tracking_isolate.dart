@@ -34,7 +34,10 @@ class HandTrackingIsolateUtils {
     port.listen((data) {
       if (data is IsolateData) {
         final classifier = HandTrackingClassifier(
-          interpreter: Interpreter.fromAddress(data.interpreterAddress),
+          interpreter: data.interpreterAddressList
+              .map((address) => Interpreter.fromAddress(address))
+              .toList(),
+          predefinedAnchors: data.anchors,
         );
         final stopwatch = Stopwatch()..start();
         var image = ImageUtils.convertCameraImage(data.cameraImage)!;
@@ -62,6 +65,7 @@ class HandTrackingIsolateUtils {
 /// Bundles data to pass between Isolate
 typedef IsolateData = ({
   CameraImage cameraImage,
-  int interpreterAddress,
+  List<int> interpreterAddressList,
+  List<Anchor> anchors,
   SendPort responsePort,
 });

@@ -292,13 +292,13 @@ class HandTrackingClassifier {
 
     const landmarksOutputDimensions = 63;
     // TODO correct calculations to remove this hardcoded correction
-    const positionYCorrection = 0.98;
+    const positionXCorrection = 0.98;
 
     for (var i = 0; i < landmarksOutputDimensions; i += 3) {
       x = ((data[0 + i] / models.handLandmarksDetector.inputSize) *
                   (cropData.w.clamp(0, image.width).toInt()) +
               cropData.x.clamp(0, max(0, image.width - cropData.w)).toInt()) *
-          positionYCorrection;
+          positionXCorrection;
       y = ((data[1 + i] / models.handLandmarksDetector.inputSize) *
               cropData.h.clamp(0, image.height).toInt()) +
           cropData.y.clamp(0, max(0, image.height - cropData.h)).toInt();

@@ -3,10 +3,10 @@ import 'dart:math';
 
 import 'package:image/image.dart' as img;
 import 'package:simon_ai/core/common/logger.dart';
-import 'package:simon_ai/core/manager/keypoints/image_utils.dart';
 import 'package:simon_ai/core/manager/keypoints/keypoints_manager_mobile.dart';
 import 'package:simon_ai/gen/assets.gen.dart';
 import 'package:tflite_flutter/tflite_flutter.dart';
+import 'package:tflite_flutter_helper/tflite_flutter_helper.dart';
 
 class HandTrackingClassifier {
   final bool _logInit = true;
@@ -19,7 +19,9 @@ class HandTrackingClassifier {
   Interpreter get interpreter => _interpreter;
 
   Map<int, Object> outputs = {};
-  late Tensor outputTensor;
+  late List<Tensor> outputTensors;
+  late List<TensorBufferFloat> outputLocations;
+  ImageProcessor? _imageProcessor;
 
   final stopwatch = Stopwatch();
 
@@ -28,7 +30,7 @@ class HandTrackingClassifier {
   }
 
   Future<Interpreter> _createModelInterpreter() {
-    final options = InterpreterOptions()..threads = 4;
+    final options = InterpreterOptions();
     if (Platform.isAndroid) {
       options.addDelegate(
         GpuDelegateV2(
@@ -48,10 +50,11 @@ class HandTrackingClassifier {
   Future<void> loadModel({Interpreter? interpreter}) async {
     try {
       _interpreter = interpreter ?? await _createModelInterpreter();
-
+      outputTensors = _interpreter.getOutputTensors();
+      outputLocations =
+          outputTensors.map((e) => TensorBufferFloat(e.shape)).toList();
       if (_logInit && interpreter == null) {
         final inputTensors = _interpreter.getInputTensors();
-        final outputTensors = _interpreter.getOutputTensors();
         for (final tensor in outputTensors) {
           Logger.d('Output Tensor: $tensor');
         }
@@ -60,7 +63,6 @@ class HandTrackingClassifier {
         }
         Logger.d('Interpreter loaded successfully');
       }
-      outputTensor = _interpreter.getOutputTensors().first;
     } catch (error) {
       Logger.e('Error while creating interpreter: $error', error);
     }
@@ -69,7 +71,8 @@ class HandTrackingClassifier {
   Future<HandLandmarksResultData> performOperations(img.Image image) async {
     stopwatch.start();
 
-    final inputImage = ImageUtils.getProcessedImage(image, modelInputSize);
+    final tensorImage = TensorImage(TensorType.float32)..loadImage(image);
+    final inputImage = getProcessedImage(tensorImage);
     stopwatch.stop();
     final processImageTime = stopwatch.elapsedMilliseconds;
 
@@ -89,43 +92,38 @@ class HandTrackingClassifier {
     return result;
   }
 
-  void _runModel(img.Image inputImage) {
-    final imageMatrix = List.generate(
-      inputImage.height,
-      (y) => List.generate(
-        inputImage.width,
-        (x) {
-          final pixel = inputImage.getPixel(x, y);
-          // Normalize pixel values to [0, 1]
-          return [pixel.r / 255.0, pixel.g / 255.0, pixel.b / 255.0];
-        },
-      ),
+  TensorImage getProcessedImage(TensorImage inputImage) {
+    final padSize = max(inputImage.height, inputImage.width);
+    _imageProcessor ??= ImageProcessorBuilder()
+        .add(ResizeWithCropOrPadOp(padSize, padSize))
+        .add(
+          ResizeOp(
+            modelInputSize,
+            modelInputSize,
+            ResizeMethod.NEAREST_NEIGHBOUR,
+          ),
+        )
+        // The model works with [0.0, 1.0] float normalized inputs
+        .add(NormalizeOp(0, 255.0))
+        .build();
+    inputImage = _imageProcessor!.process(inputImage);
+    return inputImage;
+  }
+
+  void _runModel(TensorImage inputImage) {
+    final inputs = [inputImage.buffer];
+
+    outputs = Map.fromIterable(
+      Iterable.generate(outputLocations.length),
+      value: (index) => outputLocations[index].buffer,
     );
-    final inputs = [imageMatrix];
-    outputs = <int, Object>{
-      // Output 0: Presence of a hand in the image. A float scalar value.
-      0: [List<double>.filled(outputTensor.shape[1], 0.0)],
-      // Output 1: 21 3D screen landmarks normalized by image size.
-      // Represented as a 1x63 tensor.Only valid when the presence score
-      // (Output 0) is above a certain threshold.
-      1: [List<double>.filled(outputTensor.shape.first, 0.0)],
-      // Output 2: Handedness of the predicted hand. A float scalar value.
-      // Only valid when the presence score (Output 0) is above a certain
-      // threshold.
-      2: [List<double>.filled(outputTensor.shape.first, 0.0)],
-      // Output 3: 21 3D world landmarks based on the GHUM hand model.
-      // Represented as a 1x63 tensor.
-      // Only valid when the presence score (Output 0) is above a
-      // certain threshold.
-      3: [List<double>.filled(outputTensor.shape[1], 0.0)],
-    };
-    interpreter.runForMultipleInputs([inputs], outputs);
+    interpreter.runForMultipleInputs(inputs, outputs);
   }
 
   HandLandmarksResultData parseLandmarkData(img.Image image) {
-    final data = (outputs.values.first as List<List<double>>).first;
-    final confidence =
-        (outputs.values.elementAt(1) as List<List<double>>).first.first;
+    final data = outputLocations.first.getDoubleList();
+    final confidence = outputLocations[2].getDoubleList().first;
+
     final result = <double>[];
     double x;
     double y;

@@ -5,12 +5,14 @@ import 'dart:io';
 import 'package:camera/camera.dart';
 import 'package:flutter/material.dart';
 import 'package:simon_ai/core/common/logger.dart';
+import 'package:simon_ai/ui/extensions/camera_extensions.dart';
 import 'package:simon_ai/ui/hand/hand_render_painter.dart';
 import 'package:simon_ai/ui/hand/hand_model_widget.dart';
 import 'package:simon_ai/ui/widgets/camera/camera_widget.dart';
 
 class CameraPlatformWidgetState extends State<CameraWidget>
     with WidgetsBindingObserver, HandModelWidgetState<CameraWidget> {
+  final resolutionPreset = ResolutionPreset.medium;
   CameraController? _cameraController;
 
   CameraPlatformWidgetState();
@@ -34,7 +36,7 @@ class CameraPlatformWidgetState extends State<CameraWidget>
       cameras.lastWhere(
         (camera) => camera.lensDirection == CameraLensDirection.front,
       ),
-      ResolutionPreset.medium,
+      resolutionPreset,
       enableAudio: false,
       imageFormatGroup: Platform.isAndroid
           ? ImageFormatGroup.yuv420
@@ -80,8 +82,10 @@ class CameraPlatformWidgetState extends State<CameraWidget>
       return Container();
     }
     return CustomPaint(
-      foregroundPainter:
-          HandRenderPainter(keypoints ?? (confidence: 0.0, keyPoints: [])),
+      foregroundPainter: HandRenderPainter(
+        keypointsData: keypoints ?? (confidence: 0.0, keyPoints: []),
+        imageSize: resolutionPreset.size,
+      ),
       child: CameraPreview(_cameraController!),
     );
   }

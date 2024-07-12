@@ -8,8 +8,9 @@ import 'package:simon_ai/core/manager/keypoints/keypoints_manager_mobile.dart';
 
 class HandRenderPainter extends CustomPainter {
   static const _drawKeypoints = Config.debugMode;
-  static const _scoreThreshold = 0.6;
+  static const _scoreThreshold = 0.8;
 
+  late Size imageSize;
   late HandLandmarksData keypointsData;
 
   final _pointGreen = Paint()
@@ -46,7 +47,7 @@ class HandRenderPainter extends CustomPainter {
     const Pair(HandLandmark.pinkyDip, HandLandmark.pinkyTip),
   ];
 
-  HandRenderPainter(this.keypointsData);
+  HandRenderPainter({required this.keypointsData, required this.imageSize});
 
   @override
   void paint(Canvas canvas, Size size) {
@@ -63,7 +64,7 @@ class HandRenderPainter extends CustomPainter {
   void drawKeyPoints(Canvas canvas, Size size) {
     final pointsGreen = <Offset>[];
     for (final point in keypointsData.keyPoints) {
-      pointsGreen.add(point.getOffset(size));
+      pointsGreen.add(point.getOffset(canvasSize: size, imageSize: imageSize));
     }
     canvas.drawPoints(PointMode.points, pointsGreen, _pointGreen);
   }
@@ -79,8 +80,10 @@ class HandRenderPainter extends CustomPainter {
     Paint paint,
   ) {
     canvas.drawLine(
-      keypointsData.keyPoints[line.first.index].getOffset(size),
-      keypointsData.keyPoints[line.second.index].getOffset(size),
+      keypointsData.keyPoints[line.first.index]
+          .getOffset(canvasSize: size, imageSize: imageSize),
+      keypointsData.keyPoints[line.second.index]
+          .getOffset(canvasSize: size, imageSize: imageSize),
       paint,
     );
   }

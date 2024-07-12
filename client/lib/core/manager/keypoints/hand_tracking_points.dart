@@ -32,5 +32,9 @@ typedef KeyPointData = ({
 });
 
 extension MoveNetPointDataExtensions on KeyPointData {
-  Offset getOffset(Size size) => Offset(x, y);
+  Offset getOffset({required Size canvasSize, required Size imageSize}) =>
+      Offset(
+        x / imageSize.width * canvasSize.width,
+        y / imageSize.height * canvasSize.height,
+      );
 }

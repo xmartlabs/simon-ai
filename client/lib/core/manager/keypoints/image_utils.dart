@@ -1,5 +1,4 @@
 import 'dart:io';
-import 'dart:math';
 
 import 'package:camera/camera.dart';
 import 'package:flutter/foundation.dart';
@@ -90,40 +89,5 @@ class ImageUtils {
     if (kDebugMode) {
       Logger.d('Saved $appPath/out$i.jpg');
     }
-  }
-
-  static img.Image getProcessedImage(img.Image inputImage, int modelInputSize) {
-    final padSize = max(inputImage.height, inputImage.width);
-
-    final paddedImage = img.Image(width: padSize, height: padSize);
-
-    final int offsetX = (padSize - inputImage.width) ~/ 2;
-    final int offsetY = (padSize - inputImage.height) ~/ 2;
-
-    for (int x = 0; x < inputImage.width; x++) {
-      for (int y = 0; y < inputImage.height; y++) {
-        final int paddedX = x + offsetX;
-        final int paddedY = y + offsetY;
-        if (paddedX < paddedImage.width && paddedY < paddedImage.height) {
-          final pixel = inputImage.getPixelSafe(x, y);
-          final color = img.ColorFloat16.rgba(
-            pixel.r.toInt(),
-            pixel.g.toInt(),
-            pixel.b.toInt(),
-            pixel.a.toInt(),
-          );
-          paddedImage.setPixel(paddedX, paddedY, color);
-        } else {
-          throw ArgumentError(
-            'Pixel coordinates are out of bounds for the padded image.',
-          );
-        }
-      }
-    }
-    return img.copyResize(
-      paddedImage,
-      width: modelInputSize,
-      height: modelInputSize,
-    );
   }
 }

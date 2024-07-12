@@ -21,7 +21,7 @@ class HandTrackingIsolateUtils {
     await Isolate.spawn<SendPort>(
       entryPoint,
       _receivePort.sendPort,
-      debugName: 'MoveNetIsolate',
+      debugName: 'HandClassifierIsolate',
     );
 
     _sendPort = await _receivePort.first;

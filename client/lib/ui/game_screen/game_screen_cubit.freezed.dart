@@ -21,10 +21,10 @@ mixin _$GameScreenState {
   GameState get gameState => throw _privateConstructorUsedError;
   Duration? get gameDuration => throw _privateConstructorUsedError;
   String? get error => throw _privateConstructorUsedError;
-  HandGesutre? get currentHandValue => throw _privateConstructorUsedError;
-  HandGesutre? get userGesture => throw _privateConstructorUsedError;
+  HandGesture? get currentHandValue => throw _privateConstructorUsedError;
+  HandGesture? get userGesture => throw _privateConstructorUsedError;
   int? get currentHandValueIndex => throw _privateConstructorUsedError;
-  List<HandGesutre>? get currentSequence => throw _privateConstructorUsedError;
+  List<HandGesture>? get currentSequence => throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
     required TResult Function(
@@ -33,10 +33,10 @@ mixin _$GameScreenState {
             GameState gameState,
             Duration? gameDuration,
             String? error,
-            HandGesutre? currentHandValue,
-            HandGesutre? userGesture,
+            HandGesture? currentHandValue,
+            HandGesture? userGesture,
             int? currentHandValueIndex,
-            List<HandGesutre>? currentSequence)
+            List<HandGesture>? currentSequence)
         initial,
   }) =>
       throw _privateConstructorUsedError;
@@ -48,10 +48,10 @@ mixin _$GameScreenState {
             GameState gameState,
             Duration? gameDuration,
             String? error,
-            HandGesutre? currentHandValue,
-            HandGesutre? userGesture,
+            HandGesture? currentHandValue,
+            HandGesture? userGesture,
             int? currentHandValueIndex,
-            List<HandGesutre>? currentSequence)?
+            List<HandGesture>? currentSequence)?
         initial,
   }) =>
       throw _privateConstructorUsedError;
@@ -63,10 +63,10 @@ mixin _$GameScreenState {
             GameState gameState,
             Duration? gameDuration,
             String? error,
-            HandGesutre? currentHandValue,
-            HandGesutre? userGesture,
+            HandGesture? currentHandValue,
+            HandGesture? userGesture,
             int? currentHandValueIndex,
-            List<HandGesutre>? currentSequence)?
+            List<HandGesture>? currentSequence)?
         initial,
     required TResult orElse(),
   }) =>
@@ -105,10 +105,10 @@ abstract class $GameScreenStateCopyWith<$Res> {
       GameState gameState,
       Duration? gameDuration,
       String? error,
-      HandGesutre? currentHandValue,
-      HandGesutre? userGesture,
+      HandGesture? currentHandValue,
+      HandGesture? userGesture,
       int? currentHandValueIndex,
-      List<HandGesutre>? currentSequence});
+      List<HandGesture>? currentSequence});
 }
 
 /// @nodoc
@@ -158,11 +158,11 @@ class _$GameScreenStateCopyWithImpl<$Res, $Val extends GameScreenState>
       currentHandValue: freezed == currentHandValue
           ? _value.currentHandValue
           : currentHandValue // ignore: cast_nullable_to_non_nullable
-              as HandGesutre?,
+              as HandGesture?,
       userGesture: freezed == userGesture
           ? _value.userGesture
           : userGesture // ignore: cast_nullable_to_non_nullable
-              as HandGesutre?,
+              as HandGesture?,
       currentHandValueIndex: freezed == currentHandValueIndex
           ? _value.currentHandValueIndex
           : currentHandValueIndex // ignore: cast_nullable_to_non_nullable
@@ -170,7 +170,7 @@ class _$GameScreenStateCopyWithImpl<$Res, $Val extends GameScreenState>
       currentSequence: freezed == currentSequence
           ? _value.currentSequence
           : currentSequence // ignore: cast_nullable_to_non_nullable
-              as List<HandGesutre>?,
+              as List<HandGesture>?,
     ) as $Val);
   }
 }
@@ -189,10 +189,10 @@ abstract class _$$InitialImplCopyWith<$Res>
       GameState gameState,
       Duration? gameDuration,
       String? error,
-      HandGesutre? currentHandValue,
-      HandGesutre? userGesture,
+      HandGesture? currentHandValue,
+      HandGesture? userGesture,
       int? currentHandValueIndex,
-      List<HandGesutre>? currentSequence});
+      List<HandGesture>? currentSequence});
 }
 
 /// @nodoc
@@ -240,11 +240,11 @@ class __$$InitialImplCopyWithImpl<$Res>
       currentHandValue: freezed == currentHandValue
           ? _value.currentHandValue
           : currentHandValue // ignore: cast_nullable_to_non_nullable
-              as HandGesutre?,
+              as HandGesture?,
       userGesture: freezed == userGesture
           ? _value.userGesture
           : userGesture // ignore: cast_nullable_to_non_nullable
-              as HandGesutre?,
+              as HandGesture?,
       currentHandValueIndex: freezed == currentHandValueIndex
           ? _value.currentHandValueIndex
           : currentHandValueIndex // ignore: cast_nullable_to_non_nullable
@@ -252,7 +252,7 @@ class __$$InitialImplCopyWithImpl<$Res>
       currentSequence: freezed == currentSequence
           ? _value._currentSequence
           : currentSequence // ignore: cast_nullable_to_non_nullable
-              as List<HandGesutre>?,
+              as List<HandGesture>?,
     ));
   }
 }
@@ -269,7 +269,7 @@ class _$InitialImpl implements _Initial {
       this.currentHandValue,
       this.userGesture,
       this.currentHandValueIndex,
-      final List<HandGesutre>? currentSequence})
+      final List<HandGesture>? currentSequence})
       : _currentSequence = currentSequence;
 
   @override
@@ -283,14 +283,14 @@ class _$InitialImpl implements _Initial {
   @override
   final String? error;
   @override
-  final HandGesutre? currentHandValue;
+  final HandGesture? currentHandValue;
   @override
-  final HandGesutre? userGesture;
+  final HandGesture? userGesture;
   @override
   final int? currentHandValueIndex;
-  final List<HandGesutre>? _currentSequence;
+  final List<HandGesture>? _currentSequence;
   @override
-  List<HandGesutre>? get currentSequence {
+  List<HandGesture>? get currentSequence {
     final value = _currentSequence;
     if (value == null) return null;
     if (_currentSequence is EqualUnmodifiableListView) return _currentSequence;
@@ -355,10 +355,10 @@ class _$InitialImpl implements _Initial {
             GameState gameState,
             Duration? gameDuration,
             String? error,
-            HandGesutre? currentHandValue,
-            HandGesutre? userGesture,
+            HandGesture? currentHandValue,
+            HandGesture? userGesture,
             int? currentHandValueIndex,
-            List<HandGesutre>? currentSequence)
+            List<HandGesture>? currentSequence)
         initial,
   }) {
     return initial(currentPoints, currentRound, gameState, gameDuration, error,
@@ -374,10 +374,10 @@ class _$InitialImpl implements _Initial {
             GameState gameState,
             Duration? gameDuration,
             String? error,
-            HandGesutre? currentHandValue,
-            HandGesutre? userGesture,
+            HandGesture? currentHandValue,
+            HandGesture? userGesture,
             int? currentHandValueIndex,
-            List<HandGesutre>? currentSequence)?
+            List<HandGesture>? currentSequence)?
         initial,
   }) {
     return initial?.call(
@@ -401,10 +401,10 @@ class _$InitialImpl implements _Initial {
             GameState gameState,
             Duration? gameDuration,
             String? error,
-            HandGesutre? currentHandValue,
-            HandGesutre? userGesture,
+            HandGesture? currentHandValue,
+            HandGesture? userGesture,
             int? currentHandValueIndex,
-            List<HandGesutre>? currentSequence)?
+            List<HandGesture>? currentSequence)?
         initial,
     required TResult orElse(),
   }) {
@@ -459,10 +459,10 @@ abstract class _Initial implements GameScreenState {
       required final GameState gameState,
       final Duration? gameDuration,
       final String? error,
-      final HandGesutre? currentHandValue,
-      final HandGesutre? userGesture,
+      final HandGesture? currentHandValue,
+      final HandGesture? userGesture,
       final int? currentHandValueIndex,
-      final List<HandGesutre>? currentSequence}) = _$InitialImpl;
+      final List<HandGesture>? currentSequence}) = _$InitialImpl;
 
   @override
   int get currentPoints;
@@ -475,13 +475,13 @@ abstract class _Initial implements GameScreenState {
   @override
   String? get error;
   @override
-  HandGesutre? get currentHandValue;
+  HandGesture? get currentHandValue;
   @override
-  HandGesutre? get userGesture;
+  HandGesture? get userGesture;
   @override
   int? get currentHandValueIndex;
   @override
-  List<HandGesutre>? get currentSequence;
+  List<HandGesture>? get currentSequence;
   @override
   @JsonKey(ignore: true)
   _$$InitialImplCopyWith<_$InitialImpl> get copyWith =>

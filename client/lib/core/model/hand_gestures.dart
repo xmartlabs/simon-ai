@@ -1,5 +1,5 @@
 //TODO: Update when the HandGesture model is created
-enum HandGesutre {
+enum HandGesture {
   A,
   B,
   C,

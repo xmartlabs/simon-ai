@@ -3,6 +3,7 @@ import 'dart:math';
 
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
+import 'package:rxdart/rxdart.dart';
 import 'package:simon_ai/core/di/di_provider.dart';
 import 'package:simon_ai/core/model/hand_gestures.dart';
 import 'package:simon_ai/core/repository/game_repository.dart';
@@ -50,6 +51,12 @@ class GameScreenCubit extends Cubit<GameScreenState> {
       ),
     );
   }
+
+  Stream<HandGesture> get currentSequenceStream =>
+      Stream.fromIterable(state.currentSequence!).asyncMap((gesture) async {
+        await Future.delayed(const Duration(milliseconds: 1500));
+        return gesture;
+      }).doOnDone(() => Future.delayed(const Duration(seconds: 3), startGame));
 
   int advanceSequence() {
     final currentHandValueIndex = state.currentHandValueIndex! + 1;
@@ -116,12 +123,12 @@ class GameScreenCubit extends Cubit<GameScreenState> {
     );
   }
 
-  HandGesutre _generateRandomUniqueHandGesture() {
-    HandGesutre randomLetter =
-        HandGesutre.values[Random().nextInt(HandGesutre.values.length - 1)];
+  HandGesture _generateRandomUniqueHandGesture() {
+    HandGesture randomLetter =
+        HandGesture.values[Random().nextInt(HandGesture.values.length - 1)];
     while (state.currentSequence!.contains(randomLetter)) {
       randomLetter =
-          HandGesutre.values[Random().nextInt(HandGesutre.values.length)];
+          HandGesture.values[Random().nextInt(HandGesture.values.length)];
     }
     return randomLetter;
   }

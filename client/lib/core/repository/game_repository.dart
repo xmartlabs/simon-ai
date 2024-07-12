@@ -10,13 +10,13 @@ class GameRepository {
 
   final _pointForSuccess = 5;
 
-  Stream<HandGesutre> _fakeMokedGestures(List<HandGesutre> sequence) =>
+  Stream<HandGesture> _fakeMokedGestures(List<HandGesture> sequence) =>
       Stream.fromIterable(sequence).asyncMap((gesture) async {
         await Future.delayed(const Duration(milliseconds: 2000));
         return gesture;
       });
 
-  HandGesutre getGestureAt(List<HandGesutre> gameSequence, int n) {
+  HandGesture getGestureAt(List<HandGesture> gameSequence, int n) {
     // Calculate numbers group
     final int group = ((sqrt(8 * n + 1) - 1) ~/ 2).toInt();
     // calculate index inside the group
@@ -24,13 +24,13 @@ class GameRepository {
     return gameSequence[pos];
   }
 
-  Stream<GameResponse> startGame(List<HandGesutre> gameSequence) {
+  Stream<GameResponse> startGame(List<HandGesture> gameSequence) {
     final aux = List.generate(
       gameSequence.length,
       (index) => gameSequence.sublist(0, index + 1),
     );
 
-    return _fakeMokedGestures(aux.flatten()).scan<List<HandGesutre>>(
+    return _fakeMokedGestures(aux.flatten()).scan<List<HandGesture>>(
       (accumulated, value, index) => [...accumulated, value],
       [],
     ).map(
@@ -50,7 +50,7 @@ class GameRepository {
 }
 
 typedef GameResponse = ({
-  HandGesutre gesture,
+  HandGesture gesture,
   int points,
   bool finishSequence,
   bool isCorrect,

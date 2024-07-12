@@ -7,24 +7,24 @@ void main() {
   test('Example test', () async {
     final gameRepository = GameRepository()
       ..startGame([
-        HandGesutre.A,
-        HandGesutre.B,
-        HandGesutre.C,
+        HandGesture.A,
+        HandGesture.B,
+        HandGesture.C,
       ]);
 
     final game = await gameRepository.startGame([
-      HandGesutre.A,
-      HandGesutre.B,
-      HandGesutre.C,
+      HandGesture.A,
+      HandGesture.B,
+      HandGesture.C,
     ]).scan((accumulated, value, index) => [...accumulated, value], []).last;
     final list = game.map((e) => e.gesture).toList();
     expect(list, [
-      HandGesutre.A,
-      HandGesutre.A,
-      HandGesutre.B,
-      HandGesutre.A,
-      HandGesutre.B,
-      HandGesutre.C,
+      HandGesture.A,
+      HandGesture.A,
+      HandGesture.B,
+      HandGesture.A,
+      HandGesture.B,
+      HandGesture.C,
     ]);
   });
 }

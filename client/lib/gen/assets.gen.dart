@@ -38,12 +38,18 @@ class $AssetsImagesGen {
 class $AssetsModelsGen {
   const $AssetsModelsGen();
 
+  /// File path: assets/models/anchors.csv
+  String get anchors => 'assets/models/anchors.csv';
+
+  /// File path: assets/models/hand_detector.tflite
+  String get handDetector => 'assets/models/hand_detector.tflite';
+
   /// File path: assets/models/hand_landmarks_detector.tflite
   String get handLandmarksDetector =>
       'assets/models/hand_landmarks_detector.tflite';
 
   /// List of all assets
-  List<String> get values => [handLandmarksDetector];
+  List<String> get values => [anchors, handDetector, handLandmarksDetector];
 }
 
 class Assets {

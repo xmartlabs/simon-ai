@@ -6,15 +6,15 @@ import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:rxdart/rxdart.dart';
 import 'package:simon_ai/core/di/di_provider.dart';
 import 'package:simon_ai/core/model/hand_gestures.dart';
-import 'package:simon_ai/core/repository/game_repository.dart';
+import 'package:simon_ai/core/repository/game_handler.dart';
 
 part 'game_screen_cubit.freezed.dart';
 part 'game_screen_state.dart';
 
 class GameScreenCubit extends Cubit<GameScreenState> {
-  final GameRepository _gameRepository = DiProvider.get();
+  final GameHandler _gameHandler = DiProvider.get();
   late StreamSubscription<GameResponse> _gameStreamSubscription;
-  final Stopwatch _stopwatch = Stopwatch();
+  final Stopwatch _gameDuration = Stopwatch();
 
   GameScreenCubit()
       : super(
@@ -27,7 +27,7 @@ class GameScreenCubit extends Cubit<GameScreenState> {
             currentHandValueIndex: 0,
           ),
         ) {
-    _stopwatch.start();
+    _gameDuration.start();
     Future.delayed(const Duration(seconds: 2), startCountdown);
   }
   final int _maxRounds = 5;
@@ -83,7 +83,7 @@ class GameScreenCubit extends Cubit<GameScreenState> {
 
   void startGame() {
     _gameStreamSubscription =
-        _gameRepository.startGame(state.currentSequence!).listen(_handleGame);
+        _gameHandler.startGame(state.currentSequence!).listen(_handleGame);
     emit(
       state.copyWith(
         gameState: GameState.playing,
@@ -113,15 +113,17 @@ class GameScreenCubit extends Cubit<GameScreenState> {
   }
 
   void endGame() {
-    _stopwatch.stop();
+    _gameDuration.stop();
     _gameStreamSubscription.cancel();
     emit(
       state.copyWith(
         gameState: GameState.ended,
-        gameDuration: _stopwatch.elapsed,
+        gameDuration: _gameDuration.elapsed,
       ),
     );
   }
+
+  Duration get gameDuration => _gameDuration.elapsed;
 
   HandGesture _generateRandomUniqueHandGesture() {
     HandGesture randomLetter =

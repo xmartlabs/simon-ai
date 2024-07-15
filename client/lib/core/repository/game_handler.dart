@@ -5,8 +5,8 @@ import 'package:dartx/dartx.dart';
 import 'package:rxdart/rxdart.dart';
 import 'package:simon_ai/core/model/hand_gestures.dart';
 
-class GameRepository {
-  int points = 0;
+class GameHandler {
+  int _points = 0;
 
   final _pointForSuccess = 5;
 
@@ -34,17 +34,20 @@ class GameRepository {
       (accumulated, value, index) => [...accumulated, value],
       [],
     ).map(
-      (currentSequence) => (
-        gesture: currentSequence.last,
-        points: points += _pointForSuccess,
-        finishSequence: currentSequence.length == gameSequence.length,
-        isCorrect: currentSequence.fold(
+      (currentSequence) {
+        final isCorrect = currentSequence.fold(
           false,
           (value, element) =>
               element ==
               getGestureAt(gameSequence, currentSequence.indexOf(element)),
-        ),
-      ),
+        );
+        return (
+          gesture: currentSequence.last,
+          points: isCorrect ? _points += _pointForSuccess : _points,
+          finishSequence: currentSequence.length == gameSequence.length,
+          isCorrect: isCorrect,
+        );
+      },
     );
   }
 }

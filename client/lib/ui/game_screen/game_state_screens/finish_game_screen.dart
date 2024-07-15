@@ -48,17 +48,16 @@ class _Time extends StatelessWidget {
     super.key,
   });
 
+  // final Duration time = context.select(
+  //   (GameScreenCubit cubit) => cubit.state.gameDuration!,
+  // );
+
   @override
-  Widget build(BuildContext context) {
-    final Duration time = context.select(
-      (GameScreenCubit cubit) => cubit.state.gameDuration!,
-    );
-    return InformationSummary.time(
-      time: time,
-      width: .11.sw,
-      showBorder: true,
-    );
-  }
+  Widget build(BuildContext context) => InformationSummary.time(
+        time: context.read<GameScreenCubit>().gameDuration,
+        width: .11.sw,
+        showBorder: true,
+      );
 }
 
 class _Points extends StatelessWidget {

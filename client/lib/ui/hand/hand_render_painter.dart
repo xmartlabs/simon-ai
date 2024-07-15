@@ -8,7 +8,7 @@ import 'package:simon_ai/core/manager/keypoints/keypoints_manager_mobile.dart';
 
 class HandRenderPainter extends CustomPainter {
   static const _drawKeypoints = Config.debugMode;
-  static const _scoreThreshold = 0.8;
+  static const _scoreThreshold = 0.6;
 
   late Size imageSize;
   late HandLandmarksData keypointsData;

@@ -3,10 +3,13 @@ import 'dart:isolate';
 
 import 'package:flutter/services.dart';
 import 'package:simon_ai/core/common/logger.dart';
-import 'package:simon_ai/core/manager/keypoints/keypoints_manager.dart';
-import 'package:simon_ai/core/manager/keypoints/hand_tracking_classifier.dart';
-import 'package:simon_ai/core/manager/keypoints/hand_tracking_isolate.dart';
-import 'package:simon_ai/core/manager/keypoints/hand_tracking_points.dart';
+import 'package:simon_ai/core/hand_models/hand_tracking/hand_tracking_classifier.dart';
+import 'package:simon_ai/core/hand_models/hand_tracking/hand_tracking_isolate.dart';
+import 'package:simon_ai/core/hand_models/hand_tracking/hand_tracking_points.dart';
+import 'package:simon_ai/core/hand_models/keypoints/keypoints_manager.dart';
+import 'package:simon_ai/core/interfaces/model_interface.dart';
+import 'package:simon_ai/core/model/anchor.dart';
+import 'package:simon_ai/core/model/hand_classifier_isolate_data.dart';
 import 'package:simon_ai/gen/assets.gen.dart';
 
 typedef HandLandmarksData = ({
@@ -20,7 +23,7 @@ typedef HandLandmarksResultData = ({
 });
 
 class KeyPointsMobileManager implements KeyPointsManager {
-  late HandTrackingClassifier classifier;
+  late ModelHandler classifier;
   late HandTrackingIsolateUtils isolate;
   var _currentFrame = 0;
   var _lastCurrentFrame = 0;
@@ -73,9 +76,9 @@ class KeyPointsMobileManager implements KeyPointsManager {
   Future<HandLandmarksResultData> _inference(dynamic newFrame) async {
     final responsePort = ReceivePort();
     final anchors = await loadAnchorsFromCsv(Assets.models.anchors);
-    final IsolateData isolateData = (
+    final HandClasifierIsolateData isolateData = (
       cameraImage: newFrame,
-      interpreterAddressList: classifier.interpreter
+      interpreterAddressList: classifier.interpreters
           .map((interpreter) => interpreter.address)
           .toList(),
       anchors: anchors,

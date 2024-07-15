@@ -1,13 +1,13 @@
 import 'dart:io';
 import 'dart:isolate';
 
-import 'package:camera/camera.dart';
 import 'package:image/image.dart' as img;
 import 'package:simon_ai/core/common/logger.dart';
-import 'package:simon_ai/core/manager/keypoints/image_utils.dart';
+import 'package:simon_ai/core/hand_models/hand_tracking/hand_tracking_classifier.dart';
+import 'package:simon_ai/core/hand_models/keypoints/image_utils.dart';
+import 'package:simon_ai/core/interfaces/model_interface.dart';
+import 'package:simon_ai/core/model/hand_classifier_isolate_data.dart';
 import 'package:tflite_flutter/tflite_flutter.dart';
-
-import 'package:simon_ai/core/manager/keypoints/hand_tracking_classifier.dart';
 
 class HandTrackingIsolateUtils {
   static const _logTimes = false;
@@ -32,9 +32,9 @@ class HandTrackingIsolateUtils {
     sendPort.send(port.sendPort);
 
     port.listen((data) {
-      if (data is IsolateData) {
-        final classifier = HandTrackingClassifier(
-          interpreter: data.interpreterAddressList
+      if (data is HandClasifierIsolateData) {
+        final ModelHandler classifier = HandTrackingClassifier(
+          interpreters: data.interpreterAddressList
               .map((address) => Interpreter.fromAddress(address))
               .toList(),
           predefinedAnchors: data.anchors,
@@ -61,11 +61,3 @@ class HandTrackingIsolateUtils {
     });
   }
 }
-
-/// Bundles data to pass between Isolate
-typedef IsolateData = ({
-  CameraImage cameraImage,
-  List<int> interpreterAddressList,
-  List<Anchor> anchors,
-  SendPort responsePort,
-});

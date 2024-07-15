@@ -3,32 +3,17 @@ import 'dart:math';
 
 import 'package:image/image.dart' as img;
 import 'package:simon_ai/core/common/logger.dart';
-import 'package:simon_ai/core/manager/keypoints/keypoints_manager_mobile.dart';
+import 'package:simon_ai/core/hand_models/keypoints/keypoints_manager_mobile.dart';
+import 'package:simon_ai/core/interfaces/model_interface.dart';
+import 'package:simon_ai/core/model/anchor.dart';
+import 'package:simon_ai/core/model/hand_classifier_model_data.dart';
+import 'package:simon_ai/core/model/hand_detector_result_data.dart';
 import 'package:simon_ai/gen/assets.gen.dart';
 import 'package:tflite_flutter/tflite_flutter.dart';
 import 'package:tflite_flutter_helper/tflite_flutter_helper.dart';
 
-typedef Anchor = ({double x, double y, double w, double h});
-
-typedef HandDetectorResultData = ({
-  double confidence,
-  double x,
-  double y,
-  double w,
-  double h,
-});
-
-typedef ModelMetadata = ({
-  String path,
-  int inputSize,
-});
-
-extension ModelMetadataExtension on List<ModelMetadata> {
-  ModelMetadata get handDetector => first;
-  ModelMetadata get handLandmarksDetector => this[1];
-}
-
-class HandTrackingClassifier {
+class HandTrackingClassifier
+    implements ModelHandler<img.Image, HandLandmarksResultData> {
   final bool _logInit = true;
   final bool _logResultTime = false;
 
@@ -37,8 +22,9 @@ class HandTrackingClassifier {
     (path: Assets.models.handLandmarksDetector, inputSize: 224),
   ];
 
-  late List<Interpreter> _interpreter;
-  List<Interpreter> get interpreter => _interpreter;
+  late List<Interpreter> _interpreters;
+  @override
+  List<Interpreter> get interpreters => _interpreters;
 
   Map<int, Object> outputs = {};
   late List<TensorBufferFloat> handDetectorOutputLocations;
@@ -50,10 +36,10 @@ class HandTrackingClassifier {
   final stopwatch = Stopwatch();
 
   HandTrackingClassifier({
-    List<Interpreter>? interpreter,
+    List<Interpreter>? interpreters,
     this.predefinedAnchors,
   }) {
-    loadModel(interpreter: interpreter);
+    loadModel(interpreter: interpreters);
   }
 
   Future<List<Interpreter>> _createModelInterpreter() {
@@ -78,11 +64,12 @@ class HandTrackingClassifier {
   List<double> normalizeScores(List<double> scores) =>
       scores.map((score) => 1 / (1 + exp(-score))).toList();
 
+  @override
   Future<void> loadModel({List<Interpreter>? interpreter}) async {
     try {
-      _interpreter = interpreter ?? await _createModelInterpreter();
-      final outputHandDetectorTensors = _interpreter.first.getOutputTensors();
-      final outputHandTrackingTensors = _interpreter[1].getOutputTensors();
+      _interpreters = interpreter ?? await _createModelInterpreter();
+      final outputHandDetectorTensors = _interpreters.first.getOutputTensors();
+      final outputHandTrackingTensors = _interpreters[1].getOutputTensors();
 
       handDetectorOutputLocations = outputHandDetectorTensors
           .map((e) => TensorBufferFloat(e.shape))
@@ -91,8 +78,8 @@ class HandTrackingClassifier {
           .map((e) => TensorBufferFloat(e.shape))
           .toList();
       if (_logInit && interpreter == null) {
-        final handDetectorInputTensors = _interpreter.first.getInputTensors();
-        final handTrackingInputTensors = _interpreter[1].getInputTensors();
+        final handDetectorInputTensors = _interpreters.first.getInputTensors();
+        final handTrackingInputTensors = _interpreters[1].getInputTensors();
         for (final tensor in outputHandDetectorTensors) {
           Logger.d('Hand Detector Output Tensor: $tensor');
         }
@@ -112,6 +99,7 @@ class HandTrackingClassifier {
     }
   }
 
+  @override
   Future<HandLandmarksResultData> performOperations(img.Image image) async {
     stopwatch.start();
 
@@ -265,7 +253,7 @@ class HandTrackingClassifier {
       Iterable.generate(handTrackingOutputLocations.length),
       value: (index) => handTrackingOutputLocations[index].buffer,
     );
-    interpreter[1].runForMultipleInputs(inputs, outputs);
+    interpreters[1].runForMultipleInputs(inputs, outputs);
   }
 
   void _runHandDetectorModel(TensorImage inputImage) {
@@ -275,7 +263,7 @@ class HandTrackingClassifier {
       Iterable.generate(handDetectorOutputLocations.length),
       value: (index) => handDetectorOutputLocations[index].buffer,
     );
-    interpreter.first.runForMultipleInputs(inputs, outputs);
+    interpreters.first.runForMultipleInputs(inputs, outputs);
   }
 
   HandLandmarksResultData parseLandmarkData(

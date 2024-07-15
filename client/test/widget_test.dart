@@ -1,13 +1,13 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:rxdart/rxdart.dart';
 import 'package:simon_ai/core/model/hand_gestures.dart';
-import 'package:simon_ai/core/repository/game_handler.dart';
+import 'package:simon_ai/core/repository/game_manager.dart';
 
 void main() {
   test(
       'Game correct sequence simulation test. '
       'Input: A, B, C. Output: A, A, B, A, B, C ', () async {
-    final gameHandler = GameHandler()
+    final gameHandler = GameManager()
       ..startGame([
         HandGesture.A,
         HandGesture.B,

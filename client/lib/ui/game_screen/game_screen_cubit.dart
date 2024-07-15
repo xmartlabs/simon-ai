@@ -6,13 +6,13 @@ import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:rxdart/rxdart.dart';
 import 'package:simon_ai/core/di/di_provider.dart';
 import 'package:simon_ai/core/model/hand_gestures.dart';
-import 'package:simon_ai/core/repository/game_handler.dart';
+import 'package:simon_ai/core/repository/game_manager.dart';
 
 part 'game_screen_cubit.freezed.dart';
 part 'game_screen_state.dart';
 
 class GameScreenCubit extends Cubit<GameScreenState> {
-  final GameHandler _gameHandler = DiProvider.get();
+  final GameManager _gameHandler = DiProvider.get();
   late StreamSubscription<GameResponse> _gameStreamSubscription;
   final Stopwatch _gameDuration = Stopwatch();
 
@@ -22,7 +22,6 @@ class GameScreenCubit extends Cubit<GameScreenState> {
             currentPoints: 0,
             currentSequence: [],
             currentRound: 0,
-            gameDuration: Duration.zero,
             gameState: GameState.initial,
             currentHandValueIndex: 0,
           ),
@@ -53,10 +52,11 @@ class GameScreenCubit extends Cubit<GameScreenState> {
   }
 
   Stream<HandGesture> get currentSequenceStream =>
-      Stream.fromIterable(state.currentSequence!).asyncMap((gesture) async {
-        await Future.delayed(const Duration(milliseconds: 1500));
-        return gesture;
-      }).doOnDone(() => Future.delayed(const Duration(seconds: 3), startGame));
+      Stream.fromIterable(state.currentSequence!)
+          .delay(const Duration(milliseconds: 1500))
+          .doOnDone(
+            () => Future.delayed(const Duration(seconds: 3), startGame),
+          );
 
   int advanceSequence() {
     final currentHandValueIndex = state.currentHandValueIndex! + 1;
@@ -118,7 +118,6 @@ class GameScreenCubit extends Cubit<GameScreenState> {
     emit(
       state.copyWith(
         gameState: GameState.ended,
-        gameDuration: _gameDuration.elapsed,
       ),
     );
   }

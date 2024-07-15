@@ -5,16 +5,13 @@ import 'package:dartx/dartx.dart';
 import 'package:rxdart/rxdart.dart';
 import 'package:simon_ai/core/model/hand_gestures.dart';
 
-class GameHandler {
+class GameManager {
   int _points = 0;
 
   final _pointForSuccess = 5;
 
   Stream<HandGesture> _fakeMokedGestures(List<HandGesture> sequence) =>
-      Stream.fromIterable(sequence).asyncMap((gesture) async {
-        await Future.delayed(const Duration(milliseconds: 2000));
-        return gesture;
-      });
+      Stream.fromIterable(sequence).delay(const Duration(seconds: 2));
 
   HandGesture getGestureAt(List<HandGesture> gameSequence, int n) {
     // Calculate numbers group
@@ -25,12 +22,12 @@ class GameHandler {
   }
 
   Stream<GameResponse> startGame(List<HandGesture> gameSequence) {
-    final aux = List.generate(
+    final simulation = List.generate(
       gameSequence.length,
       (index) => gameSequence.sublist(0, index + 1),
     );
 
-    return _fakeMokedGestures(aux.flatten()).scan<List<HandGesture>>(
+    return _fakeMokedGestures(simulation.flatten()).scan<List<HandGesture>>(
       (accumulated, value, index) => [...accumulated, value],
       [],
     ).map(

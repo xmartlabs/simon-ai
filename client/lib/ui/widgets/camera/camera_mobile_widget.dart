@@ -6,8 +6,8 @@ import 'package:camera/camera.dart';
 import 'package:flutter/material.dart';
 import 'package:simon_ai/core/common/logger.dart';
 import 'package:simon_ai/ui/extensions/camera_extensions.dart';
-import 'package:simon_ai/ui/hand/hand_render_painter.dart';
 import 'package:simon_ai/ui/hand/hand_model_widget.dart';
+import 'package:simon_ai/ui/hand/hand_render_painter.dart';
 import 'package:simon_ai/ui/widgets/camera/camera_widget.dart';
 
 class CameraPlatformWidgetState extends State<CameraWidget>

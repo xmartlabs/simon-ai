@@ -1,28 +1,41 @@
-import 'dart:async';
-
 import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:simon_ai/ui/game_screen/game_screen_cubit.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:simon_ai/ui/camera_hand/camera_hand_cubit.dart';
+import 'package:simon_ai/ui/widgets/camera/camera_widget.dart';
 
-class PlayingGameScreen extends StatefulWidget {
+class PlayingGameScreen extends StatelessWidget {
   const PlayingGameScreen({super.key});
 
   @override
-  State<PlayingGameScreen> createState() => _PlayingGameScreenState();
+  Widget build(BuildContext context) => BlocProvider(
+        create: (_) => CameraHandCubit(),
+        child: const _CameraContent(),
+      );
 }
 
-class _PlayingGameScreenState extends State<PlayingGameScreen> {
-  late final Timer timer;
+class _CameraContent extends StatelessWidget {
+  const _CameraContent({
+    super.key,
+  });
 
   @override
-  void initState() {
-    timer = Timer(
-      const Duration(seconds: 5),
-      context.read<GameScreenCubit>().startCountdown,
-    );
-    super.initState();
-  }
-
-  @override
-  Widget build(BuildContext context) => Container();
+  Widget build(BuildContext context) =>
+      BlocBuilder<CameraHandCubit, CameraHandState>(
+        builder: (context, state) => Transform.scale(
+          scaleX: .92,
+          scaleY: .85,
+          child: ClipRRect(
+            borderRadius: BorderRadius.circular(32),
+            child: CameraWidget(
+              width: 1.sw,
+              height: 1.sh,
+              enableBorderRadius: true,
+              onNewFrame: (dynamic frame) =>
+                  context.read<CameraHandCubit>().onNewFrame(frame),
+              movenetStream: state.movenetResultStream,
+            ),
+          ),
+        ),
+      );
 }

@@ -33,10 +33,9 @@ class KeyPointsMobileManager implements KeyPointsManager {
     isolate = HandTrackingIsolateUtils();
     await isolate.start();
     classifier = HandTrackingClassifier();
-
     Timer.periodic(const Duration(seconds: 1), (timer) {
       final currentFrame = _currentFrame;
-      Logger.d('FPS: ${currentFrame - _lastCurrentFrame}');
+      Logger.i('FPS: ${currentFrame - _lastCurrentFrame}');
       _lastCurrentFrame = currentFrame;
     });
   }

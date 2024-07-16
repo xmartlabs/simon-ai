@@ -3,10 +3,10 @@ import 'dart:isolate';
 
 import 'package:flutter/services.dart';
 import 'package:simon_ai/core/common/logger.dart';
-import 'package:simon_ai/core/manager/keypoints/keypoints_manager.dart';
 import 'package:simon_ai/core/manager/keypoints/hand_tracking_classifier.dart';
 import 'package:simon_ai/core/manager/keypoints/hand_tracking_isolate.dart';
 import 'package:simon_ai/core/manager/keypoints/hand_tracking_points.dart';
+import 'package:simon_ai/core/manager/keypoints/keypoints_manager.dart';
 import 'package:simon_ai/gen/assets.gen.dart';
 
 typedef HandLandmarksData = ({
@@ -30,10 +30,9 @@ class KeyPointsMobileManager implements KeyPointsManager {
     isolate = HandTrackingIsolateUtils();
     await isolate.start();
     classifier = HandTrackingClassifier();
-
     Timer.periodic(const Duration(seconds: 1), (timer) {
       final currentFrame = _currentFrame;
-      Logger.d('FPS: ${currentFrame - _lastCurrentFrame}');
+      Logger.i('FPS: ${currentFrame - _lastCurrentFrame}');
       _lastCurrentFrame = currentFrame;
     });
   }

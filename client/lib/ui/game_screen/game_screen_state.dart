@@ -7,10 +7,10 @@ class GameScreenState with _$GameScreenState {
     required int currentRound,
     required GameState gameState,
     String? error,
-    HandGesutre? currentHandValue,
-    HandGesutre? userGesture,
+    HandGesture? currentHandValue,
+    HandGesture? userGesture,
     int? currentHandValueIndex,
-    List<HandGesutre>? currentSequence,
+    List<HandGesture>? currentSequence,
   }) = _Initial;
 }
 

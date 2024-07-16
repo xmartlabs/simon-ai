@@ -1,4 +1,5 @@
 import 'dart:async';
+
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:simon_ai/core/di/di_provider.dart';
@@ -6,9 +7,8 @@ import 'package:simon_ai/core/manager/keypoints/keypoints_manager.dart';
 import 'package:simon_ai/core/manager/keypoints/keypoints_manager_mobile.dart';
 import 'package:simon_ai/ui/extensions/stream_extensions.dart';
 
-part 'camera_hand_state.dart';
-
 part 'camera_hand_cubit.freezed.dart';
+part 'camera_hand_state.dart';
 
 class CameraHandCubit extends Cubit<CameraHandState> {
   final KeyPointsManager _keyPointsManager = DiProvider.get();

@@ -3,6 +3,7 @@ import 'dart:isolate';
 
 import 'package:image/image.dart' as img;
 import 'package:simon_ai/core/common/logger.dart';
+import 'package:simon_ai/core/hand_models/hand_detector/hand_detector_classifier.dart';
 import 'package:simon_ai/core/hand_models/hand_tracking/hand_tracking_classifier.dart';
 import 'package:simon_ai/core/hand_models/keypoints/image_utils.dart';
 import 'package:simon_ai/core/interfaces/model_interface.dart';
@@ -33,7 +34,13 @@ class HandTrackingIsolateUtils {
 
     port.listen((data) {
       if (data is HandClasifierIsolateData) {
-        final ModelHandler classifier = HandTrackingClassifier(
+        final ModelHandler handTrackingClassifier = HandTrackingClassifier(
+          interpreters: data.interpreterAddressList
+              .map((address) => Interpreter.fromAddress(address))
+              .toList(),
+          predefinedAnchors: data.anchors,
+        );
+        final ModelHandler handDetectorClassifier = HandDetectorClassifier(
           interpreters: data.interpreterAddressList
               .map((address) => Interpreter.fromAddress(address))
               .toList(),
@@ -48,16 +55,32 @@ class HandTrackingIsolateUtils {
         stopwatch.stop();
         final elapsedToProcessImage = stopwatch.elapsedMilliseconds;
         stopwatch.start();
-
-        classifier.performOperations(image).then((result) {
-          data.responsePort.send(result);
-
+        _processModels(
+          handDetectorClassifier,
+          image,
+          handTrackingClassifier,
+          data,
+        ).then((_) {
           if (_logTimes) {
             Logger.d('Process image $elapsedToProcessImage ms, process model '
                 '${stopwatch.elapsedMilliseconds}ms');
           }
+          stopwatch.stop();
         });
       }
     });
   }
+
+  static Future<void> _processModels(
+    ModelHandler handDetectorClassifier,
+    img.Image image,
+    ModelHandler handTrackingClassifier,
+    HandClasifierIsolateData data,
+  ) =>
+      handDetectorClassifier.performOperations(image).then((result) {
+        handTrackingClassifier
+            .performOperations((image, result)).then((result) {
+          data.responsePort.send(result);
+        });
+      });
 }

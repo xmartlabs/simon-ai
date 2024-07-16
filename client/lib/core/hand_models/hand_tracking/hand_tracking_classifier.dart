@@ -67,15 +67,13 @@ class HandTrackingClassifier
   Future<void> loadModel({List<Interpreter>? interpreter}) async {
     try {
       _interpreters = interpreter ?? await _createModelInterpreter();
-      //TODO: Separate in two models
-      final outputHandTrackingTensors = _interpreters[1].getOutputTensors();
+      final outputHandTrackingTensors = _interpreters.first.getOutputTensors();
 
       handTrackingOutputLocations = outputHandTrackingTensors
           .map((e) => TensorBufferFloat(e.shape))
           .toList();
       if (_logInit && interpreter == null) {
-        //TODO: Separate in two models
-        final handTrackingInputTensors = _interpreters[1].getInputTensors();
+        final handTrackingInputTensors = _interpreters.first.getInputTensors();
 
         for (final tensor in outputHandTrackingTensors) {
           Logger.d('Hand Tracking Output Tensor: $tensor');

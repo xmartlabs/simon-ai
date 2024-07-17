@@ -65,21 +65,17 @@ class HandDetectorClassifier
     try {
       _interpreters = interpreter ?? await _createModelInterpreter();
       final outputHandDetectorTensors = _interpreters.first.getOutputTensors();
-
       handDetectorOutputLocations = outputHandDetectorTensors
           .map((e) => TensorBufferFloat(e.shape))
           .toList();
-
       if (_logInit && interpreter == null) {
         final handDetectorInputTensors = _interpreters.first.getInputTensors();
         for (final tensor in outputHandDetectorTensors) {
           Logger.d('Hand Detector Output Tensor: $tensor');
         }
-
         for (final tensor in handDetectorInputTensors) {
           Logger.d('Input Hand Detector Tensor: $tensor');
         }
-
         Logger.d('Interpreter loaded successfully');
       }
     } catch (error) {

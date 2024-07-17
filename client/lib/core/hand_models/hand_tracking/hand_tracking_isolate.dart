@@ -6,8 +6,10 @@ import 'package:simon_ai/core/common/logger.dart';
 import 'package:simon_ai/core/hand_models/hand_detector/hand_detector_classifier.dart';
 import 'package:simon_ai/core/hand_models/hand_tracking/hand_tracking_classifier.dart';
 import 'package:simon_ai/core/hand_models/keypoints/image_utils.dart';
+import 'package:simon_ai/core/hand_models/keypoints/keypoints_manager_mobile.dart';
 import 'package:simon_ai/core/interfaces/model_interface.dart';
 import 'package:simon_ai/core/model/hand_classifier_isolate_data.dart';
+import 'package:simon_ai/core/model/hand_detector_result_data.dart';
 import 'package:tflite_flutter/tflite_flutter.dart';
 
 class HandTrackingIsolateUtils {
@@ -34,13 +36,15 @@ class HandTrackingIsolateUtils {
 
     port.listen((data) {
       if (data is HandClasifierIsolateData) {
-        final ModelHandler handTrackingClassifier = HandTrackingClassifier(
+        final ModelHandler<HandTrackingInput, HandLandmarksResultData>
+            handTrackingClassifier = HandTrackingClassifier(
           interpreters: [
             Interpreter.fromAddress(data.interpreterAddressList.first),
           ],
           predefinedAnchors: data.anchors,
         );
-        final ModelHandler handDetectorClassifier = HandDetectorClassifier(
+        final ModelHandler<img.Image, HandDetectorResultData>
+            handDetectorClassifier = HandDetectorClassifier(
           interpreters: [
             Interpreter.fromAddress(data.interpreterAddressList.last),
           ],
@@ -72,16 +76,16 @@ class HandTrackingIsolateUtils {
   }
 
   static Future<void> _processModels(
-    ModelHandler handDetectorClassifier,
+    ModelHandler<img.Image, HandDetectorResultData> handDetectorClassifier,
     img.Image image,
-    ModelHandler handTrackingClassifier,
+    ModelHandler<HandTrackingInput, HandLandmarksResultData>
+        handTrackingClassifier,
     HandClasifierIsolateData data,
   ) async {
     final handDetector = await handDetectorClassifier.performOperations(image);
-    final aux = await handTrackingClassifier
+    return handTrackingClassifier
         .performOperations((image, handDetector)).then((result) {
       data.responsePort.send(result);
     });
-    return aux;
   }
 }

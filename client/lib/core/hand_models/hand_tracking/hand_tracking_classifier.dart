@@ -12,10 +12,10 @@ import 'package:simon_ai/gen/assets.gen.dart';
 import 'package:tflite_flutter/tflite_flutter.dart';
 import 'package:tflite_flutter_helper/tflite_flutter_helper.dart';
 
+typedef HandTrackingInput = (img.Image, HandDetectorResultData);
+
 class HandTrackingClassifier
-    implements
-        ModelHandler<(img.Image, HandDetectorResultData),
-            HandLandmarksResultData> {
+    implements ModelHandler<HandTrackingInput, HandLandmarksResultData> {
   final bool _logInit = true;
   final bool _logResultTime = false;
 
@@ -91,7 +91,7 @@ class HandTrackingClassifier
 
   @override
   Future<HandLandmarksResultData> performOperations(
-    (img.Image image, HandDetectorResultData data) input,
+    HandTrackingInput input,
   ) async {
     stopwatch.start();
     final handTrackingTensorImage = TensorImage(TensorType.float32)

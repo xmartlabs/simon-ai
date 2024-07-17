@@ -101,15 +101,16 @@ class HandTrackingClassifier
     stopwatch.start();
     final croppedProcessedImage = getHandTrackingProcessedImage(
       handTrackingTensorImage,
-      models.handLandmarksDetector.inputSize,
+      models.first.inputSize,
       input.$2,
     );
+
     _runHandTrackingModel(croppedProcessedImage);
+
     final result = parseLandmarkData(input.$1, input.$2);
 
     stopwatch.stop();
     final processModelTime = stopwatch.elapsedMilliseconds;
-
     if (_logResultTime) {
       Logger.d('Process image time $processImageTime, '
           'processModelTime: $processModelTime');
@@ -153,7 +154,7 @@ class HandTrackingClassifier
       Iterable.generate(handTrackingOutputLocations.length),
       value: (index) => handTrackingOutputLocations[index].buffer,
     );
-    interpreters[1].runForMultipleInputs(inputs, outputs);
+    interpreters[0].runForMultipleInputs(inputs, outputs);
   }
 
   HandLandmarksResultData parseLandmarkData(
@@ -173,11 +174,11 @@ class HandTrackingClassifier
     const positionXCorrection = 0.98;
 
     for (var i = 0; i < landmarksOutputDimensions; i += 3) {
-      x = ((data[0 + i] / models.handLandmarksDetector.inputSize) *
+      x = ((data[0 + i] / models.first.inputSize) *
                   (cropData.w.clamp(0, image.width).toInt()) +
               cropData.x.clamp(0, max(0, image.width - cropData.w)).toInt()) *
           positionXCorrection;
-      y = ((data[1 + i] / models.handLandmarksDetector.inputSize) *
+      y = ((data[1 + i] / models.first.inputSize) *
               cropData.h.clamp(0, image.height).toInt()) +
           cropData.y.clamp(0, max(0, image.height - cropData.h)).toInt();
       z = data[2 + i];

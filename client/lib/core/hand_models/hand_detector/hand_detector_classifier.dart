@@ -107,9 +107,8 @@ class HandDetectorClassifier
 
     stopwatch.stop();
     final processModelTime = stopwatch.elapsedMilliseconds;
-
     if (_logResultTime) {
-      Logger.d('Process image time $processImageTime, '
+      Logger.d('Process hand time $processImageTime, '
           'processModelTime: $processModelTime');
     }
 

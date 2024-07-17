@@ -35,15 +35,15 @@ class HandTrackingIsolateUtils {
     port.listen((data) {
       if (data is HandClasifierIsolateData) {
         final ModelHandler handTrackingClassifier = HandTrackingClassifier(
-          interpreters: data.interpreterAddressList
-              .map((address) => Interpreter.fromAddress(address))
-              .toList(),
+          interpreters: [
+            Interpreter.fromAddress(data.interpreterAddressList.first),
+          ],
           predefinedAnchors: data.anchors,
         );
         final ModelHandler handDetectorClassifier = HandDetectorClassifier(
-          interpreters: data.interpreterAddressList
-              .map((address) => Interpreter.fromAddress(address))
-              .toList(),
+          interpreters: [
+            Interpreter.fromAddress(data.interpreterAddressList.last),
+          ],
           predefinedAnchors: data.anchors,
         );
         final stopwatch = Stopwatch()..start();
@@ -76,11 +76,12 @@ class HandTrackingIsolateUtils {
     img.Image image,
     ModelHandler handTrackingClassifier,
     HandClasifierIsolateData data,
-  ) =>
-      handDetectorClassifier.performOperations(image).then((result) {
-        handTrackingClassifier
-            .performOperations((image, result)).then((result) {
-          data.responsePort.send(result);
-        });
-      });
+  ) async {
+    final handDetector = await handDetectorClassifier.performOperations(image);
+    final aux = await handTrackingClassifier
+        .performOperations((image, handDetector)).then((result) {
+      data.responsePort.send(result);
+    });
+    return aux;
+  }
 }

@@ -94,9 +94,6 @@ class HandTrackingClassifier
     (img.Image image, HandDetectorResultData data) input,
   ) async {
     stopwatch.start();
-
-    //TODO: Separate in two models
-
     final handTrackingTensorImage = TensorImage(TensorType.float32)
       ..loadImage(input.$1);
     stopwatch.stop();

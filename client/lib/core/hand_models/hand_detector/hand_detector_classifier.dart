@@ -92,7 +92,7 @@ class HandDetectorClassifier
 
     final inputImage = getHandDetectorProcessedImage(
       handDetectorTensorImage,
-      models.handDetector.inputSize,
+      models.first.inputSize,
     );
     stopwatch.stop();
     final processImageTime = stopwatch.elapsedMilliseconds;
@@ -122,7 +122,7 @@ class HandDetectorClassifier
     final anchor =
         anchors.sublist(indexOfHighestScore * 18, indexOfHighestScore * 18 + 4);
     final predefinedAnchor = predefinedAnchors![indexOfHighestScore];
-    final inputSize = models.handDetector.inputSize;
+    final inputSize = models.first.inputSize;
     final transformedAnchor = [
       anchor.first + inputSize * predefinedAnchor.x,
       anchor[1] + inputSize * predefinedAnchor.y,

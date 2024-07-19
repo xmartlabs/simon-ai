@@ -2,14 +2,12 @@ import 'dart:io';
 import 'dart:isolate';
 
 import 'package:image/image.dart' as img;
+import 'package:simon_ai/core/common/image_utils.dart';
 import 'package:simon_ai/core/common/logger.dart';
-import 'package:simon_ai/core/hand_models/hand_detector/hand_detector_classifier.dart';
-import 'package:simon_ai/core/hand_models/hand_tracking/hand_tracking_classifier.dart';
-import 'package:simon_ai/core/hand_models/keypoints/image_utils.dart';
+import 'package:simon_ai/core/hand_models/hand_gesture_classifier/hand_classifier.dart';
 import 'package:simon_ai/core/hand_models/keypoints/keypoints_manager_mobile.dart';
 import 'package:simon_ai/core/interfaces/model_interface.dart';
 import 'package:simon_ai/core/model/hand_classifier_isolate_data.dart';
-import 'package:simon_ai/core/model/hand_detector_result_data.dart';
 import 'package:tflite_flutter/tflite_flutter.dart';
 
 class HandTrackingIsolateUtils {
@@ -36,20 +34,14 @@ class HandTrackingIsolateUtils {
 
     port.listen((data) {
       if (data is HandClasifierIsolateData) {
-        final ModelHandler<HandTrackingInput, HandLandmarksResultData>
-            handTrackingClassifier = HandTrackingClassifier(
-          interpreters: [
-            Interpreter.fromAddress(data.interpreterAddressList.first),
-          ],
+        final ModelHandler<img.Image, HandLandmarksResultData> handClassifier =
+            HandClassifier(
           predefinedAnchors: data.anchors,
+          interpreters: data.interpreterAddressList
+              .map((address) => Interpreter.fromAddress(address))
+              .toList(),
         );
-        final ModelHandler<img.Image, HandDetectorResultData>
-            handDetectorClassifier = HandDetectorClassifier(
-          interpreters: [
-            Interpreter.fromAddress(data.interpreterAddressList.last),
-          ],
-          predefinedAnchors: data.anchors,
-        );
+
         final stopwatch = Stopwatch()..start();
         var image = ImageUtils.convertCameraImage(data.cameraImage)!;
         if (Platform.isAndroid) {
@@ -59,12 +51,8 @@ class HandTrackingIsolateUtils {
         stopwatch.stop();
         final elapsedToProcessImage = stopwatch.elapsedMilliseconds;
         stopwatch.start();
-        _processModels(
-          handDetectorClassifier,
-          image,
-          handTrackingClassifier,
-          data,
-        ).then((_) {
+        handClassifier.performOperations(image).then((result) {
+          data.responsePort.send(result);
           if (_logTimes) {
             Logger.d('Process image $elapsedToProcessImage ms, process model '
                 '${stopwatch.elapsedMilliseconds}ms');
@@ -72,20 +60,6 @@ class HandTrackingIsolateUtils {
           stopwatch.stop();
         });
       }
-    });
-  }
-
-  static Future<void> _processModels(
-    ModelHandler<img.Image, HandDetectorResultData> handDetectorClassifier,
-    img.Image image,
-    ModelHandler<HandTrackingInput, HandLandmarksResultData>
-        handTrackingClassifier,
-    HandClasifierIsolateData data,
-  ) async {
-    final handDetector = await handDetectorClassifier.performOperations(image);
-    return handTrackingClassifier
-        .performOperations((image, handDetector)).then((result) {
-      data.responsePort.send(result);
     });
   }
 }

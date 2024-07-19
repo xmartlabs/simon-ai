@@ -151,15 +151,15 @@ class HandTrackingClassifier
       Iterable.generate(handTrackingOutputLocations.length),
       value: (index) => handTrackingOutputLocations[index].buffer,
     );
-    interpreters[0].runForMultipleInputs(inputs, outputs);
+    interpreters.first.runForMultipleInputs(inputs, outputs);
   }
 
   HandLandmarksResultData parseLandmarkData(
     HandTrackingInput input,
   ) {
+    final (:image, :cropData) = input;
     final data = handTrackingOutputLocations.first.getDoubleList();
     final confidence = handTrackingOutputLocations[1].getDoubleList().first;
-
     final result = <double>[];
     double x;
     double y;
@@ -171,16 +171,12 @@ class HandTrackingClassifier
 
     for (var i = 0; i < landmarksOutputDimensions; i += 3) {
       x = ((data[0 + i] / models.first.inputSize) *
-                  (input.cropData.w.clamp(0, input.image.width).toInt()) +
-              input.cropData.x
-                  .clamp(0, max(0, input.image.width - input.cropData.w))
-                  .toInt()) *
+                  (cropData.w.clamp(0, image.width).toInt()) +
+              cropData.x.clamp(0, max(0, image.width - cropData.w)).toInt()) *
           positionXCorrection;
       y = ((data[1 + i] / models.first.inputSize) *
-              input.cropData.h.clamp(0, input.image.height).toInt()) +
-          input.cropData.y
-              .clamp(0, max(0, input.image.height - input.cropData.h))
-              .toInt();
+              cropData.h.clamp(0, image.height).toInt()) +
+          cropData.y.clamp(0, max(0, image.height - cropData.h)).toInt();
       z = data[2 + i];
       result.addAll([y, x, z]);
     }

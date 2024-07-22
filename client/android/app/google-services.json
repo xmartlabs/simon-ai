@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "559870872327",
+    "project_id": "simonai-37870",
+    "storage_bucket": "simonai-37870.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:559870872327:android:09c4e525e96fc105c493a2",
+        "android_client_info": {
+          "package_name": "com.xmartlabs.simonai.dev"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCgLkQaXHLH76UA2evk9a9YrOeCEBwwLfA"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

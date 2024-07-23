@@ -1,7 +1,7 @@
 import 'dart:async';
 
 import 'package:flutter/widgets.dart';
-import 'package:simon_ai/core/manager/keypoints/keypoints_manager_mobile.dart';
+import 'package:simon_ai/core/hand_models/keypoints/keypoints_manager_mobile.dart';
 
 mixin HandModelWidget implements StatefulWidget {
   abstract final Stream<dynamic>? movenetStream;

@@ -3,60 +3,41 @@ import 'dart:math';
 
 import 'package:image/image.dart' as img;
 import 'package:simon_ai/core/common/logger.dart';
-import 'package:simon_ai/core/manager/keypoints/keypoints_manager_mobile.dart';
+import 'package:simon_ai/core/interfaces/model_interface.dart';
+import 'package:simon_ai/core/model/anchor.dart';
+import 'package:simon_ai/core/model/hand_classifier_model_data.dart';
+import 'package:simon_ai/core/model/hand_detector_result_data.dart';
 import 'package:simon_ai/gen/assets.gen.dart';
 import 'package:tflite_flutter/tflite_flutter.dart';
 import 'package:tflite_flutter_helper/tflite_flutter_helper.dart';
 
-typedef Anchor = ({double x, double y, double w, double h});
-
-typedef HandDetectorResultData = ({
-  double confidence,
-  double x,
-  double y,
-  double w,
-  double h,
-});
-
-typedef ModelMetadata = ({
-  String path,
-  int inputSize,
-});
-
-extension ModelMetadataExtension on List<ModelMetadata> {
-  ModelMetadata get handDetector => first;
-  ModelMetadata get handLandmarksDetector => this[1];
-}
-
-class HandTrackingClassifier {
+class HandDetectorClassifier
+    implements ModelHandler<img.Image, HandDetectorResultData> {
   final bool _logInit = true;
   final bool _logResultTime = false;
 
-  final List<ModelMetadata> models = [
-    (path: Assets.models.handDetector, inputSize: 192),
-    (path: Assets.models.handLandmarksDetector, inputSize: 224),
-  ];
+  final ModelMetadata model =
+      (path: Assets.models.handDetector, inputSize: 192);
 
-  late List<Interpreter> _interpreter;
-  List<Interpreter> get interpreter => _interpreter;
+  late Interpreter _interpreter;
+  @override
+  Interpreter get interpreter => _interpreter;
 
   Map<int, Object> outputs = {};
   late List<TensorBufferFloat> handDetectorOutputLocations;
-  late List<TensorBufferFloat> handTrackingOutputLocations;
   ImageProcessor? _handDetectorImageProcessor;
-  ImageProcessor? _handTrackingImageProcessor;
   List<Anchor>? predefinedAnchors;
 
   final stopwatch = Stopwatch();
 
-  HandTrackingClassifier({
-    List<Interpreter>? interpreter,
+  HandDetectorClassifier({
+    Interpreter? interpreter,
     this.predefinedAnchors,
   }) {
     loadModel(interpreter: interpreter);
   }
 
-  Future<List<Interpreter>> _createModelInterpreter() {
+  Future<Interpreter> _createModelInterpreter() {
     final options = InterpreterOptions();
     if (Platform.isAndroid) {
       options.addDelegate(
@@ -68,42 +49,27 @@ class HandTrackingClassifier {
         ),
       );
     }
-    return Future.wait(
-      models
-          .map((model) => Interpreter.fromAsset(model.path, options: options))
-          .toList(),
-    );
+    return Interpreter.fromAsset(model.path, options: options);
   }
 
   List<double> normalizeScores(List<double> scores) =>
       scores.map((score) => 1 / (1 + exp(-score))).toList();
 
-  Future<void> loadModel({List<Interpreter>? interpreter}) async {
+  @override
+  Future<void> loadModel({Interpreter? interpreter}) async {
     try {
       _interpreter = interpreter ?? await _createModelInterpreter();
-      final outputHandDetectorTensors = _interpreter.first.getOutputTensors();
-      final outputHandTrackingTensors = _interpreter[1].getOutputTensors();
-
+      final outputHandDetectorTensors = _interpreter.getOutputTensors();
       handDetectorOutputLocations = outputHandDetectorTensors
           .map((e) => TensorBufferFloat(e.shape))
           .toList();
-      handTrackingOutputLocations = outputHandTrackingTensors
-          .map((e) => TensorBufferFloat(e.shape))
-          .toList();
       if (_logInit && interpreter == null) {
-        final handDetectorInputTensors = _interpreter.first.getInputTensors();
-        final handTrackingInputTensors = _interpreter[1].getInputTensors();
+        final handDetectorInputTensors = _interpreter.getInputTensors();
         for (final tensor in outputHandDetectorTensors) {
           Logger.d('Hand Detector Output Tensor: $tensor');
         }
-        for (final tensor in outputHandTrackingTensors) {
-          Logger.d('Hand Tracking Output Tensor: $tensor');
-        }
         for (final tensor in handDetectorInputTensors) {
           Logger.d('Input Hand Detector Tensor: $tensor');
-        }
-        for (final tensor in handTrackingInputTensors) {
-          Logger.d('Input Hand Tracking Tensor: $tensor');
         }
         Logger.d('Interpreter loaded successfully');
       }
@@ -112,16 +78,16 @@ class HandTrackingClassifier {
     }
   }
 
-  Future<HandLandmarksResultData> performOperations(img.Image image) async {
+  @override
+  Future<HandDetectorResultData> performOperations(img.Image image) async {
     stopwatch.start();
 
     final handDetectorTensorImage = TensorImage(TensorType.float32)
       ..loadImage(image);
-    final handTrackingTensorImage = TensorImage(TensorType.float32)
-      ..loadImage(image);
+
     final inputImage = getHandDetectorProcessedImage(
       handDetectorTensorImage,
-      models.handDetector.inputSize,
+      model.inputSize,
     );
     stopwatch.stop();
     final processImageTime = stopwatch.elapsedMilliseconds;
@@ -129,24 +95,16 @@ class HandTrackingClassifier {
     stopwatch.start();
     _runHandDetectorModel(inputImage);
     final croppedImageData = getCroppedImage(image);
-    final croppedProcessedImage = getHandTrackingProcessedImage(
-      handTrackingTensorImage,
-      models.handLandmarksDetector.inputSize,
-      croppedImageData,
-    );
-    _runHandTrackingModel(croppedProcessedImage);
-    final result = parseLandmarkData(image, croppedImageData);
 
     stopwatch.stop();
     final processModelTime = stopwatch.elapsedMilliseconds;
-
     if (_logResultTime) {
-      Logger.d('Process image time $processImageTime, '
+      Logger.d('Process hand time $processImageTime, '
           'processModelTime: $processModelTime');
     }
 
     stopwatch.reset();
-    return result;
+    return croppedImageData;
   }
 
   HandDetectorResultData getCroppedImage(img.Image image) {
@@ -159,7 +117,7 @@ class HandTrackingClassifier {
     final anchor =
         anchors.sublist(indexOfHighestScore * 18, indexOfHighestScore * 18 + 4);
     final predefinedAnchor = predefinedAnchors![indexOfHighestScore];
-    final inputSize = models.handDetector.inputSize;
+    final inputSize = model.inputSize;
     final transformedAnchor = [
       anchor.first + inputSize * predefinedAnchor.x,
       anchor[1] + inputSize * predefinedAnchor.y,
@@ -211,6 +169,16 @@ class HandTrackingClassifier {
     );
   }
 
+  void _runHandDetectorModel(TensorImage inputImage) {
+    final inputs = [inputImage.buffer];
+
+    outputs = Map.fromIterable(
+      Iterable.generate(handDetectorOutputLocations.length),
+      value: (index) => handDetectorOutputLocations[index].buffer,
+    );
+    interpreter.runForMultipleInputs(inputs, outputs);
+  }
+
   TensorImage getHandDetectorProcessedImage(
     TensorImage inputImage,
     int modelInputSize,
@@ -229,82 +197,5 @@ class HandTrackingClassifier {
         .add(NormalizeOp(0, 255.0))
         .build();
     return _handDetectorImageProcessor!.process(inputImage);
-  }
-
-  TensorImage getHandTrackingProcessedImage(
-    TensorImage inputImage,
-    int modelInputSize,
-    HandDetectorResultData cropData,
-  ) {
-    _handTrackingImageProcessor ??= ImageProcessorBuilder()
-        .add(
-          ResizeWithCropOrPadOp(
-            cropData.h.clamp(0, inputImage.height).toInt(),
-            cropData.w.clamp(0, inputImage.width).toInt(),
-            cropData.x.clamp(0, max(0, inputImage.width - cropData.w)).toInt(),
-            cropData.y.clamp(0, max(0, inputImage.height - cropData.h)).toInt(),
-          ),
-        )
-        .add(
-          ResizeOp(
-            modelInputSize,
-            modelInputSize,
-            ResizeMethod.NEAREST_NEIGHBOUR,
-          ),
-        )
-        // The model works with [0.0, 1.0] float normalized inputs
-        .add(NormalizeOp(0, 255.0))
-        .build();
-    return _handTrackingImageProcessor!.process(inputImage);
-  }
-
-  void _runHandTrackingModel(TensorImage inputImage) {
-    final inputs = [inputImage.buffer];
-
-    outputs = Map.fromIterable(
-      Iterable.generate(handTrackingOutputLocations.length),
-      value: (index) => handTrackingOutputLocations[index].buffer,
-    );
-    interpreter[1].runForMultipleInputs(inputs, outputs);
-  }
-
-  void _runHandDetectorModel(TensorImage inputImage) {
-    final inputs = [inputImage.buffer];
-
-    outputs = Map.fromIterable(
-      Iterable.generate(handDetectorOutputLocations.length),
-      value: (index) => handDetectorOutputLocations[index].buffer,
-    );
-    interpreter.first.runForMultipleInputs(inputs, outputs);
-  }
-
-  HandLandmarksResultData parseLandmarkData(
-    img.Image image,
-    HandDetectorResultData cropData,
-  ) {
-    final data = handTrackingOutputLocations.first.getDoubleList();
-    final confidence = handTrackingOutputLocations[1].getDoubleList().first;
-
-    final result = <double>[];
-    double x;
-    double y;
-    double z;
-
-    const landmarksOutputDimensions = 63;
-    // TODO correct calculations to remove this hardcoded correction
-    const positionXCorrection = 0.98;
-
-    for (var i = 0; i < landmarksOutputDimensions; i += 3) {
-      x = ((data[0 + i] / models.handLandmarksDetector.inputSize) *
-                  (cropData.w.clamp(0, image.width).toInt()) +
-              cropData.x.clamp(0, max(0, image.width - cropData.w)).toInt()) *
-          positionXCorrection;
-      y = ((data[1 + i] / models.handLandmarksDetector.inputSize) *
-              cropData.h.clamp(0, image.height).toInt()) +
-          cropData.y.clamp(0, max(0, image.height - cropData.h)).toInt();
-      z = data[2 + i];
-      result.addAll([y, x, z]);
-    }
-    return (confidence: confidence, keyPoints: result);
   }
 }

@@ -114,8 +114,6 @@ class _Icon extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.start,
               children: [
                 Assets.images.estrella.image(
-                  height: 36,
-                  width: 36,
                   fit: BoxFit.fill,
                   filterQuality: FilterQuality.high,
                 ),
@@ -133,8 +131,6 @@ class _Icon extends StatelessWidget {
               mainAxisSize: MainAxisSize.min,
               children: [
                 Assets.images.check.image(
-                  height: 36,
-                  width: 36,
                   fit: BoxFit.fill,
                   filterQuality: FilterQuality.high,
                 ),
@@ -152,8 +148,6 @@ class _Icon extends StatelessWidget {
               mainAxisSize: MainAxisSize.min,
               children: [
                 Assets.images.reloj.image(
-                  height: 36,
-                  width: 36,
                   fit: BoxFit.fill,
                   filterQuality: FilterQuality.high,
                 ),

@@ -3,8 +3,8 @@ import 'dart:ui';
 import 'package:dartx/dartx.dart';
 import 'package:flutter/material.dart';
 import 'package:simon_ai/core/common/config.dart';
-import 'package:simon_ai/core/manager/keypoints/hand_tracking_points.dart';
-import 'package:simon_ai/core/manager/keypoints/keypoints_manager_mobile.dart';
+import 'package:simon_ai/core/hand_models/hand_gesture_classifier/hand_tracking_points.dart';
+import 'package:simon_ai/core/hand_models/keypoints/keypoints_manager_mobile.dart';
 
 class HandRenderPainter extends CustomPainter {
   static const _drawKeypoints = Config.debugMode;

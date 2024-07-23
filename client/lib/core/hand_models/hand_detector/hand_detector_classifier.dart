@@ -16,13 +16,12 @@ class HandDetectorClassifier
   final bool _logInit = true;
   final bool _logResultTime = false;
 
-  final List<ModelMetadata> models = [
-    (path: Assets.models.handDetector, inputSize: 192),
-  ];
+  final ModelMetadata model =
+      (path: Assets.models.handDetector, inputSize: 192);
 
-  late List<Interpreter> _interpreters;
+  late Interpreter _interpreter;
   @override
-  List<Interpreter> get interpreters => _interpreters;
+  Interpreter get interpreter => _interpreter;
 
   Map<int, Object> outputs = {};
   late List<TensorBufferFloat> handDetectorOutputLocations;
@@ -32,13 +31,13 @@ class HandDetectorClassifier
   final stopwatch = Stopwatch();
 
   HandDetectorClassifier({
-    List<Interpreter>? interpreters,
+    Interpreter? interpreter,
     this.predefinedAnchors,
   }) {
-    loadModel(interpreter: interpreters);
+    loadModel(interpreter: interpreter);
   }
 
-  Future<List<Interpreter>> _createModelInterpreter() {
+  Future<Interpreter> _createModelInterpreter() {
     final options = InterpreterOptions();
     if (Platform.isAndroid) {
       options.addDelegate(
@@ -50,26 +49,22 @@ class HandDetectorClassifier
         ),
       );
     }
-    return Future.wait(
-      models
-          .map((model) => Interpreter.fromAsset(model.path, options: options))
-          .toList(),
-    );
+    return Interpreter.fromAsset(model.path, options: options);
   }
 
   List<double> normalizeScores(List<double> scores) =>
       scores.map((score) => 1 / (1 + exp(-score))).toList();
 
   @override
-  Future<void> loadModel({List<Interpreter>? interpreter}) async {
+  Future<void> loadModel({Interpreter? interpreter}) async {
     try {
-      _interpreters = interpreter ?? await _createModelInterpreter();
-      final outputHandDetectorTensors = _interpreters.first.getOutputTensors();
+      _interpreter = interpreter ?? await _createModelInterpreter();
+      final outputHandDetectorTensors = _interpreter.getOutputTensors();
       handDetectorOutputLocations = outputHandDetectorTensors
           .map((e) => TensorBufferFloat(e.shape))
           .toList();
       if (_logInit && interpreter == null) {
-        final handDetectorInputTensors = _interpreters.first.getInputTensors();
+        final handDetectorInputTensors = _interpreter.getInputTensors();
         for (final tensor in outputHandDetectorTensors) {
           Logger.d('Hand Detector Output Tensor: $tensor');
         }
@@ -92,7 +87,7 @@ class HandDetectorClassifier
 
     final inputImage = getHandDetectorProcessedImage(
       handDetectorTensorImage,
-      models.first.inputSize,
+      model.inputSize,
     );
     stopwatch.stop();
     final processImageTime = stopwatch.elapsedMilliseconds;
@@ -122,7 +117,7 @@ class HandDetectorClassifier
     final anchor =
         anchors.sublist(indexOfHighestScore * 18, indexOfHighestScore * 18 + 4);
     final predefinedAnchor = predefinedAnchors![indexOfHighestScore];
-    final inputSize = models.first.inputSize;
+    final inputSize = model.inputSize;
     final transformedAnchor = [
       anchor.first + inputSize * predefinedAnchor.x,
       anchor[1] + inputSize * predefinedAnchor.y,
@@ -181,7 +176,7 @@ class HandDetectorClassifier
       Iterable.generate(handDetectorOutputLocations.length),
       value: (index) => handDetectorOutputLocations[index].buffer,
     );
-    interpreters.first.runForMultipleInputs(inputs, outputs);
+    interpreter.runForMultipleInputs(inputs, outputs);
   }
 
   TensorImage getHandDetectorProcessedImage(

@@ -7,7 +7,7 @@ import 'package:simon_ai/core/model/anchor.dart';
 import 'package:tflite_flutter/tflite_flutter.dart';
 
 class HandClassifier
-    implements ModelHandler<img.Image, HandLandmarksResultData> {
+    implements MultipleModelHandler<img.Image, HandLandmarksResultData> {
   late final List<Interpreter> _interpreters;
   late final HandDetectorClassifier handDetectorClassifier;
   late final HandTrackingClassifier handTrackingClassifier;
@@ -26,11 +26,11 @@ class HandClassifier
   @override
   Future<void> loadModel({List<Interpreter>? interpreter}) async {
     handDetectorClassifier = HandDetectorClassifier(
-      interpreters: [interpreters.last],
+      interpreter: interpreters.last,
       predefinedAnchors: predefinedAnchors,
     );
     handTrackingClassifier = HandTrackingClassifier(
-      interpreters: [interpreters.first],
+      interpreter: interpreters.first,
     );
   }
 

@@ -34,8 +34,8 @@ class HandTrackingIsolateUtils {
 
     port.listen((data) {
       if (data is HandClasifierIsolateData) {
-        final ModelHandler<img.Image, HandLandmarksResultData> handClassifier =
-            HandClassifier(
+        final MultipleModelHandler<img.Image, HandLandmarksResultData>
+            handClassifier = HandClassifier(
           predefinedAnchors: data.anchors,
           interpreters: data.interpreterAddressList
               .map((address) => Interpreter.fromAddress(address))

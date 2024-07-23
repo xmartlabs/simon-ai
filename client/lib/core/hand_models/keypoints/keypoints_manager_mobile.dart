@@ -80,10 +80,10 @@ class KeyPointsMobileManager implements KeyPointsManager {
     final anchors = await loadAnchorsFromCsv(Assets.models.anchors);
     final HandClasifierIsolateData isolateData = (
       cameraImage: newFrame,
-      interpreterAddressList: (handTrackingClassifier.interpreters +
-              handDetectorClassifier.interpreters)
-          .map((interpreter) => interpreter.address)
-          .toList(),
+      interpreterAddressList: [
+        handTrackingClassifier.interpreter,
+        handDetectorClassifier.interpreter,
+      ].map((interpreter) => interpreter.address).toList(),
       anchors: anchors,
       responsePort: responsePort.sendPort
     );

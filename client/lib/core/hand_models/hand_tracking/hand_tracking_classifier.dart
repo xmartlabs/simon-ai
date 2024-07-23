@@ -21,13 +21,12 @@ class HandTrackingClassifier
   final bool _logInit = true;
   final bool _logResultTime = false;
 
-  final List<ModelMetadata> models = [
-    (path: Assets.models.handLandmarksDetector, inputSize: 224),
-  ];
+  final ModelMetadata model =
+      (path: Assets.models.handLandmarksDetector, inputSize: 224);
 
-  late List<Interpreter> _interpreters;
+  late Interpreter _interpreter;
   @override
-  List<Interpreter> get interpreters => _interpreters;
+  Interpreter get interpreter => _interpreter;
 
   Map<int, Object> outputs = {};
   late List<TensorBufferFloat> handTrackingOutputLocations;
@@ -36,12 +35,12 @@ class HandTrackingClassifier
   final stopwatch = Stopwatch();
 
   HandTrackingClassifier({
-    List<Interpreter>? interpreters,
+    Interpreter? interpreter,
   }) {
-    loadModel(interpreter: interpreters);
+    loadModel(interpreter: interpreter);
   }
 
-  Future<List<Interpreter>> _createModelInterpreter() {
+  Future<Interpreter> _createModelInterpreter() {
     final options = InterpreterOptions();
     if (Platform.isAndroid) {
       options.addDelegate(
@@ -53,24 +52,20 @@ class HandTrackingClassifier
         ),
       );
     }
-    return Future.wait(
-      models
-          .map((model) => Interpreter.fromAsset(model.path, options: options))
-          .toList(),
-    );
+    return Interpreter.fromAsset(model.path, options: options);
   }
 
   @override
-  Future<void> loadModel({List<Interpreter>? interpreter}) async {
+  Future<void> loadModel({Interpreter? interpreter}) async {
     try {
-      _interpreters = interpreter ?? await _createModelInterpreter();
-      final outputHandTrackingTensors = _interpreters.first.getOutputTensors();
+      _interpreter = interpreter ?? await _createModelInterpreter();
+      final outputHandTrackingTensors = _interpreter.getOutputTensors();
 
       handTrackingOutputLocations = outputHandTrackingTensors
           .map((e) => TensorBufferFloat(e.shape))
           .toList();
       if (_logInit && interpreter == null) {
-        final handTrackingInputTensors = _interpreters.first.getInputTensors();
+        final handTrackingInputTensors = _interpreter.getInputTensors();
 
         for (final tensor in outputHandTrackingTensors) {
           Logger.d('Hand Tracking Output Tensor: $tensor');
@@ -98,7 +93,7 @@ class HandTrackingClassifier
     stopwatch.start();
     final croppedProcessedImage = getHandTrackingProcessedImage(
       handTrackingTensorImage,
-      models.first.inputSize,
+      model.inputSize,
       input.cropData,
     );
 
@@ -151,7 +146,7 @@ class HandTrackingClassifier
       Iterable.generate(handTrackingOutputLocations.length),
       value: (index) => handTrackingOutputLocations[index].buffer,
     );
-    interpreters.first.runForMultipleInputs(inputs, outputs);
+    interpreter.runForMultipleInputs(inputs, outputs);
   }
 
   HandLandmarksResultData parseLandmarkData(
@@ -170,11 +165,11 @@ class HandTrackingClassifier
     const positionXCorrection = 0.98;
 
     for (var i = 0; i < landmarksOutputDimensions; i += 3) {
-      x = ((data[0 + i] / models.first.inputSize) *
+      x = ((data[0 + i] / model.inputSize) *
                   (cropData.w.clamp(0, image.width).toInt()) +
               cropData.x.clamp(0, max(0, image.width - cropData.w)).toInt()) *
           positionXCorrection;
-      y = ((data[1 + i] / models.first.inputSize) *
+      y = ((data[1 + i] / model.inputSize) *
               cropData.h.clamp(0, image.height).toInt()) +
           cropData.y.clamp(0, max(0, image.height - cropData.h)).toInt();
       z = data[2 + i];

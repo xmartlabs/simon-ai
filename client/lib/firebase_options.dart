@@ -72,5 +72,4 @@ class DefaultFirebaseOptions {
     storageBucket: 'simonai-37870.appspot.com',
     iosBundleId: 'com.xmartlabs.simonai.dev',
   );
-
 }

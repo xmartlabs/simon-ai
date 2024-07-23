@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
@@ -10,6 +11,7 @@ import 'package:path_provider/path_provider.dart';
 import 'package:simon_ai/core/common/config.dart';
 import 'package:simon_ai/core/common/logger.dart';
 import 'package:simon_ai/core/di/di_provider.dart';
+import 'package:simon_ai/firebase_options.dart';
 import 'package:simon_ai/ui/main/main_screen.dart';
 
 Future main() async {
@@ -45,7 +47,9 @@ Future _initSdks() async {
 
 // ignore: avoid-redundant-async
 Future _initFirebaseSdks() async {
-  // TODO: Add Craslytics, Analytics and other sdks that the project needs
+  await Firebase.initializeApp(
+    options: DefaultFirebaseOptions.currentPlatform,
+  );
 }
 
 class MyApp extends StatelessWidget {

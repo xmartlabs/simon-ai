@@ -11,7 +11,6 @@ import 'package:simon_ai/ui/router/app_router_guards.dart';
 import 'package:simon_ai/ui/router/common/empty_router_page.dart';
 import 'package:simon_ai/ui/router/routes/onboarding_routes.dart';
 import 'package:simon_ai/ui/section/section_router.dart';
-import 'package:simon_ai/ui/welcome/welcome_screen.dart';
 
 part 'app_router.gr.dart';
 
@@ -47,8 +46,8 @@ class AppRouter extends _$AppRouter {
             guards: [AuthenticatedGuard(sessionRepository)],
             path: '/',
             children: [
-              RedirectRoute(path: '', redirectTo: 'welcome'),
-              AutoRoute(path: 'welcome', page: GameRoute.page),
+              RedirectRoute(path: '', redirectTo: GameRoute.name),
+              AutoRoute(path: GameRoute.name, page: GameRoute.page),
             ],
           ),
         ];

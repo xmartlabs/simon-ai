@@ -1,4 +1,5 @@
 import 'package:get_it/get_it.dart';
+import 'package:simon_ai/core/common/config.dart';
 import 'package:simon_ai/core/interfaces/permission_handler_interface.dart';
 import 'package:simon_ai/core/model/user.dart';
 import 'package:simon_ai/core/repository/game_manager.dart';
@@ -39,6 +40,7 @@ extension _GetItDiModuleExtensions on GetIt {
       () => UserRemoteSource(
         modelToJson: (User data) => data.toJson(),
         jsonToModel: User.fromJson,
+        collection: Config.userCollection,
       ),
     );
   }

@@ -1,9 +1,9 @@
 abstract interface class DbInterface<T> {
   Future<void> init();
-  Future<void> insert(String collection, String id, T data);
-  Future<List<T>?> getAllData(String collection);
-  Future<T?> getData(String collection, String id);
-  Future<void> delete(String collection, String id);
-  Future<void> update(String collection, String id, T data);
+  Future<void> insert(String id, T data);
+  Future<List<T>?> getAllData();
+  Future<T?> getData(String id);
+  Future<void> delete(String id);
+  Future<void> update(String id, T data);
   Future<void> close();
 }

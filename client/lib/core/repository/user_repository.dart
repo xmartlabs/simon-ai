@@ -28,15 +28,12 @@ class UserRepository {
       .where((event) => event.isSuccess && event.data != null)
       .map((event) => event.data!.requireData());
 
-  Future<void> insertUser(User user) async =>
-      _userRemoteSource.insert('users', user);
+  Future<void> insertUser(User user) => _userRemoteSource.insert('users', user);
 
-  Future<void> updateUser(User user) async =>
+  Future<void> updateUser(User user) =>
       _userRemoteSource.update('users', user.email, user);
 
-  Future<void> deleteUser(String id) async =>
-      _userRemoteSource.delete('users', id);
+  Future<void> deleteUser(String id) => _userRemoteSource.delete('users', id);
 
-  Future<User?> getUser(String id) async =>
-      _userRemoteSource.getData('users', id);
+  Future<User?> getUser(String id) => _userRemoteSource.getData('users', id);
 }

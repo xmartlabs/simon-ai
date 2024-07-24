@@ -1,10 +1,9 @@
 import 'package:get_it/get_it.dart';
-import 'package:simon_ai/core/interfaces/db_interface.dart';
 import 'package:simon_ai/core/interfaces/permission_handler_interface.dart';
+import 'package:simon_ai/core/model/user.dart';
 import 'package:simon_ai/core/repository/game_manager.dart';
 import 'package:simon_ai/core/repository/session_repository.dart';
 import 'package:simon_ai/core/repository/user_repository.dart';
-import 'package:simon_ai/core/services/firestore_db.dart';
 import 'package:simon_ai/core/services/permission_handler_service.dart';
 import 'package:simon_ai/core/source/auth_local_source.dart';
 import 'package:simon_ai/core/source/auth_remote_source.dart';
@@ -12,6 +11,7 @@ import 'package:simon_ai/core/source/common/auth_interceptor.dart';
 import 'package:simon_ai/core/source/common/http_service.dart';
 import 'package:simon_ai/core/source/project_local_source.dart';
 import 'package:simon_ai/core/source/project_remote_source.dart';
+import 'package:simon_ai/core/source/user_remote_source.dart';
 
 class RepositoryDiModule {
   RepositoryDiModule._privateConstructor();
@@ -35,7 +35,12 @@ extension _GetItDiModuleExtensions on GetIt {
     registerLazySingleton<PermissionHandlerInterface>(
       () => MobilePermissionHandlerService(),
     );
-    registerLazySingleton<DbInterface>(() => FirestoreDb());
+    registerLazySingleton<UserRemoteSource>(
+      () => UserRemoteSource(
+        modelToJson: (User data) => data.toJson(),
+        jsonToModel: User.fromJson,
+      ),
+    );
   }
 
   void _setupRepositories() {

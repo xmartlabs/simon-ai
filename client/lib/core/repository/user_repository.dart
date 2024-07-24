@@ -1,11 +1,11 @@
 import 'package:simon_ai/core/common/extension/stream_future_extensions.dart';
-import 'package:simon_ai/core/interfaces/db_interface.dart';
 import 'package:simon_ai/core/model/user.dart';
+import 'package:simon_ai/core/source/user_remote_source.dart';
 import 'package:stock/stock.dart';
 
 class UserRepository {
   // ignore: unused_field
-  final DbInterface<User> _userRemoteSource;
+  final UserRemoteSource _userRemoteSource;
 
   static const _collection = 'users';
 
@@ -31,7 +31,7 @@ class UserRepository {
       .map((event) => event.data!.requireData());
 
   Future<void> insertUser(User user) =>
-      _userRemoteSource.insert(_collection, user);
+      _userRemoteSource.insert(_collection, user.email, user);
 
   Future<void> updateUser(User user) =>
       _userRemoteSource.update(_collection, user.email, user);

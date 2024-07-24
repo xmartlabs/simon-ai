@@ -175,6 +175,14 @@ class HandTrackingClassifier
       z = data[2 + i];
       result.addAll([y, x, z]);
     }
-    return (confidence: confidence, keyPoints: result);
+    return (
+      confidence: confidence,
+      keyPoints: result,
+      tensors: (
+        screenLandmarks: handTrackingOutputLocations.first,
+        handednessProbability: handTrackingOutputLocations[2],
+        metricScaleLandmarks: handTrackingOutputLocations[3],
+      )
+    );
   }
 }

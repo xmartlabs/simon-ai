@@ -16,8 +16,11 @@ final _privateConstructorUsedError = UnsupportedError(
 
 /// @nodoc
 mixin _$CameraHandState {
-  ({double confidence, List<({double x, double y, double z})> keyPoints})?
-      get handData => throw _privateConstructorUsedError;
+  ({
+    double confidence,
+    HandGesture gesture,
+    List<({double x, double y, double z})> keyPoints
+  })? get handData => throw _privateConstructorUsedError;
   Stream<dynamic>? get movenetResultStream =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
@@ -25,6 +28,7 @@ mixin _$CameraHandState {
     required TResult Function(
             ({
               double confidence,
+              HandGesture gesture,
               List<({double x, double y, double z})> keyPoints
             })? handData,
             Stream<dynamic>? movenetResultStream)
@@ -36,6 +40,7 @@ mixin _$CameraHandState {
     TResult? Function(
             ({
               double confidence,
+              HandGesture gesture,
               List<({double x, double y, double z})> keyPoints
             })? handData,
             Stream<dynamic>? movenetResultStream)?
@@ -47,6 +52,7 @@ mixin _$CameraHandState {
     TResult Function(
             ({
               double confidence,
+              HandGesture gesture,
               List<({double x, double y, double z})> keyPoints
             })? handData,
             Stream<dynamic>? movenetResultStream)?
@@ -85,6 +91,7 @@ abstract class $CameraHandStateCopyWith<$Res> {
   $Res call(
       {({
         double confidence,
+        HandGesture gesture,
         List<({double x, double y, double z})> keyPoints
       })? handData,
       Stream<dynamic>? movenetResultStream});
@@ -112,6 +119,7 @@ class _$CameraHandStateCopyWithImpl<$Res, $Val extends CameraHandState>
           : handData // ignore: cast_nullable_to_non_nullable
               as ({
               double confidence,
+              HandGesture gesture,
               List<({double x, double y, double z})> keyPoints
             })?,
       movenetResultStream: freezed == movenetResultStream
@@ -133,6 +141,7 @@ abstract class _$$CameraHandStateImplCopyWith<$Res>
   $Res call(
       {({
         double confidence,
+        HandGesture gesture,
         List<({double x, double y, double z})> keyPoints
       })? handData,
       Stream<dynamic>? movenetResultStream});
@@ -158,6 +167,7 @@ class __$$CameraHandStateImplCopyWithImpl<$Res>
           : handData // ignore: cast_nullable_to_non_nullable
               as ({
               double confidence,
+              HandGesture gesture,
               List<({double x, double y, double z})> keyPoints
             })?,
       movenetResultStream: freezed == movenetResultStream
@@ -176,6 +186,7 @@ class _$CameraHandStateImpl implements _CameraHandState {
   @override
   final ({
     double confidence,
+    HandGesture gesture,
     List<({double x, double y, double z})> keyPoints
   })? handData;
   @override
@@ -214,6 +225,7 @@ class _$CameraHandStateImpl implements _CameraHandState {
     required TResult Function(
             ({
               double confidence,
+              HandGesture gesture,
               List<({double x, double y, double z})> keyPoints
             })? handData,
             Stream<dynamic>? movenetResultStream)
@@ -228,6 +240,7 @@ class _$CameraHandStateImpl implements _CameraHandState {
     TResult? Function(
             ({
               double confidence,
+              HandGesture gesture,
               List<({double x, double y, double z})> keyPoints
             })? handData,
             Stream<dynamic>? movenetResultStream)?
@@ -242,6 +255,7 @@ class _$CameraHandStateImpl implements _CameraHandState {
     TResult Function(
             ({
               double confidence,
+              HandGesture gesture,
               List<({double x, double y, double z})> keyPoints
             })? handData,
             Stream<dynamic>? movenetResultStream)?
@@ -287,13 +301,17 @@ abstract class _CameraHandState implements CameraHandState {
   const factory _CameraHandState(
       {final ({
         double confidence,
+        HandGesture gesture,
         List<({double x, double y, double z})> keyPoints
       })? handData,
       final Stream<dynamic>? movenetResultStream}) = _$CameraHandStateImpl;
 
   @override
-  ({double confidence, List<({double x, double y, double z})> keyPoints})?
-      get handData;
+  ({
+    double confidence,
+    HandGesture gesture,
+    List<({double x, double y, double z})> keyPoints
+  })? get handData;
   @override
   Stream<dynamic>? get movenetResultStream;
   @override

@@ -58,7 +58,35 @@ class HandRenderPainter extends CustomPainter {
       if (_drawKeypoints) {
         drawKeyPoints(canvas, size);
       }
+      drawText(size: size, canvas: canvas, text: keypointsData.gesture.name);
     }
+  }
+
+  void drawText({
+    required Size size,
+    required Canvas canvas,
+    required String text,
+  }) {
+    const textStyle = TextStyle(
+      color: Colors.blue,
+      fontSize: 48,
+      fontWeight: FontWeight.bold,
+    );
+
+    final textSpan = TextSpan(
+      text: text,
+      style: textStyle,
+    );
+
+    final textPainter = TextPainter(
+      text: textSpan,
+      textDirection: TextDirection.ltr,
+    )..layout();
+
+    final xCenter = (size.width - textPainter.width) / 2;
+    final textPosition = Offset(xCenter, 20);
+
+    textPainter.paint(canvas, textPosition);
   }
 
   void drawKeyPoints(Canvas canvas, Size size) {

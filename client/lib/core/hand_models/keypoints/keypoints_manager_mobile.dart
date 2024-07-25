@@ -35,12 +35,6 @@ typedef HandClassifierResultData = ({
   HandGesture gesture,
 });
 
-typedef HandGestureResultData = ({
-  double confidence,
-  List<double> keyPoints,
-  HandGesture gesture,
-});
-
 class KeyPointsMobileManager implements KeyPointsManager {
   late ModelHandler handTrackingClassifier;
   late ModelHandler handDetectorClassifier;

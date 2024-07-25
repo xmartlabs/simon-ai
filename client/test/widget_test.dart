@@ -6,6 +6,7 @@ import 'package:simon_ai/core/repository/game_manager.dart';
 void main() {
   test(
       'Game correct sequence simulation test. '
+      // ignore: lines_longer_than_80_chars
       'Input: love, victory, pointingUp. Output: love, love, victory, love, victory, pointingUp',
       () async {
     final gameHandler = GameManager()

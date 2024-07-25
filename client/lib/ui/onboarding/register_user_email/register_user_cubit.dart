@@ -38,7 +38,7 @@ class RegisterUserCubit extends Cubit<RegisterUserBaseState> {
       _globalEventHandler.handleError(response.error);
     }
     if (response.isSuccess) {
-      await _userRepository.insertUser(User(email: state.email!));
+      _userRepository.setCurrentUser(User(email: state.email!));
       unawaited(_appRouter.push(const RegisterUsernameRoute()));
     }
   }

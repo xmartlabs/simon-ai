@@ -41,6 +41,13 @@ class $AssetsModelsGen {
   /// File path: assets/models/anchors.csv
   String get anchors => 'assets/models/anchors.csv';
 
+  /// File path: assets/models/canned_gesture_classifier.tflite
+  String get cannedGestureClassifier =>
+      'assets/models/canned_gesture_classifier.tflite';
+
+  /// File path: assets/models/gesture_embedder.tflite
+  String get gestureEmbedder => 'assets/models/gesture_embedder.tflite';
+
   /// File path: assets/models/hand_detector.tflite
   String get handDetector => 'assets/models/hand_detector.tflite';
 
@@ -49,7 +56,13 @@ class $AssetsModelsGen {
       'assets/models/hand_landmarks_detector.tflite';
 
   /// List of all assets
-  List<String> get values => [anchors, handDetector, handLandmarksDetector];
+  List<String> get values => [
+        anchors,
+        cannedGestureClassifier,
+        gestureEmbedder,
+        handDetector,
+        handLandmarksDetector
+      ];
 }
 
 class Assets {

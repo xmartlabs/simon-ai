@@ -3,6 +3,7 @@ import 'dart:math';
 
 import 'package:dartx/dartx.dart';
 import 'package:rxdart/rxdart.dart';
+import 'package:simon_ai/core/model/game_response.dart';
 import 'package:simon_ai/core/model/hand_gestures.dart';
 
 class GameManager {
@@ -48,10 +49,3 @@ class GameManager {
     );
   }
 }
-
-typedef GameResponse = ({
-  HandGesture gesture,
-  int points,
-  bool finishSequence,
-  bool isCorrect,
-});

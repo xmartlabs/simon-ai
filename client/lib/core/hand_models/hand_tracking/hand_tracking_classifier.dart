@@ -1,20 +1,15 @@
-import 'dart:io';
 import 'dart:math';
 
-import 'package:image/image.dart' as img;
+import 'package:simon_ai/core/common/extension/interpreter_extensions.dart';
 import 'package:simon_ai/core/common/logger.dart';
-import 'package:simon_ai/core/hand_models/keypoints/keypoints_manager_mobile.dart';
 import 'package:simon_ai/core/interfaces/model_interface.dart';
 import 'package:simon_ai/core/model/hand_classifier_model_data.dart';
 import 'package:simon_ai/core/model/hand_detector_result_data.dart';
+import 'package:simon_ai/core/model/hand_landmarks_result_data.dart';
+import 'package:simon_ai/core/model/hand_tracking_input.dart';
 import 'package:simon_ai/gen/assets.gen.dart';
 import 'package:tflite_flutter/tflite_flutter.dart';
 import 'package:tflite_flutter_helper/tflite_flutter_helper.dart';
-
-typedef HandTrackingInput = ({
-  img.Image image,
-  HandDetectorResultData cropData
-});
 
 class HandTrackingClassifier
     implements ModelHandler<HandTrackingInput, HandLandmarksResultData> {
@@ -40,25 +35,16 @@ class HandTrackingClassifier
     loadModel(interpreter: interpreter);
   }
 
-  Future<Interpreter> _createModelInterpreter() {
-    final options = InterpreterOptions();
-    if (Platform.isAndroid) {
-      options.addDelegate(
-        GpuDelegateV2(
-          options: GpuDelegateOptionsV2(
-            isPrecisionLossAllowed: false,
-            inferencePriority1: 2,
-          ),
-        ),
-      );
-    }
+  @override
+  Future<Interpreter> createModelInterpreter() {
+    final options = InterpreterOptions()..defaultOptions();
     return Interpreter.fromAsset(model.path, options: options);
   }
 
   @override
   Future<void> loadModel({Interpreter? interpreter}) async {
     try {
-      _interpreter = interpreter ?? await _createModelInterpreter();
+      _interpreter = interpreter ?? await createModelInterpreter();
       final outputHandTrackingTensors = _interpreter.getOutputTensors();
 
       handTrackingOutputLocations = outputHandTrackingTensors

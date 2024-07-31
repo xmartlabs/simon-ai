@@ -5,9 +5,9 @@ import 'package:image/image.dart' as img;
 import 'package:simon_ai/core/common/image_utils.dart';
 import 'package:simon_ai/core/common/logger.dart';
 import 'package:simon_ai/core/hand_models/hand_gesture_classifier/hand_classifier.dart';
-import 'package:simon_ai/core/hand_models/keypoints/keypoints_manager_mobile.dart';
 import 'package:simon_ai/core/interfaces/model_interface.dart';
 import 'package:simon_ai/core/model/hand_classifier_isolate_data.dart';
+import 'package:simon_ai/core/model/hand_classifier_result_data.dart';
 import 'package:tflite_flutter/tflite_flutter.dart';
 
 class HandTrackingIsolateUtils {

@@ -1,11 +1,12 @@
 import 'package:image/image.dart' as img;
+import 'package:simon_ai/core/common/extension/interpreter_extensions.dart';
 import 'package:simon_ai/core/hand_models/hand_canned_gesture/hand_canned_gesture_classifier.dart';
 import 'package:simon_ai/core/hand_models/hand_detector/hand_detector_classifier.dart';
 import 'package:simon_ai/core/hand_models/hand_gesture_embedder/hand_gesture_embedder_classifier.dart';
 import 'package:simon_ai/core/hand_models/hand_tracking/hand_tracking_classifier.dart';
-import 'package:simon_ai/core/hand_models/keypoints/keypoints_manager_mobile.dart';
 import 'package:simon_ai/core/interfaces/model_interface.dart';
 import 'package:simon_ai/core/model/anchor.dart';
+import 'package:simon_ai/core/model/hand_classifier_result_data.dart';
 import 'package:tflite_flutter/tflite_flutter.dart';
 
 class HandClassifier
@@ -30,17 +31,17 @@ class HandClassifier
   @override
   Future<void> loadModel({List<Interpreter>? interpreter}) async {
     handDetectorClassifier = HandDetectorClassifier(
-      interpreter: interpreters[1],
+      interpreter: interpreters.handDetectorInterpreter,
       predefinedAnchors: predefinedAnchors,
     );
     handTrackingClassifier = HandTrackingClassifier(
-      interpreter: interpreters.first,
+      interpreter: interpreters.handTrackingInterpreter,
     );
     handGestureEmbedderClassifier = HandGestureEmbedderClassifier(
-      interpreter: interpreters[2],
+      interpreter: interpreters.handGestureEmbedderInterpreter,
     );
     handCannedGestureClassifier = HandCannedGestureClassifier(
-      interpreter: interpreters[3],
+      interpreter: interpreters.handCannedGestureInterpreter,
     );
   }
 
@@ -51,14 +52,14 @@ class HandClassifier
         .performOperations((image: input, cropData: cropData));
     final gestureVector = await handGestureEmbedderClassifier
         .performOperations(handLandmarksResult.tensors);
-    return handCannedGestureClassifier.performOperations(gestureVector).then(
-          (gesture) => Future.value(
-            (
-              confidence: handLandmarksResult.confidence,
-              keyPoints: handLandmarksResult.keyPoints,
-              gesture: gesture
-            ),
-          ),
-        );
+    final gesture =
+        await handCannedGestureClassifier.performOperations(gestureVector);
+    return Future.value(
+      (
+        confidence: handLandmarksResult.confidence,
+        keyPoints: handLandmarksResult.keyPoints,
+        gesture: gesture
+      ),
+    );
   }
 }

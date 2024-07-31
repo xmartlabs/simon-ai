@@ -4,6 +4,7 @@ abstract interface class ModelHandler<Input, Output> {
   Interpreter get interpreter;
   Future<void> loadModel({Interpreter? interpreter});
   Future<Output> performOperations(Input input);
+  Future<Interpreter> createModelInterpreter();
 }
 
 abstract interface class MultipleModelHandler<Input, Output> {

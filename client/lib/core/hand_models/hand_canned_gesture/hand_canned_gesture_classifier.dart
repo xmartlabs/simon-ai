@@ -1,6 +1,6 @@
-import 'dart:io';
 import 'dart:math';
 
+import 'package:simon_ai/core/common/extension/interpreter_extensions.dart';
 import 'package:simon_ai/core/common/logger.dart';
 import 'package:simon_ai/core/interfaces/model_interface.dart';
 import 'package:simon_ai/core/model/hand_classifier_model_data.dart';
@@ -32,25 +32,16 @@ class HandCannedGestureClassifier
     loadModel(interpreter: interpreter);
   }
 
-  Future<Interpreter> _createModelInterpreter() {
-    final options = InterpreterOptions();
-    if (Platform.isAndroid) {
-      options.addDelegate(
-        GpuDelegateV2(
-          options: GpuDelegateOptionsV2(
-            isPrecisionLossAllowed: false,
-            inferencePriority1: 2,
-          ),
-        ),
-      );
-    }
+  @override
+  Future<Interpreter> createModelInterpreter() {
+    final options = InterpreterOptions()..defaultOptions();
     return Interpreter.fromAsset(model.path, options: options);
   }
 
   @override
   Future<void> loadModel({Interpreter? interpreter}) async {
     try {
-      _interpreter = interpreter ?? await _createModelInterpreter();
+      _interpreter = interpreter ?? await createModelInterpreter();
       final outputHandCannedGestureTensors = _interpreter.getOutputTensors();
       handCannedGestureOutputLocations = outputHandCannedGestureTensors
           .map((e) => TensorBufferFloat(e.shape))

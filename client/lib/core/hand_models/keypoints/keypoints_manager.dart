@@ -1,4 +1,4 @@
-import 'package:simon_ai/core/hand_models/keypoints/keypoints_manager_mobile.dart';
+import 'package:simon_ai/core/model/hand_landmarks_result_data.dart';
 
 abstract interface class KeyPointsManager {
   Future<HandLandmarksData?> processFrame(dynamic newFrame);

@@ -4,8 +4,8 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:simon_ai/core/di/di_provider.dart';
 import 'package:simon_ai/core/hand_models/keypoints/keypoints_manager.dart';
-import 'package:simon_ai/core/hand_models/keypoints/keypoints_manager_mobile.dart';
 import 'package:simon_ai/core/model/hand_gestures.dart';
+import 'package:simon_ai/core/model/hand_landmarks_result_data.dart';
 import 'package:simon_ai/ui/extensions/stream_extensions.dart';
 
 part 'camera_hand_cubit.freezed.dart';

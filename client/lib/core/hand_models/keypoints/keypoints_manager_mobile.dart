@@ -13,27 +13,9 @@ import 'package:simon_ai/core/hand_models/keypoints/keypoints_manager.dart';
 import 'package:simon_ai/core/interfaces/model_interface.dart';
 import 'package:simon_ai/core/model/anchor.dart';
 import 'package:simon_ai/core/model/hand_classifier_isolate_data.dart';
-import 'package:simon_ai/core/model/hand_gestures.dart';
+import 'package:simon_ai/core/model/hand_classifier_result_data.dart';
 import 'package:simon_ai/core/model/hand_landmarks_result_data.dart';
 import 'package:simon_ai/gen/assets.gen.dart';
-
-typedef HandLandmarksData = ({
-  double confidence,
-  List<KeyPointData> keyPoints,
-  HandGesture gesture,
-});
-
-typedef HandLandmarksResultData = ({
-  double confidence,
-  List<double> keyPoints,
-  HandLandmarksModelResultData tensors,
-});
-
-typedef HandClassifierResultData = ({
-  double confidence,
-  List<double> keyPoints,
-  HandGesture gesture,
-});
 
 class KeyPointsMobileManager implements KeyPointsManager {
   late ModelHandler handTrackingClassifier;

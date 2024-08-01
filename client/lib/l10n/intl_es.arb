@@ -5,6 +5,16 @@
   "completed_game_with": "Has completado el juego con éxito",
   "congratulations": "¡Felicitaciones!",
   "continue_button": "Continuar",
+  "correct_gestures": "Gestos correctos: {number}",
+  "@correct_gestures": {
+    "description": "Muestra la cantidad de gestos correctos que ha realizado el usuario",
+    "placeholders": {
+      "number": {
+        "type": "int",
+        "example": "5"
+      }
+    }
+  },
   "error": "Error: {text}",
   "@error": {
     "description": "Da una explicación del error",

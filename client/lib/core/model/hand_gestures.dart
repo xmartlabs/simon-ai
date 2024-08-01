@@ -1,6 +1,6 @@
 enum HandGesture {
   unrecognized,
-  cloded,
+  closed,
   open,
   pointingUp,
   thumbsDown,
@@ -8,3 +8,12 @@ enum HandGesture {
   victory,
   love
 }
+
+List<HandGesture> get playableGestures => [
+      HandGesture.closed,
+      HandGesture.open,
+      HandGesture.pointingUp,
+      HandGesture.thumbsUp,
+      HandGesture.victory,
+      HandGesture.love,
+    ];

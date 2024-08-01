@@ -3,7 +3,6 @@ import 'dart:math';
 
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
-import 'package:rxdart/rxdart.dart';
 import 'package:simon_ai/core/di/di_provider.dart';
 import 'package:simon_ai/core/model/game_response.dart';
 import 'package:simon_ai/core/model/hand_gestures.dart';
@@ -16,6 +15,8 @@ class GameScreenCubit extends Cubit<GameScreenState> {
   final GameManager _gameHandler = DiProvider.get();
   late StreamSubscription<GameResponse> _gameStreamSubscription;
   final Stopwatch _gameDuration = Stopwatch();
+  Stream<HandGesture> get sequenceStream => _sequenceController.stream;
+  final _sequenceController = StreamController<HandGesture>.broadcast();
 
   GameScreenCubit()
       : super(
@@ -30,7 +31,7 @@ class GameScreenCubit extends Cubit<GameScreenState> {
     _gameDuration.start();
     Future.delayed(const Duration(seconds: 2), startCountdown);
   }
-  final int _maxRounds = 5;
+  final int _maxRounds = 3;
 
   bool isLastHandGesture() =>
       state.currentHandValueIndex == state.currentSequence!.length - 1;
@@ -41,6 +42,7 @@ class GameScreenCubit extends Cubit<GameScreenState> {
       ...state.currentSequence!,
       _generateRandomUniqueHandGesture(),
     ];
+    updateSequence(newSequence);
     emit(
       state.copyWith(
         gameState: GameState.showingSequence,
@@ -52,12 +54,13 @@ class GameScreenCubit extends Cubit<GameScreenState> {
     );
   }
 
-  Stream<HandGesture> get currentSequenceStream =>
-      Stream.fromIterable(state.currentSequence!)
-          .delay(const Duration(milliseconds: 1500))
-          .doOnDone(
-            () => Future.delayed(const Duration(seconds: 3), startGame),
-          );
+  Future<void> updateSequence(List<HandGesture> newSequence) async {
+    for (final value in newSequence) {
+      await Future.delayed(const Duration(milliseconds: 1500));
+      _sequenceController.add(value);
+    }
+    Future.delayed(const Duration(seconds: 3), startGame);
+  }
 
   int advanceSequence() {
     final currentHandValueIndex = state.currentHandValueIndex! + 1;
@@ -105,6 +108,7 @@ class GameScreenCubit extends Cubit<GameScreenState> {
         ),
       );
       if (event.finishSequence) {
+        _gameStreamSubscription.cancel();
         startCountdown();
       }
     }
@@ -116,6 +120,9 @@ class GameScreenCubit extends Cubit<GameScreenState> {
   void endGame() {
     _gameDuration.stop();
     _gameStreamSubscription.cancel();
+    _gameHandler.close();
+    _sequenceController.close();
+
     emit(
       state.copyWith(
         gameState: GameState.ended,
@@ -127,10 +134,10 @@ class GameScreenCubit extends Cubit<GameScreenState> {
 
   HandGesture _generateRandomUniqueHandGesture() {
     HandGesture randomLetter =
-        HandGesture.values[Random().nextInt(HandGesture.values.length - 1)];
+        playableGestures[Random().nextInt(playableGestures.length - 1)];
     while (state.currentSequence!.contains(randomLetter)) {
       randomLetter =
-          HandGesture.values[Random().nextInt(HandGesture.values.length)];
+          playableGestures[Random().nextInt(playableGestures.length)];
     }
     return randomLetter;
   }

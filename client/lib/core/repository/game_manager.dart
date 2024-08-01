@@ -8,6 +8,7 @@ class GameManager {
   int _points = 0;
 
   final _pointForSuccess = 5;
+  final gestureDetectionTime = const Duration(seconds: 1);
 
   StreamController<HandGesture> _gameSequenceController =
       StreamController<HandGesture>.broadcast();
@@ -17,7 +18,7 @@ class GameManager {
   }
 
   Stream<HandGesture> get gameSequenceStream => _gameSequenceController.stream
-          .buffer(Stream.periodic(const Duration(seconds: 2)))
+          .buffer(Stream.periodic(gestureDetectionTime))
           .asyncMap((bufferedGestures) {
         if (bufferedGestures.isEmpty) return null;
         final HandGesture firstGesture = bufferedGestures.first;

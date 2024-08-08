@@ -16,7 +16,8 @@ class GameScreenCubit extends Cubit<GameScreenState> {
   late StreamSubscription<GameResponse> _gameStreamSubscription;
   final Stopwatch _gameDuration = Stopwatch();
   Stream<HandGesture> get sequenceStream => _sequenceController.stream;
-  final _sequenceController = StreamController<HandGesture>.broadcast();
+  StreamController<HandGesture> _sequenceController =
+      StreamController<HandGesture>.broadcast();
 
   GameScreenCubit()
       : super(
@@ -31,7 +32,7 @@ class GameScreenCubit extends Cubit<GameScreenState> {
     _gameDuration.start();
     Future.delayed(const Duration(seconds: 2), startCountdown);
   }
-  final int _maxRounds = 3;
+  final int _maxRounds = 8;
 
   bool isLastHandGesture() =>
       state.currentHandValueIndex == state.currentSequence!.length - 1;
@@ -56,10 +57,27 @@ class GameScreenCubit extends Cubit<GameScreenState> {
 
   Future<void> updateSequence(List<HandGesture> newSequence) async {
     for (final value in newSequence) {
-      await Future.delayed(const Duration(milliseconds: 1500));
       _sequenceController.add(value);
+      await Future.delayed(const Duration(milliseconds: 1000));
     }
-    Future.delayed(const Duration(seconds: 3), startGame);
+    startGame();
+  }
+
+  void restartGame() {
+    _gameDuration.start();
+    _gameHandler.restartStream();
+    _sequenceController.close();
+    _sequenceController = StreamController<HandGesture>.broadcast();
+    emit(
+      state.copyWith(
+        currentPoints: 0,
+        currentSequence: [],
+        currentRound: 0,
+        gameState: GameState.initial,
+        currentHandValueIndex: 0,
+      ),
+    );
+    Future.delayed(const Duration(seconds: 2), startCountdown);
   }
 
   int advanceSequence() {
@@ -109,7 +127,7 @@ class GameScreenCubit extends Cubit<GameScreenState> {
       );
       if (event.finishSequence) {
         _gameStreamSubscription.cancel();
-        startCountdown();
+        startNewSequence();
       }
     }
     if (!event.isCorrect) {
@@ -141,6 +159,8 @@ class GameScreenCubit extends Cubit<GameScreenState> {
     }
     return randomLetter;
   }
+
+  void toggleDebug(bool value) => emit(state.copyWith(showDebug: value));
 
   @override
   Future<void> close() {

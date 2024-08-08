@@ -15,6 +15,7 @@
       }
     }
   },
+  "debug_mode": "Debug mode",
   "error": "Error: {text}",
   "@error": {
     "description": "Provides an explanation of the error",
@@ -47,6 +48,7 @@
   "points": "Score",
   "ranking": "Ranking",
   "ranking_title": "Your rank",
+  "restart_game": "Restart game",
   "right": "right",
   "see_complete_ranking": "See complete ranking",
   "sign_in": "Sign In",

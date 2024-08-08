@@ -82,17 +82,19 @@ class CameraPlatformWidgetState extends State<CameraWidget>
     if (_cameraController == null || !_cameraController!.value.isInitialized) {
       return Container();
     }
-    return CustomPaint(
-      foregroundPainter: HandRenderPainter(
-        keypointsData: keypoints ??
-            (
-              confidence: 0.0,
-              keyPoints: [],
-              gesture: HandGesture.unrecognized,
+    return widget.showGesture
+        ? CustomPaint(
+            foregroundPainter: HandRenderPainter(
+              keypointsData: keypoints ??
+                  (
+                    confidence: 0.0,
+                    keyPoints: [],
+                    gesture: HandGesture.unrecognized,
+                  ),
+              imageSize: resolutionPreset.size,
             ),
-        imageSize: resolutionPreset.size,
-      ),
-      child: CameraPreview(_cameraController!),
-    );
+            child: CameraPreview(_cameraController!),
+          )
+        : CameraPreview(_cameraController!);
   }
 }

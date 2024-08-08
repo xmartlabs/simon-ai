@@ -7,7 +7,8 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:simon_ai/ui/game_screen/game_screen_cubit.dart';
 
 class FinishGameScreen extends StatelessWidget {
-  const FinishGameScreen({super.key});
+  final VoidCallback onRestart;
+  const FinishGameScreen({required this.onRestart, super.key});
 
   @override
   Widget build(BuildContext context) => Column(
@@ -38,6 +39,22 @@ class FinishGameScreen extends StatelessWidget {
               SizedBox(width: 20.w),
               const _Time(),
             ],
+          ),
+          SizedBox(height: 25.h),
+          InkWell(
+            onTap: onRestart,
+            child: Container(
+              padding: EdgeInsets.symmetric(
+                horizontal: 20.w,
+                vertical: 10.h,
+              ),
+              child: Text(
+                context.localizations.restart_game,
+                style: context.theme.textStyles.headlineMedium!.copyWith(
+                  color: context.theme.customColors.textColor.getShade(400),
+                ),
+              ),
+            ),
           ),
         ],
       );

@@ -5,17 +5,22 @@ import 'package:simon_ai/ui/camera_hand/camera_hand_cubit.dart';
 import 'package:simon_ai/ui/widgets/camera/camera_widget.dart';
 
 class PlayingGameScreen extends StatelessWidget {
-  const PlayingGameScreen({super.key});
+  final bool showGesture;
+  const PlayingGameScreen({required this.showGesture, super.key});
 
   @override
   Widget build(BuildContext context) => BlocProvider(
         create: (_) => CameraHandCubit(),
-        child: const _CameraContent(),
+        child: _CameraContent(
+          showGesture: showGesture,
+        ),
       );
 }
 
 class _CameraContent extends StatelessWidget {
+  final bool showGesture;
   const _CameraContent({
+    required this.showGesture,
     super.key,
   });
 
@@ -34,6 +39,7 @@ class _CameraContent extends StatelessWidget {
               onNewFrame: (dynamic frame) =>
                   context.read<CameraHandCubit>().onNewFrame(frame),
               movenetStream: state.movenetResultStream,
+              showGesture: showGesture,
             ),
           ),
         ),

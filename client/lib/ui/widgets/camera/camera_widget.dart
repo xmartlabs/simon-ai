@@ -7,6 +7,7 @@ class CameraWidget extends StatefulWidget with HandModelWidget {
   final double width;
   final double height;
   final bool enableBorderRadius;
+  final bool showGesture;
   final ValueChanged<dynamic> onNewFrame;
   @override
   final Stream<dynamic>? movenetStream;
@@ -16,6 +17,7 @@ class CameraWidget extends StatefulWidget with HandModelWidget {
     required this.height,
     required this.enableBorderRadius,
     required this.onNewFrame,
+    required this.showGesture,
     this.movenetStream,
     super.key,
   });

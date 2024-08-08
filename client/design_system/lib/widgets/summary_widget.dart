@@ -121,7 +121,7 @@ class _Icon extends StatelessWidget {
                 Text(
                   '$value',
                   style:
-                      context.theme.textStyles.headlineSmall!.bold().copyWith(
+                      context.theme.textStyles.headlineLarge!.bold().copyWith(
                             color: context.theme.customColors.textColor,
                           ),
                 ),
@@ -138,7 +138,7 @@ class _Icon extends StatelessWidget {
                 Text(
                   '$value',
                   style:
-                      context.theme.textStyles.headlineSmall!.bold().copyWith(
+                      context.theme.textStyles.headlineLarge!.bold().copyWith(
                             color: context.theme.customColors.textColor,
                           ),
                 ),
@@ -156,7 +156,7 @@ class _Icon extends StatelessWidget {
                   '$minutes:'
                   '$seconds',
                   style:
-                      context.theme.textStyles.headlineSmall!.bold().copyWith(
+                      context.theme.textStyles.headlineLarge!.bold().copyWith(
                             color: context.theme.customColors.textColor,
                           ),
                 ),

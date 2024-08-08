@@ -21,7 +21,7 @@ class _ShowSequenceScreenState extends State<ShowSequenceScreen> {
 
   @override
   void initState() {
-    sequenceStream = context.read<GameScreenCubit>().currentSequenceStream;
+    sequenceStream = context.read<GameScreenCubit>().sequenceStream;
     super.initState();
   }
 

@@ -1,7 +1,5 @@
 import 'dart:async';
-import 'dart:math';
 
-import 'package:dartx/dartx.dart';
 import 'package:rxdart/rxdart.dart';
 import 'package:simon_ai/core/model/game_response.dart';
 import 'package:simon_ai/core/model/hand_gestures.dart';
@@ -10,35 +8,52 @@ class GameManager {
   int _points = 0;
 
   final _pointForSuccess = 5;
+  final _gestureDetectionTime = const Duration(milliseconds: 400);
 
-  Stream<HandGesture> _fakeMokedGestures(List<HandGesture> sequence) =>
-      Stream.fromIterable(sequence).delay(const Duration(seconds: 2));
+  StreamController<HandGesture> _gameSequenceController =
+      StreamController<HandGesture>.broadcast();
 
-  HandGesture getGestureAt(List<HandGesture> gameSequence, int n) {
-    // Calculate numbers group
-    final int group = ((sqrt(8 * n + 1) - 1) ~/ 2).toInt();
-    // calculate index inside the group
-    final int pos = n - (group * (group + 1)) ~/ 2;
-    return gameSequence[pos];
+  void addGesture(HandGesture gesture) {
+    _gameSequenceController.add(gesture);
+  }
+
+  Stream<HandGesture> get gameSequenceStream => _gameSequenceController.stream
+      .buffer(Stream.periodic(_gestureDetectionTime))
+      .asyncMap((bufferedGestures) {
+        if (bufferedGestures.isEmpty) return null;
+        final HandGesture firstGesture = bufferedGestures.first;
+        final bool isConsistent =
+            bufferedGestures.every((gesture) => gesture == firstGesture);
+        return (isConsistent && firstGesture != HandGesture.unrecognized)
+            ? firstGesture
+            : null;
+      })
+      .whereNotNull()
+      .distinct();
+
+  void close() {
+    _gameSequenceController.close();
+  }
+
+  void restartStream() {
+    _gameSequenceController.close();
+    _gameSequenceController = StreamController<HandGesture>.broadcast();
   }
 
   Stream<GameResponse> startGame(List<HandGesture> gameSequence) {
-    final simulation = List.generate(
-      gameSequence.length,
-      (index) => gameSequence.sublist(0, index + 1),
-    );
+    restartStream();
 
-    return _fakeMokedGestures(simulation.flatten()).scan<List<HandGesture>>(
+    return gameSequenceStream.scan<List<HandGesture>>(
       (accumulated, value, index) => [...accumulated, value],
       [],
     ).map(
       (currentSequence) {
-        final isCorrect = currentSequence.fold(
-          false,
-          (value, element) =>
-              element ==
-              getGestureAt(gameSequence, currentSequence.indexOf(element)),
-        );
+        final isCorrect = gameSequence.sublist(0, currentSequence.length).fold(
+              true,
+              (bool acc, gesture) =>
+                  acc &&
+                  gesture == currentSequence[gameSequence.indexOf(gesture)],
+            );
         return (
           gesture: currentSequence.last,
           points: isCorrect ? _points += _pointForSuccess : _points,

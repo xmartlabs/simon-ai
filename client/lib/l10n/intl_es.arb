@@ -5,6 +5,17 @@
   "completed_game_with": "Has completado el juego con éxito",
   "congratulations": "¡Felicitaciones!",
   "continue_button": "Continuar",
+  "correct_gestures": "Gestos correctos: {number}",
+  "@correct_gestures": {
+    "description": "Muestra la cantidad de gestos correctos que ha realizado el usuario",
+    "placeholders": {
+      "number": {
+        "type": "int",
+        "example": "5"
+      }
+    }
+  },
+  "debug_mode": "Modo debug",
   "error": "Error: {text}",
   "@error": {
     "description": "Da una explicación del error",
@@ -37,6 +48,7 @@
   "points": "Puntaje",
   "ranking": "Ranking",
   "ranking_title": "Tu puesto en el ranking",
+  "restart_game": "Reiniciar juego",
   "right": "derecha",
   "see_complete_ranking": "Ver ranking completo",
   "sign_in": "Iniciar sesión",

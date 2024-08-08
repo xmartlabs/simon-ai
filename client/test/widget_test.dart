@@ -22,18 +22,15 @@ void main() {
     game.listen((event) {
       gameResponses.add(event);
     });
-    executeForDuration(const Duration(seconds: 1), () {
+    await executeForDuration(const Duration(milliseconds: 600), () {
       gameHandler.addGesture(HandGesture.love);
     });
-    await game.first;
-    executeForDuration(const Duration(seconds: 1), () {
+    await executeForDuration(const Duration(milliseconds: 600), () {
       gameHandler.addGesture(HandGesture.victory);
     });
-    await game.first;
-    executeForDuration(const Duration(seconds: 1), () {
+    await executeForDuration(const Duration(milliseconds: 600), () {
       gameHandler.addGesture(HandGesture.pointingUp);
     });
-    await game.first;
     expect(
       gameResponses.map((e) => e.gesture).toList(),
       [

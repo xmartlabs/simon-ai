@@ -19,6 +19,8 @@ class GameScreenCubit extends Cubit<GameScreenState> {
   StreamController<HandGesture> _sequenceController =
       StreamController<HandGesture>.broadcast();
 
+  final Duration durationBetweenDisplayedGestures = const Duration(seconds: 1);
+
   GameScreenCubit()
       : super(
           const GameScreenState.initial(
@@ -58,7 +60,7 @@ class GameScreenCubit extends Cubit<GameScreenState> {
   Future<void> updateSequence(List<HandGesture> newSequence) async {
     for (final value in newSequence) {
       _sequenceController.add(value);
-      await Future.delayed(const Duration(milliseconds: 1000));
+      await Future.delayed(durationBetweenDisplayedGestures);
     }
     startGame();
   }

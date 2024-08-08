@@ -1,11 +1,11 @@
 import 'dart:async';
 
-void executeForDuration(Duration duration, Function action) {
+Future<void> executeForDuration(Duration duration, Function action) async {
   final timer = Timer.periodic(const Duration(milliseconds: 100), (timer) {
     action();
   });
 
-  Future.delayed(duration, () {
+  await Future.delayed(duration, () {
     timer.cancel();
   });
 }

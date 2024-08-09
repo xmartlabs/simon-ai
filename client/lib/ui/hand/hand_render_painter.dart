@@ -3,8 +3,8 @@ import 'dart:ui';
 import 'package:dartx/dartx.dart';
 import 'package:flutter/material.dart';
 import 'package:simon_ai/core/common/config.dart';
-import 'package:simon_ai/core/manager/keypoints/hand_tracking_points.dart';
-import 'package:simon_ai/core/manager/keypoints/keypoints_manager_mobile.dart';
+import 'package:simon_ai/core/hand_models/hand_gesture_classifier/hand_tracking_points.dart';
+import 'package:simon_ai/core/model/hand_landmarks_result_data.dart';
 
 class HandRenderPainter extends CustomPainter {
   static const _drawKeypoints = Config.debugMode;
@@ -58,7 +58,35 @@ class HandRenderPainter extends CustomPainter {
       if (_drawKeypoints) {
         drawKeyPoints(canvas, size);
       }
+      drawText(size: size, canvas: canvas, text: keypointsData.gesture.name);
     }
+  }
+
+  void drawText({
+    required Size size,
+    required Canvas canvas,
+    required String text,
+  }) {
+    const textStyle = TextStyle(
+      color: Colors.blue,
+      fontSize: 48,
+      fontWeight: FontWeight.bold,
+    );
+
+    final textSpan = TextSpan(
+      text: text,
+      style: textStyle,
+    );
+
+    final textPainter = TextPainter(
+      text: textSpan,
+      textDirection: TextDirection.ltr,
+    )..layout();
+
+    final xCenter = (size.width - textPainter.width) / 2;
+    final textPosition = Offset(xCenter, 20);
+
+    textPainter.paint(canvas, textPosition);
   }
 
   void drawKeyPoints(Canvas canvas, Size size) {

@@ -24,6 +24,7 @@ mixin _$GameScreenState {
   HandGesture? get userGesture => throw _privateConstructorUsedError;
   int? get currentHandValueIndex => throw _privateConstructorUsedError;
   List<HandGesture>? get currentSequence => throw _privateConstructorUsedError;
+  bool? get showDebug => throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
     required TResult Function(
@@ -34,7 +35,8 @@ mixin _$GameScreenState {
             HandGesture? currentHandValue,
             HandGesture? userGesture,
             int? currentHandValueIndex,
-            List<HandGesture>? currentSequence)
+            List<HandGesture>? currentSequence,
+            bool? showDebug)
         initial,
   }) =>
       throw _privateConstructorUsedError;
@@ -48,7 +50,8 @@ mixin _$GameScreenState {
             HandGesture? currentHandValue,
             HandGesture? userGesture,
             int? currentHandValueIndex,
-            List<HandGesture>? currentSequence)?
+            List<HandGesture>? currentSequence,
+            bool? showDebug)?
         initial,
   }) =>
       throw _privateConstructorUsedError;
@@ -62,7 +65,8 @@ mixin _$GameScreenState {
             HandGesture? currentHandValue,
             HandGesture? userGesture,
             int? currentHandValueIndex,
-            List<HandGesture>? currentSequence)?
+            List<HandGesture>? currentSequence,
+            bool? showDebug)?
         initial,
     required TResult orElse(),
   }) =>
@@ -103,7 +107,8 @@ abstract class $GameScreenStateCopyWith<$Res> {
       HandGesture? currentHandValue,
       HandGesture? userGesture,
       int? currentHandValueIndex,
-      List<HandGesture>? currentSequence});
+      List<HandGesture>? currentSequence,
+      bool? showDebug});
 }
 
 /// @nodoc
@@ -127,6 +132,7 @@ class _$GameScreenStateCopyWithImpl<$Res, $Val extends GameScreenState>
     Object? userGesture = freezed,
     Object? currentHandValueIndex = freezed,
     Object? currentSequence = freezed,
+    Object? showDebug = freezed,
   }) {
     return _then(_value.copyWith(
       currentPoints: null == currentPoints
@@ -161,6 +167,10 @@ class _$GameScreenStateCopyWithImpl<$Res, $Val extends GameScreenState>
           ? _value.currentSequence
           : currentSequence // ignore: cast_nullable_to_non_nullable
               as List<HandGesture>?,
+      showDebug: freezed == showDebug
+          ? _value.showDebug
+          : showDebug // ignore: cast_nullable_to_non_nullable
+              as bool?,
     ) as $Val);
   }
 }
@@ -181,7 +191,8 @@ abstract class _$$InitialImplCopyWith<$Res>
       HandGesture? currentHandValue,
       HandGesture? userGesture,
       int? currentHandValueIndex,
-      List<HandGesture>? currentSequence});
+      List<HandGesture>? currentSequence,
+      bool? showDebug});
 }
 
 /// @nodoc
@@ -203,6 +214,7 @@ class __$$InitialImplCopyWithImpl<$Res>
     Object? userGesture = freezed,
     Object? currentHandValueIndex = freezed,
     Object? currentSequence = freezed,
+    Object? showDebug = freezed,
   }) {
     return _then(_$InitialImpl(
       currentPoints: null == currentPoints
@@ -237,6 +249,10 @@ class __$$InitialImplCopyWithImpl<$Res>
           ? _value._currentSequence
           : currentSequence // ignore: cast_nullable_to_non_nullable
               as List<HandGesture>?,
+      showDebug: freezed == showDebug
+          ? _value.showDebug
+          : showDebug // ignore: cast_nullable_to_non_nullable
+              as bool?,
     ));
   }
 }
@@ -252,7 +268,8 @@ class _$InitialImpl implements _Initial {
       this.currentHandValue,
       this.userGesture,
       this.currentHandValueIndex,
-      final List<HandGesture>? currentSequence})
+      final List<HandGesture>? currentSequence,
+      this.showDebug})
       : _currentSequence = currentSequence;
 
   @override
@@ -280,8 +297,11 @@ class _$InitialImpl implements _Initial {
   }
 
   @override
+  final bool? showDebug;
+
+  @override
   String toString() {
-    return 'GameScreenState.initial(currentPoints: $currentPoints, currentRound: $currentRound, gameState: $gameState, error: $error, currentHandValue: $currentHandValue, userGesture: $userGesture, currentHandValueIndex: $currentHandValueIndex, currentSequence: $currentSequence)';
+    return 'GameScreenState.initial(currentPoints: $currentPoints, currentRound: $currentRound, gameState: $gameState, error: $error, currentHandValue: $currentHandValue, userGesture: $userGesture, currentHandValueIndex: $currentHandValueIndex, currentSequence: $currentSequence, showDebug: $showDebug)';
   }
 
   @override
@@ -303,7 +323,9 @@ class _$InitialImpl implements _Initial {
             (identical(other.currentHandValueIndex, currentHandValueIndex) ||
                 other.currentHandValueIndex == currentHandValueIndex) &&
             const DeepCollectionEquality()
-                .equals(other._currentSequence, _currentSequence));
+                .equals(other._currentSequence, _currentSequence) &&
+            (identical(other.showDebug, showDebug) ||
+                other.showDebug == showDebug));
   }
 
   @override
@@ -316,7 +338,8 @@ class _$InitialImpl implements _Initial {
       currentHandValue,
       userGesture,
       currentHandValueIndex,
-      const DeepCollectionEquality().hash(_currentSequence));
+      const DeepCollectionEquality().hash(_currentSequence),
+      showDebug);
 
   @JsonKey(ignore: true)
   @override
@@ -335,11 +358,20 @@ class _$InitialImpl implements _Initial {
             HandGesture? currentHandValue,
             HandGesture? userGesture,
             int? currentHandValueIndex,
-            List<HandGesture>? currentSequence)
+            List<HandGesture>? currentSequence,
+            bool? showDebug)
         initial,
   }) {
-    return initial(currentPoints, currentRound, gameState, error,
-        currentHandValue, userGesture, currentHandValueIndex, currentSequence);
+    return initial(
+        currentPoints,
+        currentRound,
+        gameState,
+        error,
+        currentHandValue,
+        userGesture,
+        currentHandValueIndex,
+        currentSequence,
+        showDebug);
   }
 
   @override
@@ -353,11 +385,20 @@ class _$InitialImpl implements _Initial {
             HandGesture? currentHandValue,
             HandGesture? userGesture,
             int? currentHandValueIndex,
-            List<HandGesture>? currentSequence)?
+            List<HandGesture>? currentSequence,
+            bool? showDebug)?
         initial,
   }) {
-    return initial?.call(currentPoints, currentRound, gameState, error,
-        currentHandValue, userGesture, currentHandValueIndex, currentSequence);
+    return initial?.call(
+        currentPoints,
+        currentRound,
+        gameState,
+        error,
+        currentHandValue,
+        userGesture,
+        currentHandValueIndex,
+        currentSequence,
+        showDebug);
   }
 
   @override
@@ -371,7 +412,8 @@ class _$InitialImpl implements _Initial {
             HandGesture? currentHandValue,
             HandGesture? userGesture,
             int? currentHandValueIndex,
-            List<HandGesture>? currentSequence)?
+            List<HandGesture>? currentSequence,
+            bool? showDebug)?
         initial,
     required TResult orElse(),
   }) {
@@ -384,7 +426,8 @@ class _$InitialImpl implements _Initial {
           currentHandValue,
           userGesture,
           currentHandValueIndex,
-          currentSequence);
+          currentSequence,
+          showDebug);
     }
     return orElse();
   }
@@ -427,7 +470,8 @@ abstract class _Initial implements GameScreenState {
       final HandGesture? currentHandValue,
       final HandGesture? userGesture,
       final int? currentHandValueIndex,
-      final List<HandGesture>? currentSequence}) = _$InitialImpl;
+      final List<HandGesture>? currentSequence,
+      final bool? showDebug}) = _$InitialImpl;
 
   @override
   int get currentPoints;
@@ -445,6 +489,8 @@ abstract class _Initial implements GameScreenState {
   int? get currentHandValueIndex;
   @override
   List<HandGesture>? get currentSequence;
+  @override
+  bool? get showDebug;
   @override
   @JsonKey(ignore: true)
   _$$InitialImplCopyWith<_$InitialImpl> get copyWith =>

@@ -1,10 +1,12 @@
 import 'package:auto_route/auto_route.dart';
+import 'package:design_system/design_system.dart';
 import 'package:design_system/widgets/app_scaffold.dart';
 import 'package:design_system/widgets/summary_widget.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:simon_ai/gen/assets.gen.dart';
 import 'package:simon_ai/ui/game_screen/game_overlay.dart';
 import 'package:simon_ai/ui/game_screen/game_screen_cubit.dart';
 import 'package:simon_ai/ui/game_screen/game_state_screens/error_state_screen.dart';
@@ -35,22 +37,70 @@ class _GameScreenContent extends StatelessWidget {
           child: Stack(
             children: [
               if (state.gameState != GameState.ended)
-                const Align(
+                Align(
                   alignment: Alignment.center,
-                  child: PlayingGameScreen(),
+                  child: PlayingGameScreen(
+                    showGesture: state.showDebug ?? false,
+                  ),
                 ),
               switch (state.gameState) {
                 GameState.initial => const Align(child: GameOverlay()),
                 GameState.countDown => const Align(child: GameOverlay()),
                 GameState.showingSequence => const Align(child: GameOverlay()),
                 GameState.playing => Container(),
-                GameState.ended => const FinishGameScreen(),
+                GameState.ended => FinishGameScreen(
+                    onRestart: context.read<GameScreenCubit>().restartGame,
+                  ),
                 GameState.error => const ErrorStateScreen(),
               },
+              if (kDebugMode && state.gameState != GameState.ended)
+                Align(
+                  alignment: Alignment.topCenter,
+                  child: Row(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      Text(
+                        context.localizations.debug_mode,
+                        style:
+                            context.theme.textStyles.headlineMedium?.copyWith(
+                          color: context.theme.customColors.textColor,
+                        ),
+                      ),
+                      Switch(
+                        value: state.showDebug ?? false,
+                        activeTrackColor: context.theme.customColors.success,
+                        onChanged: (value) =>
+                            context.read<GameScreenCubit>().toggleDebug(value),
+                      ),
+                    ],
+                  ),
+                ),
               if (state.gameState != GameState.ended)
                 const Align(
                   alignment: Alignment.topRight,
                   child: _Points(),
+                ),
+              if (state.gameState != GameState.ended)
+                Align(
+                  alignment: Alignment.topLeft,
+                  child: Row(
+                    children: [
+                      Assets.images.check.image(
+                        fit: BoxFit.fill,
+                        filterQuality: FilterQuality.high,
+                      ),
+                      const SizedBox(width: 8),
+                      Text(
+                        context.localizations
+                            .correct_gestures(state.currentHandValueIndex ?? 0),
+                        style: context.theme.textStyles.headlineSmall!
+                            .bold()
+                            .copyWith(
+                              color: context.theme.customColors.textColor,
+                            ),
+                      ),
+                    ],
+                  ),
                 ),
             ],
           ),

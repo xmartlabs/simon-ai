@@ -1,29 +1,19 @@
-//TODO: Update when the HandGesture model is created
 enum HandGesture {
-  A,
-  B,
-  C,
-  D,
-  E,
-  F,
-  G,
-  H,
-  I,
-  J,
-  K,
-  L,
-  M,
-  N,
-  O,
-  P,
-  Q,
-  R,
-  S,
-  T,
-  U,
-  V,
-  W,
-  X,
-  Y,
-  Z
+  unrecognized,
+  closed,
+  open,
+  pointingUp,
+  thumbsDown,
+  thumbsUp,
+  victory,
+  love
 }
+
+List<HandGesture> get playableGestures => [
+      HandGesture.closed,
+      HandGesture.open,
+      HandGesture.pointingUp,
+      HandGesture.thumbsUp,
+      HandGesture.victory,
+      HandGesture.love,
+    ];

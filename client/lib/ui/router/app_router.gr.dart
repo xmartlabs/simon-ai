@@ -21,12 +21,6 @@ abstract class _$AppRouter extends RootStackRouter {
         child: const AuthenticatedSectionRouter(),
       );
     },
-    CameraHandRoute.name: (routeData) {
-      return AutoRoutePage<dynamic>(
-        routeData: routeData,
-        child: const CameraHandScreen(),
-      );
-    },
     EmptyRouteRoute.name: (routeData) {
       return AutoRoutePage<dynamic>(
         routeData: routeData,
@@ -88,20 +82,6 @@ class AuthenticatedSectionRoute extends PageRouteInfo<void> {
         );
 
   static const String name = 'AuthenticatedSectionRoute';
-
-  static const PageInfo<void> page = PageInfo<void>(name);
-}
-
-/// generated route for
-/// [CameraHandScreen]
-class CameraHandRoute extends PageRouteInfo<void> {
-  const CameraHandRoute({List<PageRouteInfo>? children})
-      : super(
-          CameraHandRoute.name,
-          initialChildren: children,
-        );
-
-  static const String name = 'CameraHandRoute';
 
   static const PageInfo<void> page = PageInfo<void>(name);
 }

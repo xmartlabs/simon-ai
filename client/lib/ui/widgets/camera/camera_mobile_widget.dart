@@ -5,6 +5,7 @@ import 'dart:io';
 import 'package:camera/camera.dart';
 import 'package:flutter/material.dart';
 import 'package:simon_ai/core/common/logger.dart';
+import 'package:simon_ai/core/model/hand_gestures.dart';
 import 'package:simon_ai/ui/extensions/camera_extensions.dart';
 import 'package:simon_ai/ui/hand/hand_model_widget.dart';
 import 'package:simon_ai/ui/hand/hand_render_painter.dart';
@@ -81,12 +82,19 @@ class CameraPlatformWidgetState extends State<CameraWidget>
     if (_cameraController == null || !_cameraController!.value.isInitialized) {
       return Container();
     }
-    return CustomPaint(
-      foregroundPainter: HandRenderPainter(
-        keypointsData: keypoints ?? (confidence: 0.0, keyPoints: []),
-        imageSize: resolutionPreset.size,
-      ),
-      child: CameraPreview(_cameraController!),
-    );
+    return widget.showGesture
+        ? CustomPaint(
+            foregroundPainter: HandRenderPainter(
+              keypointsData: keypoints ??
+                  (
+                    confidence: 0.0,
+                    keyPoints: [],
+                    gesture: HandGesture.unrecognized,
+                  ),
+              imageSize: resolutionPreset.size,
+            ),
+            child: CameraPreview(_cameraController!),
+          )
+        : CameraPreview(_cameraController!);
   }
 }

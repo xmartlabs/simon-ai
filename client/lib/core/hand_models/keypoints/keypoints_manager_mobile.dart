@@ -3,24 +3,25 @@ import 'dart:isolate';
 
 import 'package:flutter/services.dart';
 import 'package:simon_ai/core/common/logger.dart';
-import 'package:simon_ai/core/manager/keypoints/hand_tracking_classifier.dart';
-import 'package:simon_ai/core/manager/keypoints/hand_tracking_isolate.dart';
-import 'package:simon_ai/core/manager/keypoints/hand_tracking_points.dart';
-import 'package:simon_ai/core/manager/keypoints/keypoints_manager.dart';
+import 'package:simon_ai/core/hand_models/hand_canned_gesture/hand_canned_gesture_classifier.dart';
+import 'package:simon_ai/core/hand_models/hand_detector/hand_detector_classifier.dart';
+import 'package:simon_ai/core/hand_models/hand_gesture_classifier/hand_tracking_isolate.dart';
+import 'package:simon_ai/core/hand_models/hand_gesture_classifier/hand_tracking_points.dart';
+import 'package:simon_ai/core/hand_models/hand_gesture_embedder/hand_gesture_embedder_classifier.dart';
+import 'package:simon_ai/core/hand_models/hand_tracking/hand_tracking_classifier.dart';
+import 'package:simon_ai/core/hand_models/keypoints/keypoints_manager.dart';
+import 'package:simon_ai/core/interfaces/model_interface.dart';
+import 'package:simon_ai/core/model/anchor.dart';
+import 'package:simon_ai/core/model/hand_classifier_isolate_data.dart';
+import 'package:simon_ai/core/model/hand_classifier_result_data.dart';
+import 'package:simon_ai/core/model/hand_landmarks_result_data.dart';
 import 'package:simon_ai/gen/assets.gen.dart';
 
-typedef HandLandmarksData = ({
-  double confidence,
-  List<KeyPointData> keyPoints,
-});
-
-typedef HandLandmarksResultData = ({
-  double confidence,
-  List<double> keyPoints,
-});
-
 class KeyPointsMobileManager implements KeyPointsManager {
-  late HandTrackingClassifier classifier;
+  late ModelHandler handTrackingClassifier;
+  late ModelHandler handDetectorClassifier;
+  late ModelHandler handGestureEmbedderClassifier;
+  late ModelHandler handCannedGestureClassifier;
   late HandTrackingIsolateUtils isolate;
   var _currentFrame = 0;
   var _lastCurrentFrame = 0;
@@ -29,7 +30,10 @@ class KeyPointsMobileManager implements KeyPointsManager {
   Future<void> init() async {
     isolate = HandTrackingIsolateUtils();
     await isolate.start();
-    classifier = HandTrackingClassifier();
+    handTrackingClassifier = HandTrackingClassifier();
+    handDetectorClassifier = HandDetectorClassifier();
+    handGestureEmbedderClassifier = HandGestureEmbedderClassifier();
+    handCannedGestureClassifier = HandCannedGestureClassifier();
     Timer.periodic(const Duration(seconds: 1), (timer) {
       final currentFrame = _currentFrame;
       Logger.i('FPS: ${currentFrame - _lastCurrentFrame}');
@@ -44,7 +48,11 @@ class KeyPointsMobileManager implements KeyPointsManager {
     final resultData = await _inference(newFrame);
     _currentFrame++;
     final processedKeyPoints = _processKeypoints(resultData.keyPoints);
-    return (confidence: resultData.confidence, keyPoints: processedKeyPoints);
+    return (
+      confidence: resultData.confidence,
+      keyPoints: processedKeyPoints,
+      gesture: resultData.gesture
+    );
   }
 
   Future<List<Anchor>> loadAnchorsFromCsv(String filePath) async {
@@ -69,14 +77,17 @@ class KeyPointsMobileManager implements KeyPointsManager {
     return anchors;
   }
 
-  Future<HandLandmarksResultData> _inference(dynamic newFrame) async {
+  Future<HandClassifierResultData> _inference(dynamic newFrame) async {
     final responsePort = ReceivePort();
     final anchors = await loadAnchorsFromCsv(Assets.models.anchors);
-    final IsolateData isolateData = (
+    final HandClasifierIsolateData isolateData = (
       cameraImage: newFrame,
-      interpreterAddressList: classifier.interpreter
-          .map((interpreter) => interpreter.address)
-          .toList(),
+      interpreterAddressList: [
+        handTrackingClassifier.interpreter,
+        handDetectorClassifier.interpreter,
+        handGestureEmbedderClassifier.interpreter,
+        handCannedGestureClassifier.interpreter,
+      ].map((interpreter) => interpreter.address).toList(),
       anchors: anchors,
       responsePort: responsePort.sendPort
     );

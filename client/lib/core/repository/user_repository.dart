@@ -14,7 +14,7 @@ class UserRepository {
   UserRepository(this._userRemoteSource)
       : _store = Stock(
           fetcher: Fetcher.ofFuture(
-            (_) => _userRemoteSource.getAllData(),
+            (_) => _userRemoteSource.getAllUsers(),
           ),
         );
 
@@ -29,12 +29,12 @@ class UserRepository {
       .map((event) => event.data!.requireData());
 
   Future<void> insertUser(User user) =>
-      _userRemoteSource.insert(user.email, user);
+      _userRemoteSource.createUser(user.email, user);
 
   Future<void> updateUser(User user) =>
-      _userRemoteSource.update(user.email, user);
+      _userRemoteSource.updateUser(user.email, user);
 
-  Future<void> deleteUser(String id) => _userRemoteSource.delete(id);
+  Future<void> deleteUser(String id) => _userRemoteSource.deleteUser(id);
 
-  Future<User?> getUser(String id) => _userRemoteSource.getData(id);
+  Future<User?> getUser(String id) => _userRemoteSource.getUser(id);
 }

@@ -1,7 +1,5 @@
 import 'package:get_it/get_it.dart';
-import 'package:simon_ai/core/common/config.dart';
 import 'package:simon_ai/core/interfaces/permission_handler_interface.dart';
-import 'package:simon_ai/core/model/user.dart';
 import 'package:simon_ai/core/repository/game_manager.dart';
 import 'package:simon_ai/core/repository/session_repository.dart';
 import 'package:simon_ai/core/repository/user_repository.dart';
@@ -36,13 +34,7 @@ extension _GetItDiModuleExtensions on GetIt {
     registerLazySingleton<PermissionHandlerInterface>(
       () => MobilePermissionHandlerService(),
     );
-    registerLazySingleton<UserRemoteSource>(
-      () => UserRemoteSource(
-        modelToJson: (User data) => data.toJson(),
-        jsonToModel: User.fromJson,
-        collection: Config.userCollection,
-      ),
-    );
+    registerLazySingleton<UserRemoteSource>(() => UserRemoteSource());
   }
 
   void _setupRepositories() {

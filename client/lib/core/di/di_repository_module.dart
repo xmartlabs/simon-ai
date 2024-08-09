@@ -34,7 +34,6 @@ extension _GetItDiModuleExtensions on GetIt {
     registerLazySingleton<PermissionHandlerInterface>(
       () => MobilePermissionHandlerService(),
     );
-    registerLazySingleton<UserRemoteSource>(() => UserRemoteSource());
   }
 
   void _setupRepositories() {
@@ -48,5 +47,7 @@ extension _GetItDiModuleExtensions on GetIt {
     registerLazySingleton(() => AuthRemoteSource(get()));
     registerLazySingleton(() => ProjectLocalSource());
     registerLazySingleton(() => ProjectRemoteSource(get()));
+
+    registerLazySingleton<UserRemoteSource>(() => UserRemoteSource());
   }
 }

@@ -18,7 +18,7 @@ class UserRepository {
           ),
         );
 
-  User get currentUser => _user!;
+  User? get gameUser => _user;
 
   void setCurrentUser(User user) => _user = user;
 

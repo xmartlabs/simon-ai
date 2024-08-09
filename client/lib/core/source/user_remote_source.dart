@@ -23,7 +23,5 @@ class UserRemoteSource {
   Future<List<User>> getAllUsers() async =>
       (await _firestoreDb.getAllData()).map((e) => User.fromJson(e)).toList();
 
-  Future<void> close() async {
-    await _firestoreDb.close();
-  }
+  Future<void> close() => _firestoreDb.close();
 }

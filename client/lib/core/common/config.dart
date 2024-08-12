@@ -16,6 +16,8 @@ interface class Config {
   static late String apiBaseUrl;
   static late String supabaseApiKey;
 
+  static const String userCollection = 'users';
+
   static final _environment = enumFromString(
         Environments.values,
         const String.fromEnvironment('ENV'),

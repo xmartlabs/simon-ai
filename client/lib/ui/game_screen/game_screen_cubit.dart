@@ -7,6 +7,7 @@ import 'package:simon_ai/core/di/di_provider.dart';
 import 'package:simon_ai/core/model/game_response.dart';
 import 'package:simon_ai/core/model/hand_gestures.dart';
 import 'package:simon_ai/core/repository/game_manager.dart';
+import 'package:simon_ai/core/repository/user_repository.dart';
 
 part 'game_screen_cubit.freezed.dart';
 part 'game_screen_state.dart';
@@ -15,6 +16,7 @@ class GameScreenCubit extends Cubit<GameScreenState> {
   final GameManager _gameHandler = DiProvider.get();
   late StreamSubscription<GameResponse> _gameStreamSubscription;
   final Stopwatch _gameDuration = Stopwatch();
+  final UserRepository _userRepository = DiProvider.get();
   Stream<HandGesture> get sequenceStream => _sequenceController.stream;
   StreamController<HandGesture> _sequenceController =
       StreamController<HandGesture>.broadcast();
@@ -140,6 +142,12 @@ class GameScreenCubit extends Cubit<GameScreenState> {
   void endGame() {
     _gameDuration.stop();
     _gameStreamSubscription.cancel();
+    final currentUser = _userRepository.gameUser!;
+    _userRepository.updateUser(
+      currentUser.copyWith(
+        points: state.currentPoints,
+      ),
+    );
     _gameHandler.close();
     _sequenceController.close();
 

@@ -22,6 +22,7 @@ User _$UserFromJson(Map<String, dynamic> json) {
 mixin _$User {
   String get email => throw _privateConstructorUsedError;
   String? get name => throw _privateConstructorUsedError;
+  int get points => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
@@ -33,7 +34,7 @@ abstract class $UserCopyWith<$Res> {
   factory $UserCopyWith(User value, $Res Function(User) then) =
       _$UserCopyWithImpl<$Res, User>;
   @useResult
-  $Res call({String email, String? name});
+  $Res call({String email, String? name, int points});
 }
 
 /// @nodoc
@@ -51,6 +52,7 @@ class _$UserCopyWithImpl<$Res, $Val extends User>
   $Res call({
     Object? email = null,
     Object? name = freezed,
+    Object? points = null,
   }) {
     return _then(_value.copyWith(
       email: null == email
@@ -61,6 +63,10 @@ class _$UserCopyWithImpl<$Res, $Val extends User>
           ? _value.name
           : name // ignore: cast_nullable_to_non_nullable
               as String?,
+      points: null == points
+          ? _value.points
+          : points // ignore: cast_nullable_to_non_nullable
+              as int,
     ) as $Val);
   }
 }
@@ -72,7 +78,7 @@ abstract class _$$UserImplCopyWith<$Res> implements $UserCopyWith<$Res> {
       __$$UserImplCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({String email, String? name});
+  $Res call({String email, String? name, int points});
 }
 
 /// @nodoc
@@ -87,6 +93,7 @@ class __$$UserImplCopyWithImpl<$Res>
   $Res call({
     Object? email = null,
     Object? name = freezed,
+    Object? points = null,
   }) {
     return _then(_$UserImpl(
       email: null == email
@@ -97,6 +104,10 @@ class __$$UserImplCopyWithImpl<$Res>
           ? _value.name
           : name // ignore: cast_nullable_to_non_nullable
               as String?,
+      points: null == points
+          ? _value.points
+          : points // ignore: cast_nullable_to_non_nullable
+              as int,
     ));
   }
 }
@@ -105,7 +116,7 @@ class __$$UserImplCopyWithImpl<$Res>
 
 @JsonSerializable()
 class _$UserImpl implements _User {
-  _$UserImpl({required this.email, this.name});
+  _$UserImpl({required this.email, this.name, this.points = 0});
 
   factory _$UserImpl.fromJson(Map<String, dynamic> json) =>
       _$$UserImplFromJson(json);
@@ -114,10 +125,13 @@ class _$UserImpl implements _User {
   final String email;
   @override
   final String? name;
+  @override
+  @JsonKey()
+  final int points;
 
   @override
   String toString() {
-    return 'User(email: $email, name: $name)';
+    return 'User(email: $email, name: $name, points: $points)';
   }
 
   @override
@@ -126,12 +140,13 @@ class _$UserImpl implements _User {
         (other.runtimeType == runtimeType &&
             other is _$UserImpl &&
             (identical(other.email, email) || other.email == email) &&
-            (identical(other.name, name) || other.name == name));
+            (identical(other.name, name) || other.name == name) &&
+            (identical(other.points, points) || other.points == points));
   }
 
   @JsonKey(ignore: true)
   @override
-  int get hashCode => Object.hash(runtimeType, email, name);
+  int get hashCode => Object.hash(runtimeType, email, name, points);
 
   @JsonKey(ignore: true)
   @override
@@ -148,7 +163,10 @@ class _$UserImpl implements _User {
 }
 
 abstract class _User implements User {
-  factory _User({required final String email, final String? name}) = _$UserImpl;
+  factory _User(
+      {required final String email,
+      final String? name,
+      final int points}) = _$UserImpl;
 
   factory _User.fromJson(Map<String, dynamic> json) = _$UserImpl.fromJson;
 
@@ -156,6 +174,8 @@ abstract class _User implements User {
   String get email;
   @override
   String? get name;
+  @override
+  int get points;
   @override
   @JsonKey(ignore: true)
   _$$UserImplCopyWith<_$UserImpl> get copyWith =>

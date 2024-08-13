@@ -1,7 +1,7 @@
-import 'package:camera/camera.dart';
 import 'package:design_system/design_system.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:simon_ai/core/common/config.dart';
 import 'package:simon_ai/core/model/hand_gesture_with_position.dart';
 import 'package:simon_ai/core/model/hand_gestures.dart';
 import 'package:simon_ai/ui/extensions/camera_extensions.dart';
@@ -69,33 +69,36 @@ class CorrectGestureFeedbackState extends State<CorrectGestureFeedback>
                 AnimatedBuilder(
                   animation: _animation!,
                   builder: (context, child) {
-                    final double initialLeft = currentGesture!.box.x /
-                        ResolutionPreset.medium.size.width *
-                        constraints.maxWidth;
-                    final double initialTop = currentGesture!.box.y /
-                        ResolutionPreset.medium.size.height *
-                        constraints.maxHeight;
-                    final double initialSize = currentGesture!.box.w /
-                        ResolutionPreset.medium.size.width *
-                        constraints.maxWidth;
+                    final boxTopLeft = currentGesture!.box;
 
-                    final double finalLeft =
-                        (constraints.maxWidth - constraints.maxHeight) / 2;
+                    final cameraResolutionSize =
+                        Config.cameraResolutionPreset.size;
+                    final maxWidth = constraints.maxWidth;
+                    final maxHeight = constraints.maxHeight;
+                    final double initialLeft =
+                        boxTopLeft.x / cameraResolutionSize.width * maxWidth;
+                    final double initialTop =
+                        boxTopLeft.y / cameraResolutionSize.height * maxHeight;
+                    final double initialSize =
+                        boxTopLeft.w / cameraResolutionSize.width * maxWidth;
+
+                    final double finalLeft = (maxWidth - maxHeight) / 2;
                     const double finalTop = 0;
-                    final double finalSize = constraints.maxHeight;
+                    final double finalSize = maxHeight;
 
-                    final double left = initialLeft * (1 - _animation!.value) +
-                        finalLeft * _animation!.value;
-                    final double top = initialTop * (1 - _animation!.value) +
-                        finalTop * _animation!.value;
-                    final double size = initialSize * (1 - _animation!.value) +
-                        finalSize * _animation!.value;
+                    final animationValue = _animation!.value;
+                    final double left = initialLeft * (1 - animationValue) +
+                        finalLeft * animationValue;
+                    final double top = initialTop * (1 - animationValue) +
+                        finalTop * animationValue;
+                    final double size = initialSize * (1 - animationValue) +
+                        finalSize * animationValue;
 
                     return Positioned(
                       left: left,
                       top: top,
                       child: AnimatedOpacity(
-                        opacity: 1 - _animation!.value,
+                        opacity: 1 - animationValue,
                         duration: _animationDuration,
                         child: SizedBox(
                           width: size,

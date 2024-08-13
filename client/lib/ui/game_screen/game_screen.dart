@@ -7,6 +7,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:simon_ai/gen/assets.gen.dart';
+import 'package:simon_ai/ui/game_screen/correct_gesture_feedback.dart';
 import 'package:simon_ai/ui/game_screen/game_overlay.dart';
 import 'package:simon_ai/ui/game_screen/game_screen_cubit.dart';
 import 'package:simon_ai/ui/game_screen/game_state_screens/error_state_screen.dart';
@@ -79,6 +80,11 @@ class _GameScreenContent extends StatelessWidget {
                 const Align(
                   alignment: Alignment.topRight,
                   child: _Points(),
+                ),
+              if (state.gameState != GameState.ended)
+                const Align(
+                  alignment: Alignment.center,
+                  child: CorrectGestureFeedback(),
                 ),
               if (state.gameState != GameState.ended)
                 Align(

@@ -4,6 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:simon_ai/core/di/di_provider.dart';
 import 'package:simon_ai/core/hand_models/keypoints/keypoints_manager.dart';
+import 'package:simon_ai/core/model/coordinates.dart';
 import 'package:simon_ai/core/model/hand_gestures.dart';
 import 'package:simon_ai/core/model/hand_landmarks_result_data.dart';
 import 'package:simon_ai/core/repository/game_manager.dart';
@@ -41,7 +42,13 @@ class CameraHandCubit extends Cubit<CameraHandState> {
 
     final result = await _keyPointsManager.processFrame(newFrame);
     _movementStreamController.add(result);
-    _gameHandler.addGesture(result.gesture);
+    _gameHandler.addGesture(
+      (
+        gesture: result.gesture,
+        gesturePosition: calculateCenter(result.keyPoints),
+        box: result.cropData,
+      ),
+    );
   }
 
   Future<void> _initializeStream() async {
@@ -53,4 +60,25 @@ class CameraHandCubit extends Cubit<CameraHandState> {
       // TODO add implementation for after-processing frame
     });
   }
+}
+
+Coordinates calculateCenter(
+  List<({double x, double y, double z})> coordinates,
+) {
+  if (coordinates.isEmpty) {
+    throw ArgumentError('The coordinates list cannot be empty');
+  }
+
+  double sumX = 0;
+  double sumY = 0;
+
+  for (final coordinate in coordinates) {
+    sumX += coordinate.x;
+    sumY += coordinate.y;
+  }
+
+  final double centerX = sumX / coordinates.length;
+  final double centerY = sumY / coordinates.length;
+
+  return (x: centerX, y: centerY); // z is set to 0 as it's not needed
 }

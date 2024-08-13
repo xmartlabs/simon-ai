@@ -58,7 +58,8 @@ class HandClassifier
       (
         confidence: handLandmarksResult.confidence,
         keyPoints: handLandmarksResult.keyPoints,
-        gesture: gesture
+        gesture: gesture,
+        cropData: cropData,
       ),
     );
   }

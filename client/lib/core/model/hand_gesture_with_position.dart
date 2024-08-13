@@ -1,9 +1,9 @@
+import 'package:simon_ai/core/model/coordinates.dart';
 import 'package:simon_ai/core/model/hand_detector_result_data.dart';
 import 'package:simon_ai/core/model/hand_gestures.dart';
 
-typedef HandClassifierResultData = ({
-  double confidence,
-  List<double> keyPoints,
+typedef HandGestureWithPosition = ({
   HandGesture gesture,
-  HandDetectorResultData cropData, 
+  Coordinates gesturePosition,
+  HandDetectorResultData box,
 });

@@ -41,9 +41,9 @@ class _ShowSequenceScreenState extends State<ShowSequenceScreen> {
       builder: (context, snapshot) {
         if (snapshot.hasData) {
           return Text(
-            snapshot.data?.name ?? '',
+            snapshot.data?.emoji ?? '',
             style: context.theme.textStyles.headlineLarge!.copyWith(
-              fontSize: 120,
+              fontSize: 250,
             ),
           );
         }

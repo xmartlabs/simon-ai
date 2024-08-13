@@ -25,6 +25,12 @@ mixin _$GameScreenState {
   int? get currentHandValueIndex => throw _privateConstructorUsedError;
   List<HandGesture>? get currentSequence => throw _privateConstructorUsedError;
   bool? get showDebug => throw _privateConstructorUsedError;
+  List<
+      ({
+        ({double confidence, double h, double w, double x, double y}) box,
+        HandGesture gesture,
+        ({double x, double y}) gesturePosition
+      })>? get handSequenceHistory => throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
     required TResult Function(
@@ -36,7 +42,20 @@ mixin _$GameScreenState {
             HandGesture? userGesture,
             int? currentHandValueIndex,
             List<HandGesture>? currentSequence,
-            bool? showDebug)
+            bool? showDebug,
+            List<
+                    ({
+                      ({
+                        double confidence,
+                        double h,
+                        double w,
+                        double x,
+                        double y
+                      }) box,
+                      HandGesture gesture,
+                      ({double x, double y}) gesturePosition
+                    })>?
+                handSequenceHistory)
         initial,
   }) =>
       throw _privateConstructorUsedError;
@@ -51,7 +70,20 @@ mixin _$GameScreenState {
             HandGesture? userGesture,
             int? currentHandValueIndex,
             List<HandGesture>? currentSequence,
-            bool? showDebug)?
+            bool? showDebug,
+            List<
+                    ({
+                      ({
+                        double confidence,
+                        double h,
+                        double w,
+                        double x,
+                        double y
+                      }) box,
+                      HandGesture gesture,
+                      ({double x, double y}) gesturePosition
+                    })>?
+                handSequenceHistory)?
         initial,
   }) =>
       throw _privateConstructorUsedError;
@@ -66,7 +98,20 @@ mixin _$GameScreenState {
             HandGesture? userGesture,
             int? currentHandValueIndex,
             List<HandGesture>? currentSequence,
-            bool? showDebug)?
+            bool? showDebug,
+            List<
+                    ({
+                      ({
+                        double confidence,
+                        double h,
+                        double w,
+                        double x,
+                        double y
+                      }) box,
+                      HandGesture gesture,
+                      ({double x, double y}) gesturePosition
+                    })>?
+                handSequenceHistory)?
         initial,
     required TResult orElse(),
   }) =>
@@ -108,7 +153,20 @@ abstract class $GameScreenStateCopyWith<$Res> {
       HandGesture? userGesture,
       int? currentHandValueIndex,
       List<HandGesture>? currentSequence,
-      bool? showDebug});
+      bool? showDebug,
+      List<
+              ({
+                ({
+                  double confidence,
+                  double h,
+                  double w,
+                  double x,
+                  double y
+                }) box,
+                HandGesture gesture,
+                ({double x, double y}) gesturePosition
+              })>?
+          handSequenceHistory});
 }
 
 /// @nodoc
@@ -133,6 +191,7 @@ class _$GameScreenStateCopyWithImpl<$Res, $Val extends GameScreenState>
     Object? currentHandValueIndex = freezed,
     Object? currentSequence = freezed,
     Object? showDebug = freezed,
+    Object? handSequenceHistory = freezed,
   }) {
     return _then(_value.copyWith(
       currentPoints: null == currentPoints
@@ -171,6 +230,21 @@ class _$GameScreenStateCopyWithImpl<$Res, $Val extends GameScreenState>
           ? _value.showDebug
           : showDebug // ignore: cast_nullable_to_non_nullable
               as bool?,
+      handSequenceHistory: freezed == handSequenceHistory
+          ? _value.handSequenceHistory
+          : handSequenceHistory // ignore: cast_nullable_to_non_nullable
+              as List<
+                  ({
+                    ({
+                      double confidence,
+                      double h,
+                      double w,
+                      double x,
+                      double y
+                    }) box,
+                    HandGesture gesture,
+                    ({double x, double y}) gesturePosition
+                  })>?,
     ) as $Val);
   }
 }
@@ -192,7 +266,20 @@ abstract class _$$InitialImplCopyWith<$Res>
       HandGesture? userGesture,
       int? currentHandValueIndex,
       List<HandGesture>? currentSequence,
-      bool? showDebug});
+      bool? showDebug,
+      List<
+              ({
+                ({
+                  double confidence,
+                  double h,
+                  double w,
+                  double x,
+                  double y
+                }) box,
+                HandGesture gesture,
+                ({double x, double y}) gesturePosition
+              })>?
+          handSequenceHistory});
 }
 
 /// @nodoc
@@ -215,6 +302,7 @@ class __$$InitialImplCopyWithImpl<$Res>
     Object? currentHandValueIndex = freezed,
     Object? currentSequence = freezed,
     Object? showDebug = freezed,
+    Object? handSequenceHistory = freezed,
   }) {
     return _then(_$InitialImpl(
       currentPoints: null == currentPoints
@@ -253,6 +341,21 @@ class __$$InitialImplCopyWithImpl<$Res>
           ? _value.showDebug
           : showDebug // ignore: cast_nullable_to_non_nullable
               as bool?,
+      handSequenceHistory: freezed == handSequenceHistory
+          ? _value._handSequenceHistory
+          : handSequenceHistory // ignore: cast_nullable_to_non_nullable
+              as List<
+                  ({
+                    ({
+                      double confidence,
+                      double h,
+                      double w,
+                      double x,
+                      double y
+                    }) box,
+                    HandGesture gesture,
+                    ({double x, double y}) gesturePosition
+                  })>?,
     ));
   }
 }
@@ -269,8 +372,22 @@ class _$InitialImpl implements _Initial {
       this.userGesture,
       this.currentHandValueIndex,
       final List<HandGesture>? currentSequence,
-      this.showDebug})
-      : _currentSequence = currentSequence;
+      this.showDebug,
+      final List<
+              ({
+                ({
+                  double confidence,
+                  double h,
+                  double w,
+                  double x,
+                  double y
+                }) box,
+                HandGesture gesture,
+                ({double x, double y}) gesturePosition
+              })>?
+          handSequenceHistory})
+      : _currentSequence = currentSequence,
+        _handSequenceHistory = handSequenceHistory;
 
   @override
   final int currentPoints;
@@ -298,10 +415,30 @@ class _$InitialImpl implements _Initial {
 
   @override
   final bool? showDebug;
+  final List<
+      ({
+        ({double confidence, double h, double w, double x, double y}) box,
+        HandGesture gesture,
+        ({double x, double y}) gesturePosition
+      })>? _handSequenceHistory;
+  @override
+  List<
+      ({
+        ({double confidence, double h, double w, double x, double y}) box,
+        HandGesture gesture,
+        ({double x, double y}) gesturePosition
+      })>? get handSequenceHistory {
+    final value = _handSequenceHistory;
+    if (value == null) return null;
+    if (_handSequenceHistory is EqualUnmodifiableListView)
+      return _handSequenceHistory;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableListView(value);
+  }
 
   @override
   String toString() {
-    return 'GameScreenState.initial(currentPoints: $currentPoints, currentRound: $currentRound, gameState: $gameState, error: $error, currentHandValue: $currentHandValue, userGesture: $userGesture, currentHandValueIndex: $currentHandValueIndex, currentSequence: $currentSequence, showDebug: $showDebug)';
+    return 'GameScreenState.initial(currentPoints: $currentPoints, currentRound: $currentRound, gameState: $gameState, error: $error, currentHandValue: $currentHandValue, userGesture: $userGesture, currentHandValueIndex: $currentHandValueIndex, currentSequence: $currentSequence, showDebug: $showDebug, handSequenceHistory: $handSequenceHistory)';
   }
 
   @override
@@ -325,7 +462,9 @@ class _$InitialImpl implements _Initial {
             const DeepCollectionEquality()
                 .equals(other._currentSequence, _currentSequence) &&
             (identical(other.showDebug, showDebug) ||
-                other.showDebug == showDebug));
+                other.showDebug == showDebug) &&
+            const DeepCollectionEquality()
+                .equals(other._handSequenceHistory, _handSequenceHistory));
   }
 
   @override
@@ -339,7 +478,8 @@ class _$InitialImpl implements _Initial {
       userGesture,
       currentHandValueIndex,
       const DeepCollectionEquality().hash(_currentSequence),
-      showDebug);
+      showDebug,
+      const DeepCollectionEquality().hash(_handSequenceHistory));
 
   @JsonKey(ignore: true)
   @override
@@ -359,7 +499,20 @@ class _$InitialImpl implements _Initial {
             HandGesture? userGesture,
             int? currentHandValueIndex,
             List<HandGesture>? currentSequence,
-            bool? showDebug)
+            bool? showDebug,
+            List<
+                    ({
+                      ({
+                        double confidence,
+                        double h,
+                        double w,
+                        double x,
+                        double y
+                      }) box,
+                      HandGesture gesture,
+                      ({double x, double y}) gesturePosition
+                    })>?
+                handSequenceHistory)
         initial,
   }) {
     return initial(
@@ -371,7 +524,8 @@ class _$InitialImpl implements _Initial {
         userGesture,
         currentHandValueIndex,
         currentSequence,
-        showDebug);
+        showDebug,
+        handSequenceHistory);
   }
 
   @override
@@ -386,7 +540,20 @@ class _$InitialImpl implements _Initial {
             HandGesture? userGesture,
             int? currentHandValueIndex,
             List<HandGesture>? currentSequence,
-            bool? showDebug)?
+            bool? showDebug,
+            List<
+                    ({
+                      ({
+                        double confidence,
+                        double h,
+                        double w,
+                        double x,
+                        double y
+                      }) box,
+                      HandGesture gesture,
+                      ({double x, double y}) gesturePosition
+                    })>?
+                handSequenceHistory)?
         initial,
   }) {
     return initial?.call(
@@ -398,7 +565,8 @@ class _$InitialImpl implements _Initial {
         userGesture,
         currentHandValueIndex,
         currentSequence,
-        showDebug);
+        showDebug,
+        handSequenceHistory);
   }
 
   @override
@@ -413,7 +581,20 @@ class _$InitialImpl implements _Initial {
             HandGesture? userGesture,
             int? currentHandValueIndex,
             List<HandGesture>? currentSequence,
-            bool? showDebug)?
+            bool? showDebug,
+            List<
+                    ({
+                      ({
+                        double confidence,
+                        double h,
+                        double w,
+                        double x,
+                        double y
+                      }) box,
+                      HandGesture gesture,
+                      ({double x, double y}) gesturePosition
+                    })>?
+                handSequenceHistory)?
         initial,
     required TResult orElse(),
   }) {
@@ -427,7 +608,8 @@ class _$InitialImpl implements _Initial {
           userGesture,
           currentHandValueIndex,
           currentSequence,
-          showDebug);
+          showDebug,
+          handSequenceHistory);
     }
     return orElse();
   }
@@ -471,7 +653,20 @@ abstract class _Initial implements GameScreenState {
       final HandGesture? userGesture,
       final int? currentHandValueIndex,
       final List<HandGesture>? currentSequence,
-      final bool? showDebug}) = _$InitialImpl;
+      final bool? showDebug,
+      final List<
+              ({
+                ({
+                  double confidence,
+                  double h,
+                  double w,
+                  double x,
+                  double y
+                }) box,
+                HandGesture gesture,
+                ({double x, double y}) gesturePosition
+              })>?
+          handSequenceHistory}) = _$InitialImpl;
 
   @override
   int get currentPoints;
@@ -491,6 +686,13 @@ abstract class _Initial implements GameScreenState {
   List<HandGesture>? get currentSequence;
   @override
   bool? get showDebug;
+  @override
+  List<
+      ({
+        ({double confidence, double h, double w, double x, double y}) box,
+        HandGesture gesture,
+        ({double x, double y}) gesturePosition
+      })>? get handSequenceHistory;
   @override
   @JsonKey(ignore: true)
   _$$InitialImplCopyWith<_$InitialImpl> get copyWith =>

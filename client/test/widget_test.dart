@@ -23,26 +23,54 @@ void main() {
       gameResponses.add(event);
     });
     await executeForDuration(const Duration(milliseconds: 600), () {
-      gameHandler.addGesture(HandGesture.love);
+      gameHandler.addGesture(
+        (
+          box: (confidence: 0.0, h: 0.0, w: 0.0, x: 0.0, y: 0.0),
+          gesture: HandGesture.love,
+          gesturePosition: (x: 0.0, y: 0.0)
+        ),
+      );
     });
     await executeForDuration(const Duration(milliseconds: 600), () {
-      gameHandler.addGesture(HandGesture.victory);
+      gameHandler.addGesture(
+        (
+          box: (confidence: 0.0, h: 0.0, w: 0.0, x: 0.0, y: 0.0),
+          gesture: HandGesture.victory,
+          gesturePosition: (x: 0.0, y: 0.0)
+        ),
+      );
     });
     await executeForDuration(const Duration(milliseconds: 600), () {
-      gameHandler.addGesture(HandGesture.pointingUp);
+      gameHandler.addGesture(
+        (
+          box: (confidence: 0.0, h: 0.0, w: 0.0, x: 0.0, y: 0.0),
+          gesture: HandGesture.pointingUp,
+          gesturePosition: (x: 0.0, y: 0.0)
+        ),
+      );
     });
     expect(
       gameResponses.map((e) => e.gesture).toList(),
       [
-        HandGesture.love,
-        HandGesture.victory,
-        HandGesture.pointingUp,
+        (
+          box: (confidence: 0.0, h: 0.0, w: 0.0, x: 0.0, y: 0.0),
+          gesture: HandGesture.love,
+          gesturePosition: (x: 0.0, y: 0.0)
+        ),
+        (
+          box: (confidence: 0.0, h: 0.0, w: 0.0, x: 0.0, y: 0.0),
+          gesture: HandGesture.victory,
+          gesturePosition: (x: 0.0, y: 0.0)
+        ),
+        (
+          box: (confidence: 0.0, h: 0.0, w: 0.0, x: 0.0, y: 0.0),
+          gesture: HandGesture.pointingUp,
+          gesturePosition: (x: 0.0, y: 0.0)
+        ),
       ],
     );
     expect(
-      gameResponses
-          .map((e) => e.isCorrect)
-          .all((isCorrect) => isCorrect),
+      gameResponses.map((e) => e.isCorrect).all((isCorrect) => isCorrect),
       true,
     );
     expect(gameResponses.last.finishSequence, true);

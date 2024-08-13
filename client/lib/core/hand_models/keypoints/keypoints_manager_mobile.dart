@@ -51,7 +51,8 @@ class KeyPointsMobileManager implements KeyPointsManager {
     return (
       confidence: resultData.confidence,
       keyPoints: processedKeyPoints,
-      gesture: resultData.gesture
+      gesture: resultData.gesture,
+      cropData: resultData.cropData,
     );
   }
 

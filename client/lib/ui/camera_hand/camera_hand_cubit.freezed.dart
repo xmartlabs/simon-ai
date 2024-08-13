@@ -18,6 +18,7 @@ final _privateConstructorUsedError = UnsupportedError(
 mixin _$CameraHandState {
   ({
     double confidence,
+    ({double confidence, double h, double w, double x, double y}) cropData,
     HandGesture gesture,
     List<({double x, double y, double z})> keyPoints
   })? get handData => throw _privateConstructorUsedError;
@@ -28,6 +29,13 @@ mixin _$CameraHandState {
     required TResult Function(
             ({
               double confidence,
+              ({
+                double confidence,
+                double h,
+                double w,
+                double x,
+                double y
+              }) cropData,
               HandGesture gesture,
               List<({double x, double y, double z})> keyPoints
             })? handData,
@@ -40,6 +48,13 @@ mixin _$CameraHandState {
     TResult? Function(
             ({
               double confidence,
+              ({
+                double confidence,
+                double h,
+                double w,
+                double x,
+                double y
+              }) cropData,
               HandGesture gesture,
               List<({double x, double y, double z})> keyPoints
             })? handData,
@@ -52,6 +67,13 @@ mixin _$CameraHandState {
     TResult Function(
             ({
               double confidence,
+              ({
+                double confidence,
+                double h,
+                double w,
+                double x,
+                double y
+              }) cropData,
               HandGesture gesture,
               List<({double x, double y, double z})> keyPoints
             })? handData,
@@ -91,6 +113,7 @@ abstract class $CameraHandStateCopyWith<$Res> {
   $Res call(
       {({
         double confidence,
+        ({double confidence, double h, double w, double x, double y}) cropData,
         HandGesture gesture,
         List<({double x, double y, double z})> keyPoints
       })? handData,
@@ -119,6 +142,13 @@ class _$CameraHandStateCopyWithImpl<$Res, $Val extends CameraHandState>
           : handData // ignore: cast_nullable_to_non_nullable
               as ({
               double confidence,
+              ({
+                double confidence,
+                double h,
+                double w,
+                double x,
+                double y
+              }) cropData,
               HandGesture gesture,
               List<({double x, double y, double z})> keyPoints
             })?,
@@ -141,6 +171,7 @@ abstract class _$$CameraHandStateImplCopyWith<$Res>
   $Res call(
       {({
         double confidence,
+        ({double confidence, double h, double w, double x, double y}) cropData,
         HandGesture gesture,
         List<({double x, double y, double z})> keyPoints
       })? handData,
@@ -167,6 +198,13 @@ class __$$CameraHandStateImplCopyWithImpl<$Res>
           : handData // ignore: cast_nullable_to_non_nullable
               as ({
               double confidence,
+              ({
+                double confidence,
+                double h,
+                double w,
+                double x,
+                double y
+              }) cropData,
               HandGesture gesture,
               List<({double x, double y, double z})> keyPoints
             })?,
@@ -186,6 +224,7 @@ class _$CameraHandStateImpl implements _CameraHandState {
   @override
   final ({
     double confidence,
+    ({double confidence, double h, double w, double x, double y}) cropData,
     HandGesture gesture,
     List<({double x, double y, double z})> keyPoints
   })? handData;
@@ -225,6 +264,13 @@ class _$CameraHandStateImpl implements _CameraHandState {
     required TResult Function(
             ({
               double confidence,
+              ({
+                double confidence,
+                double h,
+                double w,
+                double x,
+                double y
+              }) cropData,
               HandGesture gesture,
               List<({double x, double y, double z})> keyPoints
             })? handData,
@@ -240,6 +286,13 @@ class _$CameraHandStateImpl implements _CameraHandState {
     TResult? Function(
             ({
               double confidence,
+              ({
+                double confidence,
+                double h,
+                double w,
+                double x,
+                double y
+              }) cropData,
               HandGesture gesture,
               List<({double x, double y, double z})> keyPoints
             })? handData,
@@ -255,6 +308,13 @@ class _$CameraHandStateImpl implements _CameraHandState {
     TResult Function(
             ({
               double confidence,
+              ({
+                double confidence,
+                double h,
+                double w,
+                double x,
+                double y
+              }) cropData,
               HandGesture gesture,
               List<({double x, double y, double z})> keyPoints
             })? handData,
@@ -301,6 +361,7 @@ abstract class _CameraHandState implements CameraHandState {
   const factory _CameraHandState(
       {final ({
         double confidence,
+        ({double confidence, double h, double w, double x, double y}) cropData,
         HandGesture gesture,
         List<({double x, double y, double z})> keyPoints
       })? handData,
@@ -309,6 +370,7 @@ abstract class _CameraHandState implements CameraHandState {
   @override
   ({
     double confidence,
+    ({double confidence, double h, double w, double x, double y}) cropData,
     HandGesture gesture,
     List<({double x, double y, double z})> keyPoints
   })? get handData;

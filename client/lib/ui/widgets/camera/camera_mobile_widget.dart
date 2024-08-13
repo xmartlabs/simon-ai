@@ -90,6 +90,7 @@ class CameraPlatformWidgetState extends State<CameraWidget>
                     confidence: 0.0,
                     keyPoints: [],
                     gesture: HandGesture.unrecognized,
+                    cropData: (x: 0, y: 0, w: 0, h: 0, confidence: 0.0),
                   ),
               imageSize: resolutionPreset.size,
             ),

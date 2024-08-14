@@ -45,8 +45,8 @@ class CameraHandCubit extends Cubit<CameraHandState> {
     _gameHandler.addGesture(
       (
         gesture: result.gesture,
-        gesturePosition: calculateCenter(result.keyPoints),
-        box: result.cropData,
+        gesturePosition: result.keyPoints.centerCoordinates,
+        boundingBox: result.cropData,
       ),
     );
   }
@@ -60,25 +60,4 @@ class CameraHandCubit extends Cubit<CameraHandState> {
       // TODO add implementation for after-processing frame
     });
   }
-}
-
-Coordinates calculateCenter(
-  List<({double x, double y, double z})> coordinates,
-) {
-  if (coordinates.isEmpty) {
-    throw ArgumentError('The coordinates list cannot be empty');
-  }
-
-  double sumX = 0;
-  double sumY = 0;
-
-  for (final coordinate in coordinates) {
-    sumX += coordinate.x;
-    sumY += coordinate.y;
-  }
-
-  final double centerX = sumX / coordinates.length;
-  final double centerY = sumY / coordinates.length;
-
-  return (x: centerX, y: centerY); // z is set to 0 as it's not needed
 }

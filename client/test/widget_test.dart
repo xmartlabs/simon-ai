@@ -25,7 +25,7 @@ void main() {
     await executeForDuration(const Duration(milliseconds: 600), () {
       gameHandler.addGesture(
         (
-          box: (confidence: 0.0, h: 0.0, w: 0.0, x: 0.0, y: 0.0),
+          boundingBox: (confidence: 0.0, h: 0.0, w: 0.0, x: 0.0, y: 0.0),
           gesture: HandGesture.love,
           gesturePosition: (x: 0.0, y: 0.0)
         ),
@@ -34,7 +34,7 @@ void main() {
     await executeForDuration(const Duration(milliseconds: 600), () {
       gameHandler.addGesture(
         (
-          box: (confidence: 0.0, h: 0.0, w: 0.0, x: 0.0, y: 0.0),
+          boundingBox: (confidence: 0.0, h: 0.0, w: 0.0, x: 0.0, y: 0.0),
           gesture: HandGesture.victory,
           gesturePosition: (x: 0.0, y: 0.0)
         ),
@@ -43,7 +43,7 @@ void main() {
     await executeForDuration(const Duration(milliseconds: 600), () {
       gameHandler.addGesture(
         (
-          box: (confidence: 0.0, h: 0.0, w: 0.0, x: 0.0, y: 0.0),
+          boundingBox: (confidence: 0.0, h: 0.0, w: 0.0, x: 0.0, y: 0.0),
           gesture: HandGesture.pointingUp,
           gesturePosition: (x: 0.0, y: 0.0)
         ),

@@ -12,6 +12,7 @@ import 'package:simon_ai/core/hand_models/hand_tracking/hand_tracking_classifier
 import 'package:simon_ai/core/hand_models/keypoints/keypoints_manager.dart';
 import 'package:simon_ai/core/interfaces/model_interface.dart';
 import 'package:simon_ai/core/model/anchor.dart';
+import 'package:simon_ai/core/model/coordinates.dart';
 import 'package:simon_ai/core/model/hand_classifier_isolate_data.dart';
 import 'package:simon_ai/core/model/hand_classifier_result_data.dart';
 import 'package:simon_ai/core/model/hand_landmarks_result_data.dart';
@@ -96,15 +97,14 @@ class KeyPointsMobileManager implements KeyPointsManager {
     return await responsePort.first;
   }
 
-  List<KeyPointData> _processKeypoints(List<double>? keypoints) {
-    final result = <KeyPointData>[];
+  List<Coordinates> _processKeypoints(List<double>? keypoints) {
+    final result = <Coordinates>[];
     if (keypoints != null &&
         keypoints.length == (HandLandmark.values.length * 3)) {
       for (var i = 0; i < HandLandmark.values.length * 3; i += 3) {
-        final KeyPointData keyPointData = (
+        final Coordinates keyPointData = (
           x: keypoints[i + 1],
           y: keypoints[i + 0],
-          z: keypoints[i + 2],
         );
         result.add(keyPointData);
       }

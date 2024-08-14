@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:design_system/design_system.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:simon_ai/core/model/hand_gestures.dart';
 import 'package:simon_ai/ui/game_screen/game_screen_cubit.dart';
 
@@ -43,7 +44,7 @@ class _ShowSequenceScreenState extends State<ShowSequenceScreen> {
           return Text(
             snapshot.data?.emoji ?? '',
             style: context.theme.textStyles.headlineLarge!.copyWith(
-              fontSize: 250,
+              fontSize: 250.sp,
             ),
           );
         }

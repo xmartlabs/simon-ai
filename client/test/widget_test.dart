@@ -53,17 +53,17 @@ void main() {
       gameResponses.map((e) => e.gesture).toList(),
       [
         (
-          box: (confidence: 0.0, h: 0.0, w: 0.0, x: 0.0, y: 0.0),
+          boundingBox: (confidence: 0.0, h: 0.0, w: 0.0, x: 0.0, y: 0.0),
           gesture: HandGesture.love,
           gesturePosition: (x: 0.0, y: 0.0)
         ),
         (
-          box: (confidence: 0.0, h: 0.0, w: 0.0, x: 0.0, y: 0.0),
+          boundingBox: (confidence: 0.0, h: 0.0, w: 0.0, x: 0.0, y: 0.0),
           gesture: HandGesture.victory,
           gesturePosition: (x: 0.0, y: 0.0)
         ),
         (
-          box: (confidence: 0.0, h: 0.0, w: 0.0, x: 0.0, y: 0.0),
+          boundingBox: (confidence: 0.0, h: 0.0, w: 0.0, x: 0.0, y: 0.0),
           gesture: HandGesture.pointingUp,
           gesturePosition: (x: 0.0, y: 0.0)
         ),

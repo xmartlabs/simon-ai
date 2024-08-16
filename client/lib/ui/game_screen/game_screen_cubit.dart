@@ -5,6 +5,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:simon_ai/core/di/di_provider.dart';
 import 'package:simon_ai/core/model/game_response.dart';
+import 'package:simon_ai/core/model/hand_gesture_with_position.dart';
 import 'package:simon_ai/core/model/hand_gestures.dart';
 import 'package:simon_ai/core/repository/game_manager.dart';
 import 'package:simon_ai/core/repository/user_repository.dart';
@@ -22,6 +23,7 @@ class GameScreenCubit extends Cubit<GameScreenState> {
       StreamController<HandGesture>.broadcast();
 
   final Duration durationBetweenDisplayedGestures = const Duration(seconds: 1);
+  final Duration durationBeforeStartingNewSequence = const Duration(seconds: 1);
 
   GameScreenCubit()
       : super(
@@ -31,6 +33,7 @@ class GameScreenCubit extends Cubit<GameScreenState> {
             currentRound: 0,
             gameState: GameState.initial,
             currentHandValueIndex: 0,
+            handSequenceHistory: [],
           ),
         ) {
     _gameDuration.start();
@@ -68,7 +71,9 @@ class GameScreenCubit extends Cubit<GameScreenState> {
   }
 
   void restartGame() {
-    _gameDuration.start();
+    _gameDuration
+      ..stop()
+      ..start();
     _gameHandler.restartStream();
     _sequenceController.close();
     _sequenceController = StreamController<HandGesture>.broadcast();
@@ -79,6 +84,7 @@ class GameScreenCubit extends Cubit<GameScreenState> {
         currentRound: 0,
         gameState: GameState.initial,
         currentHandValueIndex: 0,
+        handSequenceHistory: [],
       ),
     );
     Future.delayed(const Duration(seconds: 2), startCountdown);
@@ -124,14 +130,18 @@ class GameScreenCubit extends Cubit<GameScreenState> {
     if (event.isCorrect) {
       emit(
         state.copyWith(
-          currentHandValue: event.gesture,
+          currentHandValue: event.gesture.gesture,
           currentHandValueIndex: state.currentHandValueIndex! + 1,
           currentPoints: event.points,
+          handSequenceHistory: [
+            ...state.handSequenceHistory!,
+            event.gesture,
+          ],
         ),
       );
       if (event.finishSequence) {
         _gameStreamSubscription.cancel();
-        startNewSequence();
+        Future.delayed(durationBeforeStartingNewSequence, startNewSequence);
       }
     }
     if (!event.isCorrect) {

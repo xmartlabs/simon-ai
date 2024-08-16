@@ -12,6 +12,7 @@ class GameScreenState with _$GameScreenState {
     int? currentHandValueIndex,
     List<HandGesture>? currentSequence,
     bool? showDebug,
+    List<HandGestureWithPosition>? handSequenceHistory,
   }) = _Initial;
 }
 

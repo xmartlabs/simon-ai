@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'dart:math';
 
+import 'package:flame_audio/flame_audio.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:simon_ai/core/di/di_provider.dart';
@@ -20,6 +21,7 @@ class GameScreenCubit extends Cubit<GameScreenState> {
   Stream<HandGesture> get sequenceStream => _sequenceController.stream;
   StreamController<HandGesture> _sequenceController =
       StreamController<HandGesture>.broadcast();
+  final audioPlayer = AudioPlayer();
 
   final Duration durationBetweenDisplayedGestures = const Duration(seconds: 1);
 
@@ -34,6 +36,8 @@ class GameScreenCubit extends Cubit<GameScreenState> {
           ),
         ) {
     _gameDuration.start();
+    audioPlayer.setSource(AssetSource('audio/mario_coin_sound.mp3'));
+
     Future.delayed(const Duration(seconds: 2), startCountdown);
   }
   final int _maxRounds = 8;
@@ -130,6 +134,9 @@ class GameScreenCubit extends Cubit<GameScreenState> {
         ),
       );
       if (event.finishSequence) {
+        audioPlayer
+          ..resume()
+          ..setPlaybackRate(2);
         _gameStreamSubscription.cancel();
         startNewSequence();
       }
@@ -175,6 +182,7 @@ class GameScreenCubit extends Cubit<GameScreenState> {
   @override
   Future<void> close() {
     _gameStreamSubscription.cancel();
+    audioPlayer.dispose();
     return super.close();
   }
 }

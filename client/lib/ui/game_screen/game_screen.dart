@@ -1,7 +1,7 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:design_system/design_system.dart';
 import 'package:design_system/widgets/app_scaffold.dart';
-import 'package:design_system/widgets/summary_widget.dart';
+import 'package:design_system/widgets/points_counter.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -108,10 +108,34 @@ class _GameScreenContent extends StatelessWidget {
       );
 }
 
-class _Points extends StatelessWidget {
+class _Points extends StatefulWidget {
   const _Points({
     super.key,
   });
+
+  @override
+  State<_Points> createState() => _PointsState();
+}
+
+class _PointsState extends State<_Points> with SingleTickerProviderStateMixin {
+  late AnimationController controller = AnimationController(
+    vsync: this,
+    duration: const Duration(milliseconds: 200),
+  );
+
+  @override
+  void initState() {
+    controller.addStatusListener((status) {
+      if (status == AnimationStatus.completed) {
+        controller.reverse();
+      }
+    });
+    super.initState();
+  }
+
+  void animate() {
+    controller.forward();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -120,10 +144,9 @@ class _Points extends StatelessWidget {
       padding: const EdgeInsets.only(bottom: 32),
       child: SizedBox(
         width: .15.sw,
-        child: InformationSummary(
-          type: InformationSummaryType.points,
-          value: points,
-          showBorder: false,
+        child: PointsCounter(
+          points: points,
+          controller: controller,
         ),
       ),
     );

@@ -24,18 +24,19 @@ class _PointsCounterState extends State<PointsCounter>
 
   @override
   void initState() {
+    controller = widget.controller ??
+        AnimationController(
+          vsync: this,
+          duration: const Duration(milliseconds: 200),
+        );
     scaleAnimation = Tween<double>(begin: 1, end: 1.2).animate(
       CurvedAnimation(
         parent: controller,
         curve: Curves.elasticOut,
       ),
     );
-    controller = widget.controller ??
-        AnimationController(
-          vsync: this,
-          duration: const Duration(milliseconds: 1000),
-        )
-      ..forward();
+
+    controller.forward();
     super.initState();
   }
 

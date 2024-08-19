@@ -7,7 +7,6 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:simon_ai/gen/assets.gen.dart';
 import 'package:simon_ai/ui/leaderboard/leaderboard_cubit.dart';
-import 'package:simon_ai/ui/router/app_router.dart';
 
 @RoutePage()
 class LeaderboardScreen extends StatelessWidget {
@@ -40,8 +39,8 @@ class _LeaderboardContentScreen extends StatelessWidget {
                   SizedBox(
                     width: .3.sw,
                     child: FilledButton(
-                      onPressed: () => context.router
-                          .replaceAll([const RegisterUserRoute()]),
+                      onPressed: () =>
+                          context.read<LeaderboardCubit>().onRestartPressed,
                       child: Text(
                         context.localizations.restart_game,
                       ),

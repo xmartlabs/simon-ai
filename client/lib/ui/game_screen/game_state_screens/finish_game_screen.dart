@@ -1,6 +1,7 @@
 import 'package:design_system/design_system.dart';
 import 'package:design_system/extensions/color_extensions.dart';
 import 'package:design_system/widgets/summary_widget.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -40,21 +41,22 @@ class FinishGameScreen extends StatelessWidget {
             ],
           ),
           SizedBox(height: 25.h),
-          InkWell(
-            onTap: context.read<GameScreenCubit>().restartGame,
-            child: Container(
-              padding: EdgeInsets.symmetric(
-                horizontal: 20.w,
-                vertical: 10.h,
-              ),
-              child: Text(
-                context.localizations.restart_game,
-                style: context.theme.textStyles.headlineMedium!.copyWith(
-                  color: context.theme.customColors.textColor.getShade(400),
+          if (kDebugMode)
+            InkWell(
+              onTap: context.read<GameScreenCubit>().restartGame,
+              child: Container(
+                padding: EdgeInsets.symmetric(
+                  horizontal: 20.w,
+                  vertical: 10.h,
+                ),
+                child: Text(
+                  context.localizations.restart_game,
+                  style: context.theme.textStyles.headlineMedium!.copyWith(
+                    color: context.theme.customColors.textColor.getShade(400),
+                  ),
                 ),
               ),
             ),
-          ),
         ],
       );
 }

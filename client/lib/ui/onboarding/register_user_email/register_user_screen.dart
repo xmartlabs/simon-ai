@@ -24,6 +24,7 @@ class RegisterUserScreen extends StatelessWidget {
 class _SignInContentScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) => AppScaffold(
+        showBackButton: false,
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment: CrossAxisAlignment.center,

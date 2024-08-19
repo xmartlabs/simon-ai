@@ -36,21 +36,35 @@ class _ShowSequenceScreenState extends State<ShowSequenceScreen> {
     final initialGesture = context.select(
       (GameScreenCubit cubit) => cubit.state.currentHandValue,
     );
-    return StreamBuilder<HandGesture>(
-      stream: sequenceStream,
-      initialData: initialGesture,
-      builder: (context, snapshot) {
-        if (snapshot.hasData) {
-          return Text(
-            snapshot.data?.emoji ?? '',
-            style: context.theme.textStyles.headlineLarge!.copyWith(
-              fontSize: 250.sp,
-            ),
-          );
-        }
+    final currentRound = context.read<GameScreenCubit>().state.currentRound;
+    return FutureBuilder(
+      future: Future.delayed(const Duration(seconds: 1)),
+      builder: (context, snapshot) =>
+          (snapshot.connectionState == ConnectionState.waiting)
+              ? Center(
+                  child: Text(
+                    'Round $currentRound',
+                    style: context.theme.textStyles.headlineLarge!.copyWith(
+                      fontSize: 120.sp,
+                    ),
+                  ),
+                )
+              : StreamBuilder<HandGesture>(
+                  stream: sequenceStream,
+                  initialData: initialGesture,
+                  builder: (context, snapshot) {
+                    if (snapshot.hasData) {
+                      return Text(
+                        snapshot.data?.emoji ?? '',
+                        style: context.theme.textStyles.headlineLarge!.copyWith(
+                          fontSize: 250.sp,
+                        ),
+                      );
+                    }
 
-        return const SizedBox();
-      },
+                    return const SizedBox();
+                  },
+                ),
     );
   }
 }

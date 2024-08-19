@@ -49,9 +49,7 @@ class _GameScreenContent extends StatelessWidget {
                 GameState.countDown => const Align(child: GameOverlay()),
                 GameState.showingSequence => const Align(child: GameOverlay()),
                 GameState.playing => Container(),
-                GameState.ended => FinishGameScreen(
-                    onRestart: context.read<GameScreenCubit>().restartGame,
-                  ),
+                GameState.ended => const FinishGameScreen(),
                 GameState.error => const ErrorStateScreen(),
               },
               if (kDebugMode && state.gameState != GameState.ended)

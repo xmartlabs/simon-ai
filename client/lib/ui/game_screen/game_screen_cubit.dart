@@ -26,6 +26,7 @@ class GameScreenCubit extends Cubit<GameScreenState> {
 
   final Duration durationBetweenDisplayedGestures = const Duration(seconds: 1);
   final Duration durationBeforeStartingNewSequence = const Duration(seconds: 1);
+  final Duration durationOnFinishScreen = const Duration(seconds: 3);
 
   GameScreenCubit()
       : super(
@@ -91,10 +92,6 @@ class GameScreenCubit extends Cubit<GameScreenState> {
       ),
     );
     Future.delayed(const Duration(seconds: 2), startCountdown);
-  }
-
-  void goToLeaderboard() {
-    _appRouter.push(const LeaderboardRoute());
   }
 
   int advanceSequence() {
@@ -175,8 +172,8 @@ class GameScreenCubit extends Cubit<GameScreenState> {
     );
 
     Future.delayed(
-      const Duration(seconds: 3),
-      goToLeaderboard,
+      durationOnFinishScreen,
+      () => _appRouter.push(const LeaderboardRoute()),
     );
   }
 

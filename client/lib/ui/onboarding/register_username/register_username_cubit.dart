@@ -2,7 +2,7 @@ import 'dart:async';
 
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
-import 'package:simon_ai/core/common/extension/string_extensions.dart';
+import 'package:simon_ai/core/common/extension/user_extensions.dart';
 import 'package:simon_ai/core/di/di_provider.dart';
 import 'package:simon_ai/core/repository/session_repository.dart';
 import 'package:simon_ai/core/repository/user_repository.dart';
@@ -28,9 +28,8 @@ class RegisterUsernameCubit extends Cubit<RegisterUsernameState> {
 
   Future<void> signInUser() async {
     final user = await _sessionRepository.getUser();
-    final username = state.username.isEmpty
-        ? user?.email.getEmailUsername()
-        : state.username;
+    final username =
+        state.username.isEmpty ? user!.getEmailUsername() : state.username;
     final res = await _sessionRepository.signInUser(
       email: user!.email,
       username: username,

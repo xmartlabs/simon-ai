@@ -50,6 +50,16 @@
   "ranking_title": "Your rank",
   "restart_game": "Restart game",
   "right": "right",
+  "round": "Round {number}",
+  "@round": {
+    "description": "Shows the current round the user is playing",
+    "placeholders": {
+      "number": {
+        "type": "int",
+        "example": "1"
+      }
+    }
+  },
   "see_complete_ranking": "See complete ranking",
   "sign_in": "Sign In",
   "skip": "Skip",

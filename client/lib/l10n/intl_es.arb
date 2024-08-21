@@ -50,6 +50,16 @@
   "ranking_title": "Tu puesto en el ranking",
   "restart_game": "Volver a jugar",
   "right": "derecha",
+  "round": "Ronda {number}",
+  "@round": {
+    "description": "Muestra la ronda actual en la que está jugando el usuario",
+    "placeholders": {
+      "number": {
+        "type": "int",
+        "example": "1"
+      }
+    }
+  },
   "see_complete_ranking": "Ver ranking completo",
   "sign_in": "Iniciar sesión",
   "skip": "Omitir",

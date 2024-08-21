@@ -43,7 +43,7 @@ class _ShowSequenceScreenState extends State<ShowSequenceScreen> {
           (snapshot.connectionState == ConnectionState.waiting)
               ? Center(
                   child: Text(
-                    'Round $currentRound',
+                    context.localizations.round(currentRound),
                     style: context.theme.textStyles.headlineLarge!.copyWith(
                       fontSize: 120.sp,
                     ),

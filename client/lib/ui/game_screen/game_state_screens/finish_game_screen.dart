@@ -1,10 +1,10 @@
 import 'package:design_system/design_system.dart';
 import 'package:design_system/extensions/color_extensions.dart';
 import 'package:design_system/widgets/summary_widget.dart';
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:simon_ai/core/common/config.dart';
 import 'package:simon_ai/ui/game_screen/game_screen_cubit.dart';
 
 class FinishGameScreen extends StatelessWidget {
@@ -41,7 +41,7 @@ class FinishGameScreen extends StatelessWidget {
             ],
           ),
           SizedBox(height: 25.h),
-          if (kDebugMode)
+          if (Config.debugMode)
             InkWell(
               onTap: context.read<GameScreenCubit>().restartGame,
               child: Container(

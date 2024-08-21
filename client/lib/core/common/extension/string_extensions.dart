@@ -39,11 +39,6 @@ extension StringExtensions on String {
 
   String capitalize() =>
       '${this[0].toUpperCase()}${substring(1).toLowerCase()}';
-
-  String getEmailUsername() {
-    final atIndex = indexOf('@');
-    return (atIndex != -1) ? substring(0, atIndex) : this;
-  }
 }
 
 extension NullableStringExtensions on String? {

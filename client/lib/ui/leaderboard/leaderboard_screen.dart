@@ -40,7 +40,7 @@ class _LeaderboardContentScreen extends StatelessWidget {
                     width: .3.sw,
                     child: FilledButton(
                       onPressed: () =>
-                          context.read<LeaderboardCubit>().onRestartPressed,
+                          context.read<LeaderboardCubit>().restartGame,
                       child: Text(
                         context.localizations.restart_game,
                       ),

@@ -33,12 +33,11 @@ class LeaderboardCubit extends Cubit<LeaderboardState> {
   }
 
   @override
-  Future<void> close() {
-    _leaderboardSubscription.cancel();
+  Future<void> close() async {
+    await _leaderboardSubscription.cancel();
     return super.close();
   }
 
-  Future<void> onRestartPressed() =>
-    _appRouter.replaceAll([const RegisterUserRoute()]);
-  
+  Future<void> restartGame() =>
+      _appRouter.replaceAll([const RegisterUserRoute()]);
 }

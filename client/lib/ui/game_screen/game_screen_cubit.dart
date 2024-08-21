@@ -9,11 +9,13 @@ import 'package:simon_ai/core/model/hand_gesture_with_position.dart';
 import 'package:simon_ai/core/model/hand_gestures.dart';
 import 'package:simon_ai/core/repository/game_manager.dart';
 import 'package:simon_ai/core/repository/user_repository.dart';
+import 'package:simon_ai/ui/router/app_router.dart';
 
 part 'game_screen_cubit.freezed.dart';
 part 'game_screen_state.dart';
 
 class GameScreenCubit extends Cubit<GameScreenState> {
+  final AppRouter _appRouter = DiProvider.get();
   final GameManager _gameHandler = DiProvider.get();
   late StreamSubscription<GameResponse> _gameStreamSubscription;
   final Stopwatch _gameDuration = Stopwatch();
@@ -24,6 +26,7 @@ class GameScreenCubit extends Cubit<GameScreenState> {
 
   final Duration durationBetweenDisplayedGestures = const Duration(seconds: 1);
   final Duration durationBeforeStartingNewSequence = const Duration(seconds: 1);
+  final Duration durationOnFinishScreen = const Duration(seconds: 3);
 
   GameScreenCubit()
       : super(
@@ -63,6 +66,7 @@ class GameScreenCubit extends Cubit<GameScreenState> {
   }
 
   Future<void> updateSequence(List<HandGesture> newSequence) async {
+    await Future.delayed(durationBetweenDisplayedGestures);
     for (final value in newSequence) {
       _sequenceController.add(value);
       await Future.delayed(durationBetweenDisplayedGestures);
@@ -165,6 +169,11 @@ class GameScreenCubit extends Cubit<GameScreenState> {
       state.copyWith(
         gameState: GameState.ended,
       ),
+    );
+
+    Future.delayed(
+      durationOnFinishScreen,
+      () => _appRouter.push(const LeaderboardRoute()),
     );
   }
 

@@ -29,6 +29,13 @@ class CameraHandCubit extends Cubit<CameraHandState> {
     unawaited(_initializeStream());
   }
 
+  @override
+  Future<void> close() async {
+    await _movementStreamController.close();
+    await _frameController.close();
+    return super.close();
+  }
+
   void onNewFrame(dynamic frame) {
     _frameController.add(frame);
   }

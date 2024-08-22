@@ -15,17 +15,22 @@ class HandTrackingIsolateUtils {
 
   final ReceivePort _receivePort = ReceivePort();
   late SendPort _sendPort;
+  late Isolate _isolate;
 
   SendPort get sendPort => _sendPort;
 
   Future<void> start() async {
-    await Isolate.spawn<SendPort>(
+    _isolate = await Isolate.spawn<SendPort>(
       entryPoint,
       _receivePort.sendPort,
       debugName: 'HandClassifierIsolate',
     );
-
     _sendPort = await _receivePort.first;
+  }
+
+  Future<void> dispose() async {
+    _receivePort.close();
+    _isolate.kill();
   }
 
   static void entryPoint(SendPort sendPort) {

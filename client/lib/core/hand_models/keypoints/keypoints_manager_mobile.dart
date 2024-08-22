@@ -43,6 +43,11 @@ class KeyPointsMobileManager implements KeyPointsManager {
   }
 
   @override
+  Future<void> close() async {
+    await isolate.dispose();
+  }
+
+  @override
   Future<HandLandmarksData> processFrame(
     dynamic newFrame,
   ) async {

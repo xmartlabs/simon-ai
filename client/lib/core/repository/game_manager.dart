@@ -35,10 +35,6 @@ class GameManager {
           .distinct((previous, next) => previous.gesture == next.gesture)
           .asBroadcastStream();
 
-  void close() {
-    _gameSequenceController.close();
-  }
-
   void restartStream() {
     _gameSequenceController.close();
     _gameSequenceController =

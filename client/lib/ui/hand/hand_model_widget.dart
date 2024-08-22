@@ -7,7 +7,8 @@ mixin HandModelWidget implements StatefulWidget {
   abstract final Stream<dynamic>? movenetStream;
 }
 
-mixin HandModelWidgetState<T extends HandModelWidget> implements State<T> {
+mixin HandModelWidgetState<T extends HandModelWidget>
+    implements State<T>, WidgetsBindingObserver {
   StreamSubscription? _keypointsSubscription;
 
   HandLandmarksData? keypoints;
@@ -25,12 +26,18 @@ mixin HandModelWidgetState<T extends HandModelWidget> implements State<T> {
   }
 
   @override
-  void initState() => _initKeypointsStream();
-
-  @override
-  void didUpdateWidget(covariant HandModelWidget oldWidget) =>
-      _initKeypointsStream();
-
-  @override
-  void dispose() => _keypointsSubscription?.cancel();
+  Future<void> didChangeAppLifecycleState(AppLifecycleState state) async {
+    switch (state) {
+      case AppLifecycleState.inactive:
+      case AppLifecycleState.paused:
+      case AppLifecycleState.detached:
+        await _keypointsSubscription?.cancel();
+        break;
+      case AppLifecycleState.resumed:
+        _initKeypointsStream();
+        break;
+      case AppLifecycleState.hidden:
+        break;
+    }
+  }
 }

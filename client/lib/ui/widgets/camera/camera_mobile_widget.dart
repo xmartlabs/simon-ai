@@ -8,12 +8,11 @@ import 'package:simon_ai/core/common/config.dart';
 import 'package:simon_ai/core/common/logger.dart';
 import 'package:simon_ai/core/model/hand_gestures.dart';
 import 'package:simon_ai/ui/extensions/camera_extensions.dart';
-import 'package:simon_ai/ui/hand/hand_model_widget.dart';
 import 'package:simon_ai/ui/hand/hand_render_painter.dart';
 import 'package:simon_ai/ui/widgets/camera/camera_widget.dart';
 
 class CameraPlatformWidgetState extends State<CameraWidget>
-    with WidgetsBindingObserver, HandModelWidgetState<CameraWidget> {
+    with WidgetsBindingObserver {
   final resolutionPreset = Config.cameraResolutionPreset;
   CameraController? _cameraController;
 
@@ -28,6 +27,8 @@ class CameraPlatformWidgetState extends State<CameraWidget>
 
   @override
   void dispose() {
+    _cameraController?.stopImageStream();
+    WidgetsBinding.instance.removeObserver(this);
     _cameraController?.dispose();
     super.dispose();
   }
@@ -72,6 +73,8 @@ class CameraPlatformWidgetState extends State<CameraWidget>
         }
         break;
       case AppLifecycleState.detached:
+        await _cameraController?.stopImageStream();
+        break;
       case AppLifecycleState.inactive:
       case AppLifecycleState.hidden:
         break;
@@ -79,24 +82,30 @@ class CameraPlatformWidgetState extends State<CameraWidget>
   }
 
   @override
-  Widget build(BuildContext context) {
-    if (_cameraController == null || !_cameraController!.value.isInitialized) {
-      return Container();
-    }
-    return widget.showGesture
-        ? CustomPaint(
-            foregroundPainter: HandRenderPainter(
-              keypointsData: keypoints ??
-                  (
-                    confidence: 0.0,
-                    keyPoints: [],
-                    gesture: HandGesture.unrecognized,
-                    cropData: (x: 0, y: 0, w: 0, h: 0, confidence: 0.0),
-                  ),
-              imageSize: resolutionPreset.size,
-            ),
-            child: CameraPreview(_cameraController!),
-          )
-        : CameraPreview(_cameraController!);
-  }
+  Widget build(BuildContext context) => StreamBuilder(
+        stream: widget.movenetStream,
+        builder: (context, snapshot) {
+          if (!snapshot.hasData ||
+              _cameraController == null ||
+              !_cameraController!.value.isInitialized) {
+            return Container();
+          } else {
+            return widget.showGesture
+                ? CustomPaint(
+                    foregroundPainter: HandRenderPainter(
+                      keypointsData: snapshot.data ??
+                          (
+                            confidence: 0.0,
+                            keyPoints: [],
+                            gesture: HandGesture.unrecognized,
+                            cropData: (x: 0, y: 0, w: 0, h: 0, confidence: 0.0),
+                          ),
+                      imageSize: resolutionPreset.size,
+                    ),
+                    child: CameraPreview(_cameraController!),
+                  )
+                : CameraPreview(_cameraController!);
+          }
+        },
+      );
 }

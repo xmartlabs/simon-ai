@@ -156,13 +156,13 @@ class GameScreenCubit extends Cubit<GameScreenState> {
   void endGame() {
     _gameDuration.stop();
     _gameStreamSubscription.cancel();
+    _sequenceController.close();
     final currentUser = _userRepository.gameUser!;
     _userRepository.updateUser(
       currentUser.copyWith(
         points: state.currentPoints,
       ),
     );
-    _gameHandler.close();
     _sequenceController.close();
 
     emit(

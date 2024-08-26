@@ -28,7 +28,7 @@ class HandTrackingIsolateUtils {
     _sendPort = await _receivePort.first;
   }
 
-  Future<void> dispose() async {
+  void dispose() {
     _receivePort.close();
     _isolate.kill();
   }

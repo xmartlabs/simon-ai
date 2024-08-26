@@ -7,6 +7,7 @@ import 'package:flutter/material.dart';
 import 'package:simon_ai/core/common/config.dart';
 import 'package:simon_ai/core/common/logger.dart';
 import 'package:simon_ai/core/model/hand_gestures.dart';
+import 'package:simon_ai/core/model/hand_landmarks_result_data.dart';
 import 'package:simon_ai/ui/extensions/camera_extensions.dart';
 import 'package:simon_ai/ui/hand/hand_render_painter.dart';
 import 'package:simon_ai/ui/widgets/camera/camera_widget.dart';
@@ -84,28 +85,26 @@ class CameraPlatformWidgetState extends State<CameraWidget>
   @override
   Widget build(BuildContext context) => StreamBuilder(
         stream: widget.movenetStream,
-        builder: (context, snapshot) {
-          if (!snapshot.hasData ||
-              _cameraController == null ||
-              !_cameraController!.value.isInitialized) {
-            return Container();
-          } else {
-            return widget.showGesture
-                ? CustomPaint(
-                    foregroundPainter: HandRenderPainter(
-                      keypointsData: snapshot.data ??
-                          (
-                            confidence: 0.0,
-                            keyPoints: [],
-                            gesture: HandGesture.unrecognized,
-                            cropData: (x: 0, y: 0, w: 0, h: 0, confidence: 0.0),
-                          ),
-                      imageSize: resolutionPreset.size,
-                    ),
-                    child: CameraPreview(_cameraController!),
-                  )
-                : CameraPreview(_cameraController!);
-          }
-        },
+        builder: (context, snapshot) => (!snapshot.hasData ||
+                _cameraController == null ||
+                !_cameraController!.value.isInitialized)
+            ? Container()
+            : _showGesture(widget.showGesture, snapshot.data),
       );
+
+  Widget _showGesture(bool showGesture, HandLandmarksData? data) => showGesture
+      ? CustomPaint(
+          foregroundPainter: HandRenderPainter(
+            keypointsData: data ??
+                (
+                  confidence: 0.0,
+                  keyPoints: [],
+                  gesture: HandGesture.unrecognized,
+                  cropData: (x: 0, y: 0, w: 0, h: 0, confidence: 0.0),
+                ),
+            imageSize: resolutionPreset.size,
+          ),
+          child: CameraPreview(_cameraController!),
+        )
+      : CameraPreview(_cameraController!);
 }

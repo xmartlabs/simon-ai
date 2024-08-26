@@ -139,14 +139,21 @@ class _PointsState extends State<_Points> with SingleTickerProviderStateMixin {
 
   @override
   Widget build(BuildContext context) {
-    final points = context.watch<GameScreenCubit>().state.currentPoints;
-    return Padding(
-      padding: const EdgeInsets.only(bottom: 32),
-      child: SizedBox(
-        width: .15.sw,
-        child: PointsCounter(
-          points: points,
-          controller: controller,
+    final points = context
+        .select<GameScreenCubit, int>((cubit) => cubit.state.currentPoints);
+
+    return BlocListener<GameScreenCubit, GameScreenState>(
+      listener: (context, state) => animate,
+      listenWhen: (previous, current) =>
+          previous.currentPoints != current.currentPoints,
+      child: Padding(
+        padding: const EdgeInsets.only(bottom: 32),
+        child: SizedBox(
+          width: .15.sw,
+          child: PointsCounter(
+            points: points,
+            controller: controller,
+          ),
         ),
       ),
     );

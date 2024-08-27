@@ -133,29 +133,33 @@ class _PointsState extends State<_Points> with SingleTickerProviderStateMixin {
     super.initState();
   }
 
+  @override
+  void dispose() {
+    controller.dispose();
+    super.dispose();
+  }
+
   void animate() {
     controller.forward();
   }
 
   @override
-  Widget build(BuildContext context) {
-    final points = context
-        .select<GameScreenCubit, int>((cubit) => cubit.state.currentPoints);
-
-    return BlocListener<GameScreenCubit, GameScreenState>(
-      listener: (context, state) => animate,
-      listenWhen: (previous, current) =>
-          previous.currentPoints != current.currentPoints,
-      child: Padding(
-        padding: const EdgeInsets.only(bottom: 32),
-        child: SizedBox(
-          width: .15.sw,
-          child: PointsCounter(
-            points: points,
-            controller: controller,
+  Widget build(BuildContext context) =>
+      BlocConsumer<GameScreenCubit, GameScreenState>(
+        listener: (context, state) => animate,
+        listenWhen: (previous, current) =>
+            previous.currentPoints != current.currentPoints,
+        buildWhen: (previous, current) =>
+            previous.currentPoints != current.currentPoints,
+        builder: (context, state) => Padding(
+          padding: const EdgeInsets.only(bottom: 32),
+          child: SizedBox(
+            width: .15.sw,
+            child: PointsCounter(
+              points: state.currentPoints,
+              controller: controller,
+            ),
           ),
         ),
-      ),
-    );
-  }
+      );
 }

@@ -1,4 +1,5 @@
 import 'package:design_system/extensions/context_extensions.dart';
+import 'package:design_system/gen/assets.gen.dart';
 import 'package:design_system/theme/app_text_styles.dart';
 import 'package:design_system/theme/app_theme.dart';
 import 'package:flutter/material.dart';
@@ -22,12 +23,15 @@ class _PointsCounterState extends State<PointsCounter>
   late final AnimationController controller;
   late final Animation<double> scaleAnimation;
 
+  final duration = const Duration(milliseconds: 1500);
+
   @override
   void initState() {
+    const scaleDuration = Duration(milliseconds: 200);
     controller = widget.controller ??
         AnimationController(
           vsync: this,
-          duration: const Duration(milliseconds: 200),
+          duration: scaleDuration,
         );
     scaleAnimation = Tween<double>(begin: 1, end: 1.2).animate(
       CurvedAnimation(
@@ -38,6 +42,14 @@ class _PointsCounterState extends State<PointsCounter>
 
     controller.forward();
     super.initState();
+  }
+
+  @override
+  void dispose() {
+    if (widget.controller == null) {
+      controller.dispose();
+    }
+    super.dispose();
   }
 
   @override
@@ -53,11 +65,11 @@ class _PointsCounterState extends State<PointsCounter>
           child: Row(
             mainAxisSize: MainAxisSize.min,
             children: [
-              Image.asset('assets/images/Estrella.png'),
+              Assets.images.estrella.image(),
               const SizedBox(width: 8),
               AnimatedCount(
                 count: widget.points,
-                duration: const Duration(milliseconds: 1500),
+                duration: duration,
                 curve: Curves.decelerate,
               ),
             ],

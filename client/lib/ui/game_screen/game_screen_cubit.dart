@@ -24,6 +24,7 @@ class GameScreenCubit extends Cubit<GameScreenState> {
   final audioPlayer = AudioPlayer();
 
   final Duration durationBetweenDisplayedGestures = const Duration(seconds: 1);
+  final double playbackSpeed = 2;
 
   GameScreenCubit()
       : super(
@@ -136,7 +137,7 @@ class GameScreenCubit extends Cubit<GameScreenState> {
       if (event.finishSequence) {
         audioPlayer
           ..resume()
-          ..setPlaybackRate(2);
+          ..setPlaybackRate(playbackSpeed);
         _gameStreamSubscription.cancel();
         startNewSequence();
       }

@@ -9,6 +9,16 @@
 
 import 'package:flutter/widgets.dart';
 
+class $AssetsAudioGen {
+  const $AssetsAudioGen();
+
+  /// File path: assets/audio/mario_coin_sound.mp3
+  String get marioCoinSound => 'assets/audio/mario_coin_sound.mp3';
+
+  /// List of all assets
+  List<String> get values => [marioCoinSound];
+}
+
 class $AssetsImagesGen {
   const $AssetsImagesGen();
 
@@ -68,6 +78,7 @@ class $AssetsModelsGen {
 class Assets {
   Assets._();
 
+  static const $AssetsAudioGen audio = $AssetsAudioGen();
   static const $AssetsImagesGen images = $AssetsImagesGen();
   static const $AssetsModelsGen models = $AssetsModelsGen();
 }

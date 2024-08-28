@@ -18,8 +18,9 @@ final _privateConstructorUsedError = UnsupportedError(
 mixin _$CameraHandState {
   ({
     double confidence,
+    ({double confidence, double h, double w, double x, double y}) cropData,
     HandGesture gesture,
-    List<({double x, double y, double z})> keyPoints
+    List<({double x, double y})> keyPoints
   })? get handData => throw _privateConstructorUsedError;
   Stream<dynamic>? get movenetResultStream =>
       throw _privateConstructorUsedError;
@@ -28,8 +29,15 @@ mixin _$CameraHandState {
     required TResult Function(
             ({
               double confidence,
+              ({
+                double confidence,
+                double h,
+                double w,
+                double x,
+                double y
+              }) cropData,
               HandGesture gesture,
-              List<({double x, double y, double z})> keyPoints
+              List<({double x, double y})> keyPoints
             })? handData,
             Stream<dynamic>? movenetResultStream)
         state,
@@ -40,8 +48,15 @@ mixin _$CameraHandState {
     TResult? Function(
             ({
               double confidence,
+              ({
+                double confidence,
+                double h,
+                double w,
+                double x,
+                double y
+              }) cropData,
               HandGesture gesture,
-              List<({double x, double y, double z})> keyPoints
+              List<({double x, double y})> keyPoints
             })? handData,
             Stream<dynamic>? movenetResultStream)?
         state,
@@ -52,8 +67,15 @@ mixin _$CameraHandState {
     TResult Function(
             ({
               double confidence,
+              ({
+                double confidence,
+                double h,
+                double w,
+                double x,
+                double y
+              }) cropData,
               HandGesture gesture,
-              List<({double x, double y, double z})> keyPoints
+              List<({double x, double y})> keyPoints
             })? handData,
             Stream<dynamic>? movenetResultStream)?
         state,
@@ -91,8 +113,9 @@ abstract class $CameraHandStateCopyWith<$Res> {
   $Res call(
       {({
         double confidence,
+        ({double confidence, double h, double w, double x, double y}) cropData,
         HandGesture gesture,
-        List<({double x, double y, double z})> keyPoints
+        List<({double x, double y})> keyPoints
       })? handData,
       Stream<dynamic>? movenetResultStream});
 }
@@ -119,8 +142,15 @@ class _$CameraHandStateCopyWithImpl<$Res, $Val extends CameraHandState>
           : handData // ignore: cast_nullable_to_non_nullable
               as ({
               double confidence,
+              ({
+                double confidence,
+                double h,
+                double w,
+                double x,
+                double y
+              }) cropData,
               HandGesture gesture,
-              List<({double x, double y, double z})> keyPoints
+              List<({double x, double y})> keyPoints
             })?,
       movenetResultStream: freezed == movenetResultStream
           ? _value.movenetResultStream
@@ -141,8 +171,9 @@ abstract class _$$CameraHandStateImplCopyWith<$Res>
   $Res call(
       {({
         double confidence,
+        ({double confidence, double h, double w, double x, double y}) cropData,
         HandGesture gesture,
-        List<({double x, double y, double z})> keyPoints
+        List<({double x, double y})> keyPoints
       })? handData,
       Stream<dynamic>? movenetResultStream});
 }
@@ -167,8 +198,15 @@ class __$$CameraHandStateImplCopyWithImpl<$Res>
           : handData // ignore: cast_nullable_to_non_nullable
               as ({
               double confidence,
+              ({
+                double confidence,
+                double h,
+                double w,
+                double x,
+                double y
+              }) cropData,
               HandGesture gesture,
-              List<({double x, double y, double z})> keyPoints
+              List<({double x, double y})> keyPoints
             })?,
       movenetResultStream: freezed == movenetResultStream
           ? _value.movenetResultStream
@@ -186,8 +224,9 @@ class _$CameraHandStateImpl implements _CameraHandState {
   @override
   final ({
     double confidence,
+    ({double confidence, double h, double w, double x, double y}) cropData,
     HandGesture gesture,
-    List<({double x, double y, double z})> keyPoints
+    List<({double x, double y})> keyPoints
   })? handData;
   @override
   @JsonKey()
@@ -225,8 +264,15 @@ class _$CameraHandStateImpl implements _CameraHandState {
     required TResult Function(
             ({
               double confidence,
+              ({
+                double confidence,
+                double h,
+                double w,
+                double x,
+                double y
+              }) cropData,
               HandGesture gesture,
-              List<({double x, double y, double z})> keyPoints
+              List<({double x, double y})> keyPoints
             })? handData,
             Stream<dynamic>? movenetResultStream)
         state,
@@ -240,8 +286,15 @@ class _$CameraHandStateImpl implements _CameraHandState {
     TResult? Function(
             ({
               double confidence,
+              ({
+                double confidence,
+                double h,
+                double w,
+                double x,
+                double y
+              }) cropData,
               HandGesture gesture,
-              List<({double x, double y, double z})> keyPoints
+              List<({double x, double y})> keyPoints
             })? handData,
             Stream<dynamic>? movenetResultStream)?
         state,
@@ -255,8 +308,15 @@ class _$CameraHandStateImpl implements _CameraHandState {
     TResult Function(
             ({
               double confidence,
+              ({
+                double confidence,
+                double h,
+                double w,
+                double x,
+                double y
+              }) cropData,
               HandGesture gesture,
-              List<({double x, double y, double z})> keyPoints
+              List<({double x, double y})> keyPoints
             })? handData,
             Stream<dynamic>? movenetResultStream)?
         state,
@@ -301,16 +361,18 @@ abstract class _CameraHandState implements CameraHandState {
   const factory _CameraHandState(
       {final ({
         double confidence,
+        ({double confidence, double h, double w, double x, double y}) cropData,
         HandGesture gesture,
-        List<({double x, double y, double z})> keyPoints
+        List<({double x, double y})> keyPoints
       })? handData,
       final Stream<dynamic>? movenetResultStream}) = _$CameraHandStateImpl;
 
   @override
   ({
     double confidence,
+    ({double confidence, double h, double w, double x, double y}) cropData,
     HandGesture gesture,
-    List<({double x, double y, double z})> keyPoints
+    List<({double x, double y})> keyPoints
   })? get handData;
   @override
   Stream<dynamic>? get movenetResultStream;

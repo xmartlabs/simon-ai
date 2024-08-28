@@ -4,6 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:simon_ai/core/di/di_provider.dart';
 import 'package:simon_ai/core/hand_models/keypoints/keypoints_manager.dart';
+import 'package:simon_ai/core/model/coordinates.dart';
 import 'package:simon_ai/core/model/hand_gestures.dart';
 import 'package:simon_ai/core/model/hand_landmarks_result_data.dart';
 import 'package:simon_ai/core/repository/game_manager.dart';
@@ -28,6 +29,13 @@ class CameraHandCubit extends Cubit<CameraHandState> {
     unawaited(_initializeStream());
   }
 
+  @override
+  Future<void> close() async {
+    await _movementStreamController.close();
+    await _frameController.close();
+    return super.close();
+  }
+
   void onNewFrame(dynamic frame) {
     _frameController.add(frame);
   }
@@ -41,7 +49,13 @@ class CameraHandCubit extends Cubit<CameraHandState> {
 
     final result = await _keyPointsManager.processFrame(newFrame);
     _movementStreamController.add(result);
-    _gameHandler.addGesture(result.gesture);
+    _gameHandler.addGesture(
+      (
+        gesture: result.gesture,
+        gesturePosition: result.keyPoints.centerCoordinates,
+        boundingBox: result.cropData,
+      ),
+    );
   }
 
   Future<void> _initializeStream() async {

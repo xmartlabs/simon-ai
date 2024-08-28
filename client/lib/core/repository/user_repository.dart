@@ -31,8 +31,10 @@ class UserRepository {
   Future<void> insertUser(User user) =>
       _userRemoteSource.createUser(user.email, user);
 
-  Future<void> updateUser(User user) =>
-      _userRemoteSource.updateUser(user.email, user);
+  Future<void> updateUser(User user) async {
+    await _userRemoteSource.updateUser(user.email, user);
+    _user = user;
+  }
 
   Future<void> deleteUser(String id) => _userRemoteSource.deleteUser(id);
 

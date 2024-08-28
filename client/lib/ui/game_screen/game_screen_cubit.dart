@@ -6,14 +6,17 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:simon_ai/core/di/di_provider.dart';
 import 'package:simon_ai/core/model/game_response.dart';
+import 'package:simon_ai/core/model/hand_gesture_with_position.dart';
 import 'package:simon_ai/core/model/hand_gestures.dart';
 import 'package:simon_ai/core/repository/game_manager.dart';
 import 'package:simon_ai/core/repository/user_repository.dart';
+import 'package:simon_ai/ui/router/app_router.dart';
 
 part 'game_screen_cubit.freezed.dart';
 part 'game_screen_state.dart';
 
 class GameScreenCubit extends Cubit<GameScreenState> {
+  final AppRouter _appRouter = DiProvider.get();
   final GameManager _gameHandler = DiProvider.get();
   late StreamSubscription<GameResponse> _gameStreamSubscription;
   final Stopwatch _gameDuration = Stopwatch();
@@ -25,6 +28,8 @@ class GameScreenCubit extends Cubit<GameScreenState> {
 
   final Duration durationBetweenDisplayedGestures = const Duration(seconds: 1);
   final double playbackSpeed = 2;
+  final Duration durationBeforeStartingNewSequence = const Duration(seconds: 1);
+  final Duration durationOnFinishScreen = const Duration(seconds: 3);
 
   GameScreenCubit()
       : super(
@@ -34,6 +39,7 @@ class GameScreenCubit extends Cubit<GameScreenState> {
             currentRound: 0,
             gameState: GameState.initial,
             currentHandValueIndex: 0,
+            handSequenceHistory: [],
           ),
         ) {
     _gameDuration.start();
@@ -65,6 +71,7 @@ class GameScreenCubit extends Cubit<GameScreenState> {
   }
 
   Future<void> updateSequence(List<HandGesture> newSequence) async {
+    await Future.delayed(durationBetweenDisplayedGestures);
     for (final value in newSequence) {
       _sequenceController.add(value);
       await Future.delayed(durationBetweenDisplayedGestures);
@@ -73,7 +80,9 @@ class GameScreenCubit extends Cubit<GameScreenState> {
   }
 
   void restartGame() {
-    _gameDuration.start();
+    _gameDuration
+      ..stop()
+      ..start();
     _gameHandler.restartStream();
     _sequenceController.close();
     _sequenceController = StreamController<HandGesture>.broadcast();
@@ -84,6 +93,7 @@ class GameScreenCubit extends Cubit<GameScreenState> {
         currentRound: 0,
         gameState: GameState.initial,
         currentHandValueIndex: 0,
+        handSequenceHistory: [],
       ),
     );
     Future.delayed(const Duration(seconds: 2), startCountdown);
@@ -129,9 +139,13 @@ class GameScreenCubit extends Cubit<GameScreenState> {
     if (event.isCorrect) {
       emit(
         state.copyWith(
-          currentHandValue: event.gesture,
+          currentHandValue: event.gesture.gesture,
           currentHandValueIndex: state.currentHandValueIndex! + 1,
           currentPoints: event.points,
+          handSequenceHistory: [
+            ...state.handSequenceHistory!,
+            event.gesture,
+          ],
         ),
       );
       if (event.finishSequence) {
@@ -139,7 +153,7 @@ class GameScreenCubit extends Cubit<GameScreenState> {
           ..resume()
           ..setPlaybackRate(playbackSpeed);
         _gameStreamSubscription.cancel();
-        startNewSequence();
+        Future.delayed(durationBeforeStartingNewSequence, startNewSequence);
       }
     }
     if (!event.isCorrect) {
@@ -163,6 +177,11 @@ class GameScreenCubit extends Cubit<GameScreenState> {
       state.copyWith(
         gameState: GameState.ended,
       ),
+    );
+
+    Future.delayed(
+      durationOnFinishScreen,
+      () => _appRouter.push(const LeaderboardRoute()),
     );
   }
 

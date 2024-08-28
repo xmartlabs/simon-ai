@@ -7,6 +7,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:simon_ai/gen/assets.gen.dart';
+import 'package:simon_ai/ui/game_screen/gesture_feedback.dart';
 import 'package:simon_ai/ui/game_screen/game_overlay.dart';
 import 'package:simon_ai/ui/game_screen/game_screen_cubit.dart';
 import 'package:simon_ai/ui/game_screen/game_state_screens/error_state_screen.dart';
@@ -48,9 +49,7 @@ class _GameScreenContent extends StatelessWidget {
                 GameState.countDown => const Align(child: GameOverlay()),
                 GameState.showingSequence => const Align(child: GameOverlay()),
                 GameState.playing => Container(),
-                GameState.ended => FinishGameScreen(
-                    onRestart: context.read<GameScreenCubit>().restartGame,
-                  ),
+                GameState.ended => const FinishGameScreen(),
                 GameState.error => const ErrorStateScreen(),
               },
               if (kDebugMode && state.gameState != GameState.ended)
@@ -79,6 +78,17 @@ class _GameScreenContent extends StatelessWidget {
                 const Align(
                   alignment: Alignment.topRight,
                   child: _Points(),
+                ),
+              if (state.gameState != GameState.ended)
+                Align(
+                  alignment: Alignment.center,
+                  child: GestureFeedback(
+                    handGestureHistoryStream: context
+                            .watch<GameScreenCubit>()
+                            .state
+                            .handSequenceHistory ??
+                        [],
+                  ),
                 ),
               if (state.gameState != GameState.ended)
                 Align(

@@ -2,6 +2,7 @@
 
 import 'dart:async';
 
+import 'package:camera/camera.dart';
 import 'package:flutter/foundation.dart';
 import 'package:simon_ai/core/common/environments.dart';
 import 'package:simon_ai/core/common/extension/string_extensions.dart';
@@ -17,6 +18,8 @@ interface class Config {
   static late String supabaseApiKey;
 
   static const String userCollection = 'users';
+
+  static const cameraResolutionPreset = ResolutionPreset.medium;
 
   static final _environment = enumFromString(
         Environments.values,

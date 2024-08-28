@@ -4,11 +4,11 @@ import 'package:design_system/widgets/summary_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:simon_ai/core/common/config.dart';
 import 'package:simon_ai/ui/game_screen/game_screen_cubit.dart';
 
 class FinishGameScreen extends StatelessWidget {
-  final VoidCallback onRestart;
-  const FinishGameScreen({required this.onRestart, super.key});
+  const FinishGameScreen({super.key});
 
   @override
   Widget build(BuildContext context) => Column(
@@ -41,21 +41,22 @@ class FinishGameScreen extends StatelessWidget {
             ],
           ),
           SizedBox(height: 25.h),
-          InkWell(
-            onTap: onRestart,
-            child: Container(
-              padding: EdgeInsets.symmetric(
-                horizontal: 20.w,
-                vertical: 10.h,
-              ),
-              child: Text(
-                context.localizations.restart_game,
-                style: context.theme.textStyles.headlineMedium!.copyWith(
-                  color: context.theme.customColors.textColor.getShade(400),
+          if (Config.debugMode)
+            InkWell(
+              onTap: context.read<GameScreenCubit>().restartGame,
+              child: Container(
+                padding: EdgeInsets.symmetric(
+                  horizontal: 20.w,
+                  vertical: 10.h,
+                ),
+                child: Text(
+                  context.localizations.restart_game,
+                  style: context.theme.textStyles.headlineMedium!.copyWith(
+                    color: context.theme.customColors.textColor.getShade(400),
+                  ),
                 ),
               ),
             ),
-          ),
         ],
       );
 }

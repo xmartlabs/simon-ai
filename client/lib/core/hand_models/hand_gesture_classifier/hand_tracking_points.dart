@@ -1,5 +1,3 @@
-import 'dart:ui';
-
 // The order is important, it follows the model order
 enum HandLandmark {
   wrist,
@@ -23,18 +21,4 @@ enum HandLandmark {
   pinkyPip,
   pinkyDip,
   pinkyTip,
-}
-
-typedef KeyPointData = ({
-  double x,
-  double y,
-  double z,
-});
-
-extension MoveNetPointDataExtensions on KeyPointData {
-  Offset getOffset({required Size canvasSize, required Size imageSize}) =>
-      Offset(
-        x / imageSize.width * canvasSize.width,
-        y / imageSize.height * canvasSize.height,
-      );
 }

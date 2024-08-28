@@ -4,6 +4,7 @@ import 'dart:io';
 
 import 'package:camera/camera.dart';
 import 'package:flutter/material.dart';
+import 'package:simon_ai/core/common/config.dart';
 import 'package:simon_ai/core/common/logger.dart';
 import 'package:simon_ai/core/model/hand_gestures.dart';
 import 'package:simon_ai/ui/extensions/camera_extensions.dart';
@@ -13,7 +14,7 @@ import 'package:simon_ai/ui/widgets/camera/camera_widget.dart';
 
 class CameraPlatformWidgetState extends State<CameraWidget>
     with WidgetsBindingObserver, HandModelWidgetState<CameraWidget> {
-  final resolutionPreset = ResolutionPreset.medium;
+  final resolutionPreset = Config.cameraResolutionPreset;
   CameraController? _cameraController;
 
   CameraPlatformWidgetState();
@@ -90,6 +91,7 @@ class CameraPlatformWidgetState extends State<CameraWidget>
                     confidence: 0.0,
                     keyPoints: [],
                     gesture: HandGesture.unrecognized,
+                    cropData: (x: 0, y: 0, w: 0, h: 0, confidence: 0.0),
                   ),
               imageSize: resolutionPreset.size,
             ),

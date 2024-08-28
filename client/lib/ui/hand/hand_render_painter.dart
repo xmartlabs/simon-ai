@@ -4,6 +4,7 @@ import 'package:dartx/dartx.dart';
 import 'package:flutter/material.dart';
 import 'package:simon_ai/core/common/config.dart';
 import 'package:simon_ai/core/hand_models/hand_gesture_classifier/hand_tracking_points.dart';
+import 'package:simon_ai/core/model/coordinates.dart';
 import 'package:simon_ai/core/model/hand_landmarks_result_data.dart';
 
 class HandRenderPainter extends CustomPainter {

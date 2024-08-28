@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:rxdart/rxdart.dart';
 import 'package:simon_ai/core/model/game_response.dart';
+import 'package:simon_ai/core/model/hand_gesture_with_position.dart';
 import 'package:simon_ai/core/model/hand_gestures.dart';
 
 class GameManager {
@@ -10,26 +11,29 @@ class GameManager {
   final _pointForSuccess = 5;
   final _gestureDetectionTime = const Duration(milliseconds: 400);
 
-  StreamController<HandGesture> _gameSequenceController =
-      StreamController<HandGesture>.broadcast();
+  StreamController<HandGestureWithPosition> _gameSequenceController =
+      StreamController<HandGestureWithPosition>.broadcast();
 
-  void addGesture(HandGesture gesture) {
+  void addGesture(HandGestureWithPosition gesture) {
     _gameSequenceController.add(gesture);
   }
 
-  Stream<HandGesture> get gameSequenceStream => _gameSequenceController.stream
-      .buffer(Stream.periodic(_gestureDetectionTime))
-      .asyncMap((bufferedGestures) {
-        if (bufferedGestures.isEmpty) return null;
-        final HandGesture firstGesture = bufferedGestures.first;
-        final bool isConsistent =
-            bufferedGestures.every((gesture) => gesture == firstGesture);
-        return (isConsistent && firstGesture != HandGesture.unrecognized)
-            ? firstGesture
-            : null;
-      })
-      .whereNotNull()
-      .distinct();
+  Stream<HandGestureWithPosition> get gameSequenceStream =>
+      _gameSequenceController.stream
+          .buffer(Stream.periodic(_gestureDetectionTime))
+          .asyncMap((bufferedGestures) {
+            if (bufferedGestures.isEmpty) return null;
+            final HandGestureWithPosition firstGesture = bufferedGestures.first;
+            final bool isConsistent = bufferedGestures
+                .every((gesture) => gesture.gesture == firstGesture.gesture);
+            return (isConsistent &&
+                    firstGesture.gesture != HandGesture.unrecognized)
+                ? firstGesture
+                : null;
+          })
+          .whereNotNull()
+          .distinct((previous, next) => previous.gesture == next.gesture)
+          .asBroadcastStream();
 
   void close() {
     _gameSequenceController.close();
@@ -37,13 +41,14 @@ class GameManager {
 
   void restartStream() {
     _gameSequenceController.close();
-    _gameSequenceController = StreamController<HandGesture>.broadcast();
+    _gameSequenceController =
+        StreamController<HandGestureWithPosition>.broadcast();
   }
 
   Stream<GameResponse> startGame(List<HandGesture> gameSequence) {
     restartStream();
 
-    return gameSequenceStream.scan<List<HandGesture>>(
+    return gameSequenceStream.scan<List<HandGestureWithPosition>>(
       (accumulated, value, index) => [...accumulated, value],
       [],
     ).map(
@@ -52,7 +57,8 @@ class GameManager {
               true,
               (bool acc, gesture) =>
                   acc &&
-                  gesture == currentSequence[gameSequence.indexOf(gesture)],
+                  gesture ==
+                      currentSequence[gameSequence.indexOf(gesture)].gesture,
             );
         return (
           gesture: currentSequence.last,

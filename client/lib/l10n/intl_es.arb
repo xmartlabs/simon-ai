@@ -1,4 +1,5 @@
 {
+  "activate_camera": "Activar cámara",
   "admin_area": "Panel de Administración",
   "admin_area_logged_description": "Sesión iniciada como: {email}",
   "@admin_area_logged_description": {
@@ -10,7 +11,6 @@
       }
     }
   },
-  "activate_camera": "Activar cámara",
   "back_to_the_game": "Volver al juego",
   "beginner_training": "Entrenamiento inicial",
   "completed_game_with": "Has completado el juego con éxito",

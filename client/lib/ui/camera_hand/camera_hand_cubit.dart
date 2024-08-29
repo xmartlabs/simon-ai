@@ -31,8 +31,10 @@ class CameraHandCubit extends Cubit<CameraHandState> {
 
   @override
   Future<void> close() async {
-    await _movementStreamController.close();
     await _frameController.close();
+    await _keyPointsManager.close();
+    await _movementStreamController.close();
+    _gameHandler.restartStream();
     return super.close();
   }
 
@@ -63,7 +65,7 @@ class CameraHandCubit extends Cubit<CameraHandState> {
     _newFrameStream = _frameController.stream;
     emit(state.copyWith(movenetResultStream: _movenetStream));
     // ignore: no-empty-block
-    _newFrameStream.discardWhileProcessing(_processNewFrame).listen((event) {
+    _newFrameStream.processWhileAvailable(_processNewFrame).listen((event) {
       // TODO add implementation for after-processing frame
     });
   }

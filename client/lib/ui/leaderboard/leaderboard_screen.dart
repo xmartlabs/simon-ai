@@ -40,7 +40,7 @@ class _LeaderboardContentScreen extends StatelessWidget {
                     width: .3.sw,
                     child: FilledButton(
                       onPressed: () =>
-                          context.read<LeaderboardCubit>().restartGame,
+                          context.read<LeaderboardCubit>().restartGame(),
                       child: Text(
                         context.localizations.restart_game,
                       ),
@@ -191,35 +191,32 @@ class _LeaderboardList extends StatelessWidget {
   Widget build(BuildContext context) =>
       BlocBuilder<LeaderboardCubit, LeaderboardState>(
         builder: (context, state) => state.users != null
-            ? Expanded(
-                child: Container(
-                  decoration: BoxDecoration(
-                    color: context.theme.customColors.lightSurfaceColor
-                        .getShade(300),
-                    borderRadius: BorderRadius.circular(24),
-                  ),
-                  padding:
-                      const EdgeInsets.symmetric(horizontal: 24, vertical: 16),
-                  child: ListView.builder(
-                    itemCount: state.users!.length,
-                    itemBuilder: (context, index) => Padding(
-                      padding: const EdgeInsets.symmetric(vertical: 8.0),
-                      child: Column(
-                        children: [
-                          _LeaderboardUserCard(
-                            name: state.users![index].name ?? '',
-                            points: state.users![index].points,
-                            position: index + 1,
+            ? Container(
+                decoration: BoxDecoration(
+                  color: context.theme.customColors.lightSurfaceColor
+                      .getShade(300),
+                  borderRadius: BorderRadius.circular(24),
+                ),
+                padding:
+                    const EdgeInsets.symmetric(horizontal: 24, vertical: 16),
+                child: ListView.builder(
+                  itemCount: state.users!.length,
+                  itemBuilder: (context, index) => Padding(
+                    padding: const EdgeInsets.symmetric(vertical: 8.0),
+                    child: Column(
+                      children: [
+                        _LeaderboardUserCard(
+                          name: state.users![index].name ?? '',
+                          points: state.users![index].points,
+                          position: index + 1,
+                        ),
+                        const SizedBox(height: 16),
+                        if (index < state.users!.length - 1)
+                          Divider(
+                            color: context.theme.customColors.lightSurfaceColor
+                                .getShade(500),
                           ),
-                          const SizedBox(height: 16),
-                          if (index < state.users!.length - 1)
-                            Divider(
-                              color: context
-                                  .theme.customColors.lightSurfaceColor
-                                  .getShade(500),
-                            ),
-                        ],
-                      ),
+                      ],
                     ),
                   ),
                 ),

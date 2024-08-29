@@ -10,22 +10,27 @@ import 'package:simon_ai/core/model/hand_classifier_isolate_data.dart';
 import 'package:simon_ai/core/model/hand_classifier_result_data.dart';
 import 'package:tflite_flutter/tflite_flutter.dart';
 
-class HandTrackingIsolateUtils {
+class HandTrackingIsolate {
   static const _logTimes = false;
 
   final ReceivePort _receivePort = ReceivePort();
   late SendPort _sendPort;
+  late Isolate _isolate;
 
   SendPort get sendPort => _sendPort;
 
   Future<void> start() async {
-    await Isolate.spawn<SendPort>(
+    _isolate = await Isolate.spawn<SendPort>(
       entryPoint,
       _receivePort.sendPort,
       debugName: 'HandClassifierIsolate',
     );
-
     _sendPort = await _receivePort.first;
+  }
+
+  void dispose() {
+    _receivePort.close();
+    _isolate.kill();
   }
 
   static void entryPoint(SendPort sendPort) {

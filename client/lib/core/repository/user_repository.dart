@@ -1,4 +1,3 @@
-import 'package:simon_ai/core/common/extension/stream_future_extensions.dart';
 import 'package:simon_ai/core/model/user.dart';
 import 'package:simon_ai/core/source/user_remote_source.dart';
 import 'package:stock/stock.dart';
@@ -24,9 +23,8 @@ class UserRepository {
 
   Stream<List<User>?> getUsers() => _store
       .stream(null)
-      .mapToResult()
-      .where((event) => event.isSuccess && event.data != null)
-      .map((event) => event.data!.requireData());
+      .where((event) => event.isData)
+      .map((event) => event.requireData());
 
   Future<void> insertUser(User user) =>
       _userRemoteSource.createUser(user.email, user);

@@ -1,3 +1,5 @@
+// ignore_for_file: unused-code
+
 import 'package:rxdart/rxdart.dart';
 import 'package:simon_ai/core/common/logger.dart';
 import 'package:simon_ai/core/common/result.dart';

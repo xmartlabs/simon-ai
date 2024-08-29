@@ -23,7 +23,7 @@ mixin _$User {
   String get email => throw _privateConstructorUsedError;
   String? get name => throw _privateConstructorUsedError;
   int get points => throw _privateConstructorUsedError;
-  String? get createdBy => throw _privateConstructorUsedError;
+  String get createdBy => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
@@ -35,7 +35,7 @@ abstract class $UserCopyWith<$Res> {
   factory $UserCopyWith(User value, $Res Function(User) then) =
       _$UserCopyWithImpl<$Res, User>;
   @useResult
-  $Res call({String email, String? name, int points, String? createdBy});
+  $Res call({String email, String? name, int points, String createdBy});
 }
 
 /// @nodoc
@@ -54,7 +54,7 @@ class _$UserCopyWithImpl<$Res, $Val extends User>
     Object? email = null,
     Object? name = freezed,
     Object? points = null,
-    Object? createdBy = freezed,
+    Object? createdBy = null,
   }) {
     return _then(_value.copyWith(
       email: null == email
@@ -69,10 +69,10 @@ class _$UserCopyWithImpl<$Res, $Val extends User>
           ? _value.points
           : points // ignore: cast_nullable_to_non_nullable
               as int,
-      createdBy: freezed == createdBy
+      createdBy: null == createdBy
           ? _value.createdBy
           : createdBy // ignore: cast_nullable_to_non_nullable
-              as String?,
+              as String,
     ) as $Val);
   }
 }
@@ -84,7 +84,7 @@ abstract class _$$UserImplCopyWith<$Res> implements $UserCopyWith<$Res> {
       __$$UserImplCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({String email, String? name, int points, String? createdBy});
+  $Res call({String email, String? name, int points, String createdBy});
 }
 
 /// @nodoc
@@ -100,7 +100,7 @@ class __$$UserImplCopyWithImpl<$Res>
     Object? email = null,
     Object? name = freezed,
     Object? points = null,
-    Object? createdBy = freezed,
+    Object? createdBy = null,
   }) {
     return _then(_$UserImpl(
       email: null == email
@@ -115,10 +115,10 @@ class __$$UserImplCopyWithImpl<$Res>
           ? _value.points
           : points // ignore: cast_nullable_to_non_nullable
               as int,
-      createdBy: freezed == createdBy
+      createdBy: null == createdBy
           ? _value.createdBy
           : createdBy // ignore: cast_nullable_to_non_nullable
-              as String?,
+              as String,
     ));
   }
 }
@@ -127,7 +127,8 @@ class __$$UserImplCopyWithImpl<$Res>
 
 @JsonSerializable()
 class _$UserImpl implements _User {
-  _$UserImpl({required this.email, this.name, this.points = 0, this.createdBy});
+  _$UserImpl(
+      {required this.email, this.name, this.points = 0, this.createdBy = ''});
 
   factory _$UserImpl.fromJson(Map<String, dynamic> json) =>
       _$$UserImplFromJson(json);
@@ -140,7 +141,8 @@ class _$UserImpl implements _User {
   @JsonKey()
   final int points;
   @override
-  final String? createdBy;
+  @JsonKey()
+  final String createdBy;
 
   @override
   String toString() {
@@ -182,7 +184,7 @@ abstract class _User implements User {
       {required final String email,
       final String? name,
       final int points,
-      final String? createdBy}) = _$UserImpl;
+      final String createdBy}) = _$UserImpl;
 
   factory _User.fromJson(Map<String, dynamic> json) = _$UserImpl.fromJson;
 
@@ -193,7 +195,7 @@ abstract class _User implements User {
   @override
   int get points;
   @override
-  String? get createdBy;
+  String get createdBy;
   @override
   @JsonKey(ignore: true)
   _$$UserImplCopyWith<_$UserImpl> get copyWith =>

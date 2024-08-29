@@ -51,7 +51,7 @@ class SessionRepository {
     final sessionToken = await _authLocalSource.getUserToken().first;
     return _authLocalSource
         .saveUserInfo(
-          User(email: email, name: username, createdBy: sessionToken),
+          User(email: email, name: username, createdBy: sessionToken ?? ''),
         )
         .mapToResult();
   }

@@ -12,6 +12,7 @@ class OnboardingRoutes implements NavegableRoute {
   static const String registerUsernameRoute = RegisterUsernameRoute.name;
   static const String tutorialExplanationRoute = TutorialExplanationRoute.name;
   static const String tutorialExampleRoute = TutorialExampleRoute.name;
+  static const String adminAreaRoute = AdminAreaRoute.name;
 
   @override
   String get route => onboardingHandlerRoute;
@@ -24,6 +25,10 @@ class OnboardingRoutes implements NavegableRoute {
             initial: true,
             path: registerUserRoute,
             page: RegisterUserRoute.page,
+          ),
+          AutoRoute(
+            path: adminAreaRoute,
+            page: AdminAreaRoute.page,
           ),
           AutoRoute(
             path: registerUsernameRoute,

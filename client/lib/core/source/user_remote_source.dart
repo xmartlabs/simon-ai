@@ -20,8 +20,10 @@ class UserRemoteSource {
     await _firestoreDb.delete(id);
   }
 
-  Future<List<User>> getAllUsers() async =>
-      (await _firestoreDb.getAllData()).map((e) => User.fromJson(e)).toList();
+  Future<List<User>> getAllUsers(String createdBy) async =>
+      (await _firestoreDb.getAllData(createdBy))
+          .map((e) => User.fromJson(e))
+          .toList();
 
   Future<void> close() => _firestoreDb.close();
 }

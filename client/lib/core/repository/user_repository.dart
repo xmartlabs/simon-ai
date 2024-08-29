@@ -1,19 +1,21 @@
 import 'package:simon_ai/core/model/user.dart';
+import 'package:simon_ai/core/source/auth_local_source.dart';
 import 'package:simon_ai/core/source/user_remote_source.dart';
 import 'package:stock/stock.dart';
 
 class UserRepository {
   // ignore: unused_field
   final UserRemoteSource _userRemoteSource;
+  final AuthLocalSource _authLocalSource;
 
   User? _user;
 
-  final Stock<dynamic, List<User>?> _store;
+  final Stock<String, List<User>?> _store;
 
-  UserRepository(this._userRemoteSource)
+  UserRepository(this._userRemoteSource, this._authLocalSource)
       : _store = Stock(
           fetcher: Fetcher.ofFuture(
-            (_) => _userRemoteSource.getAllUsers(),
+            (createdBy) => _userRemoteSource.getAllUsers(createdBy),
           ),
         );
 
@@ -21,10 +23,13 @@ class UserRepository {
 
   void setCurrentUser(User user) => _user = user;
 
-  Stream<List<User>?> getUsers() => _store
-      .stream(null)
-      .where((event) => event.isData)
-      .map((event) => event.requireData());
+  Stream<List<User>?> getUsers() async* {
+    final createdBy = await _authLocalSource.getUserToken().first;
+    yield* _store
+        .stream(createdBy ?? '')
+        .where((event) => event.isData)
+        .map((event) => event.requireData());
+  }
 
   Future<void> insertUser(User user) =>
       _userRemoteSource.createUser(user.email, user);

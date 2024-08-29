@@ -1,4 +1,15 @@
 {
+  "admin_area": "Admin Area",
+  "admin_area_logged_description": "Logged as: {email}",
+  "@admin_area_logged_description": {
+    "description": "Shows the email of the user logged in the admin area",
+    "placeholders": {
+      "email": {
+        "type": "String",
+        "example": "test@xmartlabs.com"
+      }
+    }
+  },
   "activate_camera": "Activate camera",
   "back_to_the_game": "Back to the game",
   "beginner_training": "Beginner Training",
@@ -16,6 +27,7 @@
     }
   },
   "debug_mode": "Debug mode",
+  "email": "Email",
   "error": "Error: {text}",
   "@error": {
     "description": "Provides an explanation of the error",

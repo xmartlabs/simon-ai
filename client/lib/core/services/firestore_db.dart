@@ -18,8 +18,11 @@ interface class FirestoreDb implements DbInterface<Map<String, dynamic>> {
       _firestore.collection(collection).doc(id).delete();
 
   @override
-  Future<List<Map<String, dynamic>>> getAllData() async {
-    final snapshot = await _firestore.collection(collection).get();
+  Future<List<Map<String, dynamic>>> getAllData(String createdBy) async {
+    final snapshot = await _firestore
+        .collection(collection)
+        .where('created_by', isEqualTo: createdBy)
+        .get();
     return snapshot.docs.map((doc) => doc.data()).toList();
   }
 

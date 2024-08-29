@@ -42,4 +42,6 @@ class RegisterUserCubit extends Cubit<RegisterUserBaseState> {
       unawaited(_appRouter.push(const RegisterUsernameRoute()));
     }
   }
+
+  void goToAdminAdrea() => _appRouter.push(const AdminAreaRoute());
 }

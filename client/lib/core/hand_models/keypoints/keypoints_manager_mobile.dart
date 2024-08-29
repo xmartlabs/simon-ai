@@ -23,13 +23,13 @@ class KeyPointsMobileManager implements KeyPointsManager {
   late ModelHandler handDetectorClassifier;
   late ModelHandler handGestureEmbedderClassifier;
   late ModelHandler handCannedGestureClassifier;
-  late HandTrackingIsolateUtils isolate;
+  late HandTrackingIsolate isolate;
   var _currentFrame = 0;
   var _lastCurrentFrame = 0;
 
   @override
   Future<void> init() async {
-    isolate = HandTrackingIsolateUtils();
+    isolate = HandTrackingIsolate();
     await isolate.start();
     handTrackingClassifier = HandTrackingClassifier();
     handDetectorClassifier = HandDetectorClassifier();

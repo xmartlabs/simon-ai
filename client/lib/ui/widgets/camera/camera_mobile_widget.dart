@@ -89,22 +89,45 @@ class CameraPlatformWidgetState extends State<CameraWidget>
                 _cameraController == null ||
                 !_cameraController!.value.isInitialized)
             ? Container()
-            : _showGesture(widget.showGesture, snapshot.data),
+            : _GestureSection(
+                resolutionPreset: resolutionPreset,
+                cameraController: _cameraController,
+                showGesture: widget.showGesture,
+                data: snapshot.data,
+              ),
       );
+}
 
-  Widget _showGesture(bool showGesture, HandLandmarksData? data) => showGesture
-      ? CustomPaint(
-          foregroundPainter: HandRenderPainter(
-            keypointsData: data ??
-                (
-                  confidence: 0.0,
-                  keyPoints: [],
-                  gesture: HandGesture.unrecognized,
-                  cropData: (x: 0, y: 0, w: 0, h: 0, confidence: 0.0),
+class _GestureSection extends StatelessWidget {
+  final ResolutionPreset resolutionPreset;
+  final CameraController? cameraController;
+  final HandLandmarksData? data;
+  final bool showGesture;
+
+  const _GestureSection({
+    required this.resolutionPreset,
+    required this.cameraController,
+    required this.data,
+    required this.showGesture,
+    super.key,
+  });
+
+  @override
+  Widget build(BuildContext context) => Container(
+        child: showGesture
+            ? CustomPaint(
+                foregroundPainter: HandRenderPainter(
+                  keypointsData: data ??
+                      (
+                        confidence: 0.0,
+                        keyPoints: [],
+                        gesture: HandGesture.unrecognized,
+                        cropData: (x: 0, y: 0, w: 0, h: 0, confidence: 0.0),
+                      ),
+                  imageSize: resolutionPreset.size,
                 ),
-            imageSize: resolutionPreset.size,
-          ),
-          child: CameraPreview(_cameraController!),
-        )
-      : CameraPreview(_cameraController!);
+                child: CameraPreview(cameraController!),
+              )
+            : CameraPreview(cameraController!),
+      );
 }

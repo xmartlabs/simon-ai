@@ -10,7 +10,7 @@ import 'package:simon_ai/core/model/hand_classifier_isolate_data.dart';
 import 'package:simon_ai/core/model/hand_classifier_result_data.dart';
 import 'package:tflite_flutter/tflite_flutter.dart';
 
-class HandTrackingIsolateUtils {
+class HandTrackingIsolate {
   static const _logTimes = false;
 
   final ReceivePort _receivePort = ReceivePort();

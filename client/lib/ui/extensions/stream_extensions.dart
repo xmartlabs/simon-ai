@@ -1,7 +1,7 @@
 import 'dart:async';
 
 extension StreamExtensions<T> on Stream<T> {
-  Stream<R> discardWhileProcessing<R>(FutureOr<R> Function(T) asyncMapper) {
+  Stream<R> processWhileAvailable<R>(FutureOr<R> Function(T) asyncMapper) {
     T? lastUnprocessedValue;
     var isProcessing = false;
     // Define a separate async function to process the value.

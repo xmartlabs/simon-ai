@@ -15,6 +15,12 @@ abstract class _$AppRouter extends RootStackRouter {
 
   @override
   final Map<String, PageFactory> pagesMap = {
+    AdminAreaRoute.name: (routeData) {
+      return AutoRoutePage<dynamic>(
+        routeData: routeData,
+        child: const AdminAreaScreen(),
+      );
+    },
     AuthenticatedSectionRoute.name: (routeData) {
       return AutoRoutePage<dynamic>(
         routeData: routeData,
@@ -76,6 +82,20 @@ abstract class _$AppRouter extends RootStackRouter {
       );
     },
   };
+}
+
+/// generated route for
+/// [AdminAreaScreen]
+class AdminAreaRoute extends PageRouteInfo<void> {
+  const AdminAreaRoute({List<PageRouteInfo>? children})
+      : super(
+          AdminAreaRoute.name,
+          initialChildren: children,
+        );
+
+  static const String name = 'AdminAreaRoute';
+
+  static const PageInfo<void> page = PageInfo<void>(name);
 }
 
 /// generated route for

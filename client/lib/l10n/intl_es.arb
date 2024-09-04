@@ -1,5 +1,16 @@
 {
   "activate_camera": "Activar cámara",
+  "admin_area": "Panel de Administración",
+  "admin_area_logged_description": "Sesión iniciada como: {email}",
+  "@admin_area_logged_description": {
+    "description": "Muestra el correo electrónico del usuario que ha iniciado sesión en el panel de administración",
+    "placeholders": {
+      "email": {
+        "type": "String",
+        "example": "test@xmartlabs.com"
+      }
+    }
+  },
   "back_to_the_game": "Volver al juego",
   "beginner_training": "Entrenamiento inicial",
   "completed_game_with": "Has completado el juego con éxito",
@@ -16,6 +27,7 @@
     }
   },
   "debug_mode": "Modo debug",
+  "email": "Email",
   "error": "Error: {text}",
   "@error": {
     "description": "Da una explicación del error",

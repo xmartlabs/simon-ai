@@ -53,7 +53,7 @@ class _RegisterUsernameContent extends StatelessWidget {
             ),
             FilledButton(
               onPressed: () =>
-                  context.read<RegisterUsernameCubit>().signInUser(),
+                  context.read<RegisterUsernameCubit>().registerPlayer(),
               child: Text(
                 context.localizations.continue_button,
                 style: context.theme.textStyles.bodyLarge!.bold().copyWith(

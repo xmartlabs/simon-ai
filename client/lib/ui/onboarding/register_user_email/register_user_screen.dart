@@ -57,6 +57,18 @@ class _SignInContentScreen extends StatelessWidget {
                     ),
               ),
             ),
+            Padding(
+              padding: const EdgeInsets.symmetric(vertical: 12.0),
+              child: InkWell(
+                onTap: context.read<RegisterUserCubit>().goToAdminAdrea,
+                child: Text(
+                  context.localizations.admin_area,
+                  style: context.theme.textStyles.bodyLarge!.copyWith(
+                    color: context.theme.customColors.textColor.getShade(500),
+                  ),
+                ),
+              ),
+            ),
           ]
               .animate(
                 interval: 100.ms,

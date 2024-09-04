@@ -26,11 +26,11 @@ class RegisterUsernameCubit extends Cubit<RegisterUsernameState> {
         state.copyWith(username: username),
       );
 
-  Future<void> signInUser() async {
+  Future<void> registerPlayer() async {
     final user = await _sessionRepository.getUser();
     final username =
         state.username.isEmpty ? user!.getEmailUsername() : state.username;
-    final res = await _sessionRepository.signInUser(
+    final res = await _sessionRepository.registerPlayer(
       email: user!.email,
       username: username,
     );

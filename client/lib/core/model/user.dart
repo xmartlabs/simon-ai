@@ -10,6 +10,7 @@ class User with _$User {
     required String email,
     String? name,
     @Default(0) int points,
+    @Default('') String createdBy,
   }) = _User;
 
   factory User.fromJson(Map<String, dynamic> json) => _$UserFromJson(json);

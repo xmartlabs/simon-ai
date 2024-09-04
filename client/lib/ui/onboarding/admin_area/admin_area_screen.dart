@@ -21,39 +21,43 @@ class AdminAreaScreen extends StatelessWidget {
 class _AdminAreaContentScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) =>
-      BlocSelector<AdminAreaCubit, AdminAreaState, bool>(
-        selector: (state) => state.currentUserEmail != null,
-        builder: (context, isLogged) => AppScaffold(
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: [
-              Text(
-                context.localizations.admin_area,
-                style: context.theme.textStyles.displaySmall!.bold().copyWith(
-                      color: context.theme.customColors.textColor.getShade(500),
-                    ),
-              ),
-              SizedBox(height: 24.h),
-              isLogged
-                  ? Column(
-                      children: [
-                        const _CurrentUserInfo(),
-                        SizedBox(height: 12.h),
-                        ElevatedButton(
-                          onPressed: () =>
-                              context.read<AdminAreaCubit>().signOut(),
-                          child: Padding(
-                            padding: EdgeInsets.symmetric(horizontal: 16.w),
-                            child: Text(context.localizations.log_out),
+      BlocSelector<AdminAreaCubit, AdminAreaState, String?>(
+        selector: (state) => state.currentUserEmail,
+        builder: (context, currentUserEmail) {
+          final isLogged = currentUserEmail != null;
+          return AppScaffold(
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                Text(
+                  context.localizations.admin_area,
+                  style: context.theme.textStyles.displaySmall!.bold().copyWith(
+                        color:
+                            context.theme.customColors.textColor.getShade(500),
+                      ),
+                ),
+                SizedBox(height: 24.h),
+                isLogged
+                    ? Column(
+                        children: [
+                          _CurrentUserInfo(currentUserEmail: currentUserEmail),
+                          SizedBox(height: 12.h),
+                          ElevatedButton(
+                            onPressed: () =>
+                                context.read<AdminAreaCubit>().signOut(),
+                            child: Padding(
+                              padding: EdgeInsets.symmetric(horizontal: 16.w),
+                              child: Text(context.localizations.log_out),
+                            ),
                           ),
-                        ),
-                      ],
-                    )
-                  : const _NotLoggedSection(),
-            ],
-          ),
-        ),
+                        ],
+                      )
+                    : const _NotLoggedSection(),
+              ],
+            ),
+          );
+        },
       );
 }
 
@@ -75,19 +79,18 @@ class _NotLoggedSection extends StatelessWidget {
 }
 
 class _CurrentUserInfo extends StatelessWidget {
+  final String currentUserEmail;
+
   const _CurrentUserInfo({
+    required this.currentUserEmail,
     super.key,
   });
 
   @override
-  Widget build(BuildContext context) =>
-      BlocBuilder<AdminAreaCubit, AdminAreaState>(
-        builder: (context, state) => Text(
-          context.localizations
-              .admin_area_logged_description(state.currentUserEmail!),
-          style: context.theme.textStyles.bodyLarge!.copyWith(
-            color: context.theme.customColors.textColor.getShade(500),
-          ),
+  Widget build(BuildContext context) => Text(
+        context.localizations.admin_area_logged_description(currentUserEmail),
+        style: context.theme.textStyles.bodyLarge!.copyWith(
+          color: context.theme.customColors.textColor.getShade(500),
         ),
       );
 }

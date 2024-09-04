@@ -1,3 +1,4 @@
+import 'package:rxdart/rxdart.dart';
 import 'package:simon_ai/core/model/user.dart';
 import 'package:simon_ai/core/source/auth_local_source.dart';
 import 'package:simon_ai/core/source/user_remote_source.dart';
@@ -23,12 +24,14 @@ class UserRepository {
 
   void setCurrentUser(User user) => _user = user;
 
-  Stream<List<User>?> getUsers() async* {
-    final createdBy = await _authLocalSource.getUserToken().first;
-    yield* _store
-        .stream(createdBy ?? '')
-        .where((event) => event.isData)
-        .map((event) => event.requireData());
+  Stream<List<User>?> getUsers() {
+    final userTokenStream = _authLocalSource.getUserToken();
+    return userTokenStream.switchMap(
+      (createdBy) => _store
+          .stream(createdBy ?? '')
+          .where((event) => event.isData)
+          .map((event) => event.requireData()),
+    );
   }
 
   Future<void> insertUser(User user) =>

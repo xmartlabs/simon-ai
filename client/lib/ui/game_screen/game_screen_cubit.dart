@@ -166,6 +166,7 @@ class GameScreenCubit extends Cubit<GameScreenState> {
   }
 
   void endGame() {
+    _gameHandler.resetPoints();
     _gameDuration.stop();
     _gameStreamSubscription.cancel();
     _sequenceController.close();

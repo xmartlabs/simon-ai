@@ -107,6 +107,7 @@ class _NextButtonSection extends StatelessWidget {
               ? () {
                   context.read<RegisterUserCubit>().saveEmail();
                   emailTextController.clear();
+                  FocusManager.instance.primaryFocus?.unfocus();
                 }
               : null,
           child: Text(

@@ -47,7 +47,7 @@ class GameScreenCubit extends Cubit<GameScreenState> {
 
     Future.delayed(const Duration(seconds: 2), startCountdown);
   }
-  final int _maxRounds = 8;
+  final int _maxRounds = 5;
 
   bool isLastHandGesture() =>
       state.currentHandValueIndex == state.currentSequence!.length - 1;
@@ -149,11 +149,15 @@ class GameScreenCubit extends Cubit<GameScreenState> {
         ),
       );
       if (event.finishSequence) {
-        audioPlayer
-          ..resume()
-          ..setPlaybackRate(playbackSpeed);
-        _gameStreamSubscription.cancel();
-        Future.delayed(durationBeforeStartingNewSequence, startNewSequence);
+        if (state.currentRound == _maxRounds) {
+          endGame();
+        } else {
+          audioPlayer
+            ..resume()
+            ..setPlaybackRate(playbackSpeed);
+          _gameStreamSubscription.cancel();
+          Future.delayed(durationBeforeStartingNewSequence, startNewSequence);
+        }
       }
     }
     if (!event.isCorrect) {

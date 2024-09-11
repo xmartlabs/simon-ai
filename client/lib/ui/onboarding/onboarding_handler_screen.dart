@@ -34,16 +34,6 @@ class OnboardingHandlerScreen extends StatelessWidget {
               ),
             ),
             const SizedBox(height: 20),
-            SizedBox(
-              width: .3.sw,
-              child: OutlinedButton(
-                onPressed: () =>
-                    context.router.push(const TutorialExplanationRoute()),
-                child: Text(
-                  context.localizations.beginner_training,
-                ),
-              ),
-            ),
           ],
         ),
       );

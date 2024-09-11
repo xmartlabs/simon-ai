@@ -18,21 +18,21 @@ final _privateConstructorUsedError = UnsupportedError(
 mixin _$RegisterUserBaseState {
   String? get email => throw _privateConstructorUsedError;
   String? get nickname => throw _privateConstructorUsedError;
-  String get error => throw _privateConstructorUsedError;
+  String? get error => throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
-    required TResult Function(String? email, String? nickname, String error)
+    required TResult Function(String? email, String? nickname, String? error)
         state,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
-    TResult? Function(String? email, String? nickname, String error)? state,
+    TResult? Function(String? email, String? nickname, String? error)? state,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
-    TResult Function(String? email, String? nickname, String error)? state,
+    TResult Function(String? email, String? nickname, String? error)? state,
     required TResult orElse(),
   }) =>
       throw _privateConstructorUsedError;
@@ -64,7 +64,7 @@ abstract class $RegisterUserBaseStateCopyWith<$Res> {
           $Res Function(RegisterUserBaseState) then) =
       _$RegisterUserBaseStateCopyWithImpl<$Res, RegisterUserBaseState>;
   @useResult
-  $Res call({String? email, String? nickname, String error});
+  $Res call({String? email, String? nickname, String? error});
 }
 
 /// @nodoc
@@ -83,7 +83,7 @@ class _$RegisterUserBaseStateCopyWithImpl<$Res,
   $Res call({
     Object? email = freezed,
     Object? nickname = freezed,
-    Object? error = null,
+    Object? error = freezed,
   }) {
     return _then(_value.copyWith(
       email: freezed == email
@@ -94,10 +94,10 @@ class _$RegisterUserBaseStateCopyWithImpl<$Res,
           ? _value.nickname
           : nickname // ignore: cast_nullable_to_non_nullable
               as String?,
-      error: null == error
+      error: freezed == error
           ? _value.error
           : error // ignore: cast_nullable_to_non_nullable
-              as String,
+              as String?,
     ) as $Val);
   }
 }
@@ -110,7 +110,7 @@ abstract class _$$RegisterUserStateImplCopyWith<$Res>
       __$$RegisterUserStateImplCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({String? email, String? nickname, String error});
+  $Res call({String? email, String? nickname, String? error});
 }
 
 /// @nodoc
@@ -126,7 +126,7 @@ class __$$RegisterUserStateImplCopyWithImpl<$Res>
   $Res call({
     Object? email = freezed,
     Object? nickname = freezed,
-    Object? error = null,
+    Object? error = freezed,
   }) {
     return _then(_$RegisterUserStateImpl(
       email: freezed == email
@@ -137,10 +137,10 @@ class __$$RegisterUserStateImplCopyWithImpl<$Res>
           ? _value.nickname
           : nickname // ignore: cast_nullable_to_non_nullable
               as String?,
-      error: null == error
+      error: freezed == error
           ? _value.error
           : error // ignore: cast_nullable_to_non_nullable
-              as String,
+              as String?,
     ));
   }
 }
@@ -149,14 +149,14 @@ class __$$RegisterUserStateImplCopyWithImpl<$Res>
 
 class _$RegisterUserStateImpl implements RegisterUserState {
   const _$RegisterUserStateImpl(
-      {required this.email, required this.nickname, required this.error});
+      {required this.email, required this.nickname, this.error});
 
   @override
   final String? email;
   @override
   final String? nickname;
   @override
-  final String error;
+  final String? error;
 
   @override
   String toString() {
@@ -187,7 +187,7 @@ class _$RegisterUserStateImpl implements RegisterUserState {
   @override
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
-    required TResult Function(String? email, String? nickname, String error)
+    required TResult Function(String? email, String? nickname, String? error)
         state,
   }) {
     return state(email, nickname, error);
@@ -196,7 +196,7 @@ class _$RegisterUserStateImpl implements RegisterUserState {
   @override
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
-    TResult? Function(String? email, String? nickname, String error)? state,
+    TResult? Function(String? email, String? nickname, String? error)? state,
   }) {
     return state?.call(email, nickname, error);
   }
@@ -204,7 +204,7 @@ class _$RegisterUserStateImpl implements RegisterUserState {
   @override
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
-    TResult Function(String? email, String? nickname, String error)? state,
+    TResult Function(String? email, String? nickname, String? error)? state,
     required TResult orElse(),
   }) {
     if (state != null) {
@@ -246,14 +246,14 @@ abstract class RegisterUserState implements RegisterUserBaseState {
   const factory RegisterUserState(
       {required final String? email,
       required final String? nickname,
-      required final String error}) = _$RegisterUserStateImpl;
+      final String? error}) = _$RegisterUserStateImpl;
 
   @override
   String? get email;
   @override
   String? get nickname;
   @override
-  String get error;
+  String? get error;
   @override
   @JsonKey(ignore: true)
   _$$RegisterUserStateImplCopyWith<_$RegisterUserStateImpl> get copyWith =>

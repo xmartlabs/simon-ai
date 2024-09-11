@@ -5,6 +5,11 @@ class RegisterUserBaseState with _$RegisterUserBaseState {
   const factory RegisterUserBaseState.state({
     required String? email,
     required String? nickname,
-    required String error,
+    String? error,
   }) = RegisterUserState;
+}
+
+extension RegisterUserBaseStateExtension on RegisterUserBaseState {
+  bool get isFormValid =>
+      email != null && email!.isNotEmpty && email!.isValidEmail;
 }

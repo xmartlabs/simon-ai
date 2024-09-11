@@ -37,8 +37,6 @@ class AdminAreaCubit extends Cubit<AdminAreaState> {
   void changePassword(String? password) =>
       emit(state.copyWith(password: password));
 
-  bool get isFormValid => state.email != null && state.password != null;
-
   Future<void> signIn() async {
     final res = await _sessionRepository.signInUser(
       email: state.email!,

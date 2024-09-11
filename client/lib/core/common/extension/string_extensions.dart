@@ -3,6 +3,9 @@ extension StringExtensions on String {
 
   bool get isNumber => contains(RegExp(r'^[0-9]+$'));
 
+  bool get isValidEmail =>
+      contains(RegExp(r'^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$'));
+
   String get camelCaseToSnakeCase {
     final sb = StringBuffer();
     var first = true;

@@ -47,7 +47,7 @@ class GameScreenCubit extends Cubit<GameScreenState> {
 
     Future.delayed(const Duration(seconds: 2), startCountdown);
   }
-  final int _maxRounds = 5;
+  final int _maxRounds = 40;
 
   bool isLastHandGesture() =>
       state.currentHandValueIndex == state.currentSequence!.length - 1;
@@ -193,13 +193,13 @@ class GameScreenCubit extends Cubit<GameScreenState> {
   Duration get gameDuration => _gameDuration.elapsed;
 
   HandGesture _generateRandomUniqueHandGesture() {
-    HandGesture randomLetter =
+    HandGesture randomGesture =
         playableGestures[Random().nextInt(playableGestures.length - 1)];
-    while (state.currentSequence!.contains(randomLetter)) {
-      randomLetter =
+    while (state.currentSequence?.lastOrNull == randomGesture) {
+      randomGesture =
           playableGestures[Random().nextInt(playableGestures.length)];
     }
-    return randomLetter;
+    return randomGesture;
   }
 
   void toggleDebug(bool value) => emit(state.copyWith(showDebug: value));

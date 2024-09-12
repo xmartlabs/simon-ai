@@ -23,7 +23,6 @@ mixin _$User {
   String get email => throw _privateConstructorUsedError;
   String? get name => throw _privateConstructorUsedError;
   int get points => throw _privateConstructorUsedError;
-  String get createdBy => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
@@ -35,7 +34,7 @@ abstract class $UserCopyWith<$Res> {
   factory $UserCopyWith(User value, $Res Function(User) then) =
       _$UserCopyWithImpl<$Res, User>;
   @useResult
-  $Res call({String email, String? name, int points, String createdBy});
+  $Res call({String email, String? name, int points});
 }
 
 /// @nodoc
@@ -54,7 +53,6 @@ class _$UserCopyWithImpl<$Res, $Val extends User>
     Object? email = null,
     Object? name = freezed,
     Object? points = null,
-    Object? createdBy = null,
   }) {
     return _then(_value.copyWith(
       email: null == email
@@ -69,10 +67,6 @@ class _$UserCopyWithImpl<$Res, $Val extends User>
           ? _value.points
           : points // ignore: cast_nullable_to_non_nullable
               as int,
-      createdBy: null == createdBy
-          ? _value.createdBy
-          : createdBy // ignore: cast_nullable_to_non_nullable
-              as String,
     ) as $Val);
   }
 }
@@ -84,7 +78,7 @@ abstract class _$$UserImplCopyWith<$Res> implements $UserCopyWith<$Res> {
       __$$UserImplCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({String email, String? name, int points, String createdBy});
+  $Res call({String email, String? name, int points});
 }
 
 /// @nodoc
@@ -100,7 +94,6 @@ class __$$UserImplCopyWithImpl<$Res>
     Object? email = null,
     Object? name = freezed,
     Object? points = null,
-    Object? createdBy = null,
   }) {
     return _then(_$UserImpl(
       email: null == email
@@ -115,10 +108,6 @@ class __$$UserImplCopyWithImpl<$Res>
           ? _value.points
           : points // ignore: cast_nullable_to_non_nullable
               as int,
-      createdBy: null == createdBy
-          ? _value.createdBy
-          : createdBy // ignore: cast_nullable_to_non_nullable
-              as String,
     ));
   }
 }
@@ -127,8 +116,7 @@ class __$$UserImplCopyWithImpl<$Res>
 
 @JsonSerializable()
 class _$UserImpl implements _User {
-  _$UserImpl(
-      {required this.email, this.name, this.points = 0, this.createdBy = ''});
+  _$UserImpl({required this.email, this.name, this.points = 0});
 
   factory _$UserImpl.fromJson(Map<String, dynamic> json) =>
       _$$UserImplFromJson(json);
@@ -140,13 +128,10 @@ class _$UserImpl implements _User {
   @override
   @JsonKey()
   final int points;
-  @override
-  @JsonKey()
-  final String createdBy;
 
   @override
   String toString() {
-    return 'User(email: $email, name: $name, points: $points, createdBy: $createdBy)';
+    return 'User(email: $email, name: $name, points: $points)';
   }
 
   @override
@@ -156,14 +141,12 @@ class _$UserImpl implements _User {
             other is _$UserImpl &&
             (identical(other.email, email) || other.email == email) &&
             (identical(other.name, name) || other.name == name) &&
-            (identical(other.points, points) || other.points == points) &&
-            (identical(other.createdBy, createdBy) ||
-                other.createdBy == createdBy));
+            (identical(other.points, points) || other.points == points));
   }
 
   @JsonKey(ignore: true)
   @override
-  int get hashCode => Object.hash(runtimeType, email, name, points, createdBy);
+  int get hashCode => Object.hash(runtimeType, email, name, points);
 
   @JsonKey(ignore: true)
   @override
@@ -183,8 +166,7 @@ abstract class _User implements User {
   factory _User(
       {required final String email,
       final String? name,
-      final int points,
-      final String createdBy}) = _$UserImpl;
+      final int points}) = _$UserImpl;
 
   factory _User.fromJson(Map<String, dynamic> json) = _$UserImpl.fromJson;
 
@@ -194,8 +176,6 @@ abstract class _User implements User {
   String? get name;
   @override
   int get points;
-  @override
-  String get createdBy;
   @override
   @JsonKey(ignore: true)
   _$$UserImplCopyWith<_$UserImpl> get copyWith =>

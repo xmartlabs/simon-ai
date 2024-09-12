@@ -47,14 +47,12 @@ class SessionRepository {
   Future<Result<void>> registerPlayer({
     required String email,
     String? username,
-  }) async {
-    final sessionToken = await _authLocalSource.getUserToken().first;
-    return _authLocalSource
-        .saveUserInfo(
-          User(email: email, name: username, createdBy: sessionToken ?? ''),
-        )
-        .mapToResult();
-  }
+  }) =>
+      _authLocalSource
+          .saveUserInfo(
+            User(email: email, name: username),
+          )
+          .mapToResult();
 
   Future<Result<void>> saveUsername(String username) async {
     final user = await _authLocalSource.getUser().first;

@@ -2,19 +2,27 @@ import 'package:simon_ai/core/model/user.dart';
 import 'package:simon_ai/core/services/firestore_db.dart';
 
 class UserRemoteSource {
-  final FirestoreDb _firestoreDb = FirestoreDb(collection: 'users');
+  final FirestoreRankingDb _firestoreDb =
+      FirestoreRankingDb(collection: 'ranking', subCollection: 'players');
   UserRemoteSource();
 
-  Future<void> createUser(String id, User data) async {
-    await _firestoreDb.insert(id: id, data: data.toJson());
+  Future<void> createUser(String id, User data, String createdBy) async {
+    await _firestoreDb.insert(
+      id: id,
+      data: data.toJson(),
+      createdBy: createdBy,
+    );
   }
 
   Future<User?> getUser(String id) async =>
       User.fromJson((await _firestoreDb.getData(id))!);
 
-  Future<void> updateUser(String id, User data) async {
-    await _firestoreDb.update(id: id, data: data.toJson());
-  }
+  Future<void> updateUser(String id, User data, String createdBy) =>
+      _firestoreDb.update(
+        id: id,
+        data: data.toJson(),
+        createdBy: createdBy,
+      );
 
   Future<void> deleteUser(String id) async {
     await _firestoreDb.delete(id);

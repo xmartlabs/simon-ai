@@ -57,7 +57,6 @@ class _PointsCounterState extends State<PointsCounter>
         animation: scaleAnimation,
         builder: (context, child) => Container(
           transform: Matrix4.identity()..scale(scaleAnimation.value),
-          padding: const EdgeInsets.all(16),
           decoration: BoxDecoration(
             color: context.theme.colorScheme.surfaceBright,
             borderRadius: BorderRadius.circular(32),
@@ -99,7 +98,7 @@ class _AnimatedCountState extends AnimatedWidgetBaseState<AnimatedCount> {
   @override
   Widget build(BuildContext context) => Text(
         _count!.evaluate(animation).toString(),
-        style: context.theme.textStyles.bodyLarge!.bold(),
+        style: context.theme.textStyles.headlineSmall!.bold(),
       );
 
   @override

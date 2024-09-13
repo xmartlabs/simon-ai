@@ -12,6 +12,7 @@ class UserRepository {
   User? _user;
 
   final Stock<String, List<User>?> _store;
+  final defaultId = 'default';
 
   UserRepository(this._userRemoteSource, this._authLocalSource)
       : _store = Stock(
@@ -28,17 +29,20 @@ class UserRepository {
     final userTokenStream = _authLocalSource.getUserToken();
     return userTokenStream.switchMap(
       (createdBy) => _store
-          .stream(createdBy ?? '')
+          .stream(createdBy ?? defaultId)
           .where((event) => event.isData)
           .map((event) => event.requireData()),
     );
   }
 
-  Future<void> insertUser(User user) =>
-      _userRemoteSource.createUser(user.email, user);
+  Future<void> insertUser(User user) async {
+    final userId = await _authLocalSource.getUserToken().first;
+    await _userRemoteSource.createUser(user.email, user, userId ?? defaultId);
+  }
 
   Future<void> updateUser(User user) async {
-    await _userRemoteSource.updateUser(user.email, user);
+    final userId = await _authLocalSource.getUserToken().first;
+    await _userRemoteSource.updateUser(user.email, user, userId ?? defaultId);
     _user = user;
   }
 

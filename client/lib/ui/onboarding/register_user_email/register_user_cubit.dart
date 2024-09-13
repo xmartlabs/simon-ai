@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
+import 'package:simon_ai/core/common/extension/string_extensions.dart';
 import 'package:simon_ai/core/di/di_provider.dart';
 import 'package:simon_ai/core/model/user.dart';
 import 'package:simon_ai/core/repository/session_repository.dart';
@@ -21,9 +22,8 @@ class RegisterUserCubit extends Cubit<RegisterUserBaseState> {
   RegisterUserCubit(this._globalEventHandler)
       : super(
           const RegisterUserBaseState.state(
-            email: 'hi@xmartlabs.com',
-            nickname: 'xmartlabs',
-            error: '',
+            email: '',
+            nickname: '',
           ),
         );
 
@@ -39,6 +39,7 @@ class RegisterUserCubit extends Cubit<RegisterUserBaseState> {
     }
     if (response.isSuccess) {
       _userRepository.setCurrentUser(User(email: state.email!));
+      emit(state.copyWith(email: ''));
       unawaited(_appRouter.push(const RegisterUsernameRoute()));
     }
   }

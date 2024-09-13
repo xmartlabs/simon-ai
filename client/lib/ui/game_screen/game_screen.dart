@@ -2,7 +2,6 @@ import 'package:auto_route/auto_route.dart';
 import 'package:design_system/design_system.dart';
 import 'package:design_system/widgets/app_scaffold.dart';
 import 'package:design_system/widgets/points_counter.dart';
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -52,7 +51,7 @@ class _GameScreenContent extends StatelessWidget {
                 GameState.ended => const FinishGameScreen(),
                 GameState.error => const ErrorStateScreen(),
               },
-              if (kDebugMode && state.gameState != GameState.ended)
+              if (state.gameState != GameState.ended)
                 Align(
                   alignment: Alignment.topCenter,
                   child: Row(

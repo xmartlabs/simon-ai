@@ -142,6 +142,7 @@ class _AdminAreaFormState extends State<_AdminAreaForm> {
           children: [
             TextField(
               controller: _emailController,
+              enableSuggestions: false,
               onChanged: (email) =>
                   context.read<AdminAreaCubit>().changeEmail(email),
               decoration: InputDecoration(
@@ -151,6 +152,7 @@ class _AdminAreaFormState extends State<_AdminAreaForm> {
             SizedBox(height: 12.h),
             TextField(
               controller: _passwordController,
+              enableSuggestions: false,
               onChanged: (password) =>
                   context.read<AdminAreaCubit>().changePassword(password),
               decoration: InputDecoration(

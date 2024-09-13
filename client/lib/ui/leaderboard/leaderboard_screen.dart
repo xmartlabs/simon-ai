@@ -61,7 +61,7 @@ class _LeaderboardHeader extends StatelessWidget {
   Widget build(BuildContext context) => Column(
         children: [
           Padding(
-            padding: const EdgeInsets.only(top: 60, bottom: 40),
+            padding: const EdgeInsets.only(top: 60, bottom: 30),
             child: Text(
               context.localizations.ranking,
               style: context.theme.textStyles.headlineLarge!.copyWith(

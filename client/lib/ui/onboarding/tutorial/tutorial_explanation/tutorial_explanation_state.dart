@@ -8,4 +8,5 @@ class TutorialExplanationState with _$TutorialExplanationState {
   }) = _Initial;
 }
 
-enum OnboardingSteps { initial, hands, permissions }
+//TODO: add hand value after implementing hand selection feature
+enum OnboardingSteps { initial, permissions }

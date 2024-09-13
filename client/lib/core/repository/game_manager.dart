@@ -18,6 +18,10 @@ class GameManager {
     _gameSequenceController.add(gesture);
   }
 
+  void resetPoints() {
+    _points = 0;
+  }
+
   Stream<HandGestureWithPosition> get gameSequenceStream =>
       _gameSequenceController.stream
           .buffer(Stream.periodic(_gestureDetectionTime))

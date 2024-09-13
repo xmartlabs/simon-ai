@@ -21,7 +21,14 @@ class RegisterUserScreen extends StatelessWidget {
       );
 }
 
-class _SignInContentScreen extends StatelessWidget {
+class _SignInContentScreen extends StatefulWidget {
+  @override
+  State<_SignInContentScreen> createState() => _SignInContentScreenState();
+}
+
+class _SignInContentScreenState extends State<_SignInContentScreen> {
+  final _emailTextController = TextEditingController();
+
   @override
   Widget build(BuildContext context) => AppScaffold(
         showBackButton: false,
@@ -38,7 +45,11 @@ class _SignInContentScreen extends StatelessWidget {
             SizedBox(height: 24.h),
             Padding(
               padding: EdgeInsets.symmetric(vertical: 16.h),
-              child: _SignInForm(),
+              child: _SignInForm(
+                emailTextController: _emailTextController,
+                onChanged: (String text) =>
+                    context.read<RegisterUserCubit>().changeEmail(text),
+              ),
             ),
             Container(
               width: .4.sw,
@@ -48,14 +59,8 @@ class _SignInContentScreen extends StatelessWidget {
                 style: context.theme.textStyles.bodyLarge!.copyWith(),
               ),
             ),
-            FilledButton(
-              onPressed: () => context.read<RegisterUserCubit>().saveEmail(),
-              child: Text(
-                context.localizations.continue_button,
-                style: context.theme.textStyles.bodyLarge!.bold().copyWith(
-                      color: context.theme.customColors.textColor.getShade(100),
-                    ),
-              ),
+            _NextButtonSection(
+              emailTextController: _emailTextController,
             ),
             Padding(
               padding: const EdgeInsets.symmetric(vertical: 12.0),
@@ -86,35 +91,52 @@ class _SignInContentScreen extends StatelessWidget {
       );
 }
 
-class _SignInForm extends StatefulWidget {
+class _NextButtonSection extends StatelessWidget {
+  final TextEditingController emailTextController;
+
+  const _NextButtonSection({
+    required this.emailTextController,
+    super.key,
+  });
+
   @override
-  State<_SignInForm> createState() => _SignInFormState();
+  Widget build(BuildContext context) =>
+      BlocBuilder<RegisterUserCubit, RegisterUserBaseState>(
+        builder: (context, state) => FilledButton(
+          onPressed: state.isFormValid
+              ? () {
+                  context.read<RegisterUserCubit>().saveEmail();
+                  emailTextController.clear();
+                  FocusManager.instance.primaryFocus?.unfocus();
+                }
+              : null,
+          child: Text(
+            context.localizations.continue_button,
+            style: context.theme.textStyles.bodyLarge!.bold().copyWith(
+                  color: context.theme.customColors.textColor.getShade(100),
+                ),
+          ),
+        ),
+      );
 }
 
-class _SignInFormState extends State<_SignInForm> {
-  final _emailTextController = TextEditingController();
-  late RegisterUserCubit _registerRegisterUserCubit;
+class _SignInForm extends StatelessWidget {
+  final TextEditingController emailTextController;
+  final Function(String) onChanged;
 
-  @override
-  void dispose() {
-    _emailTextController.dispose();
-    super.dispose();
-  }
-
-  @override
-  void initState() {
-    super.initState();
-    _registerRegisterUserCubit = context.read<RegisterUserCubit>();
-    _emailTextController.text = _registerRegisterUserCubit.state.email ?? '';
-  }
+  const _SignInForm({
+    required this.emailTextController,
+    required this.onChanged,
+    super.key,
+  });
 
   @override
   Widget build(BuildContext context) => SizedBox(
         width: .4.sw,
         child: TextField(
-          controller: _emailTextController,
-          onChanged: (String text) =>
-              _registerRegisterUserCubit.changeEmail(text),
+          controller: emailTextController,
+          enableSuggestions: false,
+          onChanged: onChanged,
         ),
       );
 }

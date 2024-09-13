@@ -1,3 +1,4 @@
+//ignore_for_file: unused-files, unused-code
 import 'package:auto_route/auto_route.dart';
 import 'package:design_system/design_system.dart';
 import 'package:design_system/extensions/color_extensions.dart';
@@ -64,7 +65,6 @@ class _PageviewContent extends StatelessWidget {
   Widget build(BuildContext context) => switch (step) {
         OnboardingSteps.initial =>
           _InitialExplanationStep(onPressed: onPressed),
-        OnboardingSteps.hands => _HandsExplanationStep(onPressed: onPressed),
         OnboardingSteps.permissions =>
           _PermissionsExplanationStep(onPressed: onPressed),
       };

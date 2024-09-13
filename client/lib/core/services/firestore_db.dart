@@ -1,13 +1,14 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:simon_ai/core/interfaces/db_interface.dart';
 
-interface class FirestoreDb implements DbInterface<Map<String, dynamic>> {
+interface class FirestoreRankingDb
+    implements DbInterface<Map<String, dynamic>> {
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
 
   final String collection;
   final String subCollection;
 
-  FirestoreDb({
+  FirestoreRankingDb({
     required this.collection,
     required this.subCollection,
   });

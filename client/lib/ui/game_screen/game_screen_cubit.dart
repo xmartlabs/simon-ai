@@ -47,13 +47,11 @@ class GameScreenCubit extends Cubit<GameScreenState> {
 
     Future.delayed(const Duration(seconds: 2), startCountdown);
   }
-  final int _maxRounds = 40;
 
   bool isLastHandGesture() =>
       state.currentHandValueIndex == state.currentSequence!.length - 1;
 
   void startNewSequence() {
-    if (state.currentRound == _maxRounds) return endGame();
     final newSequence = [
       ...state.currentSequence!,
       _generateRandomUniqueHandGesture(),
@@ -114,7 +112,6 @@ class GameScreenCubit extends Cubit<GameScreenState> {
   }
 
   void startCountdown() {
-    if (state.currentRound == _maxRounds) return endGame();
     emit(
       state.copyWith(
         gameState: GameState.countDown,
@@ -149,15 +146,11 @@ class GameScreenCubit extends Cubit<GameScreenState> {
         ),
       );
       if (event.finishSequence) {
-        if (state.currentRound == _maxRounds) {
-          endGame();
-        } else {
-          audioPlayer
-            ..resume()
-            ..setPlaybackRate(playbackSpeed);
-          _gameStreamSubscription.cancel();
-          Future.delayed(durationBeforeStartingNewSequence, startNewSequence);
-        }
+        audioPlayer
+          ..resume()
+          ..setPlaybackRate(playbackSpeed);
+        _gameStreamSubscription.cancel();
+        Future.delayed(durationBeforeStartingNewSequence, startNewSequence);
       }
     }
     if (!event.isCorrect) {

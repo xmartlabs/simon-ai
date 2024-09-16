@@ -28,10 +28,12 @@ class _RegisterUsernameContent extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) => AppScaffold(
+        isScrollable: true,
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
+            SizedBox(height: (MediaQuery.of(context).size.height - 400.h) / 2),
             Text(
               context.localizations.onboarding_username_title,
               style: context.theme.textStyles.displaySmall!.bold().copyWith(
@@ -44,7 +46,7 @@ class _RegisterUsernameContent extends StatelessWidget {
               child: _SignInForm(),
             ),
             Container(
-              width: .4.sw,
+              constraints: const BoxConstraints(maxWidth: 480),
               padding: EdgeInsets.symmetric(vertical: 8.h),
               child: Text(
                 context.localizations.onboarding_username_description,
@@ -102,10 +104,11 @@ class _SignInFormState extends State<_SignInForm> {
   }
 
   @override
-  Widget build(BuildContext context) => SizedBox(
-        width: .4.sw,
+  Widget build(BuildContext context) => Container(
+        constraints: const BoxConstraints(maxWidth: 480),
         child: TextField(
           controller: _usernameTextController,
+          keyboardType: TextInputType.name,
           onChanged: (String text) =>
               _registerRegisterUsernameCubit.changeUsername(text),
         ),

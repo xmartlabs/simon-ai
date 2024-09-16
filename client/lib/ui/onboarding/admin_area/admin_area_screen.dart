@@ -32,6 +32,7 @@ class _AdminAreaContentScreen extends StatelessWidget {
               children: [
                 Text(
                   context.localizations.admin_area,
+                  textAlign: TextAlign.center,
                   style: context.theme.textStyles.displaySmall!.bold().copyWith(
                         color:
                             context.theme.customColors.textColor.getShade(500),
@@ -136,12 +137,13 @@ class _AdminAreaFormState extends State<_AdminAreaForm> {
   }
 
   @override
-  Widget build(BuildContext context) => SizedBox(
-        width: .4.sw,
+  Widget build(BuildContext context) => Container(
+        constraints: const BoxConstraints(maxWidth: 480),
         child: Column(
           children: [
             TextField(
               controller: _emailController,
+              keyboardType: TextInputType.emailAddress,
               enableSuggestions: false,
               onChanged: (email) =>
                   context.read<AdminAreaCubit>().changeEmail(email),

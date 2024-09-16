@@ -91,7 +91,7 @@ class _InitialExplanationStep extends StatelessWidget {
           ),
           SizedBox(height: 24.h),
           Container(
-            width: .4.sw,
+            constraints: const BoxConstraints(maxWidth: 480),
             padding: EdgeInsets.symmetric(vertical: 8.h),
             child: Text(
               context.localizations.tutorial_next_steps_description,
@@ -137,7 +137,7 @@ class _HandsExplanationStep extends StatelessWidget {
           ),
           SizedBox(height: 24.h),
           Container(
-            width: .4.sw,
+            constraints: const BoxConstraints(maxWidth: 480),
             padding: EdgeInsets.symmetric(vertical: 8.h),
             child: Text(
               context.localizations.tutorial_what_hand_description,
@@ -146,8 +146,8 @@ class _HandsExplanationStep extends StatelessWidget {
             ),
           ),
           SizedBox(height: 24.h),
-          SizedBox(
-            width: .4.sw,
+          Container(
+            constraints: const BoxConstraints(maxWidth: 480),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
@@ -206,7 +206,7 @@ class _PermissionsExplanationStep extends StatelessWidget {
           ),
           SizedBox(height: 24.h),
           Container(
-            width: .4.sw,
+            constraints: const BoxConstraints(maxWidth: 480),
             padding: EdgeInsets.symmetric(vertical: 8.h),
             child: Text(
               context.localizations.tutorial_camera_permissions_description,

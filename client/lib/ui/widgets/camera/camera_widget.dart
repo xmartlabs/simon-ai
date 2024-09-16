@@ -3,16 +3,12 @@ import 'package:simon_ai/ui/widgets/camera/camera_mobile_widget.dart'
     if (dart.library.html) 'package:simon_ai/ui/widgets/camera/camera_web_widget.dart';
 
 class CameraWidget extends StatefulWidget {
-  final double width;
-  final double height;
   final bool enableBorderRadius;
   final bool showGesture;
   final ValueChanged<dynamic> onNewFrame;
   final Stream<dynamic>? movenetStream;
 
   const CameraWidget({
-    required this.width,
-    required this.height,
     required this.enableBorderRadius,
     required this.onNewFrame,
     required this.showGesture,

@@ -124,7 +124,8 @@ class _GestureSection extends StatelessWidget {
                         gesture: HandGesture.unrecognized,
                         cropData: (x: 0, y: 0, w: 0, h: 0, confidence: 0.0),
                       ),
-                  imageSize: resolutionPreset.size,
+                  imageSize: resolutionPreset
+                      .sizeForOrientation(MediaQuery.of(context).orientation),
                 ),
                 child: CameraPreview(cameraController!),
               )

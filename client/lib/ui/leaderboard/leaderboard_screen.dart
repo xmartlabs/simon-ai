@@ -22,12 +22,13 @@ class LeaderboardScreen extends StatelessWidget {
 class _LeaderboardContentScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) => AppScaffold(
+        isScrollable: true,
         showBackButton: false,
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            SizedBox(
-              width: 0.5.sw,
+            Container(
+              constraints: const BoxConstraints(maxWidth: 480),
               child: Column(
                 children: [
                   const _LeaderboardHeader(),
@@ -79,7 +80,7 @@ class _LeaderboardHeader extends StatelessWidget {
                     context.localizations.ranking_title,
                     style: context.theme.textStyles.headlineMedium!.copyWith(
                       color: context.theme.customColors.textColor.getShade(500),
-                      fontSize: 24.sp,
+                      fontSize: 24,
                       fontWeight: FontWeight.w600,
                     ),
                   ),
@@ -143,7 +144,7 @@ class _LeaderboardUserCard extends StatelessWidget {
                 '$position.',
                 style: context.theme.textStyles.headlineMedium?.copyWith(
                   color: context.theme.colorScheme.surface.getShade(500),
-                  fontSize: 24.sp,
+                  fontSize: 24,
                 ),
               ),
               const SizedBox(width: 8),
@@ -151,7 +152,7 @@ class _LeaderboardUserCard extends StatelessWidget {
                 name,
                 style: context.theme.textStyles.headlineMedium?.copyWith(
                   color: context.theme.colorScheme.surface.getShade(500),
-                  fontSize: 24.sp,
+                  fontSize: 24,
                 ),
               ),
             ],
@@ -172,7 +173,7 @@ class _LeaderboardUserCard extends StatelessWidget {
                       points.toString(),
                       style: context.theme.textStyles.headlineMedium?.copyWith(
                         color: context.theme.colorScheme.surface.getShade(500),
-                        fontSize: 24.sp,
+                        fontSize: 24,
                       ),
                     ),
                   ],

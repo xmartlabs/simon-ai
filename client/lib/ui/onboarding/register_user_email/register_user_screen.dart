@@ -31,11 +31,14 @@ class _SignInContentScreenState extends State<_SignInContentScreen> {
 
   @override
   Widget build(BuildContext context) => AppScaffold(
+        isScrollable: true,
         showBackButton: false,
         child: Column(
+          mainAxisSize: MainAxisSize.min,
           mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
+            SizedBox(height: (MediaQuery.of(context).size.height - 400.h) / 2),
             Text(
               context.localizations.onboarding_email_title,
               style: context.theme.textStyles.displaySmall!.bold().copyWith(
@@ -44,7 +47,7 @@ class _SignInContentScreenState extends State<_SignInContentScreen> {
             ),
             SizedBox(height: 24.h),
             Padding(
-              padding: EdgeInsets.symmetric(vertical: 16.h),
+              padding: EdgeInsets.symmetric(vertical: 16.h, horizontal: 24.w),
               child: _SignInForm(
                 emailTextController: _emailTextController,
                 onChanged: (String text) =>
@@ -52,9 +55,10 @@ class _SignInContentScreenState extends State<_SignInContentScreen> {
               ),
             ),
             Container(
-              width: .4.sw,
+              constraints: const BoxConstraints(maxWidth: 480),
               padding: EdgeInsets.symmetric(vertical: 8.h),
               child: Text(
+                textAlign: TextAlign.center,
                 context.localizations.onboarding_email_description,
                 style: context.theme.textStyles.bodyLarge!.copyWith(),
               ),
@@ -131,10 +135,11 @@ class _SignInForm extends StatelessWidget {
   });
 
   @override
-  Widget build(BuildContext context) => SizedBox(
-        width: .4.sw,
+  Widget build(BuildContext context) => Container(
+        constraints: const BoxConstraints(maxWidth: 480),
         child: TextField(
           controller: emailTextController,
+          keyboardType: TextInputType.emailAddress,
           enableSuggestions: false,
           onChanged: onChanged,
         ),

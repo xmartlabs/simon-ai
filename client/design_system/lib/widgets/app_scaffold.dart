@@ -7,14 +7,16 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class AppScaffold extends StatelessWidget {
+  final Widget child;
+  final bool? showBackButton;
+  final bool isScrollable;
+
   const AppScaffold({
     required this.child,
+    this.isScrollable = false,
     this.showBackButton,
     super.key,
   });
-
-  final Widget child;
-  final bool? showBackButton;
 
   @override
   Widget build(BuildContext context) => Scaffold(
@@ -29,7 +31,8 @@ class AppScaffold extends StatelessWidget {
                   horizontal: 16,
                   vertical: 8,
                 ),
-                child: child,
+                child:
+                    isScrollable ? SingleChildScrollView(child: child) : child,
               ),
             ),
             if (showBackButton ?? context.router.canNavigateBack)

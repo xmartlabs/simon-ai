@@ -112,12 +112,13 @@ class _Icon extends StatelessWidget {
         child: switch (type) {
           InformationSummaryType.points => Row(
               mainAxisAlignment: MainAxisAlignment.start,
+              mainAxisSize: MainAxisSize.min,
               children: [
                 Assets.images.estrella.image(
                   fit: BoxFit.fill,
                   filterQuality: FilterQuality.high,
                 ),
-                const SizedBox(width: 20),
+                const SizedBox(width: 8),
                 Text(
                   '$value',
                   style:

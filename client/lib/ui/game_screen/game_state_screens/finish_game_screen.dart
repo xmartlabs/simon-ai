@@ -26,12 +26,12 @@ class FinishGameScreen extends StatelessWidget {
             context.localizations.completed_game_with,
             style: context.theme.textStyles.bodyLarge!.copyWith(
               color: context.theme.customColors.textColor.getShade(500),
-              fontSize: 24.sp,
+              fontSize: 24,
             ),
           ),
           SizedBox(height: 15.h),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.center,
+          Wrap(
+            alignment: WrapAlignment.center,
             children: [
               const _Gestures(),
               SizedBox(width: 20.w),
@@ -69,7 +69,6 @@ class _Time extends StatelessWidget {
   @override
   Widget build(BuildContext context) => InformationSummary.time(
         time: context.read<GameScreenCubit>().gameDuration,
-        width: .11.sw,
         showBorder: true,
       );
 }
@@ -86,7 +85,6 @@ class _Points extends StatelessWidget {
     );
     return InformationSummary.points(
       value: points,
-      width: .11.sw,
       showBorder: true,
     );
   }
@@ -104,7 +102,6 @@ class _Gestures extends StatelessWidget {
     );
     return InformationSummary.gestures(
       value: gestures,
-      width: .11.sw,
       showBorder: true,
     );
   }

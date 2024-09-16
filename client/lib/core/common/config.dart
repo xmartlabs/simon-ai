@@ -13,6 +13,7 @@ interface class Config {
   static const String environmentFolder = 'environments';
 
   static const debugMode = kDebugMode;
+  static const crashlyticsEnabled = !kIsWeb && !debugMode;
 
   static late String apiBaseUrl;
   static late String supabaseApiKey;

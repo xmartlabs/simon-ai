@@ -16,69 +16,20 @@ final _privateConstructorUsedError = UnsupportedError(
 
 /// @nodoc
 mixin _$CameraHandState {
-  ({
-    double confidence,
-    ({double confidence, double h, double w, double x, double y}) cropData,
-    HandGesture gesture,
-    List<({double x, double y})> keyPoints
-  })? get handData => throw _privateConstructorUsedError;
-  Stream<dynamic>? get movenetResultStream =>
-      throw _privateConstructorUsedError;
+  Stream<dynamic>? get gestureStream => throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
-    required TResult Function(
-            ({
-              double confidence,
-              ({
-                double confidence,
-                double h,
-                double w,
-                double x,
-                double y
-              }) cropData,
-              HandGesture gesture,
-              List<({double x, double y})> keyPoints
-            })? handData,
-            Stream<dynamic>? movenetResultStream)
-        state,
+    required TResult Function(Stream<dynamic>? gestureStream) state,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
-    TResult? Function(
-            ({
-              double confidence,
-              ({
-                double confidence,
-                double h,
-                double w,
-                double x,
-                double y
-              }) cropData,
-              HandGesture gesture,
-              List<({double x, double y})> keyPoints
-            })? handData,
-            Stream<dynamic>? movenetResultStream)?
-        state,
+    TResult? Function(Stream<dynamic>? gestureStream)? state,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
-    TResult Function(
-            ({
-              double confidence,
-              ({
-                double confidence,
-                double h,
-                double w,
-                double x,
-                double y
-              }) cropData,
-              HandGesture gesture,
-              List<({double x, double y})> keyPoints
-            })? handData,
-            Stream<dynamic>? movenetResultStream)?
-        state,
+    TResult Function(Stream<dynamic>? gestureStream)? state,
     required TResult orElse(),
   }) =>
       throw _privateConstructorUsedError;
@@ -110,14 +61,7 @@ abstract class $CameraHandStateCopyWith<$Res> {
           CameraHandState value, $Res Function(CameraHandState) then) =
       _$CameraHandStateCopyWithImpl<$Res, CameraHandState>;
   @useResult
-  $Res call(
-      {({
-        double confidence,
-        ({double confidence, double h, double w, double x, double y}) cropData,
-        HandGesture gesture,
-        List<({double x, double y})> keyPoints
-      })? handData,
-      Stream<dynamic>? movenetResultStream});
+  $Res call({Stream<dynamic>? gestureStream});
 }
 
 /// @nodoc
@@ -133,28 +77,12 @@ class _$CameraHandStateCopyWithImpl<$Res, $Val extends CameraHandState>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? handData = freezed,
-    Object? movenetResultStream = freezed,
+    Object? gestureStream = freezed,
   }) {
     return _then(_value.copyWith(
-      handData: freezed == handData
-          ? _value.handData
-          : handData // ignore: cast_nullable_to_non_nullable
-              as ({
-              double confidence,
-              ({
-                double confidence,
-                double h,
-                double w,
-                double x,
-                double y
-              }) cropData,
-              HandGesture gesture,
-              List<({double x, double y})> keyPoints
-            })?,
-      movenetResultStream: freezed == movenetResultStream
-          ? _value.movenetResultStream
-          : movenetResultStream // ignore: cast_nullable_to_non_nullable
+      gestureStream: freezed == gestureStream
+          ? _value.gestureStream
+          : gestureStream // ignore: cast_nullable_to_non_nullable
               as Stream<dynamic>?,
     ) as $Val);
   }
@@ -168,14 +96,7 @@ abstract class _$$CameraHandStateImplCopyWith<$Res>
       __$$CameraHandStateImplCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call(
-      {({
-        double confidence,
-        ({double confidence, double h, double w, double x, double y}) cropData,
-        HandGesture gesture,
-        List<({double x, double y})> keyPoints
-      })? handData,
-      Stream<dynamic>? movenetResultStream});
+  $Res call({Stream<dynamic>? gestureStream});
 }
 
 /// @nodoc
@@ -189,28 +110,12 @@ class __$$CameraHandStateImplCopyWithImpl<$Res>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? handData = freezed,
-    Object? movenetResultStream = freezed,
+    Object? gestureStream = freezed,
   }) {
     return _then(_$CameraHandStateImpl(
-      handData: freezed == handData
-          ? _value.handData
-          : handData // ignore: cast_nullable_to_non_nullable
-              as ({
-              double confidence,
-              ({
-                double confidence,
-                double h,
-                double w,
-                double x,
-                double y
-              }) cropData,
-              HandGesture gesture,
-              List<({double x, double y})> keyPoints
-            })?,
-      movenetResultStream: freezed == movenetResultStream
-          ? _value.movenetResultStream
-          : movenetResultStream // ignore: cast_nullable_to_non_nullable
+      gestureStream: freezed == gestureStream
+          ? _value.gestureStream
+          : gestureStream // ignore: cast_nullable_to_non_nullable
               as Stream<dynamic>?,
     ));
   }
@@ -219,22 +124,15 @@ class __$$CameraHandStateImplCopyWithImpl<$Res>
 /// @nodoc
 
 class _$CameraHandStateImpl implements _CameraHandState {
-  const _$CameraHandStateImpl({this.handData, this.movenetResultStream = null});
+  const _$CameraHandStateImpl({this.gestureStream = null});
 
   @override
-  final ({
-    double confidence,
-    ({double confidence, double h, double w, double x, double y}) cropData,
-    HandGesture gesture,
-    List<({double x, double y})> keyPoints
-  })? handData;
-  @override
   @JsonKey()
-  final Stream<dynamic>? movenetResultStream;
+  final Stream<dynamic>? gestureStream;
 
   @override
   String toString() {
-    return 'CameraHandState.state(handData: $handData, movenetResultStream: $movenetResultStream)';
+    return 'CameraHandState.state(gestureStream: $gestureStream)';
   }
 
   @override
@@ -242,14 +140,12 @@ class _$CameraHandStateImpl implements _CameraHandState {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$CameraHandStateImpl &&
-            (identical(other.handData, handData) ||
-                other.handData == handData) &&
-            (identical(other.movenetResultStream, movenetResultStream) ||
-                other.movenetResultStream == movenetResultStream));
+            (identical(other.gestureStream, gestureStream) ||
+                other.gestureStream == gestureStream));
   }
 
   @override
-  int get hashCode => Object.hash(runtimeType, handData, movenetResultStream);
+  int get hashCode => Object.hash(runtimeType, gestureStream);
 
   @JsonKey(ignore: true)
   @override
@@ -261,69 +157,27 @@ class _$CameraHandStateImpl implements _CameraHandState {
   @override
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
-    required TResult Function(
-            ({
-              double confidence,
-              ({
-                double confidence,
-                double h,
-                double w,
-                double x,
-                double y
-              }) cropData,
-              HandGesture gesture,
-              List<({double x, double y})> keyPoints
-            })? handData,
-            Stream<dynamic>? movenetResultStream)
-        state,
+    required TResult Function(Stream<dynamic>? gestureStream) state,
   }) {
-    return state(handData, movenetResultStream);
+    return state(gestureStream);
   }
 
   @override
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
-    TResult? Function(
-            ({
-              double confidence,
-              ({
-                double confidence,
-                double h,
-                double w,
-                double x,
-                double y
-              }) cropData,
-              HandGesture gesture,
-              List<({double x, double y})> keyPoints
-            })? handData,
-            Stream<dynamic>? movenetResultStream)?
-        state,
+    TResult? Function(Stream<dynamic>? gestureStream)? state,
   }) {
-    return state?.call(handData, movenetResultStream);
+    return state?.call(gestureStream);
   }
 
   @override
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
-    TResult Function(
-            ({
-              double confidence,
-              ({
-                double confidence,
-                double h,
-                double w,
-                double x,
-                double y
-              }) cropData,
-              HandGesture gesture,
-              List<({double x, double y})> keyPoints
-            })? handData,
-            Stream<dynamic>? movenetResultStream)?
-        state,
+    TResult Function(Stream<dynamic>? gestureStream)? state,
     required TResult orElse(),
   }) {
     if (state != null) {
-      return state(handData, movenetResultStream);
+      return state(gestureStream);
     }
     return orElse();
   }
@@ -358,24 +212,11 @@ class _$CameraHandStateImpl implements _CameraHandState {
 }
 
 abstract class _CameraHandState implements CameraHandState {
-  const factory _CameraHandState(
-      {final ({
-        double confidence,
-        ({double confidence, double h, double w, double x, double y}) cropData,
-        HandGesture gesture,
-        List<({double x, double y})> keyPoints
-      })? handData,
-      final Stream<dynamic>? movenetResultStream}) = _$CameraHandStateImpl;
+  const factory _CameraHandState({final Stream<dynamic>? gestureStream}) =
+      _$CameraHandStateImpl;
 
   @override
-  ({
-    double confidence,
-    ({double confidence, double h, double w, double x, double y}) cropData,
-    HandGesture gesture,
-    List<({double x, double y})> keyPoints
-  })? get handData;
-  @override
-  Stream<dynamic>? get movenetResultStream;
+  Stream<dynamic>? get gestureStream;
   @override
   @JsonKey(ignore: true)
   _$$CameraHandStateImplCopyWith<_$CameraHandStateImpl> get copyWith =>

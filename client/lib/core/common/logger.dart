@@ -8,7 +8,7 @@ interface class Logger {
   static final CrashReportTool _crashReportTool = NoOpsCrashReportTool();
 
   static final dart_log.Logger _instance = dart_log.Logger(
-    printer: _CrashReportWrappedPrinter(PrettyPrinter(), _crashReportTool),
+    printer: _CrashReportWrappedPrinter(_CustomDebugLogger(), _crashReportTool),
     filter: _DisplayAllLogFilter(),
     output: MultiOutput([ConsoleOutput()]),
   );
@@ -113,5 +113,28 @@ class _PrintableTrace extends Trace {
       final column = frame.column ?? 0;
       return '$number$member (${frame.uri}:$line:$column)\n';
     }).join();
+  }
+}
+
+class _CustomDebugLogger extends LogPrinter {
+  final _simpleLogger = SimplePrinter();
+  final _prettyPrinter = PrettyPrinter();
+
+  @override
+  List<String> log(LogEvent event) {
+    if (event.level == Level.warning ||
+        event.level == Level.error ||
+        event.level == Level.wtf) {
+      return _prettyPrinter.log(event);
+    } else {
+      return _simpleLogger.log(event);
+    }
+  }
+
+  @override
+  Future<void> destroy() async {
+    await _simpleLogger.destroy();
+    await _prettyPrinter.destroy();
+    await super.destroy();
   }
 }

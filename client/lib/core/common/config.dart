@@ -4,6 +4,7 @@ import 'dart:async';
 
 import 'package:camera/camera.dart';
 import 'package:flutter/foundation.dart';
+import 'package:package_info_plus/package_info_plus.dart';
 import 'package:simon_ai/core/common/environments.dart';
 import 'package:simon_ai/core/common/extension/string_extensions.dart';
 import 'package:simon_ai/core/common/helper/enum_helpers.dart';
@@ -11,6 +12,7 @@ import 'package:simon_ai/core/common/helper/env_helper.dart';
 
 interface class Config {
   static const String environmentFolder = 'environments';
+  static const String prodBundleId = 'com.xmartlabs.simonai';
 
   static const debugMode = kDebugMode;
   static const crashlyticsEnabled = !kIsWeb && !debugMode;
@@ -38,6 +40,13 @@ interface class Config {
         _EnvConfig.getEnvVariable(_EnvConfig.ENV_KEY_API_BASE_URL) ?? '';
     supabaseApiKey =
         _EnvConfig.getEnvVariable(_EnvConfig.ENV_KEY_SUPABASE_API_KEY) ?? '';
+  }
+
+    static Future<Environments> getEnvFromBundleId() async {
+    final packageInfo = await PackageInfo.fromPlatform();
+    return packageInfo.packageName == prodBundleId
+        ? Environments.prod
+        : Environments.dev;
   }
 }
 

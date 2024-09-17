@@ -7,14 +7,16 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		042A89839E7AEC6BF8E5A007 /* Pods_Runner.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BA165F4A6B7AFA143271FF3B /* Pods_Runner.framework */; };
 		1498D2341E8E89220040F4C2 /* GeneratedPluginRegistrant.m in Sources */ = {isa = PBXBuildFile; fileRef = 1498D2331E8E89220040F4C2 /* GeneratedPluginRegistrant.m */; };
 		3B3967161E833CAA004F5970 /* AppFrameworkInfo.plist in Resources */ = {isa = PBXBuildFile; fileRef = 3B3967151E833CAA004F5970 /* AppFrameworkInfo.plist */; };
-		6CFAC8F712DC367E5FBC55A5 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 524F431B81BC155D5BB48F5B /* GoogleService-Info.plist */; };
+		58AF3F242C99DE3B00F8E312 /* GoogleService-Info-com.xmartlabs.simonai.plist in Resources */ = {isa = PBXBuildFile; fileRef = 58AF3F222C99DE3A00F8E312 /* GoogleService-Info-com.xmartlabs.simonai.plist */; };
+		58AF3F252C99DE3B00F8E312 /* GoogleService-Info-com.xmartlabs.simonai.dev.plist in Resources */ = {isa = PBXBuildFile; fileRef = 58AF3F232C99DE3B00F8E312 /* GoogleService-Info-com.xmartlabs.simonai.dev.plist */; };
+		58AF3F272C99EDAF00F8E312 /* firebase_app_id_file.json in Resources */ = {isa = PBXBuildFile; fileRef = 58AF3F262C99EDAF00F8E312 /* firebase_app_id_file.json */; };
 		74858FAF1ED2DC5600515810 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74858FAE1ED2DC5600515810 /* AppDelegate.swift */; };
 		97C146FC1CF9000F007C117D /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 97C146FA1CF9000F007C117D /* Main.storyboard */; };
 		97C146FE1CF9000F007C117D /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 97C146FD1CF9000F007C117D /* Assets.xcassets */; };
 		97C147011CF9000F007C117D /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 97C146FF1CF9000F007C117D /* LaunchScreen.storyboard */; };
-		AD18EBF266D0BC3CB90F2F81 /* Pods_Runner.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9A82AAD70AD437D80A19FE2C /* Pods_Runner.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -31,27 +33,30 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		06689B3C0921CDD78689A950 /* Pods-Runner.debug-prod.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Runner.debug-prod.xcconfig"; path = "Target Support Files/Pods-Runner/Pods-Runner.debug-prod.xcconfig"; sourceTree = "<group>"; };
+		098DB7473AF2EDB52CFE8AA1 /* Pods-Runner.debug-dev.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Runner.debug-dev.xcconfig"; path = "Target Support Files/Pods-Runner/Pods-Runner.debug-dev.xcconfig"; sourceTree = "<group>"; };
+		09D9D47F53E510AA357571A0 /* Pods-Runner.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Runner.debug.xcconfig"; path = "Target Support Files/Pods-Runner/Pods-Runner.debug.xcconfig"; sourceTree = "<group>"; };
 		113F326E4F1DD43142CE6D30 /* stagingDebug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = stagingDebug.xcconfig; path = Flutter/stagingDebug.xcconfig; sourceTree = "<group>"; };
+		13DBC5CC6E7356BCD40A199D /* Pods-Runner.release-staging.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Runner.release-staging.xcconfig"; path = "Target Support Files/Pods-Runner/Pods-Runner.release-staging.xcconfig"; sourceTree = "<group>"; };
 		1498D2321E8E86230040F4C2 /* GeneratedPluginRegistrant.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = GeneratedPluginRegistrant.h; sourceTree = "<group>"; };
 		1498D2331E8E89220040F4C2 /* GeneratedPluginRegistrant.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GeneratedPluginRegistrant.m; sourceTree = "<group>"; };
-		19DE69E649E7835C8EA73D40 /* Pods-Runner.debug-dev.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Runner.debug-dev.xcconfig"; path = "Target Support Files/Pods-Runner/Pods-Runner.debug-dev.xcconfig"; sourceTree = "<group>"; };
-		2029D51775AFC771435DA155 /* Pods-Runner.profile-dev.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Runner.profile-dev.xcconfig"; path = "Target Support Files/Pods-Runner/Pods-Runner.profile-dev.xcconfig"; sourceTree = "<group>"; };
-		21BC3E4201BD6DDEC1196AA9 /* Pods-Runner.debug-prod.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Runner.debug-prod.xcconfig"; path = "Target Support Files/Pods-Runner/Pods-Runner.debug-prod.xcconfig"; sourceTree = "<group>"; };
-		2A6B0D5C6E43413B28F91723 /* Pods-Runner.release-staging.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Runner.release-staging.xcconfig"; path = "Target Support Files/Pods-Runner/Pods-Runner.release-staging.xcconfig"; sourceTree = "<group>"; };
-		2B82596BB830AA758A68457E /* Pods-Runner.release-prod.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Runner.release-prod.xcconfig"; path = "Target Support Files/Pods-Runner/Pods-Runner.release-prod.xcconfig"; sourceTree = "<group>"; };
+		1A44539E8FC7103872471BCA /* Pods-Runner.profile-prod.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Runner.profile-prod.xcconfig"; path = "Target Support Files/Pods-Runner/Pods-Runner.profile-prod.xcconfig"; sourceTree = "<group>"; };
 		3B3967151E833CAA004F5970 /* AppFrameworkInfo.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = AppFrameworkInfo.plist; path = Flutter/AppFrameworkInfo.plist; sourceTree = "<group>"; };
+		4700169EF5E6A8B8A3B6A318 /* Pods-Runner.debug-staging.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Runner.debug-staging.xcconfig"; path = "Target Support Files/Pods-Runner/Pods-Runner.debug-staging.xcconfig"; sourceTree = "<group>"; };
 		51B5A3EF356677109FE751EB /* prodRelease.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = prodRelease.xcconfig; path = Flutter/prodRelease.xcconfig; sourceTree = "<group>"; };
-		524F431B81BC155D5BB48F5B /* GoogleService-Info.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; name = "GoogleService-Info.plist"; path = "Runner/GoogleService-Info.plist"; sourceTree = "<group>"; };
 		5626E2C804EE32F56C2D8F06 /* prodDebug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = prodDebug.xcconfig; path = Flutter/prodDebug.xcconfig; sourceTree = "<group>"; };
-		5E471B3E4B28943121FA8A2C /* Pods-Runner.profile-staging.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Runner.profile-staging.xcconfig"; path = "Target Support Files/Pods-Runner/Pods-Runner.profile-staging.xcconfig"; sourceTree = "<group>"; };
+		58AF3F222C99DE3A00F8E312 /* GoogleService-Info-com.xmartlabs.simonai.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = "GoogleService-Info-com.xmartlabs.simonai.plist"; path = "Config/GoogleService-Info-com.xmartlabs.simonai.plist"; sourceTree = SOURCE_ROOT; };
+		58AF3F232C99DE3B00F8E312 /* GoogleService-Info-com.xmartlabs.simonai.dev.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = "GoogleService-Info-com.xmartlabs.simonai.dev.plist"; path = "Config/GoogleService-Info-com.xmartlabs.simonai.dev.plist"; sourceTree = SOURCE_ROOT; };
+		58AF3F262C99EDAF00F8E312 /* firebase_app_id_file.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = firebase_app_id_file.json; sourceTree = "<group>"; };
+		6B559479E183025ED9A7FAF3 /* Pods-Runner.profile.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Runner.profile.xcconfig"; path = "Target Support Files/Pods-Runner/Pods-Runner.profile.xcconfig"; sourceTree = "<group>"; };
 		6C37016DF19997B0AAD05FAF /* prodProfile.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = prodProfile.xcconfig; path = Flutter/prodProfile.xcconfig; sourceTree = "<group>"; };
+		6E7BBBC9999A8875A08D8DEC /* Pods-Runner.release-dev.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Runner.release-dev.xcconfig"; path = "Target Support Files/Pods-Runner/Pods-Runner.release-dev.xcconfig"; sourceTree = "<group>"; };
+		714ACC448D710B9722356E80 /* Pods-Runner.release-prod.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Runner.release-prod.xcconfig"; path = "Target Support Files/Pods-Runner/Pods-Runner.release-prod.xcconfig"; sourceTree = "<group>"; };
 		74858FAD1ED2DC5600515810 /* Runner-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Runner-Bridging-Header.h"; sourceTree = "<group>"; };
 		74858FAE1ED2DC5600515810 /* AppDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
-		786C8E455F2A15298590FF60 /* Pods-Runner.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Runner.release.xcconfig"; path = "Target Support Files/Pods-Runner/Pods-Runner.release.xcconfig"; sourceTree = "<group>"; };
 		78DFC5A53E53B9D74505FF20 /* devDebug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = devDebug.xcconfig; path = Flutter/devDebug.xcconfig; sourceTree = "<group>"; };
 		7AFA3C8E1D35360C0083082E /* Release.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; name = Release.xcconfig; path = Flutter/Release.xcconfig; sourceTree = "<group>"; };
-		893DD0BEE68370236CD81F3C /* Pods-Runner.debug-staging.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Runner.debug-staging.xcconfig"; path = "Target Support Files/Pods-Runner/Pods-Runner.debug-staging.xcconfig"; sourceTree = "<group>"; };
-		9206F6A5C01F646D6D414FFE /* Pods-Runner.release-dev.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Runner.release-dev.xcconfig"; path = "Target Support Files/Pods-Runner/Pods-Runner.release-dev.xcconfig"; sourceTree = "<group>"; };
+		8595BC88DD96B0FFF2974A4E /* Pods-Runner.profile-staging.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Runner.profile-staging.xcconfig"; path = "Target Support Files/Pods-Runner/Pods-Runner.profile-staging.xcconfig"; sourceTree = "<group>"; };
 		9740EEB21CF90195004384FC /* Debug.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; name = Debug.xcconfig; path = Flutter/Debug.xcconfig; sourceTree = "<group>"; };
 		9740EEB31CF90195004384FC /* Generated.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; name = Generated.xcconfig; path = Flutter/Generated.xcconfig; sourceTree = "<group>"; };
 		97C146EE1CF9000F007C117D /* Runner.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Runner.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -59,14 +64,13 @@
 		97C146FD1CF9000F007C117D /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		97C147001CF9000F007C117D /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		97C147021CF9000F007C117D /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		9A82AAD70AD437D80A19FE2C /* Pods_Runner.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Runner.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		A3B65C43687C3EF434B1DEB5 /* Pods-Runner.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Runner.release.xcconfig"; path = "Target Support Files/Pods-Runner/Pods-Runner.release.xcconfig"; sourceTree = "<group>"; };
+		BA165F4A6B7AFA143271FF3B /* Pods_Runner.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Runner.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		BF41E84758AF984855B34375 /* devProfile.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = devProfile.xcconfig; path = Flutter/devProfile.xcconfig; sourceTree = "<group>"; };
-		CBF59D559BA9C729681A675A /* Pods-Runner.profile.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Runner.profile.xcconfig"; path = "Target Support Files/Pods-Runner/Pods-Runner.profile.xcconfig"; sourceTree = "<group>"; };
 		D7BA5182467EB92CA3E895F1 /* stagingRelease.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = stagingRelease.xcconfig; path = Flutter/stagingRelease.xcconfig; sourceTree = "<group>"; };
-		E5D8DD0A72BDC2D9AC4F6F09 /* Pods-Runner.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Runner.debug.xcconfig"; path = "Target Support Files/Pods-Runner/Pods-Runner.debug.xcconfig"; sourceTree = "<group>"; };
-		E65075458592F9F001F344C1 /* Pods-Runner.profile-prod.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Runner.profile-prod.xcconfig"; path = "Target Support Files/Pods-Runner/Pods-Runner.profile-prod.xcconfig"; sourceTree = "<group>"; };
 		ED9BFBD52F04E77F2174E192 /* devRelease.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = devRelease.xcconfig; path = Flutter/devRelease.xcconfig; sourceTree = "<group>"; };
 		FA08A5EF6F6A019FEADEFC1B /* stagingProfile.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = stagingProfile.xcconfig; path = Flutter/stagingProfile.xcconfig; sourceTree = "<group>"; };
+		FF9BD6F4A5958A5A73312E32 /* Pods-Runner.profile-dev.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Runner.profile-dev.xcconfig"; path = "Target Support Files/Pods-Runner/Pods-Runner.profile-dev.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -74,7 +78,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				AD18EBF266D0BC3CB90F2F81 /* Pods_Runner.framework in Frameworks */,
+				042A89839E7AEC6BF8E5A007 /* Pods_Runner.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -84,20 +88,37 @@
 		4F5AE2277FAA80AD31FBBBAB /* Pods */ = {
 			isa = PBXGroup;
 			children = (
-				E5D8DD0A72BDC2D9AC4F6F09 /* Pods-Runner.debug.xcconfig */,
-				893DD0BEE68370236CD81F3C /* Pods-Runner.debug-staging.xcconfig */,
-				19DE69E649E7835C8EA73D40 /* Pods-Runner.debug-dev.xcconfig */,
-				786C8E455F2A15298590FF60 /* Pods-Runner.release.xcconfig */,
-				2A6B0D5C6E43413B28F91723 /* Pods-Runner.release-staging.xcconfig */,
-				9206F6A5C01F646D6D414FFE /* Pods-Runner.release-dev.xcconfig */,
-				CBF59D559BA9C729681A675A /* Pods-Runner.profile.xcconfig */,
-				5E471B3E4B28943121FA8A2C /* Pods-Runner.profile-staging.xcconfig */,
-				2029D51775AFC771435DA155 /* Pods-Runner.profile-dev.xcconfig */,
-				21BC3E4201BD6DDEC1196AA9 /* Pods-Runner.debug-prod.xcconfig */,
-				E65075458592F9F001F344C1 /* Pods-Runner.profile-prod.xcconfig */,
-				2B82596BB830AA758A68457E /* Pods-Runner.release-prod.xcconfig */,
+				09D9D47F53E510AA357571A0 /* Pods-Runner.debug.xcconfig */,
+				4700169EF5E6A8B8A3B6A318 /* Pods-Runner.debug-staging.xcconfig */,
+				098DB7473AF2EDB52CFE8AA1 /* Pods-Runner.debug-dev.xcconfig */,
+				A3B65C43687C3EF434B1DEB5 /* Pods-Runner.release.xcconfig */,
+				13DBC5CC6E7356BCD40A199D /* Pods-Runner.release-staging.xcconfig */,
+				6E7BBBC9999A8875A08D8DEC /* Pods-Runner.release-dev.xcconfig */,
+				6B559479E183025ED9A7FAF3 /* Pods-Runner.profile.xcconfig */,
+				8595BC88DD96B0FFF2974A4E /* Pods-Runner.profile-staging.xcconfig */,
+				FF9BD6F4A5958A5A73312E32 /* Pods-Runner.profile-dev.xcconfig */,
+				06689B3C0921CDD78689A950 /* Pods-Runner.debug-prod.xcconfig */,
+				1A44539E8FC7103872471BCA /* Pods-Runner.profile-prod.xcconfig */,
+				714ACC448D710B9722356E80 /* Pods-Runner.release-prod.xcconfig */,
 			);
 			path = Pods;
+			sourceTree = "<group>";
+		};
+		58AF3F212C99DD8F00F8E312 /* Config */ = {
+			isa = PBXGroup;
+			children = (
+				58AF3F232C99DE3B00F8E312 /* GoogleService-Info-com.xmartlabs.simonai.dev.plist */,
+				58AF3F222C99DE3A00F8E312 /* GoogleService-Info-com.xmartlabs.simonai.plist */,
+			);
+			path = Config;
+			sourceTree = "<group>";
+		};
+		8D532AAEF0950E8348373E80 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				BA165F4A6B7AFA143271FF3B /* Pods_Runner.framework */,
+			);
+			name = Frameworks;
 			sourceTree = "<group>";
 		};
 		9740EEB11CF90186004384FC /* Flutter */ = {
@@ -123,12 +144,13 @@
 		97C146E51CF9000F007C117D = {
 			isa = PBXGroup;
 			children = (
+				58AF3F262C99EDAF00F8E312 /* firebase_app_id_file.json */,
+				58AF3F212C99DD8F00F8E312 /* Config */,
 				9740EEB11CF90186004384FC /* Flutter */,
 				97C146F01CF9000F007C117D /* Runner */,
 				97C146EF1CF9000F007C117D /* Products */,
 				4F5AE2277FAA80AD31FBBBAB /* Pods */,
-				E907A558EAEADE2928BD6461 /* Frameworks */,
-				524F431B81BC155D5BB48F5B /* GoogleService-Info.plist */,
+				8D532AAEF0950E8348373E80 /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -155,14 +177,6 @@
 			path = Runner;
 			sourceTree = "<group>";
 		};
-		E907A558EAEADE2928BD6461 /* Frameworks */ = {
-			isa = PBXGroup;
-			children = (
-				9A82AAD70AD437D80A19FE2C /* Pods_Runner.framework */,
-			);
-			name = Frameworks;
-			sourceTree = "<group>";
-		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -170,15 +184,17 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 97C147051CF9000F007C117D /* Build configuration list for PBXNativeTarget "Runner" */;
 			buildPhases = (
-				D46D8183220C367CCE0B279B /* [CP] Check Pods Manifest.lock */,
+				113B43BBFC66D1C7CF039921 /* [CP] Check Pods Manifest.lock */,
 				9740EEB61CF901F6004384FC /* Run Script */,
 				97C146EA1CF9000F007C117D /* Sources */,
 				97C146EB1CF9000F007C117D /* Frameworks */,
 				97C146EC1CF9000F007C117D /* Resources */,
 				9705A1C41CF9048500538489 /* Embed Frameworks */,
 				3B06AD1E1E4923F5004D2608 /* Thin Binary */,
-				D5CF141EA3C039B9A80DF808 /* [CP] Embed Pods Frameworks */,
-				54B40F033DCEE52C883046D8 /* [CP] Copy Pods Resources */,
+				582E65802C99B44C00EAB89E /* [firebase] Init GoogleService-Info.plist */,
+				58AF3F282C99EE2300F8E312 /* [firebase_crashlytics] Crashlytics Upload Symbols */,
+				FD9849491ED53C8F5E55A143 /* [CP] Embed Pods Frameworks */,
+				8767B29B6FDF648EAD0E79CE /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -229,15 +245,39 @@
 			files = (
 				97C147011CF9000F007C117D /* LaunchScreen.storyboard in Resources */,
 				3B3967161E833CAA004F5970 /* AppFrameworkInfo.plist in Resources */,
+				58AF3F272C99EDAF00F8E312 /* firebase_app_id_file.json in Resources */,
+				58AF3F242C99DE3B00F8E312 /* GoogleService-Info-com.xmartlabs.simonai.plist in Resources */,
 				97C146FE1CF9000F007C117D /* Assets.xcassets in Resources */,
+				58AF3F252C99DE3B00F8E312 /* GoogleService-Info-com.xmartlabs.simonai.dev.plist in Resources */,
 				97C146FC1CF9000F007C117D /* Main.storyboard in Resources */,
-				6CFAC8F712DC367E5FBC55A5 /* GoogleService-Info.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
+		113B43BBFC66D1C7CF039921 /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-Runner-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
 		3B06AD1E1E4923F5004D2608 /* Thin Binary */ = {
 			isa = PBXShellScriptBuildPhase;
 			alwaysOutOfDate = 1;
@@ -254,7 +294,45 @@
 			shellPath = /bin/sh;
 			shellScript = "/bin/sh \"$FLUTTER_ROOT/packages/flutter_tools/bin/xcode_backend.sh\" embed_and_thin";
 		};
-		54B40F033DCEE52C883046D8 /* [CP] Copy Pods Resources */ = {
+		582E65802C99B44C00EAB89E /* [firebase] Init GoogleService-Info.plist */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+			);
+			name = "[firebase] Init GoogleService-Info.plist";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "PATH_TO_CONFIG=$SRCROOT/Config/GoogleService-Info-$PRODUCT_BUNDLE_IDENTIFIER.plist\nFILENAME_IN_BUNDLE=GoogleService-Info.plist\nBUILD_APP_DIR=${BUILT_PRODUCTS_DIR}/${PRODUCT_NAME}.app\necho cp $PATH_TO_CONFIG \"$BUILD_APP_DIR/$FILENAME_IN_BUNDLE\"\ncp $PATH_TO_CONFIG \"$BUILD_APP_DIR/$FILENAME_IN_BUNDLE\"\n\n";
+		};
+		58AF3F282C99EE2300F8E312 /* [firebase_crashlytics] Crashlytics Upload Symbols */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"\"${DWARF_DSYM_FOLDER_PATH}/${DWARF_DSYM_FILE_NAME}/Contents/Resources/DWARF/${TARGET_NAME}\"",
+				"\"$(SRCROOT)/$(BUILT_PRODUCTS_DIR)/$(INFOPLIST_PATH)\"",
+			);
+			name = "[firebase_crashlytics] Crashlytics Upload Symbols";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"$PODS_ROOT/FirebaseCrashlytics/upload-symbols\" --flutter-project \"$PROJECT_DIR/firebase_app_id_file.json\" \n";
+		};
+		8767B29B6FDF648EAD0E79CE /* [CP] Copy Pods Resources */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -284,31 +362,9 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "/bin/sh \"$FLUTTER_ROOT/packages/flutter_tools/bin/xcode_backend.sh\" build";
+			shellScript = "/bin/sh \"$FLUTTER_ROOT/packages/flutter_tools/bin/xcode_backend.sh\" build\n";
 		};
-		D46D8183220C367CCE0B279B /* [CP] Check Pods Manifest.lock */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputFileListPaths = (
-			);
-			inputPaths = (
-				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
-				"${PODS_ROOT}/Manifest.lock",
-			);
-			name = "[CP] Check Pods Manifest.lock";
-			outputFileListPaths = (
-			);
-			outputPaths = (
-				"$(DERIVED_FILE_DIR)/Pods-Runner-checkManifestLockResult.txt",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
-			showEnvVarsInLog = 0;
-		};
-		D5CF141EA3C039B9A80DF808 /* [CP] Embed Pods Frameworks */ = {
+		FD9849491ED53C8F5E55A143 /* [CP] Embed Pods Frameworks */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -361,7 +417,7 @@
 /* Begin XCBuildConfiguration section */
 		166C1E4228CCF69700BF4C53 /* Debug-prod */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 21BC3E4201BD6DDEC1196AA9 /* Pods-Runner.debug-prod.xcconfig */;
+			baseConfigurationReference = 06689B3C0921CDD78689A950 /* Pods-Runner.debug-prod.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_IDENTITY = "Apple Development";
@@ -378,7 +434,7 @@
 		};
 		166C1E4328CCF69700BF4C53 /* Profile-prod */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = E65075458592F9F001F344C1 /* Pods-Runner.profile-prod.xcconfig */;
+			baseConfigurationReference = 1A44539E8FC7103872471BCA /* Pods-Runner.profile-prod.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_IDENTITY = "Apple Development";
@@ -395,7 +451,7 @@
 		};
 		166C1E4428CCF69700BF4C53 /* Release-prod */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 2B82596BB830AA758A68457E /* Pods-Runner.release-prod.xcconfig */;
+			baseConfigurationReference = 714ACC448D710B9722356E80 /* Pods-Runner.release-prod.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_IDENTITY = "Apple Development";

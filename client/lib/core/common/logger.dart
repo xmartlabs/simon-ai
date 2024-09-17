@@ -121,15 +121,10 @@ class _CustomDebugLogger extends LogPrinter {
   final _prettyPrinter = PrettyPrinter();
 
   @override
-  List<String> log(LogEvent event) {
-    if (event.level == Level.warning ||
-        event.level == Level.error ||
-        event.level == Level.wtf) {
-      return _prettyPrinter.log(event);
-    } else {
-      return _simpleLogger.log(event);
-    }
-  }
+  List<String> log(LogEvent event) =>
+      event.level == Level.warning || event.level == Level.error
+          ? _prettyPrinter.log(event)
+          : _simpleLogger.log(event);
 
   @override
   Future<void> destroy() async {

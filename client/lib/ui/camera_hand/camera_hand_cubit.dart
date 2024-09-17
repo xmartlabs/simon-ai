@@ -12,11 +12,8 @@ class CameraHandCubit extends Cubit<CameraHandState> {
   final GameManager _gameHandler = DiProvider.get();
 
   CameraHandCubit() : super(const CameraHandState.state()) {
-    _gameHandler.init().then(
-          (_) => emit(
-            CameraHandState.state(gestureStream: _gameHandler.gestureStream),
-          ),
-        );
+    _gameHandler.init();
+    emit(CameraHandState.state(gestureStream: _gameHandler.gestureStream));
   }
 
   @override

@@ -29,6 +29,7 @@ class GestureMobileProcessor implements GestureProcessor {
   Timer? _fpsTimer;
   late StreamController<int> _fpsStreamController;
 
+  @override
   Stream<int> get fps => _fpsStreamController.stream;
 
   @override

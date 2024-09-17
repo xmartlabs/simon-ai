@@ -42,7 +42,7 @@ interface class Config {
         _EnvConfig.getEnvVariable(_EnvConfig.ENV_KEY_SUPABASE_API_KEY) ?? '';
   }
 
-    static Future<Environments> getEnvFromBundleId() async {
+  static Future<Environments> getEnvFromBundleId() async {
     final packageInfo = await PackageInfo.fromPlatform();
     return packageInfo.packageName == prodBundleId
         ? Environments.prod

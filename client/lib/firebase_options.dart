@@ -17,7 +17,7 @@ import 'package:simon_ai/core/common/environments.dart';
 /// ```
 class DefaultFirebaseOptions {
   static FirebaseOptions currentPlatform(Environments env) {
-        if (kIsWeb) {
+    if (kIsWeb) {
       return web;
     }
     switch (defaultTargetPlatform) {

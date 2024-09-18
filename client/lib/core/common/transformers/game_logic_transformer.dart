@@ -13,7 +13,6 @@ import 'package:simon_ai/core/model/hand_gestures.dart';
 class GameLogicTransformer
     extends StreamTransformerBase<HandGestureWithPosition, GameResponse> {
   final List<HandGesture> gameSequence;
-  int _points = 0;
   final _pointForSuccess = 5;
 
   GameLogicTransformer(this.gameSequence);
@@ -25,6 +24,13 @@ class GameLogicTransformer
         [],
       ).map(
         (currentSequence) {
+          final previousSequencePoints =
+              (((gameSequence.length - 1) * gameSequence.length / 2) *
+                      _pointForSuccess)
+                  .toInt();
+          final actualSequencePoints =
+              (currentSequence.length - 1) * _pointForSuccess;
+          final currentPoints = previousSequencePoints + actualSequencePoints;
           final isCorrect = gameSequence
               .sublist(0, currentSequence.length)
               .fold(
@@ -36,7 +42,8 @@ class GameLogicTransformer
               );
           return (
             gesture: currentSequence.last,
-            points: isCorrect ? _points += _pointForSuccess : _points,
+            points:
+                isCorrect ? currentPoints + _pointForSuccess : currentPoints,
             finishSequence: currentSequence.length == gameSequence.length,
             isCorrect: isCorrect,
           );

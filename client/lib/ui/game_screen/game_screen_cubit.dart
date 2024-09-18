@@ -121,7 +121,7 @@ class GameScreenCubit extends Cubit<GameScreenState> {
 
   void startGame() {
     _gameStreamSubscription =
-        _gameHandler.startGame(state.currentSequence!).listen(_handleGame);
+        _gameHandler.startSequence(state.currentSequence!).listen(_handleGame);
     emit(
       state.copyWith(
         gameState: GameState.playing,

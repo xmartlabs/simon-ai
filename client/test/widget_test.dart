@@ -14,7 +14,7 @@ void main() {
       'Input: love, victory, pointingUp. Output: love, love, victory, love, victory, pointingUp',
       () async {
     final gameHandler = GameManager(MockGestureProcessor())..init();
-    final game = gameHandler.startGame([
+    final game = gameHandler.startSequence([
       HandGesture.love,
       HandGesture.victory,
       HandGesture.pointingUp,

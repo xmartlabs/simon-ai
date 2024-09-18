@@ -86,7 +86,7 @@ class GameManager {
         StreamController<HandGestureWithPosition>.broadcast();
   }
 
-  Stream<GameResponse> startGame(List<HandGesture> gameSequence) {
+  Stream<GameResponse> startSequence(List<HandGesture> gameSequence) {
     restartStream();
     return gameSequenceStream.transform(GameLogicTransformer(gameSequence));
   }

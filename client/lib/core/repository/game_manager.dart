@@ -2,7 +2,7 @@ import 'dart:async';
 
 import 'package:flutter/cupertino.dart';
 import 'package:simon_ai/core/common/transformers/game_gesture_stabilization_transformer.dart';
-import 'package:simon_ai/core/common/transformers/game_logic_transformer.dart';
+import 'package:simon_ai/core/common/transformers/game_sequence_logic_transformer.dart';
 import 'package:simon_ai/core/hand_models/keypoints/gesture_processor.dart';
 import 'package:simon_ai/core/model/coordinates.dart';
 import 'package:simon_ai/core/model/game_response.dart';
@@ -88,6 +88,7 @@ class GameManager {
 
   Stream<GameResponse> startSequence(List<HandGesture> gameSequence) {
     restartStream();
-    return gameSequenceStream.transform(GameLogicTransformer(gameSequence));
+    return gameSequenceStream
+        .transform(GameSequenceLogicTransformer(gameSequence));
   }
 }

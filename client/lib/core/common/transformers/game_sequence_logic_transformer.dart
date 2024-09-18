@@ -10,12 +10,12 @@ import 'package:simon_ai/core/model/hand_gestures.dart';
 /// The transformer will emit a [GameResponse] every time a gesture is emitted.
 /// The [GameResponse] will contain the gesture, the points,
 /// if the sequence is completed and if the gesture is correct.
-class GameLogicTransformer
+class GameSequenceLogicTransformer
     extends StreamTransformerBase<HandGestureWithPosition, GameResponse> {
   final List<HandGesture> gameSequence;
-  final _pointForSuccess = 5;
+  static const _pointForSuccess = 5;
 
-  GameLogicTransformer(this.gameSequence);
+  GameSequenceLogicTransformer(this.gameSequence);
 
   @override
   Stream<GameResponse> bind(Stream<HandGestureWithPosition> stream) =>
@@ -24,29 +24,37 @@ class GameLogicTransformer
         [],
       ).map(
         (currentSequence) {
-          final previousSequencePoints =
-              (((gameSequence.length - 1) * gameSequence.length / 2) *
-                      _pointForSuccess)
-                  .toInt();
-          final actualSequencePoints =
-              (currentSequence.length - 1) * _pointForSuccess;
-          final currentPoints = previousSequencePoints + actualSequencePoints;
-          final isCorrect = gameSequence
-              .sublist(0, currentSequence.length)
-              .fold(
-                true,
-                (bool acc, gesture) =>
-                    acc &&
-                    gesture ==
-                        currentSequence[gameSequence.indexOf(gesture)].gesture,
-              );
+          final isCorrect = _isCorrect(currentSequence);
           return (
             gesture: currentSequence.last,
-            points:
-                isCorrect ? currentPoints + _pointForSuccess : currentPoints,
+            points: _gamePints(isCorrect, currentSequence),
             finishSequence: currentSequence.length == gameSequence.length,
             isCorrect: isCorrect,
           );
         },
       );
+
+  bool _isCorrect(List<HandGestureWithPosition> currentSequence) =>
+      gameSequence.sublist(0, currentSequence.length).fold(
+            true,
+            (bool acc, gesture) =>
+                acc &&
+                gesture ==
+                    currentSequence[gameSequence.indexOf(gesture)].gesture,
+          );
+
+  int _gamePints(
+    bool isCorrect,
+    List<HandGestureWithPosition> currentSequence,
+  ) {
+    final previousSequencePoints =
+        (((gameSequence.length - 1) * gameSequence.length / 2) *
+                _pointForSuccess)
+            .toInt();
+    final actualSequencePoints =
+        (currentSequence.length - 1) * _pointForSuccess;
+    return previousSequencePoints +
+        actualSequencePoints +
+        (isCorrect ? _pointForSuccess : 0);
+  }
 }

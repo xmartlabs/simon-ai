@@ -22,6 +22,7 @@ class AppTextField extends StatefulWidget {
   final int maxLines;
   final bool hasScreenBottomNavigation;
   final int? currentLength;
+  final bool enableSuggestions;
 
   const AppTextField({
     required this.controller,
@@ -42,6 +43,7 @@ class AppTextField extends StatefulWidget {
     this.maxLines = 1,
     this.currentLength = 0,
     this.hasScreenBottomNavigation = true,
+    this.enableSuggestions = true,
   });
 
   @override
@@ -87,6 +89,7 @@ class _AppTextFieldState extends State<AppTextField> {
           keyboardType: widget.keyboardType,
           enabled: widget.enabled,
           obscureText: widget.obscureText,
+          enableSuggestions: widget.enableSuggestions,
         ),
       ],
     );

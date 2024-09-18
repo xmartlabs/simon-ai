@@ -1,11 +1,13 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:design_system/design_system.dart';
 import 'package:design_system/extensions/color_extensions.dart';
+import 'package:design_system/widgets/app_button.dart';
 import 'package:design_system/widgets/app_scaffold.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:simon_ai/gen/assets.gen.dart';
+import 'package:simon_ai/ui/extensions/context_device_extensions.dart';
 import 'package:simon_ai/ui/leaderboard/leaderboard_cubit.dart';
 
 @RoutePage()
@@ -22,32 +24,73 @@ class LeaderboardScreen extends StatelessWidget {
 class _LeaderboardContentScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) => AppScaffold(
-        isScrollable: true,
         showBackButton: false,
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            Container(
-              constraints: const BoxConstraints(maxWidth: 480),
-              child: Column(
-                children: [
-                  const _LeaderboardHeader(),
-                  const SizedBox(
-                    height: 45,
-                  ),
-                  SizedBox(height: 0.4.sh, child: const _LeaderboardList()),
-                  const SizedBox(height: 30),
-                  SizedBox(
-                    width: .3.sw,
-                    child: FilledButton(
-                      onPressed: () =>
-                          context.read<LeaderboardCubit>().restartGame(),
-                      child: Text(
-                        context.localizations.restart_game,
-                      ),
-                    ),
-                  ),
-                ],
+            Column(
+              children: [
+                const _LeaderboardHeader(),
+                context.isSmallAndLandscapeDevice
+                    ? const _SmallAndLanscapeDeviceContent()
+                    : const _BigAndPortraitDeviceContent(),
+              ],
+            ),
+          ],
+        ),
+      );
+}
+
+class _SmallAndLanscapeDeviceContent extends StatelessWidget {
+  const _SmallAndLanscapeDeviceContent({
+    super.key,
+  });
+
+  @override
+  Widget build(BuildContext context) => Row(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          Column(
+            children: [
+              const _CurrentPlayerCard(),
+              SizedBox(height: 24.h),
+              AppButton(
+                onPressed: () => context.read<LeaderboardCubit>().restartGame(),
+                text: context.localizations.restart_game,
+              ),
+            ],
+          ),
+          const SizedBox(
+            width: 32,
+          ),
+          Expanded(
+            child: SizedBox(height: .57.sh, child: const _LeaderboardList()),
+          ),
+        ],
+      );
+}
+
+class _BigAndPortraitDeviceContent extends StatelessWidget {
+  const _BigAndPortraitDeviceContent({
+    super.key,
+  });
+
+  @override
+  Widget build(BuildContext context) => Container(
+        constraints: const BoxConstraints(maxWidth: 480),
+        child: Column(
+          children: [
+            const _CurrentPlayerCard(),
+            const SizedBox(
+              height: 45,
+            ),
+            SizedBox(height: 0.4.sh, child: const _LeaderboardList()),
+            const SizedBox(height: 30),
+            SizedBox(
+              child: AppButton(
+                onPressed: () => context.read<LeaderboardCubit>().restartGame(),
+                text: context.localizations.restart_game,
               ),
             ),
           ],
@@ -59,37 +102,41 @@ class _LeaderboardHeader extends StatelessWidget {
   const _LeaderboardHeader({super.key});
 
   @override
+  Widget build(BuildContext context) => Padding(
+        padding: const EdgeInsets.only(top: 40, bottom: 20),
+        child: Text(
+          context.localizations.ranking,
+          style: context.theme.textStyles.headlineLarge!.copyWith(
+            color: context.theme.customColors.textColor.getShade(500),
+            fontSize: 40,
+          ),
+        ),
+      );
+}
+
+class _CurrentPlayerCard extends StatelessWidget {
+  const _CurrentPlayerCard({
+    super.key,
+  });
+
+  @override
   Widget build(BuildContext context) => Column(
         children: [
-          Padding(
-            padding: const EdgeInsets.only(top: 60, bottom: 30),
-            child: Text(
-              context.localizations.ranking,
-              style: context.theme.textStyles.headlineLarge!.copyWith(
-                color: context.theme.customColors.textColor.getShade(500),
-                fontSize: 40,
-              ),
-            ),
-          ),
-          Column(
+          Row(
+            mainAxisAlignment: MainAxisAlignment.start,
             children: [
-              Row(
-                mainAxisAlignment: MainAxisAlignment.start,
-                children: [
-                  Text(
-                    context.localizations.ranking_title,
-                    style: context.theme.textStyles.headlineMedium!.copyWith(
-                      color: context.theme.customColors.textColor.getShade(500),
-                      fontSize: 24,
-                      fontWeight: FontWeight.w600,
-                    ),
-                  ),
-                ],
+              Text(
+                context.localizations.ranking_title,
+                style: context.theme.textStyles.headlineMedium!.copyWith(
+                  color: context.theme.customColors.textColor.getShade(500),
+                  fontSize: 24,
+                  fontWeight: FontWeight.w600,
+                ),
               ),
-              const SizedBox(height: 15),
-              const _CurrentUserScoreCard(),
             ],
           ),
+          const SizedBox(height: 15),
+          const _CurrentUserScoreCard(),
         ],
       );
 }

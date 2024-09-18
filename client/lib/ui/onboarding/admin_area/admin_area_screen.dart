@@ -1,7 +1,9 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:design_system/design_system.dart';
 import 'package:design_system/extensions/color_extensions.dart';
+import 'package:design_system/widgets/app_button.dart';
 import 'package:design_system/widgets/app_scaffold.dart';
+import 'package:design_system/widgets/app_text_fields.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -26,6 +28,7 @@ class _AdminAreaContentScreen extends StatelessWidget {
         builder: (context, currentUserEmail) {
           final isLogged = currentUserEmail != null;
           return AppScaffold(
+            resizeToAvoidBottomInset: true,
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               crossAxisAlignment: CrossAxisAlignment.center,
@@ -38,19 +41,16 @@ class _AdminAreaContentScreen extends StatelessWidget {
                             context.theme.customColors.textColor.getShade(500),
                       ),
                 ),
-                SizedBox(height: 24.h),
+                SizedBox(height: 12.h),
                 isLogged
                     ? Column(
                         children: [
                           _CurrentUserInfo(currentUserEmail: currentUserEmail),
                           SizedBox(height: 12.h),
-                          ElevatedButton(
+                          AppButton(
+                            text: context.localizations.log_out,
                             onPressed: () =>
                                 context.read<AdminAreaCubit>().signOut(),
-                            child: Padding(
-                              padding: EdgeInsets.symmetric(horizontal: 16.w),
-                              child: Text(context.localizations.log_out),
-                            ),
                           ),
                         ],
                       )
@@ -104,14 +104,11 @@ class _BottomButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) =>
       BlocBuilder<AdminAreaCubit, AdminAreaState>(
-        builder: (context, state) => ElevatedButton(
+        builder: (context, state) => AppButton(
           onPressed: state.isFormValid
               ? () => context.read<AdminAreaCubit>().signIn()
               : null,
-          child: Padding(
-            padding: EdgeInsets.symmetric(horizontal: 16.w),
-            child: Text(context.localizations.sign_in),
-          ),
+          text: context.localizations.sign_in,
         ),
       );
 }
@@ -141,25 +138,21 @@ class _AdminAreaFormState extends State<_AdminAreaForm> {
         constraints: const BoxConstraints(maxWidth: 480),
         child: Column(
           children: [
-            TextField(
+            AppTextField(
               controller: _emailController,
               keyboardType: TextInputType.emailAddress,
               enableSuggestions: false,
-              onChanged: (email) =>
+              onChange: (email) =>
                   context.read<AdminAreaCubit>().changeEmail(email),
-              decoration: InputDecoration(
-                labelText: context.localizations.email,
-              ),
+              labelText: context.localizations.email,
             ),
             SizedBox(height: 12.h),
-            TextField(
+            AppTextField(
               controller: _passwordController,
               enableSuggestions: false,
-              onChanged: (password) =>
+              onChange: (password) =>
                   context.read<AdminAreaCubit>().changePassword(password),
-              decoration: InputDecoration(
-                labelText: context.localizations.password,
-              ),
+              labelText: context.localizations.password,
               obscureText: true,
             ),
             const Row(

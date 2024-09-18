@@ -1,7 +1,9 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:design_system/design_system.dart';
 import 'package:design_system/extensions/color_extensions.dart';
+import 'package:design_system/widgets/app_button.dart';
 import 'package:design_system/widgets/app_scaffold.dart';
+import 'package:design_system/widgets/app_text_fields.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -28,12 +30,10 @@ class _RegisterUsernameContent extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) => AppScaffold(
-        isScrollable: true,
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            SizedBox(height: (MediaQuery.of(context).size.height - 400.h) / 2),
             Text(
               context.localizations.onboarding_username_title,
               style: context.theme.textStyles.displaySmall!.bold().copyWith(
@@ -53,15 +53,10 @@ class _RegisterUsernameContent extends StatelessWidget {
                 style: context.theme.textStyles.bodyLarge!.copyWith(),
               ),
             ),
-            FilledButton(
+            AppButton(
               onPressed: () =>
                   context.read<RegisterUsernameCubit>().registerPlayer(),
-              child: Text(
-                context.localizations.continue_button,
-                style: context.theme.textStyles.bodyLarge!.bold().copyWith(
-                      color: context.theme.customColors.textColor.getShade(100),
-                    ),
-              ),
+              text: context.localizations.continue_button,
             ),
           ]
               .animate(
@@ -106,10 +101,10 @@ class _SignInFormState extends State<_SignInForm> {
   @override
   Widget build(BuildContext context) => Container(
         constraints: const BoxConstraints(maxWidth: 480),
-        child: TextField(
+        child: AppTextField(
           controller: _usernameTextController,
           keyboardType: TextInputType.name,
-          onChanged: (String text) =>
+          onChange: (String text) =>
               _registerRegisterUsernameCubit.changeUsername(text),
         ),
       );

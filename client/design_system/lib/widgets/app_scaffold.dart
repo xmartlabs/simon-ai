@@ -9,17 +9,18 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 class AppScaffold extends StatelessWidget {
   final Widget child;
   final bool? showBackButton;
-  final bool isScrollable;
+  final bool resizeToAvoidBottomInset;
 
   const AppScaffold({
     required this.child,
-    this.isScrollable = false,
     this.showBackButton,
+    this.resizeToAvoidBottomInset = false,
     super.key,
   });
 
   @override
   Widget build(BuildContext context) => Scaffold(
+        resizeToAvoidBottomInset: resizeToAvoidBottomInset,
         body: Stack(
           children: [
             const ScreenBackgroundContainer(),
@@ -31,8 +32,7 @@ class AppScaffold extends StatelessWidget {
                   horizontal: 16,
                   vertical: 8,
                 ),
-                child:
-                    isScrollable ? SingleChildScrollView(child: child) : child,
+                child: child,
               ),
             ),
             if (showBackButton ?? context.router.canNavigateBack)

@@ -22,7 +22,7 @@ void main() {
     game.listen((event) {
       gameResponses.add(event);
     });
-    await executeForDuration(const Duration(milliseconds: 500), () {
+    await executeForDuration(const Duration(milliseconds: 600), () {
       gameHandler.addGesture(
         (
           boundingBox: (confidence: 0.0, h: 0.0, w: 0.0, x: 0.0, y: 0.0),
@@ -31,7 +31,7 @@ void main() {
         ),
       );
     });
-    await executeForDuration(const Duration(milliseconds: 500), () {
+    await executeForDuration(const Duration(milliseconds: 600), () {
       gameHandler.addGesture(
         (
           boundingBox: (confidence: 0.0, h: 0.0, w: 0.0, x: 0.0, y: 0.0),
@@ -40,7 +40,7 @@ void main() {
         ),
       );
     });
-    await executeForDuration(const Duration(milliseconds: 500), () {
+    await executeForDuration(const Duration(milliseconds: 600), () {
       gameHandler.addGesture(
         (
           boundingBox: (confidence: 0.0, h: 0.0, w: 0.0, x: 0.0, y: 0.0),

@@ -26,6 +26,7 @@ class KeyPointsMobileManager implements KeyPointsManager {
   late HandTrackingIsolate isolate;
   var _currentFrame = 0;
   var _lastCurrentFrame = 0;
+  late Timer _timer;
 
   @override
   Future<void> init() async {
@@ -35,7 +36,7 @@ class KeyPointsMobileManager implements KeyPointsManager {
     handDetectorClassifier = HandDetectorClassifier();
     handGestureEmbedderClassifier = HandGestureEmbedderClassifier();
     handCannedGestureClassifier = HandCannedGestureClassifier();
-    Timer.periodic(const Duration(seconds: 1), (timer) {
+    _timer = Timer.periodic(const Duration(seconds: 1), (timer) {
       final currentFrame = _currentFrame;
       Logger.i('FPS: ${currentFrame - _lastCurrentFrame}');
       _lastCurrentFrame = currentFrame;
@@ -45,6 +46,7 @@ class KeyPointsMobileManager implements KeyPointsManager {
   @override
   Future<void> close() async {
     isolate.dispose();
+    _timer.cancel();
   }
 
   @override

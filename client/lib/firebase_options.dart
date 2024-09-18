@@ -3,6 +3,7 @@
 import 'package:firebase_core/firebase_core.dart' show FirebaseOptions;
 import 'package:flutter/foundation.dart'
     show defaultTargetPlatform, kIsWeb, TargetPlatform;
+import 'package:simon_ai/core/common/environments.dart';
 
 /// Default [FirebaseOptions] for use with your Firebase apps.
 ///
@@ -15,15 +16,15 @@ import 'package:flutter/foundation.dart'
 /// );
 /// ```
 class DefaultFirebaseOptions {
-  static FirebaseOptions get currentPlatform {
+  static FirebaseOptions currentPlatform(Environments env) {
     if (kIsWeb) {
       return web;
     }
     switch (defaultTargetPlatform) {
       case TargetPlatform.android:
-        return android;
+        return env == Environments.prod ? androidProd : androidDev;
       case TargetPlatform.iOS:
-        return ios;
+        return env == Environments.prod ? iosProd : iosDev;
       case TargetPlatform.macOS:
         throw UnsupportedError(
           'DefaultFirebaseOptions have not been configured for macos - '
@@ -56,7 +57,7 @@ class DefaultFirebaseOptions {
     measurementId: 'G-PNM399M52M',
   );
 
-  static const FirebaseOptions android = FirebaseOptions(
+  static const FirebaseOptions androidDev = FirebaseOptions(
     apiKey: 'AIzaSyCgLkQaXHLH76UA2evk9a9YrOeCEBwwLfA',
     appId: '1:559870872327:android:09c4e525e96fc105c493a2',
     messagingSenderId: '559870872327',
@@ -64,12 +65,29 @@ class DefaultFirebaseOptions {
     storageBucket: 'simonai-37870.appspot.com',
   );
 
-  static const FirebaseOptions ios = FirebaseOptions(
+  static const FirebaseOptions iosDev = FirebaseOptions(
     apiKey: 'AIzaSyA7pbwZJHND-k5tcxFdsVx5EF92_7h74q4',
     appId: '1:559870872327:ios:b26b8b37d473f6edc493a2',
     messagingSenderId: '559870872327',
     projectId: 'simonai-37870',
     storageBucket: 'simonai-37870.appspot.com',
     iosBundleId: 'com.xmartlabs.simonai.dev',
+  );
+
+  static const FirebaseOptions androidProd = FirebaseOptions(
+    apiKey: 'AIzaSyCgLkQaXHLH76UA2evk9a9YrOeCEBwwLfA',
+    appId: '1:559870872327:android:482dd466d40ce418c493a2',
+    messagingSenderId: '559870872327',
+    projectId: 'simonai-37870',
+    storageBucket: 'simonai-37870.appspot.com',
+  );
+
+  static const FirebaseOptions iosProd = FirebaseOptions(
+    apiKey: 'AIzaSyA7pbwZJHND-k5tcxFdsVx5EF92_7h74q4',
+    appId: '1:559870872327:ios:2bbe3647954c17d8c493a2',
+    messagingSenderId: '559870872327',
+    projectId: 'simonai-37870',
+    storageBucket: 'simonai-37870.appspot.com',
+    iosBundleId: 'com.xmartlabs.simonai',
   );
 }

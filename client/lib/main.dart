@@ -30,8 +30,6 @@ Future main() async {
 
 Future _initSdks() async {
   WidgetsFlutterBinding.ensureInitialized();
-  await Logger.init();
-  await Config.initialize();
   if (!kIsWeb) {
     final dir = await getApplicationDocumentsDirectory();
     Hive.init(dir.path);
@@ -39,16 +37,20 @@ Future _initSdks() async {
   //TODO: Remove this later
   Animate.restartOnHotReload = true;
 
+  await _initFirebaseSdks();
   await Future.wait([
+    Logger.init(),
+    Config.initialize(),
     DiProvider.init(),
-    _initFirebaseSdks(),
   ]);
 }
 
 // ignore: avoid-redundant-async
 Future _initFirebaseSdks() async {
   await Firebase.initializeApp(
-    options: DefaultFirebaseOptions.currentPlatform,
+    options: DefaultFirebaseOptions.currentPlatform(
+      await Config.getEnvFromBundleId(),
+    ),
   );
 }
 

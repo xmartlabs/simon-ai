@@ -8,6 +8,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:simon_ai/ui/common/app_constrained_widget.dart';
 import 'package:simon_ai/ui/onboarding/register_user_email/register_user_cubit.dart';
 import 'package:simon_ai/ui/section/error_handler/global_event_handler_cubit.dart';
 
@@ -54,13 +55,14 @@ class _SignInContentScreenState extends State<_SignInContentScreen> {
                     context.read<RegisterUserCubit>().changeEmail(text),
               ),
             ),
-            Container(
-              constraints: const BoxConstraints(maxWidth: 480),
+            Padding(
               padding: EdgeInsets.symmetric(vertical: 8.h),
-              child: Text(
-                textAlign: TextAlign.center,
-                context.localizations.onboarding_email_description,
-                style: context.theme.textStyles.bodyLarge!.copyWith(),
+              child: AppConstrainedWidget(
+                child: Text(
+                  textAlign: TextAlign.center,
+                  context.localizations.onboarding_email_description,
+                  style: context.theme.textStyles.bodyLarge!.copyWith(),
+                ),
               ),
             ),
             _NextButtonSection(
@@ -130,8 +132,7 @@ class _SignInForm extends StatelessWidget {
   });
 
   @override
-  Widget build(BuildContext context) => Container(
-        constraints: const BoxConstraints(maxWidth: 480),
+  Widget build(BuildContext context) => AppConstrainedWidget(
         child: AppTextField(
           controller: emailTextController,
           keyboardType: TextInputType.emailAddress,

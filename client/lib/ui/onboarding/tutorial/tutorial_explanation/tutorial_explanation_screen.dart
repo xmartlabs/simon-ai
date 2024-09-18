@@ -7,6 +7,7 @@ import 'package:design_system/widgets/app_scaffold.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:simon_ai/ui/common/app_constrained_widget.dart';
 import 'package:simon_ai/ui/onboarding/tutorial/tutorial_explanation/tutorial_explanation_cubit.dart';
 
 @RoutePage()
@@ -91,13 +92,14 @@ class _InitialExplanationStep extends StatelessWidget {
                 ),
           ),
           SizedBox(height: 24.h),
-          Container(
-            constraints: const BoxConstraints(maxWidth: 480),
+          Padding(
             padding: EdgeInsets.symmetric(vertical: 8.h),
-            child: Text(
-              context.localizations.tutorial_next_steps_description,
-              style: context.theme.textStyles.bodyLarge!.copyWith(),
-              textAlign: TextAlign.center,
+            child: AppConstrainedWidget(
+              child: Text(
+                context.localizations.tutorial_next_steps_description,
+                style: context.theme.textStyles.bodyLarge!.copyWith(),
+                textAlign: TextAlign.center,
+              ),
             ),
           ),
           SizedBox(height: 24.h),
@@ -132,18 +134,18 @@ class _HandsExplanationStep extends StatelessWidget {
                 ),
           ),
           SizedBox(height: 24.h),
-          Container(
-            constraints: const BoxConstraints(maxWidth: 480),
+          Padding(
             padding: EdgeInsets.symmetric(vertical: 8.h),
-            child: Text(
-              context.localizations.tutorial_what_hand_description,
-              style: context.theme.textStyles.bodyLarge!.copyWith(),
-              textAlign: TextAlign.center,
+            child: AppConstrainedWidget(
+              child: Text(
+                context.localizations.tutorial_what_hand_description,
+                style: context.theme.textStyles.bodyLarge!.copyWith(),
+                textAlign: TextAlign.center,
+              ),
             ),
           ),
           SizedBox(height: 24.h),
-          Container(
-            constraints: const BoxConstraints(maxWidth: 480),
+          AppConstrainedWidget(
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
@@ -187,13 +189,14 @@ class _PermissionsExplanationStep extends StatelessWidget {
                 ),
           ),
           SizedBox(height: 24.h),
-          Container(
-            constraints: const BoxConstraints(maxWidth: 480),
+          Padding(
             padding: EdgeInsets.symmetric(vertical: 8.h),
-            child: Text(
-              context.localizations.tutorial_camera_permissions_description,
-              style: context.theme.textStyles.bodyLarge!.copyWith(),
-              textAlign: TextAlign.center,
+            child: AppConstrainedWidget(
+              child: Text(
+                context.localizations.tutorial_camera_permissions_description,
+                style: context.theme.textStyles.bodyLarge!.copyWith(),
+                textAlign: TextAlign.center,
+              ),
             ),
           ),
           SizedBox(height: 24.h),

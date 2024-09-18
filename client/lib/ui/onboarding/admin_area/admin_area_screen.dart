@@ -7,6 +7,7 @@ import 'package:design_system/widgets/app_text_fields.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:simon_ai/ui/common/app_constrained_widget.dart';
 import 'package:simon_ai/ui/onboarding/admin_area/admin_area_cubit.dart';
 
 @RoutePage()
@@ -134,8 +135,7 @@ class _AdminAreaFormState extends State<_AdminAreaForm> {
   }
 
   @override
-  Widget build(BuildContext context) => Container(
-        constraints: const BoxConstraints(maxWidth: 480),
+  Widget build(BuildContext context) => AppConstrainedWidget(
         child: Column(
           children: [
             AppTextField(

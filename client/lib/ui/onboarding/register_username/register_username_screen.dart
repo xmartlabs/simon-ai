@@ -8,6 +8,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:simon_ai/ui/common/app_constrained_widget.dart';
 import 'package:simon_ai/ui/onboarding/register_username/register_username_cubit.dart';
 import 'package:simon_ai/ui/section/error_handler/global_event_handler_cubit.dart';
 
@@ -45,12 +46,13 @@ class _RegisterUsernameContent extends StatelessWidget {
               padding: EdgeInsets.symmetric(vertical: 16.h),
               child: _SignInForm(),
             ),
-            Container(
-              constraints: const BoxConstraints(maxWidth: 480),
+            Padding(
               padding: EdgeInsets.symmetric(vertical: 8.h),
-              child: Text(
-                context.localizations.onboarding_username_description,
-                style: context.theme.textStyles.bodyLarge!.copyWith(),
+              child: AppConstrainedWidget(
+                child: Text(
+                  context.localizations.onboarding_username_description,
+                  style: context.theme.textStyles.bodyLarge!.copyWith(),
+                ),
               ),
             ),
             AppButton(
@@ -99,8 +101,7 @@ class _SignInFormState extends State<_SignInForm> {
   }
 
   @override
-  Widget build(BuildContext context) => Container(
-        constraints: const BoxConstraints(maxWidth: 480),
+  Widget build(BuildContext context) => AppConstrainedWidget(
         child: AppTextField(
           controller: _usernameTextController,
           keyboardType: TextInputType.name,

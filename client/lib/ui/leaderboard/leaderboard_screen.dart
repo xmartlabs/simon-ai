@@ -7,6 +7,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:simon_ai/gen/assets.gen.dart';
+import 'package:simon_ai/ui/common/app_constrained_widget.dart';
 import 'package:simon_ai/ui/extensions/context_device_extensions.dart';
 import 'package:simon_ai/ui/leaderboard/leaderboard_cubit.dart';
 
@@ -77,8 +78,7 @@ class _BigAndPortraitDeviceContent extends StatelessWidget {
   });
 
   @override
-  Widget build(BuildContext context) => Container(
-        constraints: const BoxConstraints(maxWidth: 480),
+  Widget build(BuildContext context) => AppConstrainedWidget(
         child: Column(
           children: [
             const _CurrentPlayerCard(),

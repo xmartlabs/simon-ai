@@ -53,7 +53,7 @@ class _GameScreenContent extends StatelessWidget {
               },
               if (state.gameState != GameState.ended)
                 Align(
-                  alignment: Alignment.topCenter,
+                  alignment: Alignment.bottomCenter,
                   child: Row(
                     mainAxisSize: MainAxisSize.min,
                     children: [
@@ -88,6 +88,12 @@ class _GameScreenContent extends StatelessWidget {
                             .handSequenceHistory ??
                         [],
                   ),
+                ),
+              if (state.gameState != GameState.ended &&
+                  (state.showDebug ?? false))
+                const Align(
+                  alignment: Alignment.bottomRight,
+                  child: _Points(),
                 ),
               if (state.gameState != GameState.ended)
                 Align(

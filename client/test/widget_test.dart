@@ -4,6 +4,7 @@ import 'package:simon_ai/core/model/game_response.dart';
 import 'package:simon_ai/core/model/hand_gestures.dart';
 import 'package:simon_ai/core/repository/game_manager.dart';
 
+import 'mocks/mocks.dart';
 import 'test_helpers.dart';
 
 void main() {
@@ -12,8 +13,8 @@ void main() {
       // ignore: lines_longer_than_80_chars
       'Input: love, victory, pointingUp. Output: love, love, victory, love, victory, pointingUp',
       () async {
-    final gameHandler = GameManager();
-    final game = gameHandler.startGame([
+    final gameHandler = GameManager(MockGestureProcessor())..init();
+    final game = gameHandler.startSequence([
       HandGesture.love,
       HandGesture.victory,
       HandGesture.pointingUp,

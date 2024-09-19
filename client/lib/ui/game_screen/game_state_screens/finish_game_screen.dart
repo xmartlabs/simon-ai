@@ -43,7 +43,7 @@ class FinishGameScreen extends StatelessWidget {
           SizedBox(height: 25.h),
           if (Config.debugMode)
             InkWell(
-              onTap: context.read<GameScreenCubit>().restartGame,
+              onTap: () => context.read<GameScreenCubit>().restartGame(),
               child: Container(
                 padding: EdgeInsets.symmetric(
                   horizontal: 20.w,

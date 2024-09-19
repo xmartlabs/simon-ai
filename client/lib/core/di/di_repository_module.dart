@@ -41,7 +41,7 @@ extension _GetItDiModuleExtensions on GetIt {
   void _setupRepositories() {
     registerLazySingleton(() => SessionRepository(get(), get(), get()));
     registerLazySingleton(() => UserRepository(get(), get()));
-    registerLazySingleton(() => GameManager());
+    registerLazySingleton(() => GameManager(get()));
   }
 
   void _setupSources() {

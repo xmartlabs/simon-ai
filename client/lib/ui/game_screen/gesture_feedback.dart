@@ -67,7 +67,9 @@ class GestureFeedbackState extends State<GestureFeedback>
       calculateAnimationPosition(BoxConstraints constraints) {
     final boxTopLeft = currentGesture!.boundingBox;
 
-    final cameraResolutionSize = Config.cameraResolutionPreset.size;
+    final orientation = MediaQuery.of(context).orientation;
+    final cameraResolutionSize =
+        Config.cameraResolutionPreset.sizeForOrientation(orientation);
     final maxWidth = constraints.maxWidth;
     final maxHeight = constraints.maxHeight;
     final double initialLeft =
@@ -91,43 +93,39 @@ class GestureFeedbackState extends State<GestureFeedback>
   }
 
   @override
-  Widget build(BuildContext context) => Transform.scale(
-        scaleX: .92,
-        scaleY: .85,
-        child: LayoutBuilder(
-          builder: (context, constraints) => Stack(
-            children: [
-              if (_showCheckIcon)
-                AnimatedBuilder(
-                  animation: _animation!,
-                  builder: (context, child) {
-                    final (animationValue, left, top, size) =
-                        calculateAnimationPosition(constraints);
-                    return Positioned(
-                      left: left,
-                      top: top,
-                      child: AnimatedOpacity(
-                        opacity: 1 - animationValue,
-                        duration: _animationDuration,
-                        child: SizedBox(
-                          width: size,
-                          height: size,
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              _GestureWidget(
-                                currentGesture: currentGesture,
-                                size: size,
-                              ),
-                            ],
-                          ),
+  Widget build(BuildContext context) => LayoutBuilder(
+        builder: (context, constraints) => Stack(
+          children: [
+            if (_showCheckIcon)
+              AnimatedBuilder(
+                animation: _animation!,
+                builder: (context, child) {
+                  final (animationValue, left, top, size) =
+                      calculateAnimationPosition(constraints);
+                  return Positioned(
+                    left: left,
+                    top: top,
+                    child: AnimatedOpacity(
+                      opacity: 1 - animationValue,
+                      duration: _animationDuration,
+                      child: SizedBox(
+                        width: size,
+                        height: size,
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            _GestureWidget(
+                              currentGesture: currentGesture,
+                              size: size,
+                            ),
+                          ],
                         ),
                       ),
-                    );
-                  },
-                ),
-            ],
-          ),
+                    ),
+                  );
+                },
+              ),
+          ],
         ),
       );
 }

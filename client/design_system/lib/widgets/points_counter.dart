@@ -56,6 +56,7 @@ class _PointsCounterState extends State<PointsCounter>
   Widget build(BuildContext context) => AnimatedBuilder(
         animation: scaleAnimation,
         builder: (context, child) => Container(
+          padding: const EdgeInsets.only(left: 4, right: 10, top: 4, bottom: 4),
           transform: Matrix4.identity()..scale(scaleAnimation.value),
           decoration: BoxDecoration(
             color: context.theme.colorScheme.surfaceBright,

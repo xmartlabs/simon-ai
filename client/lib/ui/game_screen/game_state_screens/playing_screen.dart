@@ -1,6 +1,5 @@
 import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:simon_ai/ui/camera_hand/camera_hand_cubit.dart';
 import 'package:simon_ai/ui/widgets/camera/camera_widget.dart';
 
@@ -34,8 +33,6 @@ class _CameraContent extends StatelessWidget {
           child: ClipRRect(
             borderRadius: BorderRadius.circular(32),
             child: CameraWidget(
-              width: 1.sw,
-              height: 1.sh,
               enableBorderRadius: true,
               onNewFrame: (dynamic frame) =>
                   context.read<CameraHandCubit>().onNewFrame(frame),

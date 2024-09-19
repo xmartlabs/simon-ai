@@ -4,7 +4,6 @@ import 'package:design_system/widgets/app_scaffold.dart';
 import 'package:design_system/widgets/points_counter.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:simon_ai/gen/assets.gen.dart';
 import 'package:simon_ai/ui/game_screen/gesture_feedback.dart';
 import 'package:simon_ai/ui/game_screen/game_overlay.dart';
@@ -48,29 +47,37 @@ class _GameScreenContent extends StatelessWidget {
                 GameState.countDown => const Align(child: GameOverlay()),
                 GameState.showingSequence => const Align(child: GameOverlay()),
                 GameState.playing => Container(),
-                GameState.ended => const FinishGameScreen(),
+                GameState.ended => const Align(child: FinishGameScreen()),
                 GameState.error => const ErrorStateScreen(),
               },
               if (state.gameState != GameState.ended)
                 Align(
                   alignment: Alignment.bottomCenter,
-                  child: Row(
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      Text(
-                        context.localizations.debug_mode,
-                        style:
-                            context.theme.textStyles.headlineMedium?.copyWith(
-                          color: context.theme.customColors.textColor,
+                  child: Container(
+                    padding: const EdgeInsets.only(left: 8, right: 4),
+                    decoration: BoxDecoration(
+                      color: context.theme.colorScheme.surfaceBright,
+                      borderRadius: BorderRadius.circular(32),
+                    ),
+                    child: Row(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        Text(
+                          context.localizations.debug_mode,
+                          style:
+                              context.theme.textStyles.headlineMedium?.copyWith(
+                            color: context.theme.customColors.textColor,
+                          ),
                         ),
-                      ),
-                      Switch(
-                        value: state.showDebug ?? false,
-                        activeTrackColor: context.theme.customColors.success,
-                        onChanged: (value) =>
-                            context.read<GameScreenCubit>().toggleDebug(value),
-                      ),
-                    ],
+                        Switch(
+                          value: state.showDebug ?? false,
+                          activeTrackColor: context.theme.customColors.success,
+                          onChanged: (value) => context
+                              .read<GameScreenCubit>()
+                              .toggleDebug(value),
+                        ),
+                      ],
+                    ),
                   ),
                 ),
               if (state.gameState != GameState.ended)
@@ -98,27 +105,46 @@ class _GameScreenContent extends StatelessWidget {
               if (state.gameState != GameState.ended)
                 Align(
                   alignment: Alignment.topLeft,
-                  child: Row(
-                    children: [
-                      Assets.images.check.image(
-                        fit: BoxFit.fill,
-                        filterQuality: FilterQuality.high,
-                      ),
-                      const SizedBox(width: 8),
-                      Text(
-                        context.localizations
-                            .correct_gestures(state.currentHandValueIndex ?? 0),
-                        style: context.theme.textStyles.headlineSmall!
-                            .bold()
-                            .copyWith(
-                              color: context.theme.customColors.textColor,
-                            ),
-                      ),
-                    ],
+                  child: _GesturesCounter(
+                    gesturesCount: state.currentHandValueIndex,
                   ),
                 ),
             ],
           ),
+        ),
+      );
+}
+
+class _GesturesCounter extends StatelessWidget {
+  final int? gesturesCount;
+
+  const _GesturesCounter({
+    required this.gesturesCount,
+    super.key,
+  });
+
+  @override
+  Widget build(BuildContext context) => Container(
+        padding: const EdgeInsets.only(left: 4, right: 10, top: 4, bottom: 4),
+        decoration: BoxDecoration(
+          color: context.theme.colorScheme.surfaceBright,
+          borderRadius: BorderRadius.circular(32),
+        ),
+        child: Row(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Assets.images.check.image(
+              fit: BoxFit.fill,
+              filterQuality: FilterQuality.high,
+            ),
+            const SizedBox(width: 8),
+            Text(
+              context.localizations.correct_gestures(gesturesCount ?? 0),
+              style: context.theme.textStyles.headlineSmall!.bold().copyWith(
+                    color: context.theme.customColors.textColor,
+                  ),
+            ),
+          ],
         ),
       );
 }
@@ -168,12 +194,9 @@ class _PointsState extends State<_Points> with SingleTickerProviderStateMixin {
             previous.currentPoints != current.currentPoints,
         builder: (context, state) => Padding(
           padding: const EdgeInsets.only(bottom: 32),
-          child: SizedBox(
-            width: .15.sw,
-            child: PointsCounter(
-              points: state.currentPoints,
-              controller: controller,
-            ),
+          child: PointsCounter(
+            points: state.currentPoints,
+            controller: controller,
           ),
         ),
       );

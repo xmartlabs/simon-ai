@@ -2,10 +2,12 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:design_system/design_system.dart';
 import 'package:design_system/extensions/color_extensions.dart';
+import 'package:design_system/widgets/app_button.dart';
 import 'package:design_system/widgets/app_scaffold.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:simon_ai/ui/common/app_constrained_widget.dart';
 import 'package:simon_ai/ui/onboarding/tutorial/tutorial_explanation/tutorial_explanation_cubit.dart';
 
 @RoutePage()
@@ -90,26 +92,22 @@ class _InitialExplanationStep extends StatelessWidget {
                 ),
           ),
           SizedBox(height: 24.h),
-          Container(
-            width: .4.sw,
+          Padding(
             padding: EdgeInsets.symmetric(vertical: 8.h),
-            child: Text(
-              context.localizations.tutorial_next_steps_description,
-              style: context.theme.textStyles.bodyLarge!.copyWith(),
-              textAlign: TextAlign.center,
+            child: AppConstrainedWidget(
+              child: Text(
+                context.localizations.tutorial_next_steps_description,
+                style: context.theme.textStyles.bodyLarge!.copyWith(),
+                textAlign: TextAlign.center,
+              ),
             ),
           ),
           SizedBox(height: 24.h),
           SizedBox(
             width: .28.sw,
-            child: FilledButton(
+            child: AppButton(
               onPressed: onPressed,
-              child: Text(
-                context.localizations.continue_button,
-                style: context.theme.textStyles.bodyLarge!.bold().copyWith(
-                      color: context.theme.customColors.textColor.getShade(100),
-                    ),
-              ),
+              text: context.localizations.continue_button,
             ),
           ),
         ],
@@ -136,46 +134,32 @@ class _HandsExplanationStep extends StatelessWidget {
                 ),
           ),
           SizedBox(height: 24.h),
-          Container(
-            width: .4.sw,
+          Padding(
             padding: EdgeInsets.symmetric(vertical: 8.h),
-            child: Text(
-              context.localizations.tutorial_what_hand_description,
-              style: context.theme.textStyles.bodyLarge!.copyWith(),
-              textAlign: TextAlign.center,
+            child: AppConstrainedWidget(
+              child: Text(
+                context.localizations.tutorial_what_hand_description,
+                style: context.theme.textStyles.bodyLarge!.copyWith(),
+                textAlign: TextAlign.center,
+              ),
             ),
           ),
           SizedBox(height: 24.h),
-          SizedBox(
-            width: .4.sw,
+          AppConstrainedWidget(
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
                 Expanded(
-                  child: FilledButton(
+                  child: AppButton(
                     onPressed: onPressed,
-                    child: Text(
-                      context.localizations.left,
-                      style:
-                          context.theme.textStyles.bodyLarge!.bold().copyWith(
-                                color: context.theme.customColors.textColor
-                                    .getShade(100),
-                              ),
-                    ),
+                    text: context.localizations.left,
                   ),
                 ),
                 SizedBox(width: .1.sw),
                 Expanded(
-                  child: FilledButton(
+                  child: AppButton(
                     onPressed: onPressed,
-                    child: Text(
-                      context.localizations.right,
-                      style:
-                          context.theme.textStyles.bodyLarge!.bold().copyWith(
-                                color: context.theme.customColors.textColor
-                                    .getShade(100),
-                              ),
-                    ),
+                    text: context.localizations.right,
                   ),
                 ),
               ],
@@ -205,28 +189,24 @@ class _PermissionsExplanationStep extends StatelessWidget {
                 ),
           ),
           SizedBox(height: 24.h),
-          Container(
-            width: .4.sw,
+          Padding(
             padding: EdgeInsets.symmetric(vertical: 8.h),
-            child: Text(
-              context.localizations.tutorial_camera_permissions_description,
-              style: context.theme.textStyles.bodyLarge!.copyWith(),
-              textAlign: TextAlign.center,
+            child: AppConstrainedWidget(
+              child: Text(
+                context.localizations.tutorial_camera_permissions_description,
+                style: context.theme.textStyles.bodyLarge!.copyWith(),
+                textAlign: TextAlign.center,
+              ),
             ),
           ),
           SizedBox(height: 24.h),
-          FilledButton(
+          AppButton(
             onPressed: () {
               context
                   .read<TutorialExplanationCubit>()
                   .requestCameraPermission();
             },
-            child: Text(
-              context.localizations.activate_camera,
-              style: context.theme.textStyles.bodyLarge!.bold().copyWith(
-                    color: context.theme.customColors.textColor.getShade(100),
-                  ),
-            ),
+            text: context.localizations.activate_camera,
           ),
         ],
       );

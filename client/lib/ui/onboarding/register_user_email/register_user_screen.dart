@@ -1,11 +1,14 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:design_system/design_system.dart';
 import 'package:design_system/extensions/color_extensions.dart';
+import 'package:design_system/widgets/app_button.dart';
 import 'package:design_system/widgets/app_scaffold.dart';
+import 'package:design_system/widgets/app_text_fields.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:simon_ai/ui/common/app_constrained_widget.dart';
 import 'package:simon_ai/ui/onboarding/register_user_email/register_user_cubit.dart';
 import 'package:simon_ai/ui/section/error_handler/global_event_handler_cubit.dart';
 
@@ -33,6 +36,7 @@ class _SignInContentScreenState extends State<_SignInContentScreen> {
   Widget build(BuildContext context) => AppScaffold(
         showBackButton: false,
         child: Column(
+          mainAxisSize: MainAxisSize.min,
           mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
@@ -44,19 +48,21 @@ class _SignInContentScreenState extends State<_SignInContentScreen> {
             ),
             SizedBox(height: 24.h),
             Padding(
-              padding: EdgeInsets.symmetric(vertical: 16.h),
+              padding: EdgeInsets.symmetric(vertical: 16.h, horizontal: 24.w),
               child: _SignInForm(
                 emailTextController: _emailTextController,
                 onChanged: (String text) =>
                     context.read<RegisterUserCubit>().changeEmail(text),
               ),
             ),
-            Container(
-              width: .4.sw,
+            Padding(
               padding: EdgeInsets.symmetric(vertical: 8.h),
-              child: Text(
-                context.localizations.onboarding_email_description,
-                style: context.theme.textStyles.bodyLarge!.copyWith(),
+              child: AppConstrainedWidget(
+                child: Text(
+                  textAlign: TextAlign.center,
+                  context.localizations.onboarding_email_description,
+                  style: context.theme.textStyles.bodyLarge!.copyWith(),
+                ),
               ),
             ),
             _NextButtonSection(
@@ -102,7 +108,7 @@ class _NextButtonSection extends StatelessWidget {
   @override
   Widget build(BuildContext context) =>
       BlocBuilder<RegisterUserCubit, RegisterUserBaseState>(
-        builder: (context, state) => FilledButton(
+        builder: (context, state) => AppButton(
           onPressed: state.isFormValid
               ? () {
                   context.read<RegisterUserCubit>().saveEmail();
@@ -110,12 +116,7 @@ class _NextButtonSection extends StatelessWidget {
                   FocusManager.instance.primaryFocus?.unfocus();
                 }
               : null,
-          child: Text(
-            context.localizations.continue_button,
-            style: context.theme.textStyles.bodyLarge!.bold().copyWith(
-                  color: context.theme.customColors.textColor.getShade(100),
-                ),
-          ),
+          text: context.localizations.continue_button,
         ),
       );
 }
@@ -131,12 +132,12 @@ class _SignInForm extends StatelessWidget {
   });
 
   @override
-  Widget build(BuildContext context) => SizedBox(
-        width: .4.sw,
-        child: TextField(
+  Widget build(BuildContext context) => AppConstrainedWidget(
+        child: AppTextField(
           controller: emailTextController,
+          keyboardType: TextInputType.emailAddress,
           enableSuggestions: false,
-          onChanged: onChanged,
+          onChange: onChanged,
         ),
       );
 }

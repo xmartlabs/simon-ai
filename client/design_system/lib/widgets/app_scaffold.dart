@@ -7,17 +7,20 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class AppScaffold extends StatelessWidget {
+  final Widget child;
+  final bool? showBackButton;
+  final bool resizeToAvoidBottomInset;
+
   const AppScaffold({
     required this.child,
     this.showBackButton,
+    this.resizeToAvoidBottomInset = false,
     super.key,
   });
 
-  final Widget child;
-  final bool? showBackButton;
-
   @override
   Widget build(BuildContext context) => Scaffold(
+        resizeToAvoidBottomInset: resizeToAvoidBottomInset,
         body: Stack(
           children: [
             const ScreenBackgroundContainer(),

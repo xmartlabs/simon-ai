@@ -1,3 +1,4 @@
+import 'package:design_system/widgets/app_button.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:simon_ai/ui/extensions/context_extensions.dart';
@@ -14,9 +15,9 @@ class FinishGameTutorialScreen extends StatelessWidget {
             children: [
               Text(context.localizations.congratulations),
               Text(context.localizations.completed_game_with),
-              FilledButton(
+              AppButton(
                 onPressed: context.read<GameScreenCubit>().startGame,
-                child: Text(context.localizations.back_to_the_game),
+                text: context.localizations.back_to_the_game,
               ),
             ],
           ),

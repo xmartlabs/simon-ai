@@ -27,7 +27,7 @@ class GameSequenceLogicTransformer
           final isCorrect = _isCorrect(currentSequence);
           return (
             gesture: currentSequence.last,
-            points: _gamePints(isCorrect, currentSequence),
+            points: _gamePoints(isCorrect, currentSequence),
             finishSequence: currentSequence.length == gameSequence.length,
             isCorrect: isCorrect,
           );
@@ -43,7 +43,7 @@ class GameSequenceLogicTransformer
                     currentSequence[gameSequence.indexOf(gesture)].gesture,
           );
 
-  int _gamePints(
+  int _gamePoints(
     bool isCorrect,
     List<HandGestureWithPosition> currentSequence,
   ) {

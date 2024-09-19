@@ -6,13 +6,13 @@ class CameraWidget extends StatefulWidget {
   final bool enableBorderRadius;
   final bool showGesture;
   final ValueChanged<dynamic> onNewFrame;
-  final Stream<dynamic>? movenetStream;
+  final Stream<dynamic>? gestureStream;
 
   const CameraWidget({
     required this.enableBorderRadius,
     required this.onNewFrame,
     required this.showGesture,
-    this.movenetStream,
+    this.gestureStream,
     super.key,
   });
 

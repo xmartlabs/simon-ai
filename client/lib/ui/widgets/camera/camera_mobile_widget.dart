@@ -84,7 +84,7 @@ class CameraPlatformWidgetState extends State<CameraWidget>
 
   @override
   Widget build(BuildContext context) => StreamBuilder(
-        stream: widget.movenetStream,
+        stream: widget.gestureStream,
         builder: (context, snapshot) => (!snapshot.hasData ||
                 _cameraController == null ||
                 !_cameraController!.value.isInitialized)
@@ -93,7 +93,7 @@ class CameraPlatformWidgetState extends State<CameraWidget>
                 resolutionPreset: resolutionPreset,
                 cameraController: _cameraController,
                 showGesture: widget.showGesture,
-                data: snapshot.data,
+                gestureData: snapshot.data,
               ),
       );
 }
@@ -101,13 +101,13 @@ class CameraPlatformWidgetState extends State<CameraWidget>
 class _GestureSection extends StatelessWidget {
   final ResolutionPreset resolutionPreset;
   final CameraController? cameraController;
-  final HandLandmarksData? data;
+  final HandLandmarksData? gestureData;
   final bool showGesture;
 
   const _GestureSection({
     required this.resolutionPreset,
     required this.cameraController,
-    required this.data,
+    required this.gestureData,
     required this.showGesture,
     super.key,
   });
@@ -117,7 +117,7 @@ class _GestureSection extends StatelessWidget {
         child: showGesture
             ? CustomPaint(
                 foregroundPainter: HandRenderPainter(
-                  keypointsData: data ??
+                  keypointsData: gestureData ??
                       (
                         confidence: 0.0,
                         keyPoints: [],

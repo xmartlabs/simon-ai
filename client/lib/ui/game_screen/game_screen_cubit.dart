@@ -77,12 +77,12 @@ class GameScreenCubit extends Cubit<GameScreenState> {
     startGame();
   }
 
-  void restartGame() {
+  Future<void> restartGame() async {
     _gameDuration
       ..stop()
       ..start();
-    _gameHandler.restartStream();
-    _sequenceController.close();
+    await _gameHandler.close();
+    await _sequenceController.close();
     _sequenceController = StreamController<HandGesture>.broadcast();
     emit(
       state.copyWith(
@@ -121,7 +121,7 @@ class GameScreenCubit extends Cubit<GameScreenState> {
 
   void startGame() {
     _gameStreamSubscription =
-        _gameHandler.startGame(state.currentSequence!).listen(_handleGame);
+        _gameHandler.startSequence(state.currentSequence!).listen(_handleGame);
     emit(
       state.copyWith(
         gameState: GameState.playing,
@@ -159,7 +159,6 @@ class GameScreenCubit extends Cubit<GameScreenState> {
   }
 
   void endGame() {
-    _gameHandler.resetPoints();
     _gameDuration.stop();
     _gameStreamSubscription.cancel();
     _sequenceController.close();

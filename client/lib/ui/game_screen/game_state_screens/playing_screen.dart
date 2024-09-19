@@ -25,8 +25,9 @@ class _CameraContent extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) =>
-      BlocBuilder<CameraHandCubit, CameraHandState>(
-        builder: (context, state) => Transform.scale(
+      BlocSelector<CameraHandCubit, CameraHandState, Stream<dynamic>?>(
+        selector: (state) => state.gestureStream,
+        builder: (context, stream) => Transform.scale(
           scaleX: .92,
           scaleY: .85,
           child: ClipRRect(
@@ -35,7 +36,7 @@ class _CameraContent extends StatelessWidget {
               enableBorderRadius: true,
               onNewFrame: (dynamic frame) =>
                   context.read<CameraHandCubit>().onNewFrame(frame),
-              movenetStream: state.movenetResultStream,
+              gestureStream: stream,
               showGesture: showGesture,
             ),
           ),

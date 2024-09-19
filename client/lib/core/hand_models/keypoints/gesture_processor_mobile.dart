@@ -9,7 +9,7 @@ import 'package:simon_ai/core/hand_models/hand_gesture_classifier/hand_tracking_
 import 'package:simon_ai/core/hand_models/hand_gesture_classifier/hand_tracking_points.dart';
 import 'package:simon_ai/core/hand_models/hand_gesture_embedder/hand_gesture_embedder_classifier.dart';
 import 'package:simon_ai/core/hand_models/hand_tracking/hand_tracking_classifier.dart';
-import 'package:simon_ai/core/hand_models/keypoints/keypoints_manager.dart';
+import 'package:simon_ai/core/hand_models/keypoints/gesture_processor.dart';
 import 'package:simon_ai/core/interfaces/model_interface.dart';
 import 'package:simon_ai/core/model/anchor.dart';
 import 'package:simon_ai/core/model/coordinates.dart';
@@ -18,7 +18,7 @@ import 'package:simon_ai/core/model/hand_classifier_result_data.dart';
 import 'package:simon_ai/core/model/hand_landmarks_result_data.dart';
 import 'package:simon_ai/gen/assets.gen.dart';
 
-class KeyPointsMobileManager implements KeyPointsManager {
+class GestureMobileProcessor implements GestureProcessor {
   late ModelHandler handTrackingClassifier;
   late ModelHandler handDetectorClassifier;
   late ModelHandler handGestureEmbedderClassifier;
@@ -26,19 +26,24 @@ class KeyPointsMobileManager implements KeyPointsManager {
   late HandTrackingIsolate isolate;
   var _currentFrame = 0;
   var _lastCurrentFrame = 0;
-  late Timer _timer;
+  Timer? _fpsTimer;
+  late StreamController<int> _fpsStreamController;
+
+  @override
+  Stream<int> get fps => _fpsStreamController.stream;
 
   @override
   Future<void> init() async {
     isolate = HandTrackingIsolate();
+    _fpsStreamController = StreamController<int>.broadcast();
     await isolate.start();
     handTrackingClassifier = HandTrackingClassifier();
     handDetectorClassifier = HandDetectorClassifier();
     handGestureEmbedderClassifier = HandGestureEmbedderClassifier();
     handCannedGestureClassifier = HandCannedGestureClassifier();
-    _timer = Timer.periodic(const Duration(seconds: 1), (timer) {
+    _fpsTimer = Timer.periodic(const Duration(seconds: 1), (timer) {
       final currentFrame = _currentFrame;
-      Logger.i('FPS: ${currentFrame - _lastCurrentFrame}');
+      Logger.i('FPS: ${currentFrame - _lastCurrentFrame}!');
       _lastCurrentFrame = currentFrame;
     });
   }
@@ -46,7 +51,8 @@ class KeyPointsMobileManager implements KeyPointsManager {
   @override
   Future<void> close() async {
     isolate.dispose();
-    _timer.cancel();
+    _fpsTimer?.cancel();
+    await _fpsStreamController.close();
   }
 
   @override

@@ -96,6 +96,12 @@ class _GameScreenContent extends StatelessWidget {
                         [],
                   ),
                 ),
+              if (state.gameState != GameState.ended &&
+                  (state.showDebug ?? false))
+                const Align(
+                  alignment: Alignment.bottomRight,
+                  child: _Points(),
+                ),
               if (state.gameState != GameState.ended)
                 Align(
                   alignment: Alignment.topLeft,

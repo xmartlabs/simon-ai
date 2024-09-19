@@ -44,6 +44,7 @@ class GestureMobileProcessor implements GestureProcessor {
     _fpsTimer = Timer.periodic(const Duration(seconds: 1), (timer) {
       final currentFrame = _currentFrame;
       Logger.i('FPS: ${currentFrame - _lastCurrentFrame}!');
+      _fpsStreamController.add(currentFrame - _lastCurrentFrame);
       _lastCurrentFrame = currentFrame;
     });
   }

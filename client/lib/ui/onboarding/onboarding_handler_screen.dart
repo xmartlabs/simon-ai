@@ -18,6 +18,7 @@ class OnboardingHandlerScreen extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Text(
+              textAlign: TextAlign.center,
               context.localizations.onboarding_ready_to_play_title,
               style: context.theme.textStyles.displaySmall!.bold().copyWith(
                     color: context.theme.customColors.textColor.getShade(500),

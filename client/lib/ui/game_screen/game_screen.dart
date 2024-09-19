@@ -100,7 +100,7 @@ class _GameScreenContent extends StatelessWidget {
                   (state.showDebug ?? false))
                 const Align(
                   alignment: Alignment.bottomRight,
-                  child: _Points(),
+                  child: _FPSSection(),
                 ),
               if (state.gameState != GameState.ended)
                 Align(
@@ -112,6 +112,38 @@ class _GameScreenContent extends StatelessWidget {
             ],
           ),
         ),
+      );
+}
+
+class _FPSSection extends StatelessWidget {
+  const _FPSSection({
+    super.key,
+  });
+
+  @override
+  Widget build(BuildContext context) => StreamBuilder(
+        stream: context.read<GameScreenCubit>().fpsStream,
+        builder: (context, snapshot) => (snapshot.hasData)
+            ? Container(
+                padding: const EdgeInsets.only(
+                  left: 4,
+                  right: 10,
+                  top: 4,
+                  bottom: 4,
+                ),
+                decoration: BoxDecoration(
+                  color: context.theme.colorScheme.surfaceBright,
+                  borderRadius: BorderRadius.circular(32),
+                ),
+                child: Text(
+                  'FPS: ${snapshot.data.toString()}',
+                  style:
+                      context.theme.textStyles.headlineSmall!.bold().copyWith(
+                            color: context.theme.customColors.textColor,
+                          ),
+                ),
+              )
+            : const SizedBox(),
       );
 }
 

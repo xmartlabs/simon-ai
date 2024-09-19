@@ -41,6 +41,7 @@ class _SignInContentScreenState extends State<_SignInContentScreen> {
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
             Text(
+              textAlign: TextAlign.center,
               context.localizations.onboarding_email_title,
               style: context.theme.textStyles.displaySmall!.bold().copyWith(
                     color: context.theme.customColors.textColor.getShade(500),
@@ -56,7 +57,7 @@ class _SignInContentScreenState extends State<_SignInContentScreen> {
               ),
             ),
             Padding(
-              padding: EdgeInsets.symmetric(vertical: 8.h),
+              padding: EdgeInsets.only(bottom: 16.h),
               child: AppConstrainedWidget(
                 child: Text(
                   textAlign: TextAlign.center,

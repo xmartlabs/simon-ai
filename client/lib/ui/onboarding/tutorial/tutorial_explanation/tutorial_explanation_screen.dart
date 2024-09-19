@@ -81,37 +81,56 @@ class _InitialExplanationStep extends StatelessWidget {
   final VoidCallback onPressed;
 
   @override
-  Widget build(BuildContext context) => Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        crossAxisAlignment: CrossAxisAlignment.center,
-        children: [
-          Text(
-            context.localizations.tutorial_next_steps_title,
-            style: context.theme.textStyles.displaySmall!.bold().copyWith(
-                  color: context.theme.customColors.textColor.getShade(500),
+  Widget build(BuildContext context) =>
+      BlocBuilder<TutorialExplanationCubit, TutorialExplanationState>(
+        builder: (context, state) => Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            Text(
+              context.localizations.tutorial_next_steps_title,
+              style: context.theme.textStyles.displaySmall!.bold().copyWith(
+                    color: context.theme.customColors.textColor.getShade(500),
+                  ),
+            ),
+            SizedBox(height: 24.h),
+            Padding(
+              padding: EdgeInsets.symmetric(vertical: 8.h),
+              child: AppConstrainedWidget(
+                child: Text(
+                  context.localizations.tutorial_next_steps_description,
+                  style: context.theme.textStyles.bodyLarge!.copyWith(),
+                  textAlign: TextAlign.center,
                 ),
-          ),
-          SizedBox(height: 24.h),
-          Padding(
-            padding: EdgeInsets.symmetric(vertical: 8.h),
-            child: AppConstrainedWidget(
-              child: Text(
-                context.localizations.tutorial_next_steps_description,
-                style: context.theme.textStyles.bodyLarge!.copyWith(),
-                textAlign: TextAlign.center,
               ),
             ),
-          ),
-          SizedBox(height: 24.h),
-          SizedBox(
-            width: .28.sw,
-            child: AppButton(
-              onPressed: onPressed,
-              text: context.localizations.continue_button,
+            SizedBox(height: 24.h),
+            SizedBox(
+              child: AppButton(
+                onPressed: state.hasCameraPermission != null
+                    ? () {
+                        final cubit = context.read<TutorialExplanationCubit>();
+                        _handleCameraPermission(
+                          hasCameraPermission: state.hasCameraPermission!,
+                          onPressed: onPressed,
+                          navigateToGame: cubit.navigateToGame,
+                        );
+                      }
+                    : null,
+                text: context.localizations.continue_button,
+              ),
             ),
-          ),
-        ],
+          ],
+        ),
       );
+
+  void _handleCameraPermission({
+    required bool hasCameraPermission,
+    required VoidCallback onPressed,
+    required VoidCallback navigateToGame,
+  }) {
+    hasCameraPermission ? navigateToGame() : onPressed();
+  }
 }
 
 class _HandsExplanationStep extends StatelessWidget {

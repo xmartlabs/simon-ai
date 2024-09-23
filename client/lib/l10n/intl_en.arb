@@ -44,6 +44,16 @@
   "error_no_internet_connection_error_title": "Error",
   "error_unknown_error_description": "Something went wrong!",
   "error_unknown_error_title": "Oops!",
+  "fps": "FPS: {number}",
+  "@fps": {
+    "description": "Shows the current frames per second",
+    "placeholders": {
+      "number": {
+        "type": "int",
+        "example": "60"
+      }
+    }
+  },
   "game_position_hands": "Position your hand in the boxed area so it is visible on the screen",
   "gestures": "Gestures",
   "good_job": "Good job!",

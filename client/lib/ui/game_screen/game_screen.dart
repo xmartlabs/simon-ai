@@ -136,7 +136,7 @@ class _FPSSection extends StatelessWidget {
                   borderRadius: BorderRadius.circular(32),
                 ),
                 child: Text(
-                  'FPS: ${snapshot.data.toString()}',
+                  context.localizations.fps(snapshot.data ?? 0),
                   style:
                       context.theme.textStyles.headlineSmall!.bold().copyWith(
                             color: context.theme.customColors.textColor,

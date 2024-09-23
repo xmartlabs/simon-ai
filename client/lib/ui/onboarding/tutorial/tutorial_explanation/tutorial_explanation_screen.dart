@@ -128,9 +128,8 @@ class _InitialExplanationStep extends StatelessWidget {
     required bool hasCameraPermission,
     required VoidCallback onPressed,
     required VoidCallback navigateToGame,
-  }) {
-    hasCameraPermission ? navigateToGame() : onPressed();
-  }
+  }) =>
+      hasCameraPermission ? navigateToGame() : onPressed();
 }
 
 class _HandsExplanationStep extends StatelessWidget {

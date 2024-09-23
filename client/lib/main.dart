@@ -45,7 +45,6 @@ Future _initSdks() async {
   ]);
 }
 
-// ignore: avoid-redundant-async
 Future _initFirebaseSdks() async {
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform(

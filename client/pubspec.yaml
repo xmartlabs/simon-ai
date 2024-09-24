@@ -17,9 +17,9 @@ dependencies:
   design_system:
     path: ./design_system
 
-  auto_route: 8.1.3
   app_settings: 5.1.1
   audioplayers: 6.0.0
+  auto_route: 8.1.3
   camera: 0.11.0+1
   cloud_firestore: 5.1.0
   cupertino_icons: 1.0.8
@@ -27,26 +27,35 @@ dependencies:
   dio: 5.4.3+1
   dotted_border: 2.1.0
   equatable: 2.0.5
+  feedback: 3.1.0
   firebase_auth: 5.3.0
   firebase_core: 3.5.0
   firebase_crashlytics: 4.1.1
   firebase_remote_config: 5.0.3
+  flutter_animate: 4.5.0
   flutter_bloc: 8.1.5
   flutter_dotenv: 5.1.0
+  flutter_email_sender: 6.0.3
   flutter_native_splash: 2.4.0
   flutter_screenutil: 5.9.3
   flutter_secure_storage: 9.2.2
   flutter_web_browser: 0.17.1 # This can be removed
-  flutter_animate: 4.5.0
   freezed_annotation: 2.4.1
   get_it: 7.7.0
   google_fonts: 6.2.1
+  hive: 2.2.3
   image: 4.2.0
   intl: 0.19.0
   json_annotation: 4.9.0
   logger: 2.3.0
   material_color_generator: 1.1.0
+  mutex: 3.1.0
+  package_info_plus: 8.0.2
+  path_drawing: 1.0.1
+  path_provider: 2.1.3
+  permission_handler: 11.3.1
   rxdart: 0.27.7
+  shake: 2.2.0
   shared_preferences: 2.2.3
   sqflite: 2.3.3+1
   stack_trace: 1.11.1
@@ -57,12 +66,6 @@ dependencies:
       url: https://github.com/xmartlabs/tflite_flutter_helper.git
       # TODO: change to master when PR merged
       ref: image-conversion-fix
-  hive: 2.2.3
-  package_info_plus: 8.0.2
-  path_provider: 2.1.3
-  path_drawing: 1.0.1
-  permission_handler: 11.3.1
-  mutex: 3.1.0
 
 dev_dependencies:
   flutter_test:

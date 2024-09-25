@@ -8,6 +8,7 @@ import 'package:package_info_plus/package_info_plus.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:shake/shake.dart';
 import 'package:simon_ai/core/common/config.dart';
+import 'package:simon_ai/core/common/logger.dart';
 
 class AppFeedback {
   static void init(BuildContext context) {
@@ -30,7 +31,8 @@ class AppFeedback {
         body: feedback.text,
         subject: 'Feedback $appName - v$version($buildNumber)',
         recipients: [Config.feedbackEmail],
-        attachmentPaths: [screenshotFilePath],
+        attachmentPaths:
+            [screenshotFilePath, Logger.logFilePath].nonNulls.toList(),
         isHTML: false,
       );
       await FlutterEmailSender.send(email);

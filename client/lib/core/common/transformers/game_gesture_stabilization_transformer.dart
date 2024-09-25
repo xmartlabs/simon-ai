@@ -30,14 +30,7 @@ class GameGestureStabilizationTransformer extends StreamTransformerBase<
               windowSize: 5,
             ),
           )
-          .asyncMap((bufferedGestures) {
-            if (bufferedGestures.isEmpty) return null;
-
-            final HandGestureWithPosition firstGesture = bufferedGestures.first;
-            return firstGesture.gesture == HandGesture.unrecognized
-                ? null
-                : firstGesture;
-          })
+          .asyncMap((bufferedGestures) => bufferedGestures.lastOrNull)
           .whereNotNull()
           .distinct((previous, next) => previous.gesture == next.gesture)
           .asBroadcastStream();

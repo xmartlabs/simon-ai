@@ -13,6 +13,7 @@ import 'package:simon_ai/core/common/helper/env_helper.dart';
 interface class Config {
   static const String environmentFolder = 'environments';
   static const String prodBundleId = 'com.xmartlabs.simonai';
+  static const String feedbackEmail = 'simonai@xmartlabs.com';
 
   static const debugMode = kDebugMode;
   static const crashlyticsEnabled = !kIsWeb && !debugMode;

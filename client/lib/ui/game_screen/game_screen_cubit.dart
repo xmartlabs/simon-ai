@@ -25,6 +25,7 @@ class GameScreenCubit extends Cubit<GameScreenState> {
   StreamController<HandGesture> _sequenceController =
       StreamController<HandGesture>.broadcast();
   final audioPlayer = AudioPlayer();
+  Stream<int> get fpsStream => _gameHandler.fps;
 
   final Duration durationBetweenDisplayedGestures = const Duration(seconds: 1);
   final double playbackSpeed = 2;

@@ -47,9 +47,10 @@ class _RegisterUsernameContent extends StatelessWidget {
               child: _SignInForm(),
             ),
             Padding(
-              padding: EdgeInsets.symmetric(vertical: 8.h),
+              padding: EdgeInsets.only(bottom: 16.h),
               child: AppConstrainedWidget(
                 child: Text(
+                  textAlign: TextAlign.center,
                   context.localizations.onboarding_username_description,
                   style: context.theme.textStyles.bodyLarge!.copyWith(),
                 ),

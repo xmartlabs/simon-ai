@@ -17,14 +17,25 @@ class TutorialExplanationCubit extends Cubit<TutorialExplanationState> {
       : super(
           const TutorialExplanationState.initial(
             step: OnboardingSteps.initial,
-            hasCameraPermission: false,
           ),
-        );
+        ) {
+    unawaited(checkCameraPermission());
+  }
+
+  Future<void> checkCameraPermission() async {
+    emit(
+      state.copyWith(
+        hasCameraPermission: await _permissionHandler.hasCameraPermisssion(),
+      ),
+    );
+  }
+
+  void navigateToGame() => unawaited(_appRouter.navigate(const GameRoute()));
 
   Future<void> requestCameraPermission() async {
     final gotPermission = await _permissionHandler.requestCameraPermission();
     if (gotPermission != null && gotPermission) {
-      unawaited(_appRouter.navigate(const GameRoute()));
+      navigateToGame();
     }
   }
 }

@@ -1,4 +1,10 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android" package="com.xmartlabs.simon_ai">
+    <queries>
+        <intent>
+            <action android:name="android.intent.action.SENDTO" />
+            <data android:scheme="mailto" />
+        </intent>
+    </queries>
     <application android:label="@string/app_name" android:icon="@mipmap/ic_launcher">
 
         <uses-native-library android:name="libOpenCL.so" android:required="false" />

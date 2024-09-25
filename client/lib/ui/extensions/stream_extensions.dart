@@ -2,6 +2,7 @@ import 'dart:async';
 
 extension StreamExtensions<T> on Stream<T> {
   Stream<R> processWhileAvailable<R>(FutureOr<R> Function(T) asyncMapper) {
+    var isClosed = false;
     T? lastUnprocessedValue;
     var isProcessing = false;
     // Define a separate async function to process the value.
@@ -9,13 +10,17 @@ extension StreamExtensions<T> on Stream<T> {
       try {
         sink.add(await asyncMapper(value));
         T? lastValue;
-        while (lastUnprocessedValue != null) {
+        while (lastUnprocessedValue != null && !isClosed) {
           lastValue = lastUnprocessedValue;
           lastUnprocessedValue = null;
-          sink.add(await asyncMapper(lastValue as T));
+          if (isClosed) {
+            sink.add(await asyncMapper(lastValue as T));
+          }
         }
       } catch (e) {
-        sink.addError(e);
+        if (!isClosed) {
+          sink.addError(e);
+        }
         isProcessing = false;
       }
     }
@@ -35,7 +40,10 @@ extension StreamExtensions<T> on Stream<T> {
           isProcessing = false;
           sink.addError(error, stackTrace);
         },
-        handleDone: (EventSink<R> sink) => sink.close(),
+        handleDone: (EventSink<R> sink) {
+          sink.close();
+          isClosed = true;
+        },
       ),
     );
   }

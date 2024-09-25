@@ -66,6 +66,7 @@ dependencies:
       url: https://github.com/xmartlabs/tflite_flutter_helper.git
       # TODO: change to master when PR merged
       ref: image-conversion-fix
+  wakelock_plus: 1.2.8
 
 dev_dependencies:
   flutter_test:

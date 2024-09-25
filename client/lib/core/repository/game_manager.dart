@@ -9,6 +9,7 @@ import 'package:simon_ai/core/model/game_response.dart';
 import 'package:simon_ai/core/model/hand_gesture_with_position.dart';
 import 'package:simon_ai/core/model/hand_gestures.dart';
 import 'package:simon_ai/ui/extensions/stream_extensions.dart';
+import 'package:wakelock_plus/wakelock_plus.dart';
 
 class GameManager {
   final GestureProcessor _gestureProcessor;
@@ -36,6 +37,7 @@ class GameManager {
     _gestureStreamController = StreamController<dynamic>.broadcast();
     _processNewFrameController = StreamController<dynamic>.broadcast();
     unawaited(_initializeStream());
+    unawaited(WakelockPlus.enable());
   }
 
   Future<void> _initializeStream() async {
@@ -78,6 +80,7 @@ class GameManager {
     await _gestureProcessor.close();
     await _gestureStreamController.close();
     restartStream();
+    await WakelockPlus.disable();
   }
 
   void restartStream() {

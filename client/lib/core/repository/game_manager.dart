@@ -19,7 +19,9 @@ class GameManager {
 
   Stream<HandGestureWithPosition> get gameSequenceStream =>
       _gameSequenceController.stream
-          .transform(GameGestureStabilizationTransformer());
+          .transform(GameGestureStabilizationTransformer())
+          .distinct((previous, next) => previous.gesture == next.gesture)
+          .asBroadcastStream();
 
   Stream<dynamic> get gestureStream => _gestureStreamController.stream;
   late Stream<dynamic> _newFrameStream;

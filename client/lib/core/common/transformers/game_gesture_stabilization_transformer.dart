@@ -15,33 +15,10 @@ const _logVerbose = true;
 /// the transformer will emit the gesture.
 class GameGestureStabilizationTransformer extends StreamTransformerBase<
     HandGestureWithPosition, HandGestureWithPosition> {
-  @override
-  Stream<HandGestureWithPosition> bind(
-    Stream<HandGestureWithPosition> stream,
-  ) =>
-      stream
-          .transform(
-            _StabilizationBufferWithTimeOrCount(
-              maxUnrecognizedGesturesInWindow: Platform.isAndroid ? 5 : 2,
-              minWindowSize: Platform.isAndroid ? 3 : 5,
-              timeSpan: Platform.isAndroid
-                  ? const Duration(milliseconds: 500)
-                  : const Duration(seconds: 1),
-              windowSize: 5,
-            ),
-          )
-          .asyncMap((bufferedGestures) => bufferedGestures.lastOrNull)
-          .whereNotNull()
-          .distinct((previous, next) => previous.gesture == next.gesture)
-          .asBroadcastStream();
-}
-
-class _StabilizationBufferWithTimeOrCount extends StreamTransformerBase<
-    HandGestureWithPosition, List<HandGestureWithPosition>> {
-  final int windowSize;
-  final int minWindowSize;
-  final int maxUnrecognizedGesturesInWindow;
-  final Duration timeSpan;
+  final int _windowSize;
+  final int _minWindowSize;
+  final int _maxUnrecognizedGesturesInWindow;
+  final Duration _timeSpan;
 
   late StreamSubscription<HandGestureWithPosition> _subscription;
   late StreamController<List<HandGestureWithPosition>> _controller;
@@ -52,12 +29,19 @@ class _StabilizationBufferWithTimeOrCount extends StreamTransformerBase<
   var _requireEmmit = false;
   var _currentUnrecognizedGestures = 0;
 
-  _StabilizationBufferWithTimeOrCount({
-    required this.maxUnrecognizedGesturesInWindow,
-    required this.minWindowSize,
-    required this.timeSpan,
-    required this.windowSize,
-  });
+  GameGestureStabilizationTransformer({
+    int? maxUnrecognizedGesturesInWindow,
+    int? minWindowSize,
+    Duration? timeSpan,
+    int? windowSize,
+  })  : _timeSpan = timeSpan ??
+            (Platform.isAndroid
+                ? const Duration(milliseconds: 500)
+                : const Duration(seconds: 1)),
+        _windowSize = windowSize = 5,
+        _minWindowSize = minWindowSize ?? (Platform.isAndroid ? 3 : 5),
+        _maxUnrecognizedGesturesInWindow =
+            maxUnrecognizedGesturesInWindow ?? (Platform.isAndroid ? 5 : 2);
 
   void _resetBuffer() {
     _buffer.clear();
@@ -69,7 +53,7 @@ class _StabilizationBufferWithTimeOrCount extends StreamTransformerBase<
 
   void _emitBuffer() {
     if (_buffer.isNotEmpty) {
-      if (_buffer.length >= minWindowSize) {
+      if (_buffer.length >= _minWindowSize) {
         _requireEmmit = false;
         _controller.add(List.unmodifiable(_buffer));
         if (_logEnabled) {
@@ -91,7 +75,7 @@ class _StabilizationBufferWithTimeOrCount extends StreamTransformerBase<
   void _handleNewGesture(HandGestureWithPosition gestureWithPosition) {
     if (gestureWithPosition.gesture == HandGesture.unrecognized) {
       _currentUnrecognizedGestures++;
-      if (_currentUnrecognizedGestures >= maxUnrecognizedGesturesInWindow) {
+      if (_currentUnrecognizedGestures >= _maxUnrecognizedGesturesInWindow) {
         _resetBuffer();
         if (_logVerbose) {
           Logger.i("Max unrecognized gestures reached, reset window");
@@ -106,7 +90,7 @@ class _StabilizationBufferWithTimeOrCount extends StreamTransformerBase<
     }
 
     _buffer.add(gestureWithPosition);
-    _timer ??= Timer(timeSpan, _emitBuffer);
+    _timer ??= Timer(_timeSpan, _emitBuffer);
 
     final firstGesture = _buffer.first;
     final isConsistent =
@@ -118,15 +102,13 @@ class _StabilizationBufferWithTimeOrCount extends StreamTransformerBase<
       _resetBuffer();
     }
 
-    if (_buffer.length >= windowSize || _requireEmmit) {
+    if (_buffer.length >= _windowSize || _requireEmmit) {
       _emitBuffer();
     }
   }
 
   @override
-  Stream<List<HandGestureWithPosition>> bind(
-    Stream<HandGestureWithPosition> stream,
-  ) {
+  Stream<HandGestureWithPosition> bind(Stream<HandGestureWithPosition> stream) {
     _controller = StreamController<List<HandGestureWithPosition>>(
       onCancel: () => _subscription.cancel(),
       onResume: () => _subscription.resume(),
@@ -144,6 +126,8 @@ class _StabilizationBufferWithTimeOrCount extends StreamTransformerBase<
       cancelOnError: false,
     );
 
-    return _controller.stream;
+    return _controller.stream
+        .map((bufferedGestures) => bufferedGestures.lastOrNull)
+        .whereNotNull();
   }
 }

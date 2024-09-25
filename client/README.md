@@ -1,5 +1,20 @@
 # SimonSays AI
 
+The **SimonSays AI Game** is a modern twist on the classic **Simon Says** game. In the original Simon Says, players must follow a sequence of instructions, like "Simon says touch your nose," but only if the command is prefixed with "Simon says." If players perform an action without the prefix, they lose. Another popular variant uses colors and sound sequences, where players replicate increasingly complex color patterns displayed by the game.
+
+![Game demo](assets/readme_assets/game_demo.gif)
+*Figure 1: A small demo of the SimonSays AI game showcasing the hand gesture recognition and gameplay mechanics.*
+
+#### **How This Version is Different:**
+In our version, instead of colors or spoken commands, the game uses **hand gestures** that players must replicate using a camera. Here's how it works:
+
+- **Gestures as Commands:** Instead of colored buttons, the game displays a sequence of hand gestures represented as emojis.
+- **Player Input:** The player must replicate the sequence of gestures in the correct order using their hand in front of the camera.
+- **Real-Time Recognition:** The game uses machine learning models to recognize and evaluate the player’s gestures in real time.
+- **Progression:** Just like in the original Simon Says, each round adds a new gesture to the sequence, making it progressively more challenging.
+
+This modern version retains the core challenge of memory and coordination from the original **Simon Says**, but adds a layer of interactivity with **gesture-based input**, creating a more immersive and engaging gameplay experience.
+
 ## Arch Overview
 
 The project is divided into two main folders:
@@ -31,25 +46,46 @@ These components are injected in the Cubits using [get_it][get_it].
 
 The **Gesture Classifier** is responsible for real-time hand gesture recognition in the Simon Says game, using four TensorFlow Lite models. Each model performs a specific task, with the output of one model serving as the input for the next, ensuring accurate sequential processing.
 
-#### **Model 1: Hand Bounding Box Detection**
+![Model sequence](assets/readme_assets/models_sequence.png)
+*Figure 2: Sequence of models used in the Gesture Classifier.*
 
-- Detects the hand's bounding box from the camera feed.
-- Focuses on the area where the hand is located, cropping the image to improve subsequent model performance.
+- **Model 1: Hand Bounding Box Detection**
 
-#### **Model 2: Hand Landmarks Detection**
+  - Detects the hand's bounding box from the camera feed.
+  - Focuses on the area where the hand is located, cropping the image to improve subsequent model performance.
 
-- Processes the cropped hand image from **Model 1**.
-- Detects 21 key landmarks (joints and finger positions) on the hand, providing a detailed structure for gesture recognition.
+- **Model 2: Hand Landmarks Detection**
 
-#### **Model 3: Landmarks to Embedding**
+  - Processes the cropped hand image from **Model 1**.
+  - Detects 21 key landmarks (joints and finger positions) on the hand, providing a detailed structure for gesture recognition.
 
-- Analyzes the landmarks detected by **Model 2**.
-- Returns the embedding corresponding to the landmarks received as input.
+- **Model 3: Landmarks to Embedding**
 
-#### **Model 4: Gesture recognizer**
+  - Analyzes the landmarks detected by **Model 2**.
+  - Returns the embedding corresponding to the landmarks received as input.
 
-- Evaluates the embedding from **Model 3** in the context of the models.
-- Returns the gesture label corresponding to the gesture recognized from the image given at the begining in the **Model 1** which can be one of these: unrecognized, closed, open, pointing_up, thumbs_down, thumbs_up, victory, love.
+- **Model 4: Gesture recognizer**
+
+  - Evaluates the embedding from **Model 3** in the context of the models.
+  - Returns the gesture label corresponding to the gesture recognized from the image given at the begining in the **Model 1** which can be one of these: unrecognized, closed, open, pointing_up, thumbs_down, thumbs_up, victory, love.
+
+### **MediaPipe Integration**
+
+Apart from using **TFLite models** for gesture recognition we also use [MediaPipe][mediapipe] as an alternative approach. **MediaPipe** is a powerful framework for building multimodal machine learning pipelines, developed by Google. It provides pre-trained models for hand gesture recognition and other ML tasks, offering high performance for real-time applications.
+
+#### **Why Use MediaPipe?**
+While **MediaPipe** offers robust gesture recognition models, the current lack of a dedicated Flutter library for fully integrating its solutions required us to implement it using **native code**. This allowed us to take advantage of MediaPipe’s performance, but the integration process was more complex.
+
+#### **Integration with Flutter Using Method Channels**
+To integrate **MediaPipe** with our Flutter application, we utilized **method channels**, which allow communication between the Flutter app (Dart code) and platform-specific native code (Android and iOS). Here’s how we approached it:
+
+- **Native Implementation:** MediaPipe was set up natively on both Android and iOS platforms using Java/Kotlin for Android and Swift for iOS.
+- **Method Channels:** We used Flutter’s method channels to send and receive data between the native MediaPipe code and the Flutter app. This allowed us to pass the camera feed to the native side, where MediaPipe processed the gestures.
+- **Gesture Recognition:** Once the gestures were processed by MediaPipe, the results were sent back to Flutter via method channels, where they were used to update the game logic in real-time.
+
+#### **Limitations and Benefits**
+- **Benefit:** MediaPipe provides highly efficient gesture recognition and improved performance over the previous solution.
+- **Limitation:** The integration is limited to using MediaPipe’s pre-trained models, and currently, there’s no direct Flutter library for easily customizing models.
 
 
 ### **Isolate-Based Model Execution**
@@ -62,7 +98,7 @@ This is the class that defines the data passed to the isolate, including the ima
 
 ### **Game Manager**
 
-The **Game Manager** handles the core logic of the game, evaluating user gestures to determine if they match the expected sequence. It interacts with the gesture recognition pipeline and ensures smooth gameplay.
+The [Game Manager][game_manager] handles the core logic of the game, evaluating user gestures to determine if they match the expected sequence. It interacts with the gesture recognition pipeline and ensures smooth gameplay.
 
 #### **Key Responsibilities:**
 
@@ -81,99 +117,20 @@ The **Game Manager** handles the core logic of the game, evaluating user gesture
 
 ## Project Overview
 
-### Assets
+This project is based on the [Xmartlabs Flutter Template][flutter_template_link]. You can check it out for more details and to understand the foundational structure of this project.
 
-The [`/assets/`](./assets) folder contains the assets used by the application, such as images, fonts, and other files.
-
-### Environments
-
-The environment variables are defined in the `default.env` file located in [`/environments/`](./environments) folder.
-You can read more information about the environment variables in the [README.md](./environments/README.md) file.
-
-## Project Setup
-
-The project setup is based on some plugins which generate the required native code.
-
-You can use [project_setup.sh](scripts/project_setup.sh) to reload all project setups.
-
-### Flavor setup: Project name, properties BundleId & Application id
-
-This information is set using [flavorizr], a flutter utility to easily create flavors in your flutter application.
-To change it go to `flavorizr` section in the [pubspec] file.
-
-For example, to add a new flavour, you can do something like:
-
-```yaml
-flavorizr:
-  flavors:
-    qa:
-      app:
-        name: "My Project - QA"
-      android:
-        applicationId: "com.xmartlabs.myproject.qa"
-      ios:
-        bundleId: "com.xmartlabs.myproject.qa"
-```
-
-After a change is made, you need to regenerate your native files.
-You can do that by executing `flutter pub run flutter_flavorizr`.
-
-More information in [flavorizr] page.
-
-### App icons
-
-Icons are generated using [flutter_launcher_icons] plugin.
-To change it go to `flutter_icons` section in the [pubspec] file.
-
-After a change is made, you need to regenerate your native files.
-You can do that by executing `flutter pub run flutter_launcher_icons:main`.
-
-### Splash screen
-
-Splash screen is generated using [flutter_native_splash].
-To change it go to `flutter_native_splash` section in the [pubspec] file.
-
-After a change is made, you need to regenerate your native files.
-You can do that by executing `flutter pub run flutter_native_splash:create`.
-
-Although you can setup a bunch of features in this library, it doesn't provide a way to display animations.
-If you need a more personalized splash screen, you can edit the native code or just remove this library.
-
-### Code generation
-
-Code generation is created using `build_runner` package.\
-To configure this package edit the `build.yaml`\
-To add new files to watch for code generation add the following lines:
-
-```
-targets:
-  $default:
-    builders:
-      # Previous configured builders
-      ...
-      builder_package_name:
-        generate_for:
-          # Example glob for only the Dart files under `lib/models`
-          - lib/models/*.dart
-```
-
-To create generated code run `clean_up.sh` under [scripts] folder or the following command: `flutter pub run build_runner build --delete-conflicting-outputs`
-
-### Pre Push config
-
-In order to setup pre-push hook you need to go to the root of the project and run `git config core.hooksPath .github/hooks`
 
 [design_system]: https://github.com/xmartlabs/simon-ai/tree/main/design_system
-[flavorizr]: https://pub.dev/packages/flutter_flavorizr
-[flutter_launcher_icons]: https://pub.dev/packages/flutter_launcher_icons
-[flutter_native_splash]: https://pub.dev/packages/flutter_native_splash
-[pubspec]: ./pubspec.yaml
 [app_router]: https://github.com/xmartlabs/simon-ai/blob/main/lib/ui/app_router.dart
 [bloc]: https://bloclibrary.dev
 [auto_route]: https://pub.dev/packages/auto_route
-[flutter_screenutil]: https://pub.dev/packages/flutter_screenutil
 [models]: https://github.com/xmartlabs/simon-ai/tree/main/lib/core/model
 [repository_folder]: https://github.com/xmartlabs/simon-ai/tree/main/lib/core/repository
 [data_source_folder]: https://github.com/xmartlabs/simon-ai/tree/main/lib/core/source
 [get_it]: https://pub.dev/packages/get_it
 [scripts]: https://github.com/xmartlabs/simon-ai/tree/main/scripts
+[flutter_template_link]: https://github.com/xmartlabs/flutter-template
+[game_manager]: https://github.com/xmartlabs/simon-ai/tree/main/lib/core/repository/game_manager.dart
+[game_classifier]: https://github.com/xmartlabs/simon-ai/tree/main/lib/core/hand_models/hand_gesture_classifier/hand_classifier.dart
+[mediapipe]: https://ai.google.dev/edge/mediapipe/solutions/guide
+[isolates]: https://docs.flutter.dev/perf/isolates

@@ -45,13 +45,11 @@ Future _initSdks() async {
   ]);
 }
 
-Future _initFirebaseSdks() async {
-  await Firebase.initializeApp(
-    options: DefaultFirebaseOptions.currentPlatform(
-      await Config.getEnvFromBundleId(),
-    ),
-  );
-}
+Future _initFirebaseSdks() async => Firebase.initializeApp(
+      options: DefaultFirebaseOptions.currentPlatform(
+        await Config.getEnvFromBundleId(),
+      ),
+    );
 
 class MyApp extends StatelessWidget {
   const MyApp({super.key});

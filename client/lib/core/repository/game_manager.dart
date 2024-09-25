@@ -37,7 +37,7 @@ class GameManager {
     _gestureStreamController = StreamController<dynamic>.broadcast();
     _processNewFrameController = StreamController<dynamic>.broadcast();
     unawaited(_initializeStream());
-    unawaited(WakelockPlus.enable());
+    WakelockPlus.enable().ignore();
   }
 
   Future<void> _initializeStream() async {

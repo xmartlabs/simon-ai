@@ -13,6 +13,7 @@ void main() {
       // ignore: lines_longer_than_80_chars
       'Input: love, victory, pointingUp. Output: love, love, victory, love, victory, pointingUp',
       () async {
+    TestWidgetsFlutterBinding.ensureInitialized();
     final gameHandler = GameManager(MockGestureProcessor())..init();
     final game = gameHandler.startSequence([
       HandGesture.love,

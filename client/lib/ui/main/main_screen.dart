@@ -5,6 +5,7 @@ import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:simon_ai/core/di/di_provider.dart';
 import 'package:simon_ai/ui/resources.dart';
 import 'package:simon_ai/ui/router/app_router.dart';
+import 'package:simon_ai/ui/common/app_feedback.dart';
 
 class MainScreen extends StatelessWidget {
   const MainScreen({super.key});
@@ -25,6 +26,7 @@ class MainScreen extends StatelessWidget {
       locale: const Locale.fromSubtags(languageCode: 'es'),
       builder: (context, child) {
         Resources.setup(context);
+        AppFeedback.init(context);
         return child!;
       },
     );

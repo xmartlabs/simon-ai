@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:dartx/dartx_io.dart';
 import 'package:logger/logger.dart' as dart_log;
 import 'package:logger/logger.dart';
 import 'package:path_provider/path_provider.dart';
@@ -8,7 +9,7 @@ import 'package:simon_ai/core/common/crash_report_tool.dart';
 import 'package:stack_trace/stack_trace.dart';
 
 interface class Logger {
-  static String? logFilePath;
+  static const String logFilePath = '/logs/logs.txt';
   static final CrashReportTool _crashReportTool = Config.crashlyticsEnabled
       ? CrashlyticsCrashReportTool()
       : NoOpsCrashReportTool();
@@ -23,18 +24,19 @@ interface class Logger {
 
   static Future init() async {
     await _crashReportTool.init();
-    await _initFileLogger();
+    await _initConsoleFileOutput();
     i('Logger initialized, date: ${DateTime.now()}');
   }
 
-  static Future<void> _initFileLogger() async {
+  static Future<void> _initConsoleFileOutput() async {
     final Directory output = await getTemporaryDirectory();
-    const fileName = 'log.txt';
-    logFilePath = '${output.path}/logs/$fileName';
-    _outputList.add(dart_log.AdvancedFileOutput(
-      path: '${output.path}/logs/',
-      latestFileName: fileName,
-    ));
+    final logFile = File('${output.path}$logFilePath');
+    _outputList.add(
+      AdvancedFileOutput(
+        path: logFile.dirName,
+        latestFileName: logFile.name,
+      ),
+    );
   }
 
   static void v(dynamic message, [dynamic error, StackTrace? stackTrace]) =>

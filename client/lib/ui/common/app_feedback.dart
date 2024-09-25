@@ -21,29 +21,37 @@ class AppFeedback {
 
   static void _displayFeedbackWidget(BuildContext context) {
     BetterFeedback.of(context).show((feedback) async {
-      final screenshotFilePath =
-          await _writeImageToStorage(feedback.screenshot);
-      final packageInfo = await PackageInfo.fromPlatform();
-      final appName = packageInfo.appName;
-      final version = packageInfo.version;
-      final buildNumber = packageInfo.buildNumber;
       final Email email = Email(
         body: feedback.text,
-        subject: 'Feedback $appName - v$version($buildNumber)',
+        subject: await _subject(),
         recipients: [Config.feedbackEmail],
-        attachmentPaths:
-            [screenshotFilePath, Logger.logFilePath].nonNulls.toList(),
+        attachmentPaths: await _attachmentFiles(feedback),
         isHTML: false,
       );
       await FlutterEmailSender.send(email);
     });
   }
 
+  static Future<List<String>> _attachmentFiles(UserFeedback feedback) async {
+    final String cacheDirectory = (await getTemporaryDirectory()).path;
+    final screenshotFilePath =
+        await _writeImageToStorage(cacheDirectory, feedback.screenshot);
+    return [screenshotFilePath, cacheDirectory + Logger.logFilePath];
+  }
+
+  static Future<String> _subject() async {
+    final packageInfo = await PackageInfo.fromPlatform();
+    final appName = packageInfo.appName;
+    final version = packageInfo.version;
+    final buildNumber = packageInfo.buildNumber;
+    return 'Feedback $appName - v$version($buildNumber)';
+  }
+
   static Future<String> _writeImageToStorage(
+    String path,
     Uint8List feedbackScreenshot,
   ) async {
-    final Directory output = await getTemporaryDirectory();
-    final String screenshotFilePath = '${output.path}/feedback.png';
+    final String screenshotFilePath = '$path/feedback.png';
     final File screenshotFile = File(screenshotFilePath);
     await screenshotFile.writeAsBytes(feedbackScreenshot);
     return screenshotFilePath;

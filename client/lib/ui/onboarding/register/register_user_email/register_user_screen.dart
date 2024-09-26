@@ -38,7 +38,9 @@ class _SignInContentScreenState extends State<_SignInContentScreen> {
       BlocListener<RegisterUserCubit, RegisterUserBaseState>(
         listener: (context, state) {
           if (state.email != _emailTextController.text) {
+            setState(() {
             _emailTextController.text = state.email ?? '';
+            });
           }
         },
         child: AppScaffold(

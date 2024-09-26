@@ -21,7 +21,7 @@ SignInResponse _$SignInResponseFromJson(Map<String, dynamic> json) {
 /// @nodoc
 mixin _$SignInResponse {
   String get accessToken => throw _privateConstructorUsedError;
-  User get user => throw _privateConstructorUsedError;
+  Player get user => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
@@ -35,9 +35,9 @@ abstract class $SignInResponseCopyWith<$Res> {
           SignInResponse value, $Res Function(SignInResponse) then) =
       _$SignInResponseCopyWithImpl<$Res, SignInResponse>;
   @useResult
-  $Res call({String accessToken, User user});
+  $Res call({String accessToken, Player user});
 
-  $UserCopyWith<$Res> get user;
+  $PlayerCopyWith<$Res> get user;
 }
 
 /// @nodoc
@@ -64,14 +64,14 @@ class _$SignInResponseCopyWithImpl<$Res, $Val extends SignInResponse>
       user: null == user
           ? _value.user
           : user // ignore: cast_nullable_to_non_nullable
-              as User,
+              as Player,
     ) as $Val);
   }
 
   @override
   @pragma('vm:prefer-inline')
-  $UserCopyWith<$Res> get user {
-    return $UserCopyWith<$Res>(_value.user, (value) {
+  $PlayerCopyWith<$Res> get user {
+    return $PlayerCopyWith<$Res>(_value.user, (value) {
       return _then(_value.copyWith(user: value) as $Val);
     });
   }
@@ -85,10 +85,10 @@ abstract class _$$SignInResponseImplCopyWith<$Res>
       __$$SignInResponseImplCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({String accessToken, User user});
+  $Res call({String accessToken, Player user});
 
   @override
-  $UserCopyWith<$Res> get user;
+  $PlayerCopyWith<$Res> get user;
 }
 
 /// @nodoc
@@ -113,7 +113,7 @@ class __$$SignInResponseImplCopyWithImpl<$Res>
       user: null == user
           ? _value.user
           : user // ignore: cast_nullable_to_non_nullable
-              as User,
+              as Player,
     ));
   }
 }
@@ -130,7 +130,7 @@ class _$SignInResponseImpl implements _SignInResponse {
   @override
   final String accessToken;
   @override
-  final User user;
+  final Player user;
 
   @override
   String toString() {
@@ -169,7 +169,7 @@ class _$SignInResponseImpl implements _SignInResponse {
 abstract class _SignInResponse implements SignInResponse {
   factory _SignInResponse(
       {required final String accessToken,
-      required final User user}) = _$SignInResponseImpl;
+      required final Player user}) = _$SignInResponseImpl;
 
   factory _SignInResponse.fromJson(Map<String, dynamic> json) =
       _$SignInResponseImpl.fromJson;
@@ -177,7 +177,7 @@ abstract class _SignInResponse implements SignInResponse {
   @override
   String get accessToken;
   @override
-  User get user;
+  Player get user;
   @override
   @JsonKey(ignore: true)
   _$$SignInResponseImplCopyWith<_$SignInResponseImpl> get copyWith =>

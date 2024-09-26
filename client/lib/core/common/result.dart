@@ -1,6 +1,9 @@
 // ignore_for_file: no-object-declaration
 
+import 'dart:async';
+
 import 'package:equatable/equatable.dart';
+import 'package:simon_ai/core/common/logger.dart';
 // Code: https://gist.githubusercontent.com/CassiusPacheco/409e66e220ce563440df00385f39ac98/raw/d0506e4b3dadbcf5a21d9cc23b300ecbcc8c57d6/data_result.dart
 
 /// This abstraction contains either a success data of generic type `S` or a
@@ -15,6 +18,16 @@ import 'package:equatable/equatable.dart';
 /// `DataResult.failure(error)`. It can be validated by calling `isFailure`
 /// first.
 abstract class Result<S> extends Equatable {
+  static Future<Result<S>> fromFuture<S>(
+    FutureOr<S> Function() computation,
+  ) async {
+    try {
+      return Result.success(await computation());
+    } catch (e) {
+      return Result.failure(e);
+    }
+  }
+
   static Result<S> failure<S>(Object failure) => _FailureResult(failure);
 
   static Result<S> success<S>(S data) => _SuccessResult(data);
@@ -141,4 +154,20 @@ class _FailureResult<S> extends Result<S> {
     T Function(S data) fnData,
   ) =>
       fnFailure(_value);
+}
+
+extension FutureExtensions<T> on Future<Result<T>> {
+  Future<Result<R>> thenSuccess<R>(
+    FutureOr<R> Function(T value) onValue,
+  ) async {
+    try {
+      final result = await this;
+      return result.isSuccess
+          ? Result.success(await onValue(result.data as T))
+          : Result.failure<R>(result.error!);
+    } catch (error, stacktrace) {
+      Logger.w('Future error', error, stacktrace);
+      return Result.failure<R>(error);
+    }
+  }
 }

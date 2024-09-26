@@ -9,8 +9,8 @@ import 'package:flutter_animate/flutter_animate.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:simon_ai/ui/common/app_constrained_widget.dart';
-import 'package:simon_ai/ui/onboarding/register_username/register_username_cubit.dart';
-import 'package:simon_ai/ui/section/error_handler/global_event_handler_cubit.dart';
+import 'package:simon_ai/ui/onboarding/register/register_player_section_cubit.dart';
+import 'package:simon_ai/ui/onboarding/register/register_username/register_username_cubit.dart';
 
 @RoutePage()
 class RegisterUsernameScreen extends StatelessWidget {
@@ -18,8 +18,9 @@ class RegisterUsernameScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) => BlocProvider(
-        create: (context) =>
-            RegisterUsernameCubit(context.read<GlobalEventHandlerCubit>()),
+        create: (context) => RegisterUsernameCubit(
+          context.read<RegisterPlayerSectionCubit>(),
+        ),
         child: const _RegisterUsernameContent(),
       );
 }
@@ -102,12 +103,20 @@ class _SignInFormState extends State<_SignInForm> {
   }
 
   @override
-  Widget build(BuildContext context) => AppConstrainedWidget(
-        child: AppTextField(
-          controller: _usernameTextController,
-          keyboardType: TextInputType.name,
-          onChange: (String text) =>
-              _registerRegisterUsernameCubit.changeUsername(text),
+  Widget build(BuildContext context) =>
+      BlocListener<RegisterUsernameCubit, RegisterUsernameState>(
+        listener: (context, state) {
+          if (state.username != _usernameTextController.text) {
+            _usernameTextController.text = state.username;
+          }
+        },
+        child: AppConstrainedWidget(
+          child: AppTextField(
+            controller: _usernameTextController,
+            keyboardType: TextInputType.name,
+            onChange: (String text) =>
+                _registerRegisterUsernameCubit.changeUsername(text),
+          ),
         ),
       );
 }

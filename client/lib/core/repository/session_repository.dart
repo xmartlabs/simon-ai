@@ -3,7 +3,6 @@ import 'dart:async';
 import 'package:hive/hive.dart';
 import 'package:simon_ai/core/common/extension/stream_future_extensions.dart';
 import 'package:simon_ai/core/common/result.dart';
-import 'package:simon_ai/core/model/user.dart';
 import 'package:simon_ai/core/services/firebase_auth.dart';
 import 'package:simon_ai/core/source/auth_local_source.dart';
 import 'package:simon_ai/core/source/auth_remote_source.dart';
@@ -18,7 +17,7 @@ class SessionRepository {
     this._authRemoteSource,
     this._firebaseAuthService,
   ) {
-    _firebaseAuthService.authStateChanges.listen((user) {
+    _firebaseAuthService.authStateChanges.skip(1).listen((user) {
       if (user == null) {
         logOut();
       }
@@ -27,10 +26,6 @@ class SessionRepository {
 
   Stream<String?> get currentUserEmail =>
       _firebaseAuthService.authStateChanges.map((user) => user?.email);
-
-  Stream<User?> getUserInfo() => _authLocalSource.getUser();
-
-  Future<User?> getUser() => _authLocalSource.getUser().first;
 
   Future<Result<void>> signInUser({
     required String email,
@@ -44,34 +39,10 @@ class SessionRepository {
     return result;
   }
 
-  Future<Result<void>> registerPlayer({
-    required String email,
-    String? username,
-  }) =>
-      _authLocalSource
-          .saveUserInfo(
-            User(email: email, name: username),
-          )
-          .mapToResult();
-
-  Future<Result<void>> saveUsername(String username) async {
-    final user = await _authLocalSource.getUser().first;
-    return _authLocalSource
-        .saveUserInfo(user!.copyWith(name: username))
-        .mapToResult();
-  }
-
-  Future<Result<void>> saveEmail(String email) async {
-    final user = await _authLocalSource.getUser().first ?? User(email: email);
-    return _authLocalSource
-        .saveUserInfo(user.copyWith(email: email))
-        .mapToResult();
-  }
-
   Future<void> logOut() async {
     await Hive.deleteFromDisk();
     await _firebaseAuthService.signOut();
     await _authLocalSource.saveUserToken(null);
-    await _authLocalSource.saveUserInfo(null);
+    await _authLocalSource.saveCurrentPlayer(null);
   }
 }

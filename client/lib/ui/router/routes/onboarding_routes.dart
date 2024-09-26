@@ -23,16 +23,22 @@ class OnboardingRoutes implements NavegableRoute {
         children: [
           AutoRoute(
             initial: true,
-            path: registerUserRoute,
-            page: RegisterUserRoute.page,
+            page: RegisterPlayerSectionRoute.page,
+            children: [
+              AutoRoute(
+                initial: true,
+                path: registerUserRoute,
+                page: RegisterUserRoute.page,
+              ),
+              AutoRoute(
+                path: registerUsernameRoute,
+                page: RegisterUsernameRoute.page,
+              ),
+            ],
           ),
           AutoRoute(
             path: adminAreaRoute,
             page: AdminAreaRoute.page,
-          ),
-          AutoRoute(
-            path: registerUsernameRoute,
-            page: RegisterUsernameRoute.page,
           ),
           AutoRoute(
             path: onboardingHandlerRoute,

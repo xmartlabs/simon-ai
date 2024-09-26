@@ -51,6 +51,12 @@ abstract class _$AppRouter extends RootStackRouter {
         child: const OnboardingHandlerScreen(),
       );
     },
+    RegisterPlayerSectionRoute.name: (routeData) {
+      return AutoRoutePage<dynamic>(
+        routeData: routeData,
+        child: const RegisterPlayerSection(),
+      );
+    },
     RegisterUserRoute.name: (routeData) {
       return AutoRoutePage<dynamic>(
         routeData: routeData,
@@ -164,6 +170,20 @@ class OnboardingHandlerRoute extends PageRouteInfo<void> {
         );
 
   static const String name = 'OnboardingHandlerRoute';
+
+  static const PageInfo<void> page = PageInfo<void>(name);
+}
+
+/// generated route for
+/// [RegisterPlayerSection]
+class RegisterPlayerSectionRoute extends PageRouteInfo<void> {
+  const RegisterPlayerSectionRoute({List<PageRouteInfo>? children})
+      : super(
+          RegisterPlayerSectionRoute.name,
+          initialChildren: children,
+        );
+
+  static const String name = 'RegisterPlayerSectionRoute';
 
   static const PageInfo<void> page = PageInfo<void>(name);
 }

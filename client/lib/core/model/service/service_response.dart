@@ -1,3 +1,5 @@
+//ignore_for_file: unused-files, unused-code
+
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:simon_ai/core/common/network_exceptions.dart';
 

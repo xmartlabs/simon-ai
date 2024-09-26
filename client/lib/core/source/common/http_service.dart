@@ -1,4 +1,5 @@
-// ignore_for_file: long-parameter-list
+// ignore_for_file: long-parameter-list, unused-code
+
 import 'dart:core';
 
 import 'package:dio/dio.dart';

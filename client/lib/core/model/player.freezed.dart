@@ -3,7 +3,7 @@
 // ignore_for_file: type=lint
 // ignore_for_file: unused_element, deprecated_member_use, deprecated_member_use_from_same_package, use_function_type_syntax_for_parameters, unnecessary_const, avoid_init_to_null, invalid_override_different_default_values_named, prefer_expression_function_bodies, annotate_overrides, invalid_annotation_target, unnecessary_question_mark
 
-part of 'user.dart';
+part of 'player.dart';
 
 // **************************************************************************
 // FreezedGenerator
@@ -14,33 +14,33 @@ T _$identity<T>(T value) => value;
 final _privateConstructorUsedError = UnsupportedError(
     'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#adding-getters-and-methods-to-our-models');
 
-User _$UserFromJson(Map<String, dynamic> json) {
-  return _User.fromJson(json);
+Player _$PlayerFromJson(Map<String, dynamic> json) {
+  return _Player.fromJson(json);
 }
 
 /// @nodoc
-mixin _$User {
+mixin _$Player {
   String get email => throw _privateConstructorUsedError;
   String? get name => throw _privateConstructorUsedError;
   int get points => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
-  $UserCopyWith<User> get copyWith => throw _privateConstructorUsedError;
+  $PlayerCopyWith<Player> get copyWith => throw _privateConstructorUsedError;
 }
 
 /// @nodoc
-abstract class $UserCopyWith<$Res> {
-  factory $UserCopyWith(User value, $Res Function(User) then) =
-      _$UserCopyWithImpl<$Res, User>;
+abstract class $PlayerCopyWith<$Res> {
+  factory $PlayerCopyWith(Player value, $Res Function(Player) then) =
+      _$PlayerCopyWithImpl<$Res, Player>;
   @useResult
   $Res call({String email, String? name, int points});
 }
 
 /// @nodoc
-class _$UserCopyWithImpl<$Res, $Val extends User>
-    implements $UserCopyWith<$Res> {
-  _$UserCopyWithImpl(this._value, this._then);
+class _$PlayerCopyWithImpl<$Res, $Val extends Player>
+    implements $PlayerCopyWith<$Res> {
+  _$PlayerCopyWithImpl(this._value, this._then);
 
   // ignore: unused_field
   final $Val _value;
@@ -72,20 +72,21 @@ class _$UserCopyWithImpl<$Res, $Val extends User>
 }
 
 /// @nodoc
-abstract class _$$UserImplCopyWith<$Res> implements $UserCopyWith<$Res> {
-  factory _$$UserImplCopyWith(
-          _$UserImpl value, $Res Function(_$UserImpl) then) =
-      __$$UserImplCopyWithImpl<$Res>;
+abstract class _$$PlayerImplCopyWith<$Res> implements $PlayerCopyWith<$Res> {
+  factory _$$PlayerImplCopyWith(
+          _$PlayerImpl value, $Res Function(_$PlayerImpl) then) =
+      __$$PlayerImplCopyWithImpl<$Res>;
   @override
   @useResult
   $Res call({String email, String? name, int points});
 }
 
 /// @nodoc
-class __$$UserImplCopyWithImpl<$Res>
-    extends _$UserCopyWithImpl<$Res, _$UserImpl>
-    implements _$$UserImplCopyWith<$Res> {
-  __$$UserImplCopyWithImpl(_$UserImpl _value, $Res Function(_$UserImpl) _then)
+class __$$PlayerImplCopyWithImpl<$Res>
+    extends _$PlayerCopyWithImpl<$Res, _$PlayerImpl>
+    implements _$$PlayerImplCopyWith<$Res> {
+  __$$PlayerImplCopyWithImpl(
+      _$PlayerImpl _value, $Res Function(_$PlayerImpl) _then)
       : super(_value, _then);
 
   @pragma('vm:prefer-inline')
@@ -95,7 +96,7 @@ class __$$UserImplCopyWithImpl<$Res>
     Object? name = freezed,
     Object? points = null,
   }) {
-    return _then(_$UserImpl(
+    return _then(_$PlayerImpl(
       email: null == email
           ? _value.email
           : email // ignore: cast_nullable_to_non_nullable
@@ -115,11 +116,11 @@ class __$$UserImplCopyWithImpl<$Res>
 /// @nodoc
 
 @JsonSerializable()
-class _$UserImpl implements _User {
-  _$UserImpl({required this.email, this.name, this.points = 0});
+class _$PlayerImpl implements _Player {
+  _$PlayerImpl({required this.email, this.name, this.points = 0});
 
-  factory _$UserImpl.fromJson(Map<String, dynamic> json) =>
-      _$$UserImplFromJson(json);
+  factory _$PlayerImpl.fromJson(Map<String, dynamic> json) =>
+      _$$PlayerImplFromJson(json);
 
   @override
   final String email;
@@ -131,14 +132,14 @@ class _$UserImpl implements _User {
 
   @override
   String toString() {
-    return 'User(email: $email, name: $name, points: $points)';
+    return 'Player(email: $email, name: $name, points: $points)';
   }
 
   @override
   bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$UserImpl &&
+            other is _$PlayerImpl &&
             (identical(other.email, email) || other.email == email) &&
             (identical(other.name, name) || other.name == name) &&
             (identical(other.points, points) || other.points == points));
@@ -151,24 +152,24 @@ class _$UserImpl implements _User {
   @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
-  _$$UserImplCopyWith<_$UserImpl> get copyWith =>
-      __$$UserImplCopyWithImpl<_$UserImpl>(this, _$identity);
+  _$$PlayerImplCopyWith<_$PlayerImpl> get copyWith =>
+      __$$PlayerImplCopyWithImpl<_$PlayerImpl>(this, _$identity);
 
   @override
   Map<String, dynamic> toJson() {
-    return _$$UserImplToJson(
+    return _$$PlayerImplToJson(
       this,
     );
   }
 }
 
-abstract class _User implements User {
-  factory _User(
+abstract class _Player implements Player {
+  factory _Player(
       {required final String email,
       final String? name,
-      final int points}) = _$UserImpl;
+      final int points}) = _$PlayerImpl;
 
-  factory _User.fromJson(Map<String, dynamic> json) = _$UserImpl.fromJson;
+  factory _Player.fromJson(Map<String, dynamic> json) = _$PlayerImpl.fromJson;
 
   @override
   String get email;
@@ -178,6 +179,6 @@ abstract class _User implements User {
   int get points;
   @override
   @JsonKey(ignore: true)
-  _$$UserImplCopyWith<_$UserImpl> get copyWith =>
+  _$$PlayerImplCopyWith<_$PlayerImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }

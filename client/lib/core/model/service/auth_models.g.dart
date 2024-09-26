@@ -9,7 +9,7 @@ part of 'auth_models.dart';
 _$SignInResponseImpl _$$SignInResponseImplFromJson(Map<String, dynamic> json) =>
     _$SignInResponseImpl(
       accessToken: json['access_token'] as String,
-      user: User.fromJson(json['user'] as Map<String, dynamic>),
+      user: Player.fromJson(json['user'] as Map<String, dynamic>),
     );
 
 Map<String, dynamic> _$$SignInResponseImplToJson(

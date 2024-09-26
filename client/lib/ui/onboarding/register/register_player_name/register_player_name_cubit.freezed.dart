@@ -3,7 +3,7 @@
 // ignore_for_file: type=lint
 // ignore_for_file: unused_element, deprecated_member_use, deprecated_member_use_from_same_package, use_function_type_syntax_for_parameters, unnecessary_const, avoid_init_to_null, invalid_override_different_default_values_named, prefer_expression_function_bodies, annotate_overrides, invalid_annotation_target, unnecessary_question_mark
 
-part of 'register_username_cubit.dart';
+part of 'register_player_name_cubit.dart';
 
 // **************************************************************************
 // FreezedGenerator
@@ -15,7 +15,7 @@ final _privateConstructorUsedError = UnsupportedError(
     'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#adding-getters-and-methods-to-our-models');
 
 /// @nodoc
-mixin _$RegisterUsernameState {
+mixin _$RegisterPlayerNameState {
   String get username => throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
@@ -51,24 +51,24 @@ mixin _$RegisterUsernameState {
       throw _privateConstructorUsedError;
 
   @JsonKey(ignore: true)
-  $RegisterUsernameStateCopyWith<RegisterUsernameState> get copyWith =>
+  $RegisterPlayerNameStateCopyWith<RegisterPlayerNameState> get copyWith =>
       throw _privateConstructorUsedError;
 }
 
 /// @nodoc
-abstract class $RegisterUsernameStateCopyWith<$Res> {
-  factory $RegisterUsernameStateCopyWith(RegisterUsernameState value,
-          $Res Function(RegisterUsernameState) then) =
-      _$RegisterUsernameStateCopyWithImpl<$Res, RegisterUsernameState>;
+abstract class $RegisterPlayerNameStateCopyWith<$Res> {
+  factory $RegisterPlayerNameStateCopyWith(RegisterPlayerNameState value,
+          $Res Function(RegisterPlayerNameState) then) =
+      _$RegisterPlayerNameStateCopyWithImpl<$Res, RegisterPlayerNameState>;
   @useResult
   $Res call({String username});
 }
 
 /// @nodoc
-class _$RegisterUsernameStateCopyWithImpl<$Res,
-        $Val extends RegisterUsernameState>
-    implements $RegisterUsernameStateCopyWith<$Res> {
-  _$RegisterUsernameStateCopyWithImpl(this._value, this._then);
+class _$RegisterPlayerNameStateCopyWithImpl<$Res,
+        $Val extends RegisterPlayerNameState>
+    implements $RegisterPlayerNameStateCopyWith<$Res> {
+  _$RegisterPlayerNameStateCopyWithImpl(this._value, this._then);
 
   // ignore: unused_field
   final $Val _value;
@@ -91,7 +91,7 @@ class _$RegisterUsernameStateCopyWithImpl<$Res,
 
 /// @nodoc
 abstract class _$$InitialImplCopyWith<$Res>
-    implements $RegisterUsernameStateCopyWith<$Res> {
+    implements $RegisterPlayerNameStateCopyWith<$Res> {
   factory _$$InitialImplCopyWith(
           _$InitialImpl value, $Res Function(_$InitialImpl) then) =
       __$$InitialImplCopyWithImpl<$Res>;
@@ -102,7 +102,7 @@ abstract class _$$InitialImplCopyWith<$Res>
 
 /// @nodoc
 class __$$InitialImplCopyWithImpl<$Res>
-    extends _$RegisterUsernameStateCopyWithImpl<$Res, _$InitialImpl>
+    extends _$RegisterPlayerNameStateCopyWithImpl<$Res, _$InitialImpl>
     implements _$$InitialImplCopyWith<$Res> {
   __$$InitialImplCopyWithImpl(
       _$InitialImpl _value, $Res Function(_$InitialImpl) _then)
@@ -132,7 +132,7 @@ class _$InitialImpl implements _Initial {
 
   @override
   String toString() {
-    return 'RegisterUsernameState.initial(username: $username)';
+    return 'RegisterPlayerNameState.initial(username: $username)';
   }
 
   @override
@@ -210,7 +210,7 @@ class _$InitialImpl implements _Initial {
   }
 }
 
-abstract class _Initial implements RegisterUsernameState {
+abstract class _Initial implements RegisterPlayerNameState {
   const factory _Initial({required final String username}) = _$InitialImpl;
 
   @override

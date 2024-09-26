@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:simon_ai/core/common/config.dart';
+import 'package:simon_ai/ui/extensions/widget_list_extensions.dart';
 import 'package:simon_ai/ui/game_screen/game_screen_cubit.dart';
 
 class FinishGameScreen extends StatelessWidget {
@@ -57,7 +58,7 @@ class FinishGameScreen extends StatelessWidget {
                 ),
               ),
             ),
-        ],
+        ].fadeInAnimation,
       );
 }
 

@@ -51,16 +51,22 @@ abstract class _$AppRouter extends RootStackRouter {
         child: const OnboardingHandlerScreen(),
       );
     },
-    RegisterUserRoute.name: (routeData) {
+    RegisterPlayerEmailRoute.name: (routeData) {
       return AutoRoutePage<dynamic>(
         routeData: routeData,
-        child: const RegisterUserScreen(),
+        child: const RegisterPlayerEmailScreen(),
       );
     },
-    RegisterUsernameRoute.name: (routeData) {
+    RegisterPlayerNameRoute.name: (routeData) {
       return AutoRoutePage<dynamic>(
         routeData: routeData,
-        child: const RegisterUsernameScreen(),
+        child: const RegisterPlayerNameScreen(),
+      );
+    },
+    RegisterPlayerSectionRoute.name: (routeData) {
+      return AutoRoutePage<dynamic>(
+        routeData: routeData,
+        child: const RegisterPlayerSection(),
       );
     },
     TutorialExampleRoute.name: (routeData) {
@@ -169,29 +175,43 @@ class OnboardingHandlerRoute extends PageRouteInfo<void> {
 }
 
 /// generated route for
-/// [RegisterUserScreen]
-class RegisterUserRoute extends PageRouteInfo<void> {
-  const RegisterUserRoute({List<PageRouteInfo>? children})
+/// [RegisterPlayerEmailScreen]
+class RegisterPlayerEmailRoute extends PageRouteInfo<void> {
+  const RegisterPlayerEmailRoute({List<PageRouteInfo>? children})
       : super(
-          RegisterUserRoute.name,
+          RegisterPlayerEmailRoute.name,
           initialChildren: children,
         );
 
-  static const String name = 'RegisterUserRoute';
+  static const String name = 'RegisterPlayerEmailRoute';
 
   static const PageInfo<void> page = PageInfo<void>(name);
 }
 
 /// generated route for
-/// [RegisterUsernameScreen]
-class RegisterUsernameRoute extends PageRouteInfo<void> {
-  const RegisterUsernameRoute({List<PageRouteInfo>? children})
+/// [RegisterPlayerNameScreen]
+class RegisterPlayerNameRoute extends PageRouteInfo<void> {
+  const RegisterPlayerNameRoute({List<PageRouteInfo>? children})
       : super(
-          RegisterUsernameRoute.name,
+          RegisterPlayerNameRoute.name,
           initialChildren: children,
         );
 
-  static const String name = 'RegisterUsernameRoute';
+  static const String name = 'RegisterPlayerNameRoute';
+
+  static const PageInfo<void> page = PageInfo<void>(name);
+}
+
+/// generated route for
+/// [RegisterPlayerSection]
+class RegisterPlayerSectionRoute extends PageRouteInfo<void> {
+  const RegisterPlayerSectionRoute({List<PageRouteInfo>? children})
+      : super(
+          RegisterPlayerSectionRoute.name,
+          initialChildren: children,
+        );
+
+  static const String name = 'RegisterPlayerSectionRoute';
 
   static const PageInfo<void> page = PageInfo<void>(name);
 }

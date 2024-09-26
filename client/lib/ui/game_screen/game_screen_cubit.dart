@@ -9,7 +9,7 @@ import 'package:simon_ai/core/model/game_response.dart';
 import 'package:simon_ai/core/model/hand_gesture_with_position.dart';
 import 'package:simon_ai/core/model/hand_gestures.dart';
 import 'package:simon_ai/core/repository/game_manager.dart';
-import 'package:simon_ai/core/repository/user_repository.dart';
+import 'package:simon_ai/core/repository/player_repository.dart';
 import 'package:simon_ai/ui/router/app_router.dart';
 
 part 'game_screen_cubit.freezed.dart';
@@ -20,11 +20,13 @@ class GameScreenCubit extends Cubit<GameScreenState> {
   final GameManager _gameHandler = DiProvider.get();
   late StreamSubscription<GameResponse> _gameStreamSubscription;
   final Stopwatch _gameDuration = Stopwatch();
-  final UserRepository _userRepository = DiProvider.get();
+  final PlayerRepository _userRepository = DiProvider.get();
+
   Stream<HandGesture> get sequenceStream => _sequenceController.stream;
   StreamController<HandGesture> _sequenceController =
       StreamController<HandGesture>.broadcast();
   final audioPlayer = AudioPlayer();
+
   Stream<int> get fpsStream => _gameHandler.fps;
 
   final Duration durationBetweenDisplayedGestures = const Duration(seconds: 1);
@@ -159,17 +161,12 @@ class GameScreenCubit extends Cubit<GameScreenState> {
     }
   }
 
-  void endGame() {
+  Future<void> endGame() async {
     _gameDuration.stop();
-    _gameStreamSubscription.cancel();
-    _sequenceController.close();
-    final currentUser = _userRepository.gameUser!;
-    _userRepository.updateUser(
-      currentUser.copyWith(
-        points: state.currentPoints,
-      ),
-    );
-    _sequenceController.close();
+    await _gameStreamSubscription.cancel();
+    await _sequenceController.close();
+    await _userRepository.updatePoints(state.currentPoints);
+    await _sequenceController.close();
 
     emit(
       state.copyWith(

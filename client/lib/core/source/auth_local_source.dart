@@ -1,38 +1,39 @@
 import 'dart:convert';
 
 import 'package:simon_ai/core/common/store/secure_storage_cached_source.dart';
-import 'package:simon_ai/core/model/user.dart';
+import 'package:simon_ai/core/model/player.dart';
 import 'package:simon_ai/core/source/common/local_shared_preferences_storage.dart';
 import 'package:stock/stock.dart';
 
 class AuthLocalSource {
   static const _storageAuthPrefix = 'AuthLocalSource';
   static const _keyToken = '$_storageAuthPrefix.token';
-  static const _keyUser = '$_storageAuthPrefix.user';
+  static const _keyCurrentPlayer = '$_storageAuthPrefix.player';
 
   late SourceOfTruth<String, String> _userTokenStorage;
-  late SourceOfTruth<String, User> _userStorage;
+  late SourceOfTruth<String, Player> _userStorage;
 
   AuthLocalSource(LocalSharedPreferencesStorage storage) {
     final secureStorage = SharedPreferencesSourceOfTruth(storage);
     _userTokenStorage = secureStorage;
-    _userStorage = secureStorage.mapToUsingMapper(UserStockTypeMapper());
+    _userStorage = secureStorage.mapToUsingMapper(PlayerStockTypeMapper());
   }
 
   Stream<String?> getUserToken() => _userTokenStorage.reader(_keyToken);
 
-  Stream<User?> getUser() => _userStorage.reader(_keyUser);
+  Stream<Player?> getCurrentPlayer() => _userStorage.reader(_keyCurrentPlayer);
 
   Future<void> saveUserToken(String? token) =>
       _userTokenStorage.write(_keyToken, token);
 
-  Future<void> saveUserInfo(User? user) => _userStorage.write(_keyUser, user);
+  Future<void> saveCurrentPlayer(Player? user) =>
+      _userStorage.write(_keyCurrentPlayer, user);
 }
 
-class UserStockTypeMapper implements StockTypeMapper<String, User> {
+class PlayerStockTypeMapper implements StockTypeMapper<String, Player> {
   @override
-  User fromInput(String value) => User.fromJson(json.decode(value));
+  Player fromInput(String value) => Player.fromJson(json.decode(value));
 
   @override
-  String fromOutput(User value) => json.encode(value.toJson());
+  String fromOutput(Player value) => json.encode(value.toJson());
 }

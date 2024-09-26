@@ -6,6 +6,11 @@ extension StringExtensions on String {
   bool get isValidEmail =>
       contains(RegExp(r'^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$'));
 
+  String removePatternSuffix(Pattern suffix) {
+    final atIndex = indexOf(suffix);
+    return (atIndex != -1) ? substring(0, atIndex) : this;
+  }
+
   String get camelCaseToSnakeCase {
     final sb = StringBuffer();
     var first = true;

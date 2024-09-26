@@ -15,6 +15,14 @@ const _logVerbose = false;
 /// the transformer will emit the gesture.
 class GameGestureStabilizationTransformer extends StreamTransformerBase<
     HandGestureWithPosition, HandGestureWithPosition> {
+  static final _defaultTimeSpan = Platform.isAndroid
+      ? const Duration(milliseconds: 500)
+      : const Duration(seconds: 1);
+  static const _defaultWindowSize = 5;
+  static final _defaultMinWindowSize = Platform.isAndroid ? 3 : 5;
+  static final _defaultMaxUnrecognizedGesturesInWindow =
+      Platform.isAndroid ? 5 : 3;
+
   final int _windowSize;
   final int _minWindowSize;
   final int _maxUnrecognizedGesturesInWindow;
@@ -34,14 +42,11 @@ class GameGestureStabilizationTransformer extends StreamTransformerBase<
     int? minWindowSize,
     Duration? timeSpan,
     int? windowSize,
-  })  : _timeSpan = timeSpan ??
-            (Platform.isAndroid
-                ? const Duration(milliseconds: 500)
-                : const Duration(seconds: 1)),
-        _windowSize = windowSize = 5,
-        _minWindowSize = minWindowSize ?? (Platform.isAndroid ? 3 : 5),
-        _maxUnrecognizedGesturesInWindow =
-            maxUnrecognizedGesturesInWindow ?? (Platform.isAndroid ? 5 : 3);
+  })  : _timeSpan = timeSpan ?? _defaultTimeSpan,
+        _windowSize = windowSize = _defaultWindowSize,
+        _minWindowSize = minWindowSize ?? _defaultMinWindowSize,
+        _maxUnrecognizedGesturesInWindow = maxUnrecognizedGesturesInWindow ??
+            _defaultMaxUnrecognizedGesturesInWindow;
 
   void _resetBuffer() {
     _buffer.clear();

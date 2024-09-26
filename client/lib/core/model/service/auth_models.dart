@@ -1,5 +1,5 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
-import 'package:simon_ai/core/model/user.dart';
+import 'package:simon_ai/core/model/player.dart';
 
 part 'auth_models.freezed.dart';
 part 'auth_models.g.dart';
@@ -9,7 +9,7 @@ class SignInResponse with _$SignInResponse {
   @JsonSerializable()
   factory SignInResponse({
     required String accessToken,
-    required User user,
+    required Player user,
   }) = _SignInResponse;
 
   factory SignInResponse.fromJson(Map<String, dynamic> json) =>

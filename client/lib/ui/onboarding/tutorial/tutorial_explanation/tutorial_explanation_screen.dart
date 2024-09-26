@@ -8,6 +8,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:simon_ai/ui/common/app_constrained_widget.dart';
+import 'package:simon_ai/ui/extensions/widget_list_extensions.dart';
 import 'package:simon_ai/ui/onboarding/tutorial/tutorial_explanation/tutorial_explanation_cubit.dart';
 
 @RoutePage()
@@ -120,7 +121,7 @@ class _InitialExplanationStep extends StatelessWidget {
                 text: context.localizations.continue_button,
               ),
             ),
-          ],
+          ].fadeInAnimation,
         ),
       );
 
@@ -183,7 +184,7 @@ class _HandsExplanationStep extends StatelessWidget {
               ],
             ),
           ),
-        ],
+        ].fadeInAnimation,
       );
 }
 
@@ -226,6 +227,6 @@ class _PermissionsExplanationStep extends StatelessWidget {
             },
             text: context.localizations.activate_camera,
           ),
-        ],
+        ].fadeInAnimation,
       );
 }

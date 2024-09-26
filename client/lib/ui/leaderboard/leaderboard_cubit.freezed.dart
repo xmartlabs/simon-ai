@@ -16,21 +16,21 @@ final _privateConstructorUsedError = UnsupportedError(
 
 /// @nodoc
 mixin _$LeaderboardState {
-  User? get currentUser => throw _privateConstructorUsedError;
-  List<User>? get users => throw _privateConstructorUsedError;
+  Player? get currentUser => throw _privateConstructorUsedError;
+  List<Player>? get users => throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
-    required TResult Function(User? currentUser, List<User>? users) state,
+    required TResult Function(Player? currentUser, List<Player>? users) state,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
-    TResult? Function(User? currentUser, List<User>? users)? state,
+    TResult? Function(Player? currentUser, List<Player>? users)? state,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
-    TResult Function(User? currentUser, List<User>? users)? state,
+    TResult Function(Player? currentUser, List<Player>? users)? state,
     required TResult orElse(),
   }) =>
       throw _privateConstructorUsedError;
@@ -62,9 +62,9 @@ abstract class $LeaderboardStateCopyWith<$Res> {
           LeaderboardState value, $Res Function(LeaderboardState) then) =
       _$LeaderboardStateCopyWithImpl<$Res, LeaderboardState>;
   @useResult
-  $Res call({User? currentUser, List<User>? users});
+  $Res call({Player? currentUser, List<Player>? users});
 
-  $UserCopyWith<$Res>? get currentUser;
+  $PlayerCopyWith<$Res>? get currentUser;
 }
 
 /// @nodoc
@@ -87,22 +87,22 @@ class _$LeaderboardStateCopyWithImpl<$Res, $Val extends LeaderboardState>
       currentUser: freezed == currentUser
           ? _value.currentUser
           : currentUser // ignore: cast_nullable_to_non_nullable
-              as User?,
+              as Player?,
       users: freezed == users
           ? _value.users
           : users // ignore: cast_nullable_to_non_nullable
-              as List<User>?,
+              as List<Player>?,
     ) as $Val);
   }
 
   @override
   @pragma('vm:prefer-inline')
-  $UserCopyWith<$Res>? get currentUser {
+  $PlayerCopyWith<$Res>? get currentUser {
     if (_value.currentUser == null) {
       return null;
     }
 
-    return $UserCopyWith<$Res>(_value.currentUser!, (value) {
+    return $PlayerCopyWith<$Res>(_value.currentUser!, (value) {
       return _then(_value.copyWith(currentUser: value) as $Val);
     });
   }
@@ -116,10 +116,10 @@ abstract class _$$LeaderboardStateImplCopyWith<$Res>
       __$$LeaderboardStateImplCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({User? currentUser, List<User>? users});
+  $Res call({Player? currentUser, List<Player>? users});
 
   @override
-  $UserCopyWith<$Res>? get currentUser;
+  $PlayerCopyWith<$Res>? get currentUser;
 }
 
 /// @nodoc
@@ -140,11 +140,11 @@ class __$$LeaderboardStateImplCopyWithImpl<$Res>
       currentUser: freezed == currentUser
           ? _value.currentUser
           : currentUser // ignore: cast_nullable_to_non_nullable
-              as User?,
+              as Player?,
       users: freezed == users
           ? _value._users
           : users // ignore: cast_nullable_to_non_nullable
-              as List<User>?,
+              as List<Player>?,
     ));
   }
 }
@@ -152,14 +152,14 @@ class __$$LeaderboardStateImplCopyWithImpl<$Res>
 /// @nodoc
 
 class _$LeaderboardStateImpl implements _LeaderboardState {
-  const _$LeaderboardStateImpl({this.currentUser, final List<User>? users})
+  const _$LeaderboardStateImpl({this.currentUser, final List<Player>? users})
       : _users = users;
 
   @override
-  final User? currentUser;
-  final List<User>? _users;
+  final Player? currentUser;
+  final List<Player>? _users;
   @override
-  List<User>? get users {
+  List<Player>? get users {
     final value = _users;
     if (value == null) return null;
     if (_users is EqualUnmodifiableListView) return _users;
@@ -196,7 +196,7 @@ class _$LeaderboardStateImpl implements _LeaderboardState {
   @override
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
-    required TResult Function(User? currentUser, List<User>? users) state,
+    required TResult Function(Player? currentUser, List<Player>? users) state,
   }) {
     return state(currentUser, users);
   }
@@ -204,7 +204,7 @@ class _$LeaderboardStateImpl implements _LeaderboardState {
   @override
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
-    TResult? Function(User? currentUser, List<User>? users)? state,
+    TResult? Function(Player? currentUser, List<Player>? users)? state,
   }) {
     return state?.call(currentUser, users);
   }
@@ -212,7 +212,7 @@ class _$LeaderboardStateImpl implements _LeaderboardState {
   @override
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
-    TResult Function(User? currentUser, List<User>? users)? state,
+    TResult Function(Player? currentUser, List<Player>? users)? state,
     required TResult orElse(),
   }) {
     if (state != null) {
@@ -252,13 +252,13 @@ class _$LeaderboardStateImpl implements _LeaderboardState {
 
 abstract class _LeaderboardState implements LeaderboardState {
   const factory _LeaderboardState(
-      {final User? currentUser,
-      final List<User>? users}) = _$LeaderboardStateImpl;
+      {final Player? currentUser,
+      final List<Player>? users}) = _$LeaderboardStateImpl;
 
   @override
-  User? get currentUser;
+  Player? get currentUser;
   @override
-  List<User>? get users;
+  List<Player>? get users;
   @override
   @JsonKey(ignore: true)
   _$$LeaderboardStateImplCopyWith<_$LeaderboardStateImpl> get copyWith =>

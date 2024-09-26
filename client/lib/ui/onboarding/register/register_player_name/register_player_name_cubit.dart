@@ -4,14 +4,14 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:simon_ai/ui/onboarding/register/register_player_section_cubit.dart';
 
-part 'register_username_cubit.freezed.dart';
-part 'register_username_state.dart';
+part 'register_player_name_cubit.freezed.dart';
+part 'register_player_name_state.dart';
 
-class RegisterUsernameCubit extends Cubit<RegisterUsernameState> {
+class RegisterPlayerNameCubit extends Cubit<RegisterPlayerNameState> {
   final RegisterPlayerHandler _registerPlayerHandler;
 
-  RegisterUsernameCubit(this._registerPlayerHandler)
-      : super(const RegisterUsernameState.initial(username: '')) {
+  RegisterPlayerNameCubit(this._registerPlayerHandler)
+      : super(const RegisterPlayerNameState.initial(username: '')) {
     _registerPlayerHandler.getSuggestedName().then((name) {
       if (name != null) {
         changeUsername(name);

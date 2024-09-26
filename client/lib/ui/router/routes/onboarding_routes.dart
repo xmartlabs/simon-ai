@@ -8,8 +8,8 @@ abstract interface class NavegableRoute {
 class OnboardingRoutes implements NavegableRoute {
   static const String onboarding = 'onboarding';
   static const String onboardingHandlerRoute = OnboardingHandlerRoute.name;
-  static const String registerUserRoute = RegisterUserRoute.name;
-  static const String registerUsernameRoute = RegisterUsernameRoute.name;
+  static const String registerUserRoute = RegisterPlayerEmailRoute.name;
+  static const String registerUsernameRoute = RegisterPlayerNameRoute.name;
   static const String tutorialExplanationRoute = TutorialExplanationRoute.name;
   static const String tutorialExampleRoute = TutorialExampleRoute.name;
   static const String adminAreaRoute = AdminAreaRoute.name;
@@ -28,11 +28,11 @@ class OnboardingRoutes implements NavegableRoute {
               AutoRoute(
                 initial: true,
                 path: registerUserRoute,
-                page: RegisterUserRoute.page,
+                page: RegisterPlayerEmailRoute.page,
               ),
               AutoRoute(
                 path: registerUsernameRoute,
-                page: RegisterUsernameRoute.page,
+                page: RegisterPlayerNameRoute.page,
               ),
             ],
           ),

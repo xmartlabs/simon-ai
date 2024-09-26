@@ -43,5 +43,5 @@ class LeaderboardCubit extends Cubit<LeaderboardState> {
   }
 
   Future<void> restartGame() =>
-      _appRouter.replaceAll([const RegisterUserRoute()]);
+      _appRouter.replaceAll([const RegisterPlayerEmailRoute()]);
 }

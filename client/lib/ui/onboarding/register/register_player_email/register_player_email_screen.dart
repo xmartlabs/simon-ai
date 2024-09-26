@@ -5,20 +5,20 @@ import 'package:design_system/widgets/app_button.dart';
 import 'package:design_system/widgets/app_scaffold.dart';
 import 'package:design_system/widgets/app_text_fields.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_animate/flutter_animate.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:simon_ai/ui/common/app_constrained_widget.dart';
+import 'package:simon_ai/ui/extensions/widget_list_extensions.dart';
 import 'package:simon_ai/ui/onboarding/register/register_player_section_cubit.dart';
-import 'package:simon_ai/ui/onboarding/register/register_user_email/register_user_cubit.dart';
+import 'package:simon_ai/ui/onboarding/register/register_player_email/register_player_email_cubit.dart';
 
 @RoutePage()
-class RegisterUserScreen extends StatelessWidget {
-  const RegisterUserScreen({super.key});
+class RegisterPlayerEmailScreen extends StatelessWidget {
+  const RegisterPlayerEmailScreen({super.key});
 
   @override
   Widget build(BuildContext context) => BlocProvider(
-        create: (context) => RegisterUserCubit(
+        create: (context) => RegisterPlayerEmailCubit(
           context.read<RegisterPlayerSectionCubit>(),
         ),
         child: _SignInContentScreen(),
@@ -31,11 +31,17 @@ class _SignInContentScreen extends StatefulWidget {
 }
 
 class _SignInContentScreenState extends State<_SignInContentScreen> {
-  final _emailTextController = TextEditingController();
+  late TextEditingController _emailTextController;
+
+  @override
+  void initState() {
+    _emailTextController = TextEditingController();
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) =>
-      BlocListener<RegisterUserCubit, RegisterUserBaseState>(
+      BlocListener<RegisterPlayerEmailCubit, RegisterPlayerEmailBaseState>(
         listener: (context, state) {
           if (state.email != _emailTextController.text) {
             _emailTextController.text = state.email ?? '';
@@ -60,8 +66,9 @@ class _SignInContentScreenState extends State<_SignInContentScreen> {
                 padding: EdgeInsets.symmetric(vertical: 16.h, horizontal: 24.w),
                 child: _SignInForm(
                   emailTextController: _emailTextController,
-                  onChanged: (String text) =>
-                      context.read<RegisterUserCubit>().changeEmail(text),
+                  onChanged: (String text) => context
+                      .read<RegisterPlayerEmailCubit>()
+                      .changeEmail(text),
                 ),
               ),
               Padding(
@@ -80,7 +87,8 @@ class _SignInContentScreenState extends State<_SignInContentScreen> {
               Padding(
                 padding: const EdgeInsets.symmetric(vertical: 12.0),
                 child: InkWell(
-                  onTap: context.read<RegisterUserCubit>().goToAdminAdrea,
+                  onTap:
+                      context.read<RegisterPlayerEmailCubit>().goToAdminAdrea,
                   child: Text(
                     context.localizations.admin_area,
                     style: context.theme.textStyles.bodyLarge!.copyWith(
@@ -89,19 +97,7 @@ class _SignInContentScreenState extends State<_SignInContentScreen> {
                   ),
                 ),
               ),
-            ]
-                .animate(
-                  interval: 100.ms,
-                )
-                .fadeIn(
-                  duration: 400.ms,
-                  curve: Curves.easeIn,
-                )
-                .slideY(
-                  duration: 300.ms,
-                  begin: -.5,
-                  curve: Curves.easeOut,
-                ),
+            ].fadeInAnimation,
           ),
         ),
       );
@@ -117,12 +113,11 @@ class _NextButtonSection extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) =>
-      BlocBuilder<RegisterUserCubit, RegisterUserBaseState>(
+      BlocBuilder<RegisterPlayerEmailCubit, RegisterPlayerEmailBaseState>(
         builder: (context, state) => AppButton(
           onPressed: state.isFormValid
               ? () {
-                  context.read<RegisterUserCubit>().saveEmail();
-                  emailTextController.clear();
+                  context.read<RegisterPlayerEmailCubit>().saveEmail();
                   FocusManager.instance.primaryFocus?.unfocus();
                 }
               : null,

@@ -1,4 +1,4 @@
-// ignore_for_file: no-object-declaration
+// ignore_for_file: no-object-declaration, unused-code
 
 import 'dart:async';
 

@@ -27,7 +27,7 @@ class RegisterPlayerSectionCubit extends Cubit<RegisterPlayerSectionState>
   @override
   Future<void> setEmail(String email) {
     this.email = email;
-    return _appRouter.topMostRouter().navigate(const RegisterUsernameRoute());
+    return _appRouter.push(const RegisterPlayerNameRoute());
   }
 
   @override

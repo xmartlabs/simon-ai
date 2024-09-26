@@ -7,18 +7,17 @@ import 'package:simon_ai/core/di/di_provider.dart';
 import 'package:simon_ai/ui/onboarding/register/register_player_section_cubit.dart';
 import 'package:simon_ai/ui/router/app_router.dart';
 
-part 'register_user_cubit.freezed.dart';
-part 'register_user_state.dart';
+part 'register_player_email_cubit.freezed.dart';
+part 'register_player_email_state.dart';
 
-class RegisterUserCubit extends Cubit<RegisterUserBaseState> {
+class RegisterPlayerEmailCubit extends Cubit<RegisterPlayerEmailBaseState> {
   final AppRouter _appRouter = DiProvider.get();
   final RegisterPlayerHandler _registerPlayerHandler;
 
-  RegisterUserCubit(this._registerPlayerHandler)
+  RegisterPlayerEmailCubit(this._registerPlayerHandler)
       : super(
-          const RegisterUserBaseState.state(
+          const RegisterPlayerEmailBaseState.state(
             email: '',
-            nickname: '',
           ),
         ) {
     _registerPlayerHandler.getSuggestedEmail().then((email) {
@@ -29,9 +28,6 @@ class RegisterUserCubit extends Cubit<RegisterUserBaseState> {
   }
 
   void changeEmail(String email) => emit(state.copyWith(email: email));
-
-  void changeNickname(String nickname) =>
-      emit(state.copyWith(nickname: nickname));
 
   Future<void> saveEmail() => _registerPlayerHandler.setEmail(state.email!);
 

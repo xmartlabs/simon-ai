@@ -13,13 +13,11 @@ import 'package:simon_ai/ui/leaderboard/leaderboard_cubit.dart';
 
 @RoutePage()
 class LeaderboardScreen extends StatelessWidget {
-  final bool isAdminLoggedIn;
-
-  const LeaderboardScreen({required this.isAdminLoggedIn, super.key});
+  const LeaderboardScreen({super.key});
 
   @override
   Widget build(BuildContext context) => BlocProvider(
-        create: (_) => LeaderboardCubit(isAdminLoggedIn: isAdminLoggedIn),
+        create: (_) => LeaderboardCubit(),
         child: _LeaderboardContentScreen(),
       );
 }
@@ -77,28 +75,32 @@ class _ResetGameButtonsSection extends StatelessWidget {
   });
 
   @override
-  Widget build(BuildContext context) => Column(
-        children: [
-          AppButton(
-            onPressed: () => context.read<LeaderboardCubit>().restartGame(),
-            text: context.localizations.restart_game,
-          ),
-          if (!context.read<LeaderboardCubit>().isAdminLoggedIn)
-            Padding(
-              padding: const EdgeInsets.symmetric(vertical: 12.0),
-              child: InkWell(
-                onTap: () =>
-                    context.read<LeaderboardCubit>().goToRegistration(),
-                child: Text(
-                  context.localizations.leaderboard_back_home_button,
-                  style: context.theme.textStyles.bodyLarge!.bold().copyWith(
-                        color:
-                            context.theme.customColors.textColor.getShade(500),
-                      ),
+  Widget build(BuildContext context) =>
+      BlocSelector<LeaderboardCubit, LeaderboardState, bool>(
+        selector: (state) => state.isAdminNotAuthenticated,
+        builder: (context, isAdminNotAuthenticated) => Column(
+          children: [
+            AppButton(
+              onPressed: () => context.read<LeaderboardCubit>().restartGame(),
+              text: context.localizations.restart_game,
+            ),
+            if (isAdminNotAuthenticated)
+              Padding(
+                padding: const EdgeInsets.symmetric(vertical: 12.0),
+                child: InkWell(
+                  onTap: () =>
+                      context.read<LeaderboardCubit>().goToRegistration(),
+                  child: Text(
+                    context.localizations.leaderboard_back_home_button,
+                    style: context.theme.textStyles.bodyLarge!.bold().copyWith(
+                          color: context.theme.customColors.textColor
+                              .getShade(500),
+                        ),
+                  ),
                 ),
               ),
-            ),
-        ],
+          ],
+        ),
       );
 }
 

@@ -1,6 +1,6 @@
 import 'dart:async';
+import 'dart:collection';
 
-import 'package:dartx/dartx.dart';
 import 'package:mutex/mutex.dart';
 
 typedef Processor<T, R> = FutureOr<R> Function(T);
@@ -12,7 +12,7 @@ class ProcessWhileAvailableTransformer<T, R>
   final Set<Processor> _processors;
 
   final _mutex = Mutex();
-  final List<T?> _unprocessedValues = [];
+  final Queue<T> _unprocessedQueue = Queue<T>();
 
   ProcessWhileAvailableTransformer(Iterable<Processor> processors)
       : _processors = processors.toSet(),
@@ -26,13 +26,13 @@ class ProcessWhileAvailableTransformer<T, R>
     try {
       T? currentValue = value;
       do {
-        sink.add(await processor(value));
+        final event = await processor(currentValue);
+        sink.add(event);
         // ignore: avoid-redundant-async
         await _mutex.protect(() async {
-          currentValue = _unprocessedValues.firstOrNull;
-          if (currentValue != null) {
-            _unprocessedValues.removeAt(0);
-          }
+          currentValue = _unprocessedQueue.isEmpty
+              ? null
+              : _unprocessedQueue.removeFirst();
         });
       } while (currentValue != null && !_isClosed);
     } catch (e) {
@@ -46,8 +46,11 @@ class ProcessWhileAvailableTransformer<T, R>
     // ignore: avoid-redundant-async
     _mutex.protect(() async {
       if (_availableProcessors.isEmpty) {
-        _unprocessedValues.add(value);
-        _availableProcessors.takeLast(_processors.length);
+        _unprocessedQueue.addLast(value);
+        if (_unprocessedQueue.length > _processors.length) {
+          // Drop the oldest value when the queue is full
+          _unprocessedQueue.removeFirst();
+        }
       } else {
         final processor = _availableProcessors.removeAt(0);
         unawaited(

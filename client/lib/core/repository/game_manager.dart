@@ -59,21 +59,20 @@ class GameManager {
     _newFrameStream = _processNewFrameController.stream;
     _newFrameStream
         .transform(
-          ProcessWhileAvailableTransformer(
+          ProcessWhileAvailableTransformer<dynamic, HandGestureWithPosition>(
             _gestureProcessorPool.processors.map(
               (processor) => (frame) => _processNewFrame(processor, frame),
             ),
           ),
         )
-        // ignore: no-empty-block
-        .listen((event) {});
+        .listen(addGesture);
   }
 
   void processFrame(dynamic frame) {
     _processNewFrameController.add(frame);
   }
 
-  Future<void> _processNewFrame(
+  Future<HandGestureWithPosition> _processNewFrame(
     GestureProcessor processor,
     dynamic newFrame,
   ) async {
@@ -85,12 +84,10 @@ class GameManager {
 
     final result = await processor.processFrame(newFrame);
     _gestureStreamController.add(result);
-    addGesture(
-      (
-        gesture: result.gesture,
-        gesturePosition: result.keyPoints.centerCoordinates,
-        boundingBox: result.cropData,
-      ),
+    return (
+      gesture: result.gesture,
+      gesturePosition: result.keyPoints.centerCoordinates,
+      boundingBox: result.cropData,
     );
   }
 

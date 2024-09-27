@@ -24,12 +24,10 @@ class GameManager {
 
   Stream<HandGestureWithPosition> get gameSequenceStream =>
       _gameSequenceController.stream
-          .transform(GameGestureStabilizationTransformer())
           .distinct((previous, next) => previous.gesture == next.gesture)
           .asBroadcastStream();
 
   Stream<dynamic> get gestureStream => _gestureStreamController.stream;
-  late Stream<dynamic> _newFrameStream;
 
   late StreamController<dynamic> _gestureStreamController;
   late StreamController<dynamic> _processNewFrameController;
@@ -56,8 +54,7 @@ class GameManager {
           '${_gestureProcessorPool.processors.map((it) => it.fps).join(',')}');
     });
 
-    _newFrameStream = _processNewFrameController.stream;
-    _newFrameStream
+    _processNewFrameController.stream
         .transform(
           ProcessWhileAvailableTransformer<dynamic, HandGestureWithPosition>(
             _gestureProcessorPool.processors.map(
@@ -65,6 +62,7 @@ class GameManager {
             ),
           ),
         )
+        .transform(GameGestureStabilizationTransformer())
         .listen(addGesture);
   }
 

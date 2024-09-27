@@ -40,9 +40,13 @@ abstract class _$AppRouter extends RootStackRouter {
       );
     },
     LeaderboardRoute.name: (routeData) {
+      final args = routeData.argsAs<LeaderboardRouteArgs>();
       return AutoRoutePage<dynamic>(
         routeData: routeData,
-        child: const LeaderboardScreen(),
+        child: LeaderboardScreen(
+          isAdminLoggedIn: args.isAdminLoggedIn,
+          key: args.key,
+        ),
       );
     },
     OnboardingHandlerRoute.name: (routeData) {
@@ -148,16 +152,40 @@ class GameRoute extends PageRouteInfo<void> {
 
 /// generated route for
 /// [LeaderboardScreen]
-class LeaderboardRoute extends PageRouteInfo<void> {
-  const LeaderboardRoute({List<PageRouteInfo>? children})
-      : super(
+class LeaderboardRoute extends PageRouteInfo<LeaderboardRouteArgs> {
+  LeaderboardRoute({
+    required bool isAdminLoggedIn,
+    Key? key,
+    List<PageRouteInfo>? children,
+  }) : super(
           LeaderboardRoute.name,
+          args: LeaderboardRouteArgs(
+            isAdminLoggedIn: isAdminLoggedIn,
+            key: key,
+          ),
           initialChildren: children,
         );
 
   static const String name = 'LeaderboardRoute';
 
-  static const PageInfo<void> page = PageInfo<void>(name);
+  static const PageInfo<LeaderboardRouteArgs> page =
+      PageInfo<LeaderboardRouteArgs>(name);
+}
+
+class LeaderboardRouteArgs {
+  const LeaderboardRouteArgs({
+    required this.isAdminLoggedIn,
+    this.key,
+  });
+
+  final bool isAdminLoggedIn;
+
+  final Key? key;
+
+  @override
+  String toString() {
+    return 'LeaderboardRouteArgs{isAdminLoggedIn: $isAdminLoggedIn, key: $key}';
+  }
 }
 
 /// generated route for

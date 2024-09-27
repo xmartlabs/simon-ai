@@ -1,4 +1,5 @@
 import 'package:auto_route/auto_route.dart';
+import 'package:flutter/material.dart';
 import 'package:simon_ai/core/repository/session_repository.dart';
 import 'package:simon_ai/ui/game_screen/game_screen.dart';
 import 'package:simon_ai/ui/leaderboard/leaderboard_screen.dart';

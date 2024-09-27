@@ -16,7 +16,10 @@ class LeaderboardCubit extends Cubit<LeaderboardState> {
 
   late StreamSubscription<List<Player>?> _leaderboardSubscription;
 
-  LeaderboardCubit() : super(const LeaderboardState.state()) {
+  final bool isAdminLoggedIn;
+
+  LeaderboardCubit({required this.isAdminLoggedIn})
+      : super(const LeaderboardState.state()) {
     fetchLeaderboard();
   }
 
@@ -42,6 +45,12 @@ class LeaderboardCubit extends Cubit<LeaderboardState> {
     return super.close();
   }
 
-  Future<void> restartGame() =>
-      _appRouter.replaceAll([const RegisterPlayerEmailRoute()]);
+  Future<void> goToRegistration() => _appRouter.replaceAll(
+        [const RegisterPlayerEmailRoute()],
+        updateExistingRoutes: false,
+      );
+
+  Future<void> restartGame() => isAdminLoggedIn
+      ? goToRegistration()
+      : _appRouter.replaceAll([const GameRoute()], updateExistingRoutes: false);
 }

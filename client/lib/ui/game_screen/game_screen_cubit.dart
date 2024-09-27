@@ -10,6 +10,7 @@ import 'package:simon_ai/core/model/hand_gesture_with_position.dart';
 import 'package:simon_ai/core/model/hand_gestures.dart';
 import 'package:simon_ai/core/repository/game_manager.dart';
 import 'package:simon_ai/core/repository/player_repository.dart';
+import 'package:simon_ai/core/repository/session_repository.dart';
 import 'package:simon_ai/ui/router/app_router.dart';
 
 part 'game_screen_cubit.freezed.dart';
@@ -18,6 +19,7 @@ part 'game_screen_state.dart';
 class GameScreenCubit extends Cubit<GameScreenState> {
   final AppRouter _appRouter = DiProvider.get();
   final GameManager _gameHandler = DiProvider.get();
+  final SessionRepository _sessionRepository = DiProvider.get();
   late StreamSubscription<GameResponse> _gameStreamSubscription;
   final Stopwatch _gameDuration = Stopwatch();
   final PlayerRepository _userRepository = DiProvider.get();
@@ -173,10 +175,11 @@ class GameScreenCubit extends Cubit<GameScreenState> {
         gameState: GameState.ended,
       ),
     );
-
+    final isAdminLoggedIn =
+        await _sessionRepository.currentUserEmail.first != null;
     Future.delayed(
       durationOnFinishScreen,
-      () => _appRouter.push(const LeaderboardRoute()),
+      () => _appRouter.push(LeaderboardRoute(isAdminLoggedIn: isAdminLoggedIn)),
     );
   }
 

@@ -1,22 +1,26 @@
 import 'dart:async';
 
 import 'package:flutter/cupertino.dart';
+import 'package:simon_ai/core/common/logger.dart';
 import 'package:simon_ai/core/common/transformers/game_gesture_stabilization_transformer.dart';
 import 'package:simon_ai/core/common/transformers/game_sequence_logic_transformer.dart';
+import 'package:simon_ai/core/common/transformers/transform_while_available_transformer.dart';
 import 'package:simon_ai/core/hand_models/keypoints/gesture_processor.dart';
 import 'package:simon_ai/core/model/coordinates.dart';
 import 'package:simon_ai/core/model/game_response.dart';
 import 'package:simon_ai/core/model/hand_gesture_with_position.dart';
 import 'package:simon_ai/core/model/hand_gestures.dart';
-import 'package:simon_ai/ui/extensions/stream_extensions.dart';
 import 'package:wakelock_plus/wakelock_plus.dart';
 
 class GameManager {
-  final GestureProcessor _gestureProcessor;
+  final GestureProcessorPool _gestureProcessorPool;
 
   bool _initializedFirstFrame = false;
 
-  Stream<int> get fps => _gestureProcessor.fps;
+  Timer? _fpsTimer;
+  late StreamController<int> _fpsStreamController;
+
+  Stream<int> get fps => _fpsStreamController.stream;
 
   Stream<HandGestureWithPosition> get gameSequenceStream =>
       _gameSequenceController.stream
@@ -31,7 +35,7 @@ class GameManager {
   late StreamController<dynamic> _processNewFrameController;
   late StreamController<HandGestureWithPosition> _gameSequenceController;
 
-  GameManager(this._gestureProcessor);
+  GameManager(this._gestureProcessorPool);
 
   void init() {
     _gameSequenceController =
@@ -43,25 +47,43 @@ class GameManager {
   }
 
   Future<void> _initializeStream() async {
-    await _gestureProcessor.init();
-    _newFrameStream = _processNewFrameController.stream;
-    _newFrameStream.processWhileAvailable(_processNewFrame).listen((event) {
-      // TODO add implementation for after-processing frame
+    await _gestureProcessorPool.init();
+    _fpsStreamController = StreamController<int>.broadcast();
+    _fpsTimer = Timer.periodic(const Duration(seconds: 1), (timer) {
+      final fps = _gestureProcessorPool.fps;
+      _fpsStreamController.add(fps);
+      Logger.i('FPS: $fps, -> '
+          '${_gestureProcessorPool.processors.map((it) => it.fps).join(',')}');
     });
+
+    _newFrameStream = _processNewFrameController.stream;
+    _newFrameStream
+        .transform(
+          ProcessWhileAvailableTransformer(
+            _gestureProcessorPool.processors.map(
+              (processor) => (frame) => _processNewFrame(processor, frame),
+            ),
+          ),
+        )
+        // ignore: no-empty-block
+        .listen((event) {});
   }
 
   void processFrame(dynamic frame) {
     _processNewFrameController.add(frame);
   }
 
-  Future<void> _processNewFrame(dynamic newFrame) async {
+  Future<void> _processNewFrame(
+    GestureProcessor processor,
+    dynamic newFrame,
+  ) async {
     // Wait the transition time
     if (!_initializedFirstFrame) {
       await Future.delayed(const Duration(milliseconds: 1000));
       _initializedFirstFrame = true;
     }
 
-    final result = await _gestureProcessor.processFrame(newFrame);
+    final result = await processor.processFrame(newFrame);
     _gestureStreamController.add(result);
     addGesture(
       (
@@ -79,8 +101,11 @@ class GameManager {
 
   Future<void> close() async {
     await _processNewFrameController.close();
-    await _gestureProcessor.close();
+    await _gestureProcessorPool.close();
+
     await _gestureStreamController.close();
+    _fpsTimer?.cancel();
+    await _fpsStreamController.close();
     restartStream();
     await WakelockPlus.disable();
   }

@@ -2,7 +2,6 @@ import 'dart:async';
 import 'dart:isolate';
 
 import 'package:flutter/services.dart';
-import 'package:simon_ai/core/common/logger.dart';
 import 'package:simon_ai/core/hand_models/hand_canned_gesture/hand_canned_gesture_classifier.dart';
 import 'package:simon_ai/core/hand_models/hand_detector/hand_detector_classifier.dart';
 import 'package:simon_ai/core/hand_models/hand_gesture_classifier/hand_tracking_isolate.dart';
@@ -27,24 +26,32 @@ class GestureMobileProcessor implements GestureProcessor {
   var _currentFrame = 0;
   var _lastCurrentFrame = 0;
   Timer? _fpsTimer;
-  late StreamController<int> _fpsStreamController;
+
+  final int processorIndex;
+  late List<Anchor> anchors;
 
   @override
-  Stream<int> get fps => _fpsStreamController.stream;
+  int fps = 0;
+
+  GestureMobileProcessor(this.processorIndex);
 
   @override
   Future<void> init() async {
     isolate = HandTrackingIsolate();
-    _fpsStreamController = StreamController<int>.broadcast();
+    anchors = await loadAnchorsFromCsv(Assets.models.anchors);
+
     await isolate.start();
-    handTrackingClassifier = HandTrackingClassifier();
-    handDetectorClassifier = HandDetectorClassifier();
-    handGestureEmbedderClassifier = HandGestureEmbedderClassifier();
-    handCannedGestureClassifier = HandCannedGestureClassifier();
+    handTrackingClassifier =
+        HandTrackingClassifier(processorIndex: processorIndex);
+    handDetectorClassifier =
+        HandDetectorClassifier(processorIndex: processorIndex);
+    handGestureEmbedderClassifier =
+        HandGestureEmbedderClassifier(processorIndex: processorIndex);
+    handCannedGestureClassifier =
+        HandCannedGestureClassifier(processorIndex: processorIndex);
     _fpsTimer = Timer.periodic(const Duration(seconds: 1), (timer) {
       final currentFrame = _currentFrame;
-      Logger.i('FPS: ${currentFrame - _lastCurrentFrame}');
-      _fpsStreamController.add(currentFrame - _lastCurrentFrame);
+      fps = currentFrame - _lastCurrentFrame;
       _lastCurrentFrame = currentFrame;
     });
   }
@@ -53,7 +60,6 @@ class GestureMobileProcessor implements GestureProcessor {
   Future<void> close() async {
     isolate.dispose();
     _fpsTimer?.cancel();
-    await _fpsStreamController.close();
   }
 
   @override
@@ -95,9 +101,9 @@ class GestureMobileProcessor implements GestureProcessor {
 
   Future<HandClassifierResultData> _inference(dynamic newFrame) async {
     final responsePort = ReceivePort();
-    final anchors = await loadAnchorsFromCsv(Assets.models.anchors);
-    final HandClasifierIsolateData isolateData = (
+    final HandClassifierIsolateData isolateData = (
       cameraImage: newFrame,
+      processorIndex: processorIndex,
       interpreterAddressList: [
         handTrackingClassifier.interpreter,
         handDetectorClassifier.interpreter,

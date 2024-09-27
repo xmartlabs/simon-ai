@@ -21,7 +21,7 @@ class GameGestureStabilizationTransformer extends StreamTransformerBase<
   static const _defaultWindowSize = 5;
   static final _defaultMinWindowSize = Platform.isAndroid ? 3 : 5;
   static final _defaultMaxUnrecognizedGesturesInWindow =
-      Platform.isAndroid ? 5 : 3;
+      Platform.isAndroid ? 2 : 3;
 
   final int _windowSize;
   final int _minWindowSize;

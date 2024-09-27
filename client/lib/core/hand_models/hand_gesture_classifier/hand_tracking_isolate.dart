@@ -38,9 +38,10 @@ class HandTrackingIsolate {
     sendPort.send(port.sendPort);
 
     port.listen((data) {
-      if (data is HandClasifierIsolateData) {
+      if (data is HandClassifierIsolateData) {
         final MultipleModelHandler<img.Image, HandClassifierResultData>
             handClassifier = HandClassifier(
+          processorIndex: data.processorIndex,
           predefinedAnchors: data.anchors,
           interpreters: data.interpreterAddressList
               .map((address) => Interpreter.fromAddress(address))

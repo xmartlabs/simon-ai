@@ -17,8 +17,10 @@ class HandClassifier
   late final HandGestureEmbedderClassifier handGestureEmbedderClassifier;
   late final HandCannedGestureClassifier handCannedGestureClassifier;
   List<Anchor>? predefinedAnchors;
+  final int processorIndex;
 
   HandClassifier({
+    required this.processorIndex,
     List<Interpreter>? interpreters,
     this.predefinedAnchors,
   }) : _interpreters = interpreters ?? [] {
@@ -31,16 +33,20 @@ class HandClassifier
   @override
   Future<void> loadModel({List<Interpreter>? interpreter}) async {
     handDetectorClassifier = HandDetectorClassifier(
+      processorIndex: processorIndex,
       interpreter: interpreters.handDetectorInterpreter,
       predefinedAnchors: predefinedAnchors,
     );
     handTrackingClassifier = HandTrackingClassifier(
+      processorIndex: processorIndex,
       interpreter: interpreters.handTrackingInterpreter,
     );
     handGestureEmbedderClassifier = HandGestureEmbedderClassifier(
+      processorIndex: processorIndex,
       interpreter: interpreters.handGestureEmbedderInterpreter,
     );
     handCannedGestureClassifier = HandCannedGestureClassifier(
+      processorIndex: processorIndex,
       interpreter: interpreters.handCannedGestureInterpreter,
     );
   }

@@ -14,7 +14,7 @@ void main() {
       'Input: love, victory, pointingUp. Output: love, love, victory, love, victory, pointingUp',
       () async {
     TestWidgetsFlutterBinding.ensureInitialized();
-    final gameHandler = GameManager(MockGestureProcessor())..init();
+    final gameHandler = GameManager(MockGestureProcessorPool())..init();
     final game = gameHandler.startSequence([
       HandGesture.love,
       HandGesture.victory,

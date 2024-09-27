@@ -1,6 +1,7 @@
 import 'dart:math';
 
 import 'package:image/image.dart' as img;
+import 'package:simon_ai/core/common/config.dart';
 import 'package:simon_ai/core/common/extension/interpreter_extensions.dart';
 import 'package:simon_ai/core/common/logger.dart';
 import 'package:simon_ai/core/interfaces/model_interface.dart';
@@ -13,13 +14,11 @@ import 'package:tflite_flutter_helper/tflite_flutter_helper.dart';
 
 class HandDetectorClassifier
     implements ModelHandler<img.Image, HandDetectorResultData> {
-  final bool _logInit = true;
-  final bool _logResultTime = false;
-
   final ModelMetadata model =
       (path: Assets.models.handDetector, inputSize: 192);
 
   late Interpreter _interpreter;
+
   @override
   Interpreter get interpreter => _interpreter;
 
@@ -29,8 +28,10 @@ class HandDetectorClassifier
   List<Anchor>? predefinedAnchors;
 
   final stopwatch = Stopwatch();
+  final int processorIndex;
 
   HandDetectorClassifier({
+    required this.processorIndex,
     Interpreter? interpreter,
     this.predefinedAnchors,
   }) {
@@ -39,7 +40,7 @@ class HandDetectorClassifier
 
   @override
   Future<Interpreter> createModelInterpreter() {
-    final options = InterpreterOptions()..defaultOptions();
+    final options = InterpreterOptions()..defaultOptions(processorIndex);
     return Interpreter.fromAsset(model.path, options: options);
   }
 
@@ -54,7 +55,7 @@ class HandDetectorClassifier
       handDetectorOutputLocations = outputHandDetectorTensors
           .map((e) => TensorBufferFloat(e.shape))
           .toList();
-      if (_logInit && interpreter == null) {
+      if (Config.logMlHandlers && interpreter == null) {
         final handDetectorInputTensors = _interpreter.getInputTensors();
         for (final tensor in outputHandDetectorTensors) {
           Logger.d('Hand Detector Output Tensor: $tensor');
@@ -81,17 +82,23 @@ class HandDetectorClassifier
       model.inputSize,
     );
     stopwatch.stop();
-    final processImageTime = stopwatch.elapsedMilliseconds;
+    final imageToTfImage = stopwatch.elapsedMilliseconds;
 
     stopwatch.start();
     _runHandDetectorModel(inputImage);
-    final croppedImageData = getCroppedImage(image);
 
     stopwatch.stop();
     final processModelTime = stopwatch.elapsedMilliseconds;
-    if (_logResultTime) {
-      Logger.d('Process hand time $processImageTime, '
-          'processModelTime: $processModelTime');
+    stopwatch.start();
+
+    final croppedImageData = getCroppedImage(image);
+
+    stopwatch.stop();
+    final cropTime = stopwatch.elapsedMilliseconds;
+    if (Config.logMlHandlersVerbose) {
+      Logger.d('Image to tfImage $imageToTfImage, '
+          'processModelTime: $processModelTime, '
+          'cropTime: $cropTime');
     }
 
     stopwatch.reset();

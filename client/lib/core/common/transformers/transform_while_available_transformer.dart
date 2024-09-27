@@ -1,19 +1,22 @@
 import 'dart:async';
 
+import 'package:dartx/dartx.dart';
 import 'package:mutex/mutex.dart';
 
 typedef Processor<T, R> = FutureOr<R> Function(T);
 
 class ProcessWhileAvailableTransformer<T, R>
     extends StreamTransformerBase<T, R> {
-  T? _lastUnprocessedValue;
   var _isClosed = false;
-  final Set<Processor> _availableProcessors;
+  final List<Processor> _availableProcessors;
+  final Set<Processor> _processors;
 
   final _mutex = Mutex();
+  final List<T?> _unprocessedValues = [];
 
   ProcessWhileAvailableTransformer(Iterable<Processor> processors)
-      : _availableProcessors = processors.toSet();
+      : _processors = processors.toSet(),
+        _availableProcessors = processors.toList();
 
   Future<void> _processValue(
     Processor processor,
@@ -21,18 +24,17 @@ class ProcessWhileAvailableTransformer<T, R>
     EventSink<R> sink,
   ) async {
     try {
-      sink.add(await processor(value));
-      T? lastValue;
+      T? currentValue = value;
       do {
+        sink.add(await processor(value));
         // ignore: avoid-redundant-async
         await _mutex.protect(() async {
-          lastValue = _lastUnprocessedValue;
-          _lastUnprocessedValue = null;
+          currentValue = _unprocessedValues.firstOrNull;
+          if (currentValue != null) {
+            _unprocessedValues.removeAt(0);
+          }
         });
-        if (lastValue != null && !_isClosed) {
-          sink.add(await processor(value));
-        }
-      } while (lastValue != null && !_isClosed);
+      } while (currentValue != null && !_isClosed);
     } catch (e) {
       if (!_isClosed) {
         sink.addError(e);
@@ -44,14 +46,15 @@ class ProcessWhileAvailableTransformer<T, R>
     // ignore: avoid-redundant-async
     _mutex.protect(() async {
       if (_availableProcessors.isEmpty) {
-        _lastUnprocessedValue = value;
+        _unprocessedValues.add(value);
+        _availableProcessors.takeLast(_processors.length);
       } else {
-        final processor = _availableProcessors.first;
-        _availableProcessors.remove(processor);
+        final processor = _availableProcessors.removeAt(0);
         unawaited(
           _processValue(processor, value, sink).then(
-            (_) =>
-                _mutex.protect(() async => _availableProcessors.add(processor)),
+            (_) => _mutex.protect(
+              () async => _availableProcessors.add(processor),
+            ),
           ),
         );
       }

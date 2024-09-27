@@ -4,6 +4,7 @@ import 'dart:math';
 import 'package:audioplayers/audioplayers.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
+import 'package:simon_ai/core/common/config.dart';
 import 'package:simon_ai/core/di/di_provider.dart';
 import 'package:simon_ai/core/model/game_response.dart';
 import 'package:simon_ai/core/model/hand_gesture_with_position.dart';

@@ -19,7 +19,7 @@ interface class Config {
   static const String userCollection = 'users';
 
   static const cameraResolutionPreset = ResolutionPreset.medium;
-  static const numberOfProcessors = 3;
+  static const numberOfProcessors = 4;
 
   static const logMlHandlers = true;
   static const logMlHandlersVerbose = false;

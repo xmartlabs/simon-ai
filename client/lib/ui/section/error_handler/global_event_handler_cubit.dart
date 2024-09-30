@@ -2,6 +2,7 @@ import 'package:dio/dio.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
+import 'package:simon_ai/core/common/logger.dart';
 
 part 'global_event_handler_cubit.freezed.dart';
 
@@ -17,6 +18,7 @@ class GlobalEventHandlerCubit extends Cubit<GlobalEventHandlerState>
     StackTrace? stackTrace,
     VoidCallback? retry,
   ]) {
+    Logger.w('Handled error', error, stackTrace);
     if (error is DioException &&
         (error.type == DioExceptionType.connectionTimeout ||
             error.type == DioExceptionType.sendTimeout ||

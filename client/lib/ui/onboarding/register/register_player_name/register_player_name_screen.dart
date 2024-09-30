@@ -5,27 +5,28 @@ import 'package:design_system/widgets/app_button.dart';
 import 'package:design_system/widgets/app_scaffold.dart';
 import 'package:design_system/widgets/app_text_fields.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_animate/flutter_animate.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:simon_ai/ui/common/app_constrained_widget.dart';
-import 'package:simon_ai/ui/onboarding/register_username/register_username_cubit.dart';
-import 'package:simon_ai/ui/section/error_handler/global_event_handler_cubit.dart';
+import 'package:simon_ai/ui/extensions/widget_list_extensions.dart';
+import 'package:simon_ai/ui/onboarding/register/register_player_section_cubit.dart';
+import 'package:simon_ai/ui/onboarding/register/register_player_name/register_player_name_cubit.dart';
 
 @RoutePage()
-class RegisterUsernameScreen extends StatelessWidget {
-  const RegisterUsernameScreen({super.key});
+class RegisterPlayerNameScreen extends StatelessWidget {
+  const RegisterPlayerNameScreen({super.key});
 
   @override
   Widget build(BuildContext context) => BlocProvider(
-        create: (context) =>
-            RegisterUsernameCubit(context.read<GlobalEventHandlerCubit>()),
-        child: const _RegisterUsernameContent(),
+        create: (context) => RegisterPlayerNameCubit(
+          context.read<RegisterPlayerSectionCubit>(),
+        ),
+        child: const _RegisterPlayerNameContent(),
       );
 }
 
-class _RegisterUsernameContent extends StatelessWidget {
-  const _RegisterUsernameContent({
+class _RegisterPlayerNameContent extends StatelessWidget {
+  const _RegisterPlayerNameContent({
     super.key,
   });
 
@@ -58,22 +59,10 @@ class _RegisterUsernameContent extends StatelessWidget {
             ),
             AppButton(
               onPressed: () =>
-                  context.read<RegisterUsernameCubit>().registerPlayer(),
+                  context.read<RegisterPlayerNameCubit>().registerPlayer(),
               text: context.localizations.continue_button,
             ),
-          ]
-              .animate(
-                interval: 100.ms,
-              )
-              .fadeIn(
-                duration: 400.ms,
-                curve: Curves.easeIn,
-              )
-              .slideY(
-                duration: 300.ms,
-                begin: -.5,
-                curve: Curves.easeOut,
-              ),
+          ].fadeInAnimation,
         ),
       );
 }
@@ -85,7 +74,7 @@ class _SignInForm extends StatefulWidget {
 
 class _SignInFormState extends State<_SignInForm> {
   final _usernameTextController = TextEditingController();
-  late RegisterUsernameCubit _registerRegisterUsernameCubit;
+  late RegisterPlayerNameCubit _registerRegisterUsernameCubit;
 
   @override
   void dispose() {
@@ -96,18 +85,26 @@ class _SignInFormState extends State<_SignInForm> {
   @override
   void initState() {
     super.initState();
-    _registerRegisterUsernameCubit = context.read<RegisterUsernameCubit>();
+    _registerRegisterUsernameCubit = context.read<RegisterPlayerNameCubit>();
     _usernameTextController.text =
         _registerRegisterUsernameCubit.state.username;
   }
 
   @override
-  Widget build(BuildContext context) => AppConstrainedWidget(
-        child: AppTextField(
-          controller: _usernameTextController,
-          keyboardType: TextInputType.name,
-          onChange: (String text) =>
-              _registerRegisterUsernameCubit.changeUsername(text),
+  Widget build(BuildContext context) =>
+      BlocListener<RegisterPlayerNameCubit, RegisterPlayerNameState>(
+        listener: (context, state) {
+          if (state.username != _usernameTextController.text) {
+            _usernameTextController.text = state.username;
+          }
+        },
+        child: AppConstrainedWidget(
+          child: AppTextField(
+            controller: _usernameTextController,
+            keyboardType: TextInputType.name,
+            onChange: (String text) =>
+                _registerRegisterUsernameCubit.changeUsername(text),
+          ),
         ),
       );
 }

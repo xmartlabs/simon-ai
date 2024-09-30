@@ -5,6 +5,7 @@ import 'package:design_system/widgets/app_button.dart';
 import 'package:design_system/widgets/app_scaffold.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:simon_ai/ui/extensions/widget_list_extensions.dart';
 import 'package:simon_ai/ui/router/app_router.dart';
 
 @RoutePage()
@@ -34,7 +35,7 @@ class OnboardingHandlerScreen extends StatelessWidget {
               ),
             ),
             const SizedBox(height: 20),
-          ],
+          ].fadeInAnimation,
         ),
       );
 }

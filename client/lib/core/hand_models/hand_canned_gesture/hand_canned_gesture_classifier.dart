@@ -1,5 +1,6 @@
 import 'dart:math';
 
+import 'package:simon_ai/core/common/config.dart';
 import 'package:simon_ai/core/common/extension/interpreter_extensions.dart';
 import 'package:simon_ai/core/common/logger.dart';
 import 'package:simon_ai/core/interfaces/model_interface.dart';
@@ -11,9 +12,6 @@ import 'package:tflite_flutter_helper/tflite_flutter_helper.dart';
 
 class HandCannedGestureClassifier
     implements ModelHandler<TensorBufferFloat, HandGesture> {
-  final bool _logInit = true;
-  final bool _logResultTime = false;
-
   final ModelMetadata model =
       (path: Assets.models.cannedGestureClassifier, inputSize: 128);
 
@@ -26,7 +24,10 @@ class HandCannedGestureClassifier
 
   final stopwatch = Stopwatch();
 
+  final int processorIndex;
+
   HandCannedGestureClassifier({
+    required this.processorIndex,
     Interpreter? interpreter,
   }) {
     loadModel(interpreter: interpreter);
@@ -34,7 +35,7 @@ class HandCannedGestureClassifier
 
   @override
   Future<Interpreter> createModelInterpreter() {
-    final options = InterpreterOptions()..defaultOptions();
+    final options = InterpreterOptions()..defaultOptions(processorIndex);
     return Interpreter.fromAsset(model.path, options: options);
   }
 
@@ -46,7 +47,7 @@ class HandCannedGestureClassifier
       handCannedGestureOutputLocations = outputHandCannedGestureTensors
           .map((e) => TensorBufferFloat(e.shape))
           .toList();
-      if (_logInit && interpreter == null) {
+      if (Config.logMlHandlers && interpreter == null) {
         final handCannedGestureInputTensors = _interpreter.getInputTensors();
         for (final tensor in outputHandCannedGestureTensors) {
           Logger.d('Hand Detector Output Tensor: $tensor');
@@ -70,7 +71,7 @@ class HandCannedGestureClassifier
 
     stopwatch.stop();
     final processModelTime = stopwatch.elapsedMilliseconds;
-    if (_logResultTime) {
+    if (Config.logMlHandlersVerbose) {
       Logger.d('processModelTime: $processModelTime');
     }
 

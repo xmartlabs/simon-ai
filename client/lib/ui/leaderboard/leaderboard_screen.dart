@@ -56,10 +56,7 @@ class _SmallAndLanscapeDeviceContent extends StatelessWidget {
             children: [
               const _CurrentPlayerCard(),
               SizedBox(height: 24.h),
-              AppButton(
-                onPressed: () => context.read<LeaderboardCubit>().restartGame(),
-                text: context.localizations.restart_game,
-              ),
+              const _ResetGameButtonsSection(),
             ],
           ),
           const SizedBox(
@@ -69,6 +66,41 @@ class _SmallAndLanscapeDeviceContent extends StatelessWidget {
             child: SizedBox(height: .57.sh, child: const _LeaderboardList()),
           ),
         ],
+      );
+}
+
+class _ResetGameButtonsSection extends StatelessWidget {
+  const _ResetGameButtonsSection({
+    super.key,
+  });
+
+  @override
+  Widget build(BuildContext context) =>
+      BlocSelector<LeaderboardCubit, LeaderboardState, bool>(
+        selector: (state) => state.isAdminNotAuthenticated,
+        builder: (context, isAdminNotAuthenticated) => Column(
+          children: [
+            AppButton(
+              onPressed: () => context.read<LeaderboardCubit>().restartGame(),
+              text: context.localizations.restart_game,
+            ),
+            if (isAdminNotAuthenticated)
+              Padding(
+                padding: const EdgeInsets.symmetric(vertical: 12.0),
+                child: InkWell(
+                  onTap: () =>
+                      context.read<LeaderboardCubit>().goToRegistration(),
+                  child: Text(
+                    context.localizations.leaderboard_back_home_button,
+                    style: context.theme.textStyles.bodyLarge!.bold().copyWith(
+                          color: context.theme.customColors.textColor
+                              .getShade(500),
+                        ),
+                  ),
+                ),
+              ),
+          ],
+        ),
       );
 }
 
@@ -87,12 +119,7 @@ class _BigAndPortraitDeviceContent extends StatelessWidget {
             ),
             SizedBox(height: 0.4.sh, child: const _LeaderboardList()),
             const SizedBox(height: 30),
-            SizedBox(
-              child: AppButton(
-                onPressed: () => context.read<LeaderboardCubit>().restartGame(),
-                text: context.localizations.restart_game,
-              ),
-            ),
+            const _ResetGameButtonsSection(),
           ],
         ),
       );

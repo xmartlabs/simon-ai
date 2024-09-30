@@ -2,52 +2,43 @@
 
 The **SimonSays AI Game** is a modern twist on the classic **Simon Says** game. In the original Simon Says, players must follow a sequence of instructions, like "Simon says touch your nose," but only if the command is prefixed with "Simon says." If players perform an action without the prefix, they lose. Another popular variant uses colors and sound sequences, where players replicate increasingly complex color patterns displayed by the game.
 
-![Game demo](assets/readme_assets/game_demo.gif)
-*Figure 1: A small demo of the SimonSays AI game showcasing the hand gesture recognition and gameplay mechanics.*
+<div align="center">
+  <img src="docs/assets/game_demo.gif" alt="Game demo">
+  <p><em>Figure 1: A small demo of the SimonSays AI game showcasing the hand gesture recognition and gameplay mechanics.</em></p>
+</div>
 
 #### **How This Version is Different:**
 In our version, instead of colors or spoken commands, the game uses **hand gestures** that players must replicate using a camera. Here's how it works:
 
 - **Gestures as Commands:** Instead of colored buttons, the game displays a sequence of hand gestures represented as emojis.
 - **Player Input:** The player must replicate the sequence of gestures in the correct order using their hand in front of the camera.
-- **Real-Time Recognition:** The game uses machine learning models to recognize and evaluate the player’s gestures in real time.
+- **On device Recognition:** The game uses machine learning models to recognize and evaluate the player’s gestures on device in real time.
 - **Progression:** Just like in the original Simon Says, each round adds a new gesture to the sequence, making it progressively more challenging.
 
 This modern version retains the core challenge of memory and coordination from the original **Simon Says**, but adds a layer of interactivity with **gesture-based input**, creating a more immersive and engaging gameplay experience.
 
-## Arch Overview
+## Project Overview
 
-The project is divided into two main folders:
+This project is based on the [Xmartlabs Flutter Template][flutter_template_link]. You can check it out for more details and to understand the foundational structure of this project.
 
-- The UI contains all app screens.
-- The Core contains the models and the data layer.
+## Solving the Gesture Recognition Problem
 
-The design system is located on a package called [design_system][design_system].
+When developing the **Simon Says Game**, we explored two main approaches to solve the problem of real-time hand gesture recognition:
 
-### UI section
+1. [Direct Integration with TensorFlow Lite:](#integrating-tflite-models-with-flutter-plugin) This method involves using multiple TensorFlow Lite models within Flutter via the official **tflite plugin**. This approach provides flexibility, allowing us to run custom ML models directly within Flutter. However, it presented challenges related to performance, particularly with image preprocessing tasks.
 
-[Flutter Bloc][bloc] is used for state management, specifically, we use Cubit to manage the screen state.
-Each app section is added in a project folder which contains three components, the Screen (a `StatelessWidget`, the UI), the Cubit and the state.
+2. [MediaPipe Integration:](#mediapipe-integration) The alternative approach leverages **MediaPipe**, a framework known for its efficiency in real-time ML processing, particularly for gesture recognition. While MediaPipe offers optimized performance, it lacks a native Flutter integration at the moment, requiring us to use native implementations and method channels for communication between Flutter and platform-specific code.
 
-The `MainScreen` is the Widget that contains all screens. It defines the `MaterialApp` and provides the app router.
-The router has two subgraphs, the `UnauthenticatedRouter` used for unauthenticated users and the `AuthenticatedRouter` used for authenticated users.
+The following sections will outline how we implemented both approaches, the challenges faced, and the performance comparisons between them.
 
-The [app router][app_router] is provided by [auto_route][auto_route], and contains the previous sections with some nested screens.
+## **Integrating TFLite models with Flutter plugin**
 
-### Core section
+The [Gesture Classifier][gesture_classifier] is responsible for real-time hand gesture recognition in the Simon Says game, using four [TensorFlow Lite][tf_lite] models integrated using the [TFLite Flutter][tflite_flutter] library. Each model performs a specific task, with the output of one model serving as the input for the next, ensuring accurate sequential processing.
 
-The models are defined in the [models folder][models].
-
-The repository pattern is used to manage the data layer.
-A [repository][repository_folder] uses different [data sources][data_source_folder] (for example a local cache or a REST API).
-These components are injected in the Cubits using [get_it][get_it].
-
-### **How Gesture Classifier Works**
-
-The **Gesture Classifier** is responsible for real-time hand gesture recognition in the Simon Says game, using four TensorFlow Lite models. Each model performs a specific task, with the output of one model serving as the input for the next, ensuring accurate sequential processing.
-
-![Model sequence](assets/readme_assets/models_sequence.png)
-*Figure 2: Sequence of models used in the Gesture Classifier.*
+<div align="center">
+  <img src="docs/assets/model_sequence.png" alt="Model sequence">
+  <p><em>Figure 2: Sequence of models used in the Gesture Classifier.</em></p>
+</div>
 
 - **Model 1: Hand Bounding Box Detection**
 
@@ -69,38 +60,35 @@ The **Gesture Classifier** is responsible for real-time hand gesture recognition
   - Evaluates the embedding from **Model 3** in the context of the models.
   - Returns the gesture label corresponding to the gesture recognized from the image given at the begining in the **Model 1** which can be one of these: unrecognized, closed, open, pointing_up, thumbs_down, thumbs_up, victory, love.
 
-### **MediaPipe Integration**
+## **MediaPipe Integration**
 
-Apart from using **TFLite models** for gesture recognition we also use [MediaPipe][mediapipe] as an alternative approach. **MediaPipe** is a powerful framework for building multimodal machine learning pipelines, developed by Google. It provides pre-trained models for hand gesture recognition and other ML tasks, offering high performance for real-time applications.
+Apart from integrating directly **TFLite models** for gesture recognition we also use [MediaPipe][mediapipe] as an alternative approach. **MediaPipe** is a powerful framework for building multimodal machine learning pipelines, developed by Google. It provides pre-trained models for hand gesture recognition and other ML tasks, offering high performance for real-time applications.
 
-#### **Why Use MediaPipe?**
+### **Why Use MediaPipe?**
 While **MediaPipe** offers robust gesture recognition models, the current lack of a dedicated Flutter library for fully integrating its solutions required us to implement it using **native code**. This allowed us to take advantage of MediaPipe’s performance, but the integration process was more complex.
 
-#### **Integration with Flutter Using Method Channels**
+### **Integration with Flutter Using Method Channels**
 To integrate **MediaPipe** with our Flutter application, we utilized **method channels**, which allow communication between the Flutter app (Dart code) and platform-specific native code (Android and iOS). Here’s how we approached it:
 
 - **Native Implementation:** MediaPipe was set up natively on both Android and iOS platforms using Java/Kotlin for Android and Swift for iOS.
 - **Method Channels:** We used Flutter’s method channels to send and receive data between the native MediaPipe code and the Flutter app. This allowed us to pass the camera feed to the native side, where MediaPipe processed the gestures.
 - **Gesture Recognition:** Once the gestures were processed by MediaPipe, the results were sent back to Flutter via method channels, where they were used to update the game logic in real-time.
 
-#### **Limitations and Benefits**
+### **Limitations and Benefits**
 - **Benefit:** MediaPipe provides highly efficient gesture recognition and improved performance over the previous solution.
 - **Limitation:** The integration is limited to using MediaPipe’s pre-trained models, and currently, there’s no direct Flutter library for easily customizing models.
 
 
-### **Isolate-Based Model Execution**
+## **Isolate-Based Model Execution**
 
 To maintain a responsive UI and prevent blocking the main thread, the **Gesture Classifier** runs all TensorFlow Lite models on a separate **isolate**. In Flutter, isolates allow tasks to run in parallel, ensuring that computationally heavy operations, such as gesture recognition, do not interfere with the app's UI performance.
 
-#### **HandClasifierIsolateData**
-This is the class that defines the data passed to the isolate, including the image, the interpreters where have been loaded the models and the sendPort where the result will be later retured.
 
-
-### **Game Manager**
+## **Game Manager**
 
 The [Game Manager][game_manager] handles the core logic of the game, evaluating user gestures to determine if they match the expected sequence. It interacts with the gesture recognition pipeline and ensures smooth gameplay.
 
-#### **Key Responsibilities:**
+### **Key Responsibilities:**
 
 - **Gesture Handling:**
 
@@ -115,9 +103,44 @@ The [Game Manager][game_manager] handles the core logic of the game, evaluating 
 - **Gesture Validation Window:**
   - Implements a **400ms delay** between gesture evaluations to avoid false positives or negatives caused by incomplete transitions or accidental inputs.
 
-## Project Overview
+---
 
-This project is based on the [Xmartlabs Flutter Template][flutter_template_link]. You can check it out for more details and to understand the foundational structure of this project.
+Made with ❤️ by [Xmartlabs][xmartlabs].
+
+## Contribute
+👉 If you want to contribute please feel free to submit pull requests.
+
+👉 If you have a feature request please [open an issue][open_issue].
+
+👉 If you found a bug or [need help][need_help] please let us know.
+
+👉 If you enjoy using Fluttips we would love to hear about it! Drop us a line on [X][xmartlabs_x].
+
+## License
+
+```
+
+Copyright (c) 2024 Xmartlabs SRL
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.
+
+```
 
 
 [design_system]: https://github.com/xmartlabs/simon-ai/tree/main/design_system
@@ -131,6 +154,12 @@ This project is based on the [Xmartlabs Flutter Template][flutter_template_link]
 [scripts]: https://github.com/xmartlabs/simon-ai/tree/main/scripts
 [flutter_template_link]: https://github.com/xmartlabs/flutter-template
 [game_manager]: https://github.com/xmartlabs/simon-ai/tree/main/lib/core/repository/game_manager.dart
-[game_classifier]: https://github.com/xmartlabs/simon-ai/tree/main/lib/core/hand_models/hand_gesture_classifier/hand_classifier.dart
+[gesture_classifier]: https://github.com/xmartlabs/simon-ai/tree/main/lib/core/hand_models/hand_gesture_classifier/hand_classifier.dart
 [mediapipe]: https://ai.google.dev/edge/mediapipe/solutions/guide
 [isolates]: https://docs.flutter.dev/perf/isolates
+[tf_lite]: https://ai.google.dev/edge/litert
+[xmartlabs]: https://xmartlabs.com/
+[open_issue]: https://github.com/xmartlabs/simon-ai/issues/new
+[need_help]: https://github.com/xmartlabs/simon-ai/issues/new
+[xmartlabs_x]: https://x.com/xmartlabs
+[tflite_flutter]: https://pub.dev/packages/tflite_flutter

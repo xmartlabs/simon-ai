@@ -1,3 +1,4 @@
+import 'package:simon_ai/core/common/config.dart';
 import 'package:simon_ai/core/common/extension/interpreter_extensions.dart';
 import 'package:simon_ai/core/common/logger.dart';
 import 'package:simon_ai/core/interfaces/model_interface.dart';
@@ -9,13 +10,12 @@ import 'package:tflite_flutter_helper/tflite_flutter_helper.dart';
 
 class HandGestureEmbedderClassifier
     implements ModelHandler<HandLandmarksModelResultData, TensorBufferFloat> {
-  final bool _logInit = true;
-  final bool _logResultTime = false;
-
   final ModelMetadata model =
       (path: Assets.models.gestureEmbedder, inputSize: 224);
 
+  final int processorIndex;
   late Interpreter _interpreter;
+
   @override
   Interpreter get interpreter => _interpreter;
 
@@ -25,6 +25,7 @@ class HandGestureEmbedderClassifier
   final stopwatch = Stopwatch();
 
   HandGestureEmbedderClassifier({
+    required this.processorIndex,
     Interpreter? interpreter,
   }) {
     loadModel(interpreter: interpreter);
@@ -32,7 +33,7 @@ class HandGestureEmbedderClassifier
 
   @override
   Future<Interpreter> createModelInterpreter() {
-    final options = InterpreterOptions()..defaultOptions();
+    final options = InterpreterOptions()..defaultOptions(processorIndex);
     return Interpreter.fromAsset(model.path, options: options);
   }
 
@@ -44,7 +45,7 @@ class HandGestureEmbedderClassifier
       handGestureEmbedderOutputLocations = outputHandGestureEmbedderTensors
           .map((e) => TensorBufferFloat(e.shape))
           .toList();
-      if (_logInit && interpreter == null) {
+      if (Config.logMlHandlers && interpreter == null) {
         final handGestureEmbedderInputTensors = _interpreter.getInputTensors();
         for (final tensor in outputHandGestureEmbedderTensors) {
           Logger.d('Hand Detector Output Tensor: $tensor');
@@ -68,7 +69,7 @@ class HandGestureEmbedderClassifier
 
     stopwatch.stop();
     final processModelTime = stopwatch.elapsedMilliseconds;
-    if (_logResultTime) {
+    if (Config.logMlHandlersVerbose) {
       Logger.d('processModelTime: $processModelTime');
     }
 

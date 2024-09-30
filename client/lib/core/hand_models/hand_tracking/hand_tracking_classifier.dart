@@ -1,5 +1,6 @@
 import 'dart:math';
 
+import 'package:simon_ai/core/common/config.dart';
 import 'package:simon_ai/core/common/extension/interpreter_extensions.dart';
 import 'package:simon_ai/core/common/logger.dart';
 import 'package:simon_ai/core/interfaces/model_interface.dart';
@@ -13,9 +14,6 @@ import 'package:tflite_flutter_helper/tflite_flutter_helper.dart';
 
 class HandTrackingClassifier
     implements ModelHandler<HandTrackingInput, HandLandmarksResultData> {
-  final bool _logInit = true;
-  final bool _logResultTime = false;
-
   final ModelMetadata model =
       (path: Assets.models.handLandmarksDetector, inputSize: 224);
 
@@ -29,7 +27,10 @@ class HandTrackingClassifier
 
   final stopwatch = Stopwatch();
 
+  final int processorIndex;
+
   HandTrackingClassifier({
+    required this.processorIndex,
     Interpreter? interpreter,
   }) {
     loadModel(interpreter: interpreter);
@@ -37,7 +38,7 @@ class HandTrackingClassifier
 
   @override
   Future<Interpreter> createModelInterpreter() {
-    final options = InterpreterOptions()..defaultOptions();
+    final options = InterpreterOptions()..defaultOptions(processorIndex);
     return Interpreter.fromAsset(model.path, options: options);
   }
 
@@ -50,7 +51,7 @@ class HandTrackingClassifier
       handTrackingOutputLocations = outputHandTrackingTensors
           .map((e) => TensorBufferFloat(e.shape))
           .toList();
-      if (_logInit && interpreter == null) {
+      if (Config.logMlHandlers && interpreter == null) {
         final handTrackingInputTensors = _interpreter.getInputTensors();
 
         for (final tensor in outputHandTrackingTensors) {
@@ -89,7 +90,7 @@ class HandTrackingClassifier
 
     stopwatch.stop();
     final processModelTime = stopwatch.elapsedMilliseconds;
-    if (_logResultTime) {
+    if (Config.logMlHandlersVerbose) {
       Logger.d('Process image time $processImageTime, '
           'processModelTime: $processModelTime');
     }

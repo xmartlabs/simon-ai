@@ -1,3 +1,5 @@
+// ignore_for_file: unused-code
+
 extension StringExtensions on String {
   bool get isUpperCase => contains(RegExp(r'^[A-Z]+$'));
 

@@ -7,7 +7,7 @@ import 'package:simon_ai/core/model/hand_gesture_with_position.dart';
 import 'package:simon_ai/core/model/hand_gestures.dart';
 
 const _logEnabled = true;
-const _logVerbose = false;
+const _logVerbose = true;
 
 /// Transforms a stream of [HandGestureWithPosition] into a stream of game
 /// [HandGestureWithPosition].
@@ -16,12 +16,12 @@ const _logVerbose = false;
 class GameGestureStabilizationTransformer extends StreamTransformerBase<
     HandGestureWithPosition, HandGestureWithPosition> {
   static final _defaultTimeSpan = Platform.isAndroid
-      ? const Duration(milliseconds: 500)
-      : const Duration(seconds: 1);
-  static const _defaultWindowSize = 5;
+      ? const Duration(seconds: 1)
+      : const Duration(milliseconds: 300);
+  static const _defaultWindowSize = 7;
   static final _defaultMinWindowSize = Platform.isAndroid ? 3 : 5;
   static final _defaultMaxUnrecognizedGesturesInWindow =
-      Platform.isAndroid ? 5 : 3;
+      Platform.isAndroid ? 2 : 3;
 
   final int _windowSize;
   final int _minWindowSize;

@@ -5,6 +5,7 @@ class LeaderboardState with _$LeaderboardState {
   const factory LeaderboardState.state({
     Player? currentUser,
     List<Player>? users,
+    @Default(false) bool isAdminNotAuthenticated,
   }) = _LeaderboardState;
 }
 

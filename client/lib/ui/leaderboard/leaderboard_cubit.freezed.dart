@@ -18,19 +18,26 @@ final _privateConstructorUsedError = UnsupportedError(
 mixin _$LeaderboardState {
   Player? get currentUser => throw _privateConstructorUsedError;
   List<Player>? get users => throw _privateConstructorUsedError;
+  bool get isAdminNotAuthenticated => throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
-    required TResult Function(Player? currentUser, List<Player>? users) state,
+    required TResult Function(Player? currentUser, List<Player>? users,
+            bool isAdminNotAuthenticated)
+        state,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
-    TResult? Function(Player? currentUser, List<Player>? users)? state,
+    TResult? Function(Player? currentUser, List<Player>? users,
+            bool isAdminNotAuthenticated)?
+        state,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
-    TResult Function(Player? currentUser, List<Player>? users)? state,
+    TResult Function(Player? currentUser, List<Player>? users,
+            bool isAdminNotAuthenticated)?
+        state,
     required TResult orElse(),
   }) =>
       throw _privateConstructorUsedError;
@@ -62,7 +69,8 @@ abstract class $LeaderboardStateCopyWith<$Res> {
           LeaderboardState value, $Res Function(LeaderboardState) then) =
       _$LeaderboardStateCopyWithImpl<$Res, LeaderboardState>;
   @useResult
-  $Res call({Player? currentUser, List<Player>? users});
+  $Res call(
+      {Player? currentUser, List<Player>? users, bool isAdminNotAuthenticated});
 
   $PlayerCopyWith<$Res>? get currentUser;
 }
@@ -82,6 +90,7 @@ class _$LeaderboardStateCopyWithImpl<$Res, $Val extends LeaderboardState>
   $Res call({
     Object? currentUser = freezed,
     Object? users = freezed,
+    Object? isAdminNotAuthenticated = null,
   }) {
     return _then(_value.copyWith(
       currentUser: freezed == currentUser
@@ -92,6 +101,10 @@ class _$LeaderboardStateCopyWithImpl<$Res, $Val extends LeaderboardState>
           ? _value.users
           : users // ignore: cast_nullable_to_non_nullable
               as List<Player>?,
+      isAdminNotAuthenticated: null == isAdminNotAuthenticated
+          ? _value.isAdminNotAuthenticated
+          : isAdminNotAuthenticated // ignore: cast_nullable_to_non_nullable
+              as bool,
     ) as $Val);
   }
 
@@ -116,7 +129,8 @@ abstract class _$$LeaderboardStateImplCopyWith<$Res>
       __$$LeaderboardStateImplCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({Player? currentUser, List<Player>? users});
+  $Res call(
+      {Player? currentUser, List<Player>? users, bool isAdminNotAuthenticated});
 
   @override
   $PlayerCopyWith<$Res>? get currentUser;
@@ -135,6 +149,7 @@ class __$$LeaderboardStateImplCopyWithImpl<$Res>
   $Res call({
     Object? currentUser = freezed,
     Object? users = freezed,
+    Object? isAdminNotAuthenticated = null,
   }) {
     return _then(_$LeaderboardStateImpl(
       currentUser: freezed == currentUser
@@ -145,6 +160,10 @@ class __$$LeaderboardStateImplCopyWithImpl<$Res>
           ? _value._users
           : users // ignore: cast_nullable_to_non_nullable
               as List<Player>?,
+      isAdminNotAuthenticated: null == isAdminNotAuthenticated
+          ? _value.isAdminNotAuthenticated
+          : isAdminNotAuthenticated // ignore: cast_nullable_to_non_nullable
+              as bool,
     ));
   }
 }
@@ -152,7 +171,10 @@ class __$$LeaderboardStateImplCopyWithImpl<$Res>
 /// @nodoc
 
 class _$LeaderboardStateImpl implements _LeaderboardState {
-  const _$LeaderboardStateImpl({this.currentUser, final List<Player>? users})
+  const _$LeaderboardStateImpl(
+      {this.currentUser,
+      final List<Player>? users,
+      this.isAdminNotAuthenticated = false})
       : _users = users;
 
   @override
@@ -168,8 +190,12 @@ class _$LeaderboardStateImpl implements _LeaderboardState {
   }
 
   @override
+  @JsonKey()
+  final bool isAdminNotAuthenticated;
+
+  @override
   String toString() {
-    return 'LeaderboardState.state(currentUser: $currentUser, users: $users)';
+    return 'LeaderboardState.state(currentUser: $currentUser, users: $users, isAdminNotAuthenticated: $isAdminNotAuthenticated)';
   }
 
   @override
@@ -179,12 +205,15 @@ class _$LeaderboardStateImpl implements _LeaderboardState {
             other is _$LeaderboardStateImpl &&
             (identical(other.currentUser, currentUser) ||
                 other.currentUser == currentUser) &&
-            const DeepCollectionEquality().equals(other._users, _users));
+            const DeepCollectionEquality().equals(other._users, _users) &&
+            (identical(
+                    other.isAdminNotAuthenticated, isAdminNotAuthenticated) ||
+                other.isAdminNotAuthenticated == isAdminNotAuthenticated));
   }
 
   @override
-  int get hashCode => Object.hash(
-      runtimeType, currentUser, const DeepCollectionEquality().hash(_users));
+  int get hashCode => Object.hash(runtimeType, currentUser,
+      const DeepCollectionEquality().hash(_users), isAdminNotAuthenticated);
 
   @JsonKey(ignore: true)
   @override
@@ -196,27 +225,33 @@ class _$LeaderboardStateImpl implements _LeaderboardState {
   @override
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
-    required TResult Function(Player? currentUser, List<Player>? users) state,
+    required TResult Function(Player? currentUser, List<Player>? users,
+            bool isAdminNotAuthenticated)
+        state,
   }) {
-    return state(currentUser, users);
+    return state(currentUser, users, isAdminNotAuthenticated);
   }
 
   @override
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
-    TResult? Function(Player? currentUser, List<Player>? users)? state,
+    TResult? Function(Player? currentUser, List<Player>? users,
+            bool isAdminNotAuthenticated)?
+        state,
   }) {
-    return state?.call(currentUser, users);
+    return state?.call(currentUser, users, isAdminNotAuthenticated);
   }
 
   @override
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
-    TResult Function(Player? currentUser, List<Player>? users)? state,
+    TResult Function(Player? currentUser, List<Player>? users,
+            bool isAdminNotAuthenticated)?
+        state,
     required TResult orElse(),
   }) {
     if (state != null) {
-      return state(currentUser, users);
+      return state(currentUser, users, isAdminNotAuthenticated);
     }
     return orElse();
   }
@@ -253,12 +288,15 @@ class _$LeaderboardStateImpl implements _LeaderboardState {
 abstract class _LeaderboardState implements LeaderboardState {
   const factory _LeaderboardState(
       {final Player? currentUser,
-      final List<Player>? users}) = _$LeaderboardStateImpl;
+      final List<Player>? users,
+      final bool isAdminNotAuthenticated}) = _$LeaderboardStateImpl;
 
   @override
   Player? get currentUser;
   @override
   List<Player>? get users;
+  @override
+  bool get isAdminNotAuthenticated;
   @override
   @JsonKey(ignore: true)
   _$$LeaderboardStateImplCopyWith<_$LeaderboardStateImpl> get copyWith =>

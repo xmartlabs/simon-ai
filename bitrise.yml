@@ -220,7 +220,3 @@ app:
         {
          
         }
-trigger_map:
-  - pull_request_target_branch: main
-    type: pull_request
-    workflow: run_test_and_analyzer

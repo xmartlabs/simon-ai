@@ -1,5 +1,0 @@
-*.freezed.dart linguist-generated=true
-*.g.dart linguist-generated=true
-*.gr.dart linguist-generated=true
-pubspec.lock linguist-generated=true
-Gemfile.lock linguist-generated=true

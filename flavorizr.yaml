@@ -1,0 +1,40 @@
+flavors:
+  dev:
+    app:
+      name: "Simon AI Dev"
+    android:
+      applicationId: "com.xmartlabs.simonai.dev"
+    ios:
+      bundleId: "com.xmartlabs.simonai.dev"
+      variables:
+        FLUTTER_TARGET:
+          value: "lib/main.dart"
+  staging:
+    app:
+      name: "Simon AI Sta"
+    android:
+      applicationId: "com.xmartlabs.simonai.dev"
+    ios:
+      bundleId: "com.xmartlabs.simonai.dev"
+      variables:
+        FLUTTER_TARGET:
+          value: "lib/main.dart"
+  prod:
+    app:
+      name: "Simon AI"
+    android:
+      applicationId: "com.xmartlabs.simonai"
+    ios:
+      bundleId: "com.xmartlabs.simonai"
+      variables:
+        FLUTTER_TARGET:
+          value: "lib/main.dart"
+instructions:
+  - assets:download
+  - assets:extract
+  - android:buildGradle
+  - ios:xcconfig
+  - ios:buildTargets
+  - ios:schema
+  - ios:plist
+  - assets:clean

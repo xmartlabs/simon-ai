@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="SELECTIVE" />
+  </component>
+  <component name="ChangeListManager">
+    <list default="true" id="6652c318-f743-45cf-b73c-80013b19aaa6" name="Changes" comment="feat: Allow multiple processors in parallel to increase the FPS" />
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "dart.analysis.tool.window.visible": "false"
+  }
+}]]></component>
+  <component name="RunManager" selected="Flutter.main dev">
+    <list>
+      <item itemvalue="Flutter.main dev" />
+      <item itemvalue="Flutter.main prod" />
+      <item itemvalue="Flutter.main staging" />
+    </list>
+  </component>
+  <component name="TaskManager">
+    <servers />
+  </component>
+</project>

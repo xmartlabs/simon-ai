@@ -1,0 +1,22 @@
+{
+  "error": "Error: {text}",
+  "@error": {
+    "description": "Da una explicación del error",
+    "placeholders": {
+      "text": {
+        "type": "String",
+        "example": "Algo salió mal, intenta de nuevo"
+      }
+    }
+  },
+  "error_button_ok": "Aceptar",
+  "error_button_retry": "Reintentar",
+  "error_no_internet_connection_error_description": "No tienes conexión a Internet",
+  "error_no_internet_connection_error_title": "Error",
+  "error_unknown_error_description": "¡Algo salió mal!",
+  "error_unknown_error_title": "¡Ops!",
+  "gestures": "Gestos",
+  "points": "Puntaje",
+  "skip": "Omitir",
+  "time": "Tiempo"
+}

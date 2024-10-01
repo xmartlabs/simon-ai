@@ -1,7 +1,0 @@
-clearml
-keras
-mlflow
-pandas
-scikit-learn
-seaborn
-mediapipe

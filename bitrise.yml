@@ -129,10 +129,6 @@ workflows:
           inputs:
             - clone_depth: "15"
       - cache-pull@2: {}
-      - change-workdir@1:
-          inputs:
-            - is_create_path: "false"
-            - path: client
       - script@1:
           inputs:
             - script_file_path: null
@@ -224,7 +220,3 @@ app:
         {
          
         }
-trigger_map:
-  - pull_request_target_branch: main
-    type: pull_request
-    workflow: run_test_and_analyzer

@@ -1,13 +1,9 @@
 # SimonSays AI
 
-The **SimonSays AI Game** is a modern twist on the classic **Simon Says** game. In the original Simon Says, players must follow a sequence of instructions, like "Simon says touch your nose," but only if the command is prefixed with "Simon says." If players perform an action without the prefix, they lose. Another popular variant uses colors and sound sequences, where players replicate increasingly complex color patterns displayed by the game.
-
-<div align="center">
-  <img src="docs/assets/game_demo.gif" alt="Game demo">
-  <p><em>Figure 1: A small demo of the SimonSays AI game showcasing the hand gesture recognition and gameplay mechanics.</em></p>
-</div>
+The **SimonSays AI Game** is a modern twist on the classic **Simon Says** game. In the original Simon Says, players must follow a sequence of instructions, like "Simon says touch your nose," but only if the command is prefixed with "Simon says". If players perform an action without the prefix, they lose. Another popular variant uses colors and sound sequences, where players replicate increasingly complex color patterns displayed by the game.
 
 #### **How This Version is Different:**
+
 In our version, instead of colors or spoken commands, the game uses **hand gestures** that players must replicate using a camera. Here's how it works:
 
 - **Gestures as Commands:** Instead of colored buttons, the game displays a sequence of hand gestures represented as emojis.
@@ -17,13 +13,18 @@ In our version, instead of colors or spoken commands, the game uses **hand gestu
 
 This modern version retains the core challenge of memory and coordination from the original **Simon Says**, but adds a layer of interactivity with **gesture-based input**, creating a more immersive and engaging gameplay experience.
 
+<div align="center">
+  <img src="docs/assets/game_demo.gif" alt="Game demo">
+  <p><em>Figure 1: A small demo of the SimonSays AI game showcasing the hand gesture recognition and gameplay mechanics.</em></p>
+</div>
+
 ## Project Overview
 
 This project is based on the [Xmartlabs Flutter Template][flutter_template_link]. You can check it out for more details and to understand the foundational structure of this project.
 
 ## Solving the Gesture Recognition Problem
 
-When developing the **Simon Says Game**, we explored two main approaches to solve the problem of real-time hand gesture recognition:
+When developing the **Simon Says Game**, we explored two main approaches to solve the problem of on-device real-time hand gesture recognition:
 
 1. [Direct Integration with TensorFlow Lite:](#integrating-tflite-models-with-flutter-plugin) This method involves using multiple TensorFlow Lite models within Flutter via the official **tflite plugin**. This approach provides flexibility, allowing us to run custom ML models directly within Flutter. However, it presented challenges related to performance, particularly with image preprocessing tasks.
 
@@ -65,24 +66,25 @@ The [Gesture Classifier][gesture_classifier] is responsible for real-time hand g
 Apart from integrating directly **TFLite models** for gesture recognition we also use [MediaPipe][mediapipe] as an alternative approach. **MediaPipe** is a powerful framework for building multimodal machine learning pipelines, developed by Google. It provides pre-trained models for hand gesture recognition and other ML tasks, offering high performance for real-time applications.
 
 ### **Why Use MediaPipe?**
+
 While **MediaPipe** offers robust gesture recognition models, the current lack of a dedicated Flutter library for fully integrating its solutions required us to implement it using **native code**. This allowed us to take advantage of MediaPipe’s performance, but the integration process was more complex.
 
 ### **Integration with Flutter Using Method Channels**
+
 To integrate **MediaPipe** with our Flutter application, we utilized **method channels**, which allow communication between the Flutter app (Dart code) and platform-specific native code (Android and iOS). Here’s how we approached it:
 
-- **Native Implementation:** MediaPipe was set up natively on both Android and iOS platforms using Java/Kotlin for Android and Swift for iOS.
+- **Native Implementation:** MediaPipe was set up natively on both Android and iOS platforms using Kotlin for Android and Swift for iOS.
 - **Method Channels:** We used Flutter’s method channels to send and receive data between the native MediaPipe code and the Flutter app. This allowed us to pass the camera feed to the native side, where MediaPipe processed the gestures.
 - **Gesture Recognition:** Once the gestures were processed by MediaPipe, the results were sent back to Flutter via method channels, where they were used to update the game logic in real-time.
 
 ### **Limitations and Benefits**
+
 - **Benefit:** MediaPipe provides highly efficient gesture recognition and improved performance over the previous solution.
 - **Limitation:** The integration is limited to using MediaPipe’s pre-trained models, and currently, there’s no direct Flutter library for easily customizing models.
-
 
 ## **Isolate-Based Model Execution**
 
 To maintain a responsive UI and prevent blocking the main thread, the **Gesture Classifier** runs all TensorFlow Lite models on a separate **isolate**. In Flutter, isolates allow tasks to run in parallel, ensuring that computationally heavy operations, such as gesture recognition, do not interfere with the app's UI performance.
-
 
 ## **Game Manager**
 
@@ -108,6 +110,7 @@ The [Game Manager][game_manager] handles the core logic of the game, evaluating 
 Made with ❤️ by [Xmartlabs][xmartlabs].
 
 ## Contribute
+
 👉 If you want to contribute please feel free to submit pull requests.
 
 👉 If you have a feature request please [open an issue][open_issue].
@@ -141,7 +144,6 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 
 ```
-
 
 [design_system]: https://github.com/xmartlabs/simon-ai/tree/main/design_system
 [app_router]: https://github.com/xmartlabs/simon-ai/blob/main/lib/ui/app_router.dart

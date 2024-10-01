@@ -18,7 +18,7 @@ dependencies:
     path: ./design_system
 
   app_settings: 5.1.1
-  audioplayers: 6.0.0
+  audioplayers: 6.1.0
   auto_route: 8.1.3
   camera: 0.11.0+1
   cloud_firestore: 5.1.0

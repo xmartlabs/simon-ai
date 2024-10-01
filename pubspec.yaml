@@ -73,7 +73,7 @@ dev_dependencies:
     sdk: flutter
 
   auto_route_generator: 8.0.0
-  build_runner: 2.4.10
+  build_runner: 2.4.11
   dart_code_linter: 1.1.5
 
   flutter_flavorizr: 2.2.3

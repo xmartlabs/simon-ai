@@ -65,6 +65,7 @@ class GameGestureStabilizationTransformer extends StreamTransformerBase<
           Logger.i(
             "Emit gesture ${_buffer.first.gesture}, "
             "bufferSize: ${_buffer.length}, "
+            "${_buffer.map((a) => a.gestureConfidence).join()}"
             "time: ${_windowTime.elapsedMilliseconds} millis",
           );
         }
@@ -79,14 +80,13 @@ class GameGestureStabilizationTransformer extends StreamTransformerBase<
 
   void _handleNewGesture(HandGestureWithPosition gestureWithPosition) {
     if (gestureWithPosition.gesture == HandGesture.unrecognized) {
-      _currentUnrecognizedGestures++;
       if (_currentUnrecognizedGestures >= _maxUnrecognizedGesturesInWindow) {
         _resetBuffer();
         if (_logVerbose) {
           Logger.i("Max unrecognized gestures reached, reset window");
         }
-      } else if (_logVerbose) {
-        Logger.i("Discard unrecognized gesture");
+      } else if (_buffer.isNotEmpty) {
+        _currentUnrecognizedGestures++;
       }
       return;
     }

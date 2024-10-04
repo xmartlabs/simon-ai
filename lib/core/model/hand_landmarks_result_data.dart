@@ -17,7 +17,13 @@ typedef HandLandmarksResultData = ({
 
 typedef HandLandmarksData = ({
   double confidence,
+  double gestureConfidence,
   List<Coordinates> keyPoints,
   HandGesture gesture,
   HandDetectorResultData cropData,
+});
+
+typedef CannedGestureData = ({
+  double confidence,
+  HandGesture gesture,
 });

@@ -6,4 +6,5 @@ typedef HandClassifierResultData = ({
   List<double> keyPoints,
   HandGesture gesture,
   HandDetectorResultData cropData,
+  double gestureConfidence,
 });

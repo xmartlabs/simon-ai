@@ -71,6 +71,7 @@ class GestureMobileProcessor implements GestureProcessor {
     final processedKeyPoints = _processKeypoints(resultData.keyPoints);
     return (
       confidence: resultData.confidence,
+      gestureConfidence: resultData.gestureConfidence,
       keyPoints: processedKeyPoints,
       gesture: resultData.gesture,
       cropData: resultData.cropData,

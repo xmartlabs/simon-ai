@@ -6,16 +6,18 @@ import 'package:simon_ai/core/common/logger.dart';
 import 'package:simon_ai/core/interfaces/model_interface.dart';
 import 'package:simon_ai/core/model/hand_classifier_model_data.dart';
 import 'package:simon_ai/core/model/hand_gestures.dart';
+import 'package:simon_ai/core/model/hand_landmarks_result_data.dart';
 import 'package:simon_ai/gen/assets.gen.dart';
 import 'package:tflite_flutter/tflite_flutter.dart';
 import 'package:tflite_flutter_helper/tflite_flutter_helper.dart';
 
 class HandCannedGestureClassifier
-    implements ModelHandler<TensorBufferFloat, HandGesture> {
+    implements ModelHandler<TensorBufferFloat, CannedGestureData> {
   final ModelMetadata model =
       (path: Assets.models.cannedGestureClassifier, inputSize: 128);
 
   late Interpreter _interpreter;
+
   @override
   Interpreter get interpreter => _interpreter;
 
@@ -63,7 +65,7 @@ class HandCannedGestureClassifier
   }
 
   @override
-  Future<HandGesture> performOperations(
+  Future<CannedGestureData> performOperations(
     TensorBufferFloat tensorBufferFloat,
   ) async {
     stopwatch.start();
@@ -91,11 +93,14 @@ class HandCannedGestureClassifier
     interpreter.runForMultipleInputs(inputs, outputs);
   }
 
-  HandGesture _processGestureResultData() {
+  CannedGestureData _processGestureResultData() {
     final gesturesScore =
         handCannedGestureOutputLocations.first.getDoubleList();
     final highestScore = gesturesScore.reduce(max);
     final indexOfHighestScore = gesturesScore.indexOf(highestScore);
-    return HandGesture.values[indexOfHighestScore];
+    return (
+      gesture: HandGesture.values[indexOfHighestScore],
+      confidence: highestScore,
+    );
   }
 }

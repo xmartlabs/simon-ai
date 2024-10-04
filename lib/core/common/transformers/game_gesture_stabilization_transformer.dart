@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'dart:io';
 
+import 'package:dartx/dartx.dart';
 import 'package:rxdart/rxdart.dart';
 import 'package:simon_ai/core/common/logger.dart';
 import 'package:simon_ai/core/model/hand_gesture_with_position.dart';
@@ -62,11 +63,17 @@ class GameGestureStabilizationTransformer extends StreamTransformerBase<
         _requireEmmit = false;
         _controller.add(List.unmodifiable(_buffer));
         if (_logEnabled) {
+          final confidenceAverage =
+              _buffer.averageBy((it) => it.gestureConfidence);
+          final bufferConfidence = _buffer.joinToString(
+            transform: (it) => it.gestureConfidence.toString(),
+          );
           Logger.i(
             "Emit gesture ${_buffer.first.gesture}, "
             "bufferSize: ${_buffer.length}, "
-            "${_buffer.map((a) => a.gestureConfidence).join()}"
-            "time: ${_windowTime.elapsedMilliseconds} millis",
+            "time: ${_windowTime.elapsedMilliseconds} millis, "
+            "unrecognized count: $_currentUnrecognizedGestures, "
+            "confidence avg $confidenceAverage ($bufferConfidence)",
           );
         }
       } else {

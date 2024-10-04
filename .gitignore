@@ -66,3 +66,5 @@ app.*.map.json
 .bundle/
 vendor/bundle/
 
+#intl
+l10n_errors

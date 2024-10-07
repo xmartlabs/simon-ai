@@ -84,6 +84,7 @@ class GameManager {
     _gestureStreamController.add(result);
     return (
       gesture: result.gesture,
+      gestureConfidence: result.gestureConfidence,
       gesturePosition: result.keyPoints.centerCoordinates,
       boundingBox: result.cropData,
     );

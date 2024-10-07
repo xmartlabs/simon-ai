@@ -35,6 +35,7 @@ mixin _$GameScreenState {
           double y
         }) boundingBox,
         HandGesture gesture,
+        double gestureConfidence,
         ({double x, double y}) gesturePosition
       })>? get handSequenceHistory => throw _privateConstructorUsedError;
   @optionalTypeArgs
@@ -59,6 +60,7 @@ mixin _$GameScreenState {
                         double y
                       }) boundingBox,
                       HandGesture gesture,
+                      double gestureConfidence,
                       ({double x, double y}) gesturePosition
                     })>?
                 handSequenceHistory)
@@ -87,6 +89,7 @@ mixin _$GameScreenState {
                         double y
                       }) boundingBox,
                       HandGesture gesture,
+                      double gestureConfidence,
                       ({double x, double y}) gesturePosition
                     })>?
                 handSequenceHistory)?
@@ -115,6 +118,7 @@ mixin _$GameScreenState {
                         double y
                       }) boundingBox,
                       HandGesture gesture,
+                      double gestureConfidence,
                       ({double x, double y}) gesturePosition
                     })>?
                 handSequenceHistory)?
@@ -170,6 +174,7 @@ abstract class $GameScreenStateCopyWith<$Res> {
                   double y
                 }) boundingBox,
                 HandGesture gesture,
+                double gestureConfidence,
                 ({double x, double y}) gesturePosition
               })>?
           handSequenceHistory});
@@ -249,6 +254,7 @@ class _$GameScreenStateCopyWithImpl<$Res, $Val extends GameScreenState>
                       double y
                     }) boundingBox,
                     HandGesture gesture,
+                    double gestureConfidence,
                     ({double x, double y}) gesturePosition
                   })>?,
     ) as $Val);
@@ -283,6 +289,7 @@ abstract class _$$InitialImplCopyWith<$Res>
                   double y
                 }) boundingBox,
                 HandGesture gesture,
+                double gestureConfidence,
                 ({double x, double y}) gesturePosition
               })>?
           handSequenceHistory});
@@ -360,6 +367,7 @@ class __$$InitialImplCopyWithImpl<$Res>
                       double y
                     }) boundingBox,
                     HandGesture gesture,
+                    double gestureConfidence,
                     ({double x, double y}) gesturePosition
                   })>?,
     ));
@@ -389,6 +397,7 @@ class _$InitialImpl implements _Initial {
                   double y
                 }) boundingBox,
                 HandGesture gesture,
+                double gestureConfidence,
                 ({double x, double y}) gesturePosition
               })>?
           handSequenceHistory})
@@ -431,6 +440,7 @@ class _$InitialImpl implements _Initial {
           double y
         }) boundingBox,
         HandGesture gesture,
+        double gestureConfidence,
         ({double x, double y}) gesturePosition
       })>? _handSequenceHistory;
   @override
@@ -444,6 +454,7 @@ class _$InitialImpl implements _Initial {
           double y
         }) boundingBox,
         HandGesture gesture,
+        double gestureConfidence,
         ({double x, double y}) gesturePosition
       })>? get handSequenceHistory {
     final value = _handSequenceHistory;
@@ -528,6 +539,7 @@ class _$InitialImpl implements _Initial {
                         double y
                       }) boundingBox,
                       HandGesture gesture,
+                      double gestureConfidence,
                       ({double x, double y}) gesturePosition
                     })>?
                 handSequenceHistory)
@@ -569,6 +581,7 @@ class _$InitialImpl implements _Initial {
                         double y
                       }) boundingBox,
                       HandGesture gesture,
+                      double gestureConfidence,
                       ({double x, double y}) gesturePosition
                     })>?
                 handSequenceHistory)?
@@ -610,6 +623,7 @@ class _$InitialImpl implements _Initial {
                         double y
                       }) boundingBox,
                       HandGesture gesture,
+                      double gestureConfidence,
                       ({double x, double y}) gesturePosition
                     })>?
                 handSequenceHistory)?
@@ -682,6 +696,7 @@ abstract class _Initial implements GameScreenState {
                   double y
                 }) boundingBox,
                 HandGesture gesture,
+                double gestureConfidence,
                 ({double x, double y}) gesturePosition
               })>?
           handSequenceHistory}) = _$InitialImpl;
@@ -715,6 +730,7 @@ abstract class _Initial implements GameScreenState {
           double y
         }) boundingBox,
         HandGesture gesture,
+        double gestureConfidence,
         ({double x, double y}) gesturePosition
       })>? get handSequenceHistory;
   @override

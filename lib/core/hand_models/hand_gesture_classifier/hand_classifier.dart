@@ -58,13 +58,14 @@ class HandClassifier
         .performOperations((image: input, cropData: cropData));
     final gestureVector = await handGestureEmbedderClassifier
         .performOperations(handLandmarksResult.tensors);
-    final gesture =
+    final gestureResult =
         await handCannedGestureClassifier.performOperations(gestureVector);
     return Future.value(
       (
         confidence: handLandmarksResult.confidence,
         keyPoints: handLandmarksResult.keyPoints,
-        gesture: gesture,
+        gesture: gestureResult.gesture,
+        gestureConfidence: gestureResult.confidence,
         cropData: cropData,
       ),
     );

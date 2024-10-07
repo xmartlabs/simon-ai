@@ -120,6 +120,7 @@ class _GestureSection extends StatelessWidget {
                   keypointsData: gestureData ??
                       (
                         confidence: 0.0,
+                        gestureConfidence: 0.0,
                         keyPoints: [],
                         gesture: HandGesture.unrecognized,
                         cropData: (x: 0, y: 0, w: 0, h: 0, confidence: 0.0),

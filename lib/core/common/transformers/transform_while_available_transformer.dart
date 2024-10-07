@@ -7,16 +7,22 @@ typedef Processor<T, R> = FutureOr<R> Function(T);
 
 class ProcessWhileAvailableTransformer<T, R>
     extends StreamTransformerBase<T, R> {
+  static const _defaultStabilizationTime = Duration(milliseconds: 5);
+
   var _isClosed = false;
   final List<Processor> _availableProcessors;
   final Set<Processor> _processors;
 
   final _mutex = Mutex();
+  final _stabilizationTimeMutex = Mutex();
   final Queue<T> _unprocessedQueue = Queue<T>();
 
   ProcessWhileAvailableTransformer(Iterable<Processor> processors)
       : _processors = processors.toSet(),
         _availableProcessors = processors.toList();
+
+  Future<void> _waitStabilizationTime() => _stabilizationTimeMutex
+      .protect(() => Future.delayed(_defaultStabilizationTime));
 
   Future<void> _processValue(
     Processor processor,
@@ -26,6 +32,8 @@ class ProcessWhileAvailableTransformer<T, R>
     try {
       T? currentValue = value;
       do {
+        await _waitStabilizationTime();
+
         final event = await processor(currentValue);
         sink.add(event);
         // ignore: avoid-redundant-async

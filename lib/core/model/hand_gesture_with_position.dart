@@ -4,6 +4,7 @@ import 'package:simon_ai/core/model/hand_gestures.dart';
 
 typedef HandGestureWithPosition = ({
   HandGesture gesture,
+  double gestureConfidence,
   Coordinates gesturePosition,
   HandDetectorResultData boundingBox,
 });

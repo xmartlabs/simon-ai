@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'dart:io';
 
+import 'package:dartx/dartx.dart';
 import 'package:rxdart/rxdart.dart';
 import 'package:simon_ai/core/common/logger.dart';
 import 'package:simon_ai/core/model/hand_gesture_with_position.dart';
@@ -15,10 +16,11 @@ const _logVerbose = true;
 /// the transformer will emit the gesture.
 class GameGestureStabilizationTransformer extends StreamTransformerBase<
     HandGestureWithPosition, HandGestureWithPosition> {
+  static const _confidenceForMinWindow = 0.7;
   static final _defaultTimeSpan = Platform.isAndroid
       ? const Duration(seconds: 1)
       : const Duration(milliseconds: 300);
-  static const _defaultWindowSize = 7;
+  static final _defaultWindowSize = Platform.isAndroid ? 6 : 7;
   static final _defaultMinWindowSize = Platform.isAndroid ? 3 : 5;
   static final _defaultMaxUnrecognizedGesturesInWindow =
       Platform.isAndroid ? 2 : 3;
@@ -58,14 +60,22 @@ class GameGestureStabilizationTransformer extends StreamTransformerBase<
 
   void _emitBuffer() {
     if (_buffer.isNotEmpty) {
-      if (_buffer.length >= _minWindowSize) {
+      final confidenceAverage = _buffer.averageBy((it) => it.gestureConfidence);
+      if (_buffer.length >= _windowSize ||
+          (_buffer.length >= _minWindowSize &&
+              confidenceAverage >= _confidenceForMinWindow)) {
         _requireEmmit = false;
         _controller.add(List.unmodifiable(_buffer));
         if (_logEnabled) {
+          final bufferConfidence = _buffer.joinToString(
+            transform: (it) => it.gestureConfidence.toString(),
+          );
           Logger.i(
             "Emit gesture ${_buffer.first.gesture}, "
             "bufferSize: ${_buffer.length}, "
-            "time: ${_windowTime.elapsedMilliseconds} millis",
+            "time: ${_windowTime.elapsedMilliseconds} millis, "
+            "unrecognized count: $_currentUnrecognizedGestures, "
+            "confidence avg $confidenceAverage ($bufferConfidence)",
           );
         }
       } else {
@@ -79,14 +89,13 @@ class GameGestureStabilizationTransformer extends StreamTransformerBase<
 
   void _handleNewGesture(HandGestureWithPosition gestureWithPosition) {
     if (gestureWithPosition.gesture == HandGesture.unrecognized) {
-      _currentUnrecognizedGestures++;
       if (_currentUnrecognizedGestures >= _maxUnrecognizedGesturesInWindow) {
         _resetBuffer();
         if (_logVerbose) {
           Logger.i("Max unrecognized gestures reached, reset window");
         }
-      } else if (_logVerbose) {
-        Logger.i("Discard unrecognized gesture");
+      } else if (_buffer.isNotEmpty) {
+        _currentUnrecognizedGestures++;
       }
       return;
     }

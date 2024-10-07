@@ -83,5 +83,6 @@ HandGestureWithPosition _gestureToHandGestureWithPosition(
     (
       boundingBox: (confidence: 0.0, h: 0.0, w: 0.0, x: 0.0, y: 0.0),
       gesture: gesture,
+      gestureConfidence: 0.1,
       gesturePosition: (x: 0.0, y: 0.0)
     );

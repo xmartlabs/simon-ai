@@ -24,7 +24,7 @@ dependencies:
   cloud_firestore: 5.4.2
   cupertino_icons: 1.0.8
   dartx: 1.2.0
-  dio: 5.4.3+1
+  dio: 5.7.0
   dotted_border: 2.1.0
   equatable: 2.0.5
   feedback: 3.1.0

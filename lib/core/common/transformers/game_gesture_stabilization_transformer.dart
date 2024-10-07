@@ -20,7 +20,7 @@ class GameGestureStabilizationTransformer extends StreamTransformerBase<
   static final _defaultTimeSpan = Platform.isAndroid
       ? const Duration(seconds: 1)
       : const Duration(milliseconds: 300);
-  static final _defaultWindowSize = Platform.isAndroid ? 5 : 7;
+  static final _defaultWindowSize = Platform.isAndroid ? 6 : 7;
   static final _defaultMinWindowSize = Platform.isAndroid ? 3 : 5;
   static final _defaultMaxUnrecognizedGesturesInWindow =
       Platform.isAndroid ? 2 : 3;

@@ -27,5 +27,19 @@
         }
       }
     }
+  },
+  "hosting": {
+    "public": "web_terms_and_conditions/public",
+    "ignore": [
+      "firebase.json",
+      "**/.*",
+      "**/node_modules/**"
+    ],
+    "rewrites": [
+      {
+        "source": "**",
+        "destination": "/index.html"
+      }
+    ]
   }
 }

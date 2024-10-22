@@ -68,3 +68,6 @@ vendor/bundle/
 
 #intl
 l10n_errors
+
+#firebase
+.firebase/

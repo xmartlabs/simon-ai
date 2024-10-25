@@ -88,7 +88,7 @@
   "skip": "Skip",
   "time": "Time",
   "try_again": "Try again",
-  "tutorial_camera_permissions_description": "To play, we need access to your camera./nAfter enabling it, make sure to position your hand so it is clearly visible on the screen.",
+  "tutorial_camera_permissions_description": "To play, we need access to your camera.\nAfter enabling it, make sure to position your hand so it is clearly visible on the screen.",
   "tutorial_camera_permissions_title": "We are almost ready",
   "tutorial_next_steps_description": "Shortly, you will see a series of gestures on the screen. Memorize each gesture and repeat the sequence. To move from one gesture to another, simply open your hand.",
   "tutorial_next_steps_title": "Next Steps",

@@ -117,7 +117,7 @@ Made with ❤️ by [Xmartlabs][xmartlabs].
 
 👉 If you found a bug or [need help][need_help] please let us know.
 
-👉 If you enjoy using Fluttips we would love to hear about it! Drop us a line on [X][xmartlabs_x].
+👉 If you enjoy using SimonAI we would love to hear about it! Drop us a line on [X][xmartlabs_x].
 
 ## License
 

@@ -88,7 +88,7 @@
   "skip": "Omitir",
   "time": "Tiempo",
   "try_again": "Intentar de nuevo",
-  "tutorial_camera_permissions_description": "Para jugar, necesitamos acceso a tu cámara./nDespués de activarla, asegúrate de colocar tu mano de manera que quede claramente visible en la pantalla..",
+  "tutorial_camera_permissions_description": "Para jugar, necesitamos acceso a tu cámara.\nDespués de activarla, asegúrate de colocar tu mano de manera que quede claramente visible en la pantalla..",
   "tutorial_camera_permissions_title": "Ya casi estamos listos",
   "tutorial_next_steps_description": "En breve, verás una serie de gestos en la pantalla. Memoriza cada gesto y repite la secuencia. Para avanzar de un gesto a otro, simplemente abre la mano.",
   "tutorial_next_steps_title": "Pasos a seguir",

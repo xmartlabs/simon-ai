@@ -1,3 +1,5 @@
+import 'package:design_system/gen/assets.gen.dart';
+
 enum HandGesture {
   unrecognized,
   closed,
@@ -32,9 +34,30 @@ extension HandGesturesExtension on HandGesture {
   }
 }
 
+extension HandGesturesExtensionHallowween on HandGesture {
+  AssetGenImage? get halloweenEmoji {
+    switch (this) {
+      case HandGesture.closed:
+        return Assets.images.closed;
+      case HandGesture.pointingUp:
+        return Assets.images.pointingUp;
+      case HandGesture.thumbsDown:
+        return Assets.images.thumbsDown;
+      case HandGesture.thumbsUp:
+        return Assets.images.thumbsUp;
+      case HandGesture.victory:
+        return Assets.images.victory;
+      case HandGesture.love:
+        return Assets.images.love;
+      case HandGesture.open:
+      case HandGesture.unrecognized:
+        return null;
+    }
+  }
+}
+
 List<HandGesture> get playableGestures => [
       HandGesture.closed,
-      HandGesture.open,
       HandGesture.pointingUp,
       HandGesture.thumbsUp,
       HandGesture.victory,

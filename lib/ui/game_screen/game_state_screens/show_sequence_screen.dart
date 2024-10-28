@@ -6,6 +6,8 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:simon_ai/core/model/hand_gestures.dart';
 import 'package:simon_ai/ui/game_screen/game_screen_cubit.dart';
 
+import 'package:simon_ai/core/common/config.dart';
+
 class ShowSequenceScreen extends StatefulWidget {
   const ShowSequenceScreen({
     super.key,
@@ -38,32 +40,37 @@ class _ShowSequenceScreenState extends State<ShowSequenceScreen> {
     final currentRound = context.read<GameScreenCubit>().state.currentRound;
     return FutureBuilder(
       future: Future.delayed(const Duration(seconds: 1)),
-      builder: (context, snapshot) =>
-          (snapshot.connectionState == ConnectionState.waiting)
-              ? Center(
-                  child: Text(
-                    context.localizations.round(currentRound),
-                    style: context.theme.textStyles.headlineLarge!.copyWith(
-                      fontSize: 60,
-                    ),
-                  ),
-                )
-              : StreamBuilder<HandGesture>(
-                  stream: sequenceStream,
-                  initialData: initialGesture,
-                  builder: (context, snapshot) {
-                    if (snapshot.hasData) {
-                      return Text(
-                        snapshot.data?.emoji ?? '',
-                        style: context.theme.textStyles.headlineLarge!.copyWith(
-                          fontSize: 150,
-                        ),
-                      );
-                    }
-
-                    return const SizedBox();
-                  },
+      builder: (context, snapshot) => (snapshot.connectionState ==
+              ConnectionState.waiting)
+          ? Center(
+              child: Text(
+                context.localizations.round(currentRound),
+                style: context.theme.textStyles.headlineLarge!.copyWith(
+                  fontSize: 60,
                 ),
+              ),
+            )
+          : StreamBuilder<HandGesture>(
+              stream: sequenceStream,
+              initialData: initialGesture,
+              builder: (context, snapshot) {
+                if (snapshot.hasData) {
+                  if (Config.halloweenMode &&
+                      snapshot.data?.halloweenEmoji != null) {
+                    return snapshot.data!.halloweenEmoji!.image();
+                  } else {
+                    return Text(
+                      snapshot.data?.emoji ?? '',
+                      style: context.theme.textStyles.headlineLarge!.copyWith(
+                        fontSize: 150,
+                      ),
+                    );
+                  }
+                }
+
+                return const SizedBox();
+              },
+            ),
     );
   }
 }

@@ -16,6 +16,8 @@ interface class Config {
   static const debugMode = kDebugMode;
   static const crashlyticsEnabled = !kIsWeb && !debugMode;
 
+  static const halloweenMode = true;
+
   static const String userCollection = 'users';
 
   static const cameraResolutionPreset = ResolutionPreset.medium;

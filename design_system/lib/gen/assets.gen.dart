@@ -8,6 +8,7 @@
 // ignore_for_file: directives_ordering,unnecessary_import,implicit_dynamic_list_literal,deprecated_member_use
 
 import 'package:flutter/widgets.dart';
+import 'package:lottie/lottie.dart';
 
 class $AssetsImagesGen {
   const $AssetsImagesGen();
@@ -22,6 +23,10 @@ class $AssetsImagesGen {
   /// File path: assets/images/Reloj.png
   AssetGenImage get reloj => const AssetGenImage('assets/images/Reloj.png');
 
+  /// File path: assets/images/background_down_spiderweb.png
+  AssetGenImage get backgroundDownSpiderweb =>
+      const AssetGenImage('assets/images/background_down_spiderweb.png');
+
   /// File path: assets/images/background_green_prop.png
   AssetGenImage get backgroundGreenProp =>
       const AssetGenImage('assets/images/background_green_prop.png');
@@ -30,15 +35,65 @@ class $AssetsImagesGen {
   AssetGenImage get backgroundRedProp =>
       const AssetGenImage('assets/images/background_red_prop.png');
 
+  /// File path: assets/images/background_top_spiderweb.png
+  AssetGenImage get backgroundTopSpiderweb =>
+      const AssetGenImage('assets/images/background_top_spiderweb.png');
+
+  /// File path: assets/images/closed.png
+  AssetGenImage get closed => const AssetGenImage('assets/images/closed.png');
+
+  /// File path: assets/images/love.png
+  AssetGenImage get love => const AssetGenImage('assets/images/love.png');
+
+  /// File path: assets/images/pointingUp.png
+  AssetGenImage get pointingUp =>
+      const AssetGenImage('assets/images/pointingUp.png');
+
+  /// File path: assets/images/thumbsDown.png
+  AssetGenImage get thumbsDown =>
+      const AssetGenImage('assets/images/thumbsDown.png');
+
+  /// File path: assets/images/thumbsUp.png
+  AssetGenImage get thumbsUp =>
+      const AssetGenImage('assets/images/thumbsUp.png');
+
+  /// File path: assets/images/victory.png
+  AssetGenImage get victory => const AssetGenImage('assets/images/victory.png');
+
   /// List of all assets
-  List<AssetGenImage> get values =>
-      [check, estrella, reloj, backgroundGreenProp, backgroundRedProp];
+  List<AssetGenImage> get values => [
+        check,
+        estrella,
+        reloj,
+        backgroundDownSpiderweb,
+        backgroundGreenProp,
+        backgroundRedProp,
+        backgroundTopSpiderweb,
+        closed,
+        love,
+        pointingUp,
+        thumbsDown,
+        thumbsUp,
+        victory
+      ];
+}
+
+class $AssetsLottieGen {
+  const $AssetsLottieGen();
+
+  /// File path: assets/lottie/spider.json
+  LottieGenImage get spider =>
+      const LottieGenImage('assets/lottie/spider.json');
+
+  /// List of all assets
+  List<LottieGenImage> get values => [spider];
 }
 
 class Assets {
   Assets._();
 
   static const $AssetsImagesGen images = $AssetsImagesGen();
+  static const $AssetsLottieGen lottie = $AssetsLottieGen();
 }
 
 class AssetGenImage {
@@ -66,7 +121,7 @@ class AssetGenImage {
     bool matchTextDirection = false,
     bool gaplessPlayback = false,
     bool isAntiAlias = false,
-    String? package,
+    String? package = 'design_system',
     FilterQuality filterQuality = FilterQuality.low,
     int? cacheWidth,
     int? cacheHeight,
@@ -101,7 +156,7 @@ class AssetGenImage {
 
   ImageProvider provider({
     AssetBundle? bundle,
-    String? package,
+    String? package = 'design_system',
   }) {
     return AssetImage(
       _assetName,
@@ -112,5 +167,64 @@ class AssetGenImage {
 
   String get path => _assetName;
 
-  String get keyName => _assetName;
+  String get keyName => 'packages/design_system/$_assetName';
+}
+
+class LottieGenImage {
+  const LottieGenImage(this._assetName);
+
+  final String _assetName;
+
+  LottieBuilder lottie({
+    Animation<double>? controller,
+    bool? animate,
+    FrameRate? frameRate,
+    bool? repeat,
+    bool? reverse,
+    LottieDelegates? delegates,
+    LottieOptions? options,
+    void Function(LottieComposition)? onLoaded,
+    LottieImageProviderFactory? imageProviderFactory,
+    Key? key,
+    AssetBundle? bundle,
+    Widget Function(BuildContext, Widget, LottieComposition?)? frameBuilder,
+    ImageErrorWidgetBuilder? errorBuilder,
+    double? width,
+    double? height,
+    BoxFit? fit,
+    AlignmentGeometry? alignment,
+    String? package = 'design_system',
+    bool? addRepaintBoundary,
+    FilterQuality? filterQuality,
+    void Function(String)? onWarning,
+  }) {
+    return Lottie.asset(
+      _assetName,
+      controller: controller,
+      animate: animate,
+      frameRate: frameRate,
+      repeat: repeat,
+      reverse: reverse,
+      delegates: delegates,
+      options: options,
+      onLoaded: onLoaded,
+      imageProviderFactory: imageProviderFactory,
+      key: key,
+      bundle: bundle,
+      frameBuilder: frameBuilder,
+      errorBuilder: errorBuilder,
+      width: width,
+      height: height,
+      fit: fit,
+      alignment: alignment,
+      package: package,
+      addRepaintBoundary: addRepaintBoundary,
+      filterQuality: filterQuality,
+      onWarning: onWarning,
+    );
+  }
+
+  String get path => _assetName;
+
+  String get keyName => 'packages/design_system/$_assetName';
 }

@@ -26,6 +26,7 @@ class _LeaderboardContentScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) => AppScaffold(
         showBackButton: false,
+        showSpiderLottie: true,
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [

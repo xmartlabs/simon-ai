@@ -1157,7 +1157,7 @@ PODS:
   - BoringSSL-GRPC/Interface (0.0.36)
   - camera_avfoundation (0.0.1):
     - Flutter
-  - cloud_firestore (5.1.0):
+  - cloud_firestore (5.4.2):
     - Firebase/Firestore (= 11.0.0)
     - firebase_core
     - Flutter
@@ -1182,7 +1182,7 @@ PODS:
   - firebase_core (3.5.0):
     - Firebase/CoreOnly (= 11.0.0)
     - Flutter
-  - firebase_crashlytics (4.1.1):
+  - firebase_crashlytics (4.1.2):
     - Firebase/Crashlytics (= 11.0.0)
     - firebase_core
     - Flutter
@@ -1552,11 +1552,11 @@ SPEC CHECKSUMS:
   audioplayers_darwin: 877d9a4d06331c5c374595e46e16453ac7eafa40
   BoringSSL-GRPC: ca6a8e5d04812fce8ffd6437810c2d46f925eaeb
   camera_avfoundation: 759172d1a77ae7be0de08fc104cfb79738b8a59e
-  cloud_firestore: 3f3395f245d7c0818519f94585b368224726b56b
+  cloud_firestore: efded0403c9e674954e2788d93bc2772a5089557
   Firebase: 9f574c08c2396885b5e7e100ed4293d956218af9
   firebase_auth: f27287630c4d9e2c3c63e64d9240822ad6b07e5b
   firebase_core: 2ec6b789859c7c24766344ec71fdf78639402d56
-  firebase_crashlytics: 4111f8198b78c99471c955af488cecd8224967e6
+  firebase_crashlytics: 60630a0f91ee432275fa1660fd8593079761448a
   firebase_remote_config: 730cce6bb1c8c42708fc7dce9031a88026b8b87b
   FirebaseABTesting: 2104d957ce33888a3d6f3bde298cdee376dde8f1
   FirebaseAppCheckInterop: ea21450529cf0ebd132788dd8916a0269abc684f

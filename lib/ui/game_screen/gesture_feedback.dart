@@ -141,10 +141,17 @@ class _GestureWidget extends StatelessWidget {
   final double size;
 
   @override
-  Widget build(BuildContext context) => Text(
+  Widget build(BuildContext context) {
+    if (Config.halloweenMode &&
+        currentGesture?.gesture.halloweenEmoji != null) {
+      return currentGesture!.gesture.halloweenEmoji!.image();
+    } else {
+      return Text(
         currentGesture?.gesture.emoji ?? '',
         style: context.theme.textStyles.headlineLarge!.copyWith(
           fontSize: size / 1.6,
         ),
       );
+    }
+  }
 }

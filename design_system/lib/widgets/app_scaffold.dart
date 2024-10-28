@@ -10,11 +10,13 @@ class AppScaffold extends StatelessWidget {
   final Widget child;
   final bool? showBackButton;
   final bool resizeToAvoidBottomInset;
+  final bool showSpiderLottie;
 
   const AppScaffold({
     required this.child,
     this.showBackButton,
     this.resizeToAvoidBottomInset = false,
+    this.showSpiderLottie = false,
     super.key,
   });
 
@@ -23,7 +25,7 @@ class AppScaffold extends StatelessWidget {
         resizeToAvoidBottomInset: resizeToAvoidBottomInset,
         body: Stack(
           children: [
-            const ScreenBackgroundContainer(),
+            ScreenBackgroundContainer(showSpiderLottie: showSpiderLottie),
             SafeArea(
               child: Container(
                 width: 1.sw,

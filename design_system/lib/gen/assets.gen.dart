@@ -35,8 +35,8 @@ class $AssetsImagesGen {
       [check, estrella, reloj, backgroundGreenProp, backgroundRedProp];
 }
 
-class Assets {
-  Assets._();
+class DsAssets {
+  DsAssets._();
 
   static const $AssetsImagesGen images = $AssetsImagesGen();
 }
@@ -66,7 +66,7 @@ class AssetGenImage {
     bool matchTextDirection = false,
     bool gaplessPlayback = false,
     bool isAntiAlias = false,
-    String? package,
+    String? package = 'design_system',
     FilterQuality filterQuality = FilterQuality.low,
     int? cacheWidth,
     int? cacheHeight,
@@ -101,7 +101,7 @@ class AssetGenImage {
 
   ImageProvider provider({
     AssetBundle? bundle,
-    String? package,
+    String? package = 'design_system',
   }) {
     return AssetImage(
       _assetName,
@@ -112,5 +112,5 @@ class AssetGenImage {
 
   String get path => _assetName;
 
-  String get keyName => _assetName;
+  String get keyName => 'packages/design_system/$_assetName';
 }

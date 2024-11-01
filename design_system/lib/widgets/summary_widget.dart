@@ -114,7 +114,7 @@ class _Icon extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.start,
               mainAxisSize: MainAxisSize.min,
               children: [
-                Assets.images.estrella.image(
+                DsAssets.images.estrella.image(
                   fit: BoxFit.fill,
                   filterQuality: FilterQuality.high,
                 ),
@@ -131,7 +131,7 @@ class _Icon extends StatelessWidget {
           InformationSummaryType.gestures => Row(
               mainAxisSize: MainAxisSize.min,
               children: [
-                Assets.images.check.image(
+                DsAssets.images.check.image(
                   fit: BoxFit.fill,
                   filterQuality: FilterQuality.high,
                 ),
@@ -148,7 +148,7 @@ class _Icon extends StatelessWidget {
           InformationSummaryType.time => Row(
               mainAxisSize: MainAxisSize.min,
               children: [
-                Assets.images.reloj.image(
+                DsAssets.images.reloj.image(
                   fit: BoxFit.fill,
                   filterQuality: FilterQuality.high,
                 ),

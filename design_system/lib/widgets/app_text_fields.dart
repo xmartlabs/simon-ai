@@ -23,6 +23,7 @@ class AppTextField extends StatefulWidget {
   final bool hasScreenBottomNavigation;
   final int? currentLength;
   final bool enableSuggestions;
+  final bool autocorrect;
 
   const AppTextField({
     required this.controller,
@@ -34,6 +35,7 @@ class AppTextField extends StatefulWidget {
     this.suffixIcon,
     this.onTrailingIconPress,
     this.keyboardType,
+    this.autocorrect = false,
     this.enabled = true,
     this.obscureText = false,
     this.maxLength,
@@ -73,6 +75,7 @@ class _AppTextFieldState extends State<AppTextField> {
           maxLength: widget.maxLength,
           minLines: widget.minLines,
           maxLines: widget.maxLines,
+          autocorrect: widget.autocorrect,
           cursorHeight: 24,
           textAlignVertical: TextAlignVertical.center,
           controller: widget.controller,

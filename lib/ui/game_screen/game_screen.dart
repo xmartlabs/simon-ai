@@ -1,10 +1,10 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:design_system/design_system.dart';
+import 'package:design_system/gen/assets.gen.dart';
 import 'package:design_system/widgets/app_scaffold.dart';
 import 'package:design_system/widgets/points_counter.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:simon_ai/gen/assets.gen.dart';
 import 'package:simon_ai/ui/game_screen/gesture_feedback.dart';
 import 'package:simon_ai/ui/game_screen/game_overlay.dart';
 import 'package:simon_ai/ui/game_screen/game_screen_cubit.dart';
@@ -165,7 +165,7 @@ class _GesturesCounter extends StatelessWidget {
         child: Row(
           mainAxisSize: MainAxisSize.min,
           children: [
-            Assets.images.check.image(
+            DsAssets.images.check.image(
               fit: BoxFit.fill,
               filterQuality: FilterQuality.high,
             ),

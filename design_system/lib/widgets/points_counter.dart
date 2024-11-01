@@ -65,7 +65,7 @@ class _PointsCounterState extends State<PointsCounter>
           child: Row(
             mainAxisSize: MainAxisSize.min,
             children: [
-              Assets.images.estrella.image(),
+              DsAssets.images.estrella.image(),
               const SizedBox(width: 8),
               AnimatedCount(
                 count: widget.points,

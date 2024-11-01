@@ -16,12 +16,12 @@ class ScreenBackgroundContainer extends StatelessWidget {
             Positioned(
               top: 0,
               left: 0,
-              child: Assets.images.backgroundGreenProp.image(),
+              child: DsAssets.images.backgroundGreenProp.image(),
             ),
             Positioned(
               bottom: 0,
               right: 0,
-              child: Assets.images.backgroundRedProp.image(),
+              child: DsAssets.images.backgroundRedProp.image(),
             ),
           ],
         ),

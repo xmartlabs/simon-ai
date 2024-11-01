@@ -1,12 +1,12 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:design_system/design_system.dart';
 import 'package:design_system/extensions/color_extensions.dart';
+import 'package:design_system/gen/assets.gen.dart';
 import 'package:design_system/widgets/app_button.dart';
 import 'package:design_system/widgets/app_scaffold.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:simon_ai/gen/assets.gen.dart';
 import 'package:simon_ai/ui/common/app_constrained_widget.dart';
 import 'package:simon_ai/ui/extensions/context_device_extensions.dart';
 import 'package:simon_ai/ui/leaderboard/leaderboard_cubit.dart';
@@ -233,7 +233,7 @@ class _LeaderboardUserCard extends StatelessWidget {
           ),
           Row(
             children: [
-              Assets.images.estrella.image(
+              DsAssets.images.estrella.image(
                 fit: BoxFit.fill,
                 filterQuality: FilterQuality.high,
                 width: 24,

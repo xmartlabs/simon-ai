@@ -8,3 +8,5 @@ cd design_system/design_system_gallery && fvm flutter pub get && cd ../..
 
 echo ':: dart run build_runner build --delete-conflicting-outputs ::'
 fvm dart run build_runner build --delete-conflicting-outputs
+cd design_system/design_system_gallery && fvm dart run build_runner build --delete-conflicting-outputs && cd ../..
+

@@ -7,11 +7,10 @@ class UserRemoteSource {
 
   UserRemoteSource();
 
-  Future<void> createUser(String id, Player data, String createdBy) async {
+  Future<void> createUser(String id, Player data) async {
     await _firestoreDb.insert(
       id: id,
       data: data.toJson(),
-      createdBy: createdBy,
     );
   }
 
@@ -19,19 +18,18 @@ class UserRemoteSource {
       .getData(id)
       .then((value) => value == null ? null : Player.fromJson(value));
 
-  Future<void> updateUser(String id, Player data, String createdBy) =>
+  Future<void> updateUser(String id, Player data) =>
       _firestoreDb.update(
         id: id,
         data: data.toJson(),
-        createdBy: createdBy,
       );
 
   Future<void> deleteUser(String id) async {
     await _firestoreDb.delete(id);
   }
 
-  Future<List<Player>> getAllUsers(String createdBy) async =>
-      (await _firestoreDb.getAllData(createdBy))
+  Future<List<Player>> getAllUsers() async =>
+      (await _firestoreDb.getAllData())
           .map((e) => Player.fromJson(e))
           .toList();
 

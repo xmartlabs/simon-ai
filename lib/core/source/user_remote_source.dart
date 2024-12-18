@@ -18,8 +18,7 @@ class UserRemoteSource {
       .getData(id)
       .then((value) => value == null ? null : Player.fromJson(value));
 
-  Future<void> updateUser(String id, Player data) =>
-      _firestoreDb.update(
+  Future<void> updateUser(String id, Player data) => _firestoreDb.update(
         id: id,
         data: data.toJson(),
       );
@@ -29,9 +28,7 @@ class UserRemoteSource {
   }
 
   Future<List<Player>> getAllUsers() async =>
-      (await _firestoreDb.getAllData())
-          .map((e) => Player.fromJson(e))
-          .toList();
+      (await _firestoreDb.getAllData()).map((e) => Player.fromJson(e)).toList();
 
   Future<void> close() => _firestoreDb.close();
 }

@@ -10,13 +10,13 @@ class PlayerRepository {
   final UserRemoteSource _userRemoteSource;
   final AuthLocalSource _authLocalSource;
 
-  final Stock<String, List<Player>?> _store;
+  final Stock<void, List<Player>?> _store;
   final defaultId = 'default';
 
   PlayerRepository(this._userRemoteSource, this._authLocalSource)
       : _store = Stock(
           fetcher: Fetcher.ofFuture(
-            (createdBy) => _userRemoteSource.getAllUsers(createdBy),
+            (_) => _userRemoteSource.getAllUsers(),
           ),
         );
 
@@ -24,7 +24,7 @@ class PlayerRepository {
     final userTokenStream = _authLocalSource.getUserToken();
     return userTokenStream.switchMap(
       (createdBy) => _store
-          .stream(createdBy ?? defaultId)
+          .stream(null)
           .where((event) => event.isData)
           .map((event) => event.requireData()),
     );
@@ -32,24 +32,20 @@ class PlayerRepository {
 
   Future<Result<Player>> setPlayer(Player player) =>
       Result.fromFuture(() async {
-        final userId = await _authLocalSource.getUserToken().first;
         await _userRemoteSource.createUser(
           player.email,
           player,
-          userId ?? defaultId,
         );
         await _authLocalSource.saveCurrentPlayer(player);
         return player;
       });
 
   Future<Result<void>> updatePoints(int points) => Result.fromFuture(() async {
-        final userId = await _authLocalSource.getUserToken().first;
         final player =
             (await getCurrentPlayer().first)!.copyWith(points: points);
         await _userRemoteSource.updateUser(
           player.email,
           player,
-          userId ?? defaultId,
         );
         await _authLocalSource.saveCurrentPlayer(player);
       });

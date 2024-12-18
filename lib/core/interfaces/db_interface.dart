@@ -2,10 +2,9 @@ abstract interface class DbInterface<T> {
   Future<void> insert({
     required String id,
     required T data,
-    required String createdBy,
   });
 
-  Future<List<T>?> getAllData(String createdBy);
+  Future<List<T>?> getAllData();
 
   Future<T?> getData(String id);
 
@@ -14,7 +13,6 @@ abstract interface class DbInterface<T> {
   Future<void> update({
     required String id,
     required T data,
-    required String createdBy,
   });
 
   Future<void> close();

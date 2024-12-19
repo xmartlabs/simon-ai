@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:design_system/theme/app_color_scheme.dart';
 import 'package:feedback/feedback.dart';
+import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
@@ -47,11 +48,17 @@ Future _initSdks() async {
   ]);
 }
 
-Future _initFirebaseSdks() async => Firebase.initializeApp(
-      options: DefaultFirebaseOptions.currentPlatform(
-        await Config.getEnvFromBundleId(),
-      ),
-    );
+Future _initFirebaseSdks() async {
+  await Firebase.initializeApp(
+    options: DefaultFirebaseOptions.currentPlatform(
+      await Config.getEnvFromBundleId(),
+    ),
+  );
+  unawaited(
+    FirebaseAnalytics.instance
+        .setAnalyticsCollectionEnabled(!Config.analyticsEnabled),
+  );
+}
 
 class MyApp extends StatelessWidget {
   const MyApp({super.key});

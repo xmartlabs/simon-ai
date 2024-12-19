@@ -15,6 +15,7 @@ interface class Config {
 
   static const debugMode = kDebugMode;
   static const crashlyticsEnabled = !kIsWeb && !debugMode;
+  static const analyticsEnabled = !kIsWeb && !debugMode;
 
   static const String userCollection = 'users';
 

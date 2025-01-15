@@ -14,7 +14,10 @@ interface class Config {
   static const String feedbackEmail = 'simonai@xmartlabs.com';
 
   static const debugMode = kDebugMode;
-  static const crashlyticsEnabled = !kIsWeb && !debugMode;
+  static const firebaseEnabled = !kIsWeb && !debugMode;
+
+  static const crashlyticsEnabled = firebaseEnabled;
+  static const analyticsEnabled = firebaseEnabled;
 
   static const String userCollection = 'users';
 

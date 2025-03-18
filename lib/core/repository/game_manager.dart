@@ -1,6 +1,11 @@
 import 'dart:async';
+import 'dart:io';
 
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/services.dart';
+import 'package:image/image.dart';
+import 'package:simon_ai/core/common/extension/string_extensions.dart';
+import 'package:simon_ai/core/common/image_utils.dart';
 import 'package:simon_ai/core/common/logger.dart';
 import 'package:simon_ai/core/common/transformers/game_gesture_stabilization_transformer.dart';
 import 'package:simon_ai/core/common/transformers/game_sequence_logic_transformer.dart';
@@ -32,6 +37,8 @@ class GameManager {
   late StreamController<dynamic> _gestureStreamController;
   late StreamController<dynamic> _processNewFrameController;
   late StreamController<HandGestureWithPosition> _gameSequenceController;
+
+  final methodChannel = MethodChannel('com.xmartlabs.simonai.dev/gesture');
 
   GameManager(this._gestureProcessorPool);
 
@@ -82,6 +89,14 @@ class GameManager {
 
     final result = await processor.processFrame(newFrame);
     _gestureStreamController.add(result);
+    addGesture(
+      (
+        gestureConfidence: result.gestureConfidence,
+        gesture: result.gesture,
+        gesturePosition: result.keyPoints.centerCoordinates,
+        boundingBox: result.cropData,
+      ),
+    );
     return (
       gesture: result.gesture,
       gestureConfidence: result.gestureConfidence,

@@ -7,6 +7,7 @@ import 'package:simon_ai/core/services/firebase_auth.dart';
 import 'package:simon_ai/core/services/permission_handler_service.dart';
 import 'package:simon_ai/core/source/auth_local_source.dart';
 import 'package:simon_ai/core/source/auth_remote_source.dart';
+import 'package:simon_ai/core/source/settings_local_source.dart';
 import 'package:simon_ai/core/source/user_remote_source.dart';
 
 class RepositoryDiModule {
@@ -42,6 +43,7 @@ extension _GetItDiModuleExtensions on GetIt {
   void _setupSources() {
     registerLazySingleton(() => AuthLocalSource(get()));
     registerLazySingleton(() => AuthRemoteSource(get()));
+    registerLazySingleton(() => SettingsLocalSource(get()));
 
     registerLazySingleton<UserRemoteSource>(() => UserRemoteSource());
   }

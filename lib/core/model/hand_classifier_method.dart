@@ -1,0 +1,1 @@
+enum HandClassifierMethod { mediapipe, tflite }

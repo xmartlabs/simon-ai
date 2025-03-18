@@ -23,7 +23,6 @@ class HandTrackingIsolate {
     _isolate = await Isolate.spawn<SendPort>(
       entryPoint,
       _receivePort.sendPort,
-      debugName: 'HandClassifierIsolate',
     );
     _sendPort = await _receivePort.first;
   }
@@ -39,6 +38,7 @@ class HandTrackingIsolate {
 
     port.listen((data) {
       if (data is HandClassifierIsolateData) {
+        var image = ImageUtils.convertCameraImage(data.cameraImage)!;
         final MultipleModelHandler<img.Image, HandClassifierResultData>
             handClassifier = HandClassifier(
           processorIndex: data.processorIndex,
@@ -49,7 +49,6 @@ class HandTrackingIsolate {
         );
 
         final stopwatch = Stopwatch()..start();
-        var image = ImageUtils.convertCameraImage(data.cameraImage)!;
         if (Platform.isAndroid) {
           image = img.copyRotate(image, angle: 270);
           image = img.flipHorizontal(image);

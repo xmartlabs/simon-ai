@@ -59,7 +59,7 @@ class HandRenderPainter extends CustomPainter {
       if (_drawKeypoints) {
         drawKeyPoints(canvas, size);
       }
-      drawText(size: size, canvas: canvas, text: keypointsData.gesture.name);
+      // drawText(size: size, canvas: canvas, text: keypointsData.gesture.name);
     }
   }
 

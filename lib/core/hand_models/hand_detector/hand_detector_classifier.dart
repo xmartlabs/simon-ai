@@ -73,7 +73,7 @@ class HandDetectorClassifier
   @override
   Future<HandDetectorResultData> performOperations(img.Image image) async {
     stopwatch.start();
-
+    
     final handDetectorTensorImage = TensorImage(TensorType.float32)
       ..loadImage(image);
 

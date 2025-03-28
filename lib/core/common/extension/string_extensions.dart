@@ -1,4 +1,5 @@
 // ignore_for_file: unused-code
+import 'package:simon_ai/core/model/hand_gestures.dart';
 
 extension StringExtensions on String {
   bool get isUpperCase => contains(RegExp(r'^[A-Z]+$'));
@@ -49,6 +50,28 @@ extension StringExtensions on String {
 
   String capitalize() =>
       '${this[0].toUpperCase()}${substring(1).toLowerCase()}';
+
+  HandGesture toHandGesture() {
+    switch (this) {
+      case 'Closed_Fist':
+        return HandGesture.closed;
+      case 'Open_Palm':
+        return HandGesture.open;
+      case 'Pointing_Up':
+        return HandGesture.pointingUp;
+      case 'Thumb_Down':
+        return HandGesture.thumbsDown;
+      case 'Thumb_Up':
+        return HandGesture.thumbsUp;
+      case 'Victory':
+        return HandGesture.victory;
+      case 'ILoveYou':
+        return HandGesture.love;
+      case 'None':
+      default:
+        return HandGesture.unrecognized;
+    }
+  }
 }
 
 extension NullableStringExtensions on String? {

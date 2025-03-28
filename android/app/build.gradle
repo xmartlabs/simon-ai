@@ -101,6 +101,11 @@ flutter {
     source '../..'
 }
 
+project.ext.ASSET_DIR = projectDir.toString() + '/src/main/assets'
+
 dependencies {
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
+
+    // Mediapipe Library
+    implementation 'com.google.mediapipe:tasks-vision:0.10.0'
 }

@@ -13,16 +13,18 @@ import 'package:simon_ai/core/interfaces/model_interface.dart';
 import 'package:simon_ai/core/model/anchor.dart';
 import 'package:simon_ai/core/model/coordinates.dart';
 import 'package:simon_ai/core/model/hand_classifier_isolate_data.dart';
+import 'package:simon_ai/core/model/hand_classifier_method.dart';
 import 'package:simon_ai/core/model/hand_classifier_result_data.dart';
 import 'package:simon_ai/core/model/hand_landmarks_result_data.dart';
 import 'package:simon_ai/gen/assets.gen.dart';
 
-class GestureMobileProcessor implements GestureProcessor {
+class GestureMobileTFLiteProcessor implements GestureProcessor {
   late ModelHandler handTrackingClassifier;
   late ModelHandler handDetectorClassifier;
   late ModelHandler handGestureEmbedderClassifier;
   late ModelHandler handCannedGestureClassifier;
   late HandTrackingIsolate isolate;
+  late HandClassifierMethod method;
   var _currentFrame = 0;
   var _lastCurrentFrame = 0;
   Timer? _fpsTimer;
@@ -33,7 +35,7 @@ class GestureMobileProcessor implements GestureProcessor {
   @override
   int fps = 0;
 
-  GestureMobileProcessor(this.processorIndex);
+  GestureMobileTFLiteProcessor(this.processorIndex);
 
   @override
   Future<void> init() async {
@@ -68,7 +70,10 @@ class GestureMobileProcessor implements GestureProcessor {
   ) async {
     final resultData = await _inference(newFrame);
     _currentFrame++;
-    final processedKeyPoints = _processKeypoints(resultData.keyPoints);
+    var processedKeyPoints = <Coordinates>[];
+    if (method == HandClassifierMethod.tflite) {
+      processedKeyPoints = _processKeypoints(resultData.keyPoints);
+    }
     return (
       confidence: resultData.confidence,
       gestureConfidence: resultData.gestureConfidence,
@@ -112,7 +117,8 @@ class GestureMobileProcessor implements GestureProcessor {
         handCannedGestureClassifier.interpreter,
       ].map((interpreter) => interpreter.address).toList(),
       anchors: anchors,
-      responsePort: responsePort.sendPort
+      responsePort: responsePort.sendPort,
+      // method: method,
     );
     isolate.sendPort.send(isolateData);
     return await responsePort.first;

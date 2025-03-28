@@ -75,15 +75,15 @@ class HandTrackingClassifier
     stopwatch.start();
     final handTrackingTensorImage = TensorImage(TensorType.float32)
       ..loadImage(input.image);
-    stopwatch.stop();
-    final processImageTime = stopwatch.elapsedMilliseconds;
-    stopwatch.start();
     final croppedProcessedImage = getHandTrackingProcessedImage(
       handTrackingTensorImage,
       model.inputSize,
       input.cropData,
     );
-
+    stopwatch.stop();
+    final processImageTime = stopwatch.elapsedMilliseconds;
+    
+    stopwatch.start();
     _runHandTrackingModel(croppedProcessedImage);
 
     final result = parseLandmarkData(input);

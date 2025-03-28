@@ -2,6 +2,7 @@ import 'package:get_it/get_it.dart';
 import 'package:simon_ai/core/common/config.dart';
 import 'package:simon_ai/core/hand_models/keypoints/gesture_processor.dart';
 import 'package:simon_ai/core/hand_models/keypoints/gesture_processor_mobile.dart';
+import 'package:simon_ai/core/hand_models/keypoints/gesture_processor_mobile_mediapipe.dart';
 
 class PlatformUtilsDiModule {
   PlatformUtilsDiModule._privateConstructor();
@@ -20,9 +21,9 @@ extension _GetItUseCaseDiModuleExtensions on GetIt {
   void _setupUtilsModule() {
     registerLazySingleton<GestureProcessorPool>(
       () => GestureProcessorPool(
-        List<GestureMobileProcessor>.generate(
+        List<GestureProcessor>.generate(
           Config.numberOfProcessors,
-          (index) => GestureMobileProcessor(index),
+          (index) => GestureMediaPipeMobileProcessor(),
         ),
       ),
     );

@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:dartx/dartx.dart';
 import 'package:simon_ai/core/model/hand_landmarks_result_data.dart';
 

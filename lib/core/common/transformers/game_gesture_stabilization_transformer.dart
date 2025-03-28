@@ -134,7 +134,7 @@ class GameGestureStabilizationTransformer extends StreamTransformerBase<
       _handleNewGesture,
       onError: _controller.addError,
       onDone: () {
-        _emitBuffer();
+        // _emitBuffer();
         _controller.close();
       },
       cancelOnError: false,

@@ -2,6 +2,7 @@ import 'dart:isolate';
 
 import 'package:camera/camera.dart';
 import 'package:simon_ai/core/model/anchor.dart';
+import 'package:simon_ai/core/model/hand_classifier_method.dart';
 
 /// Bundles data to pass between Isolate
 typedef HandClassifierIsolateData = ({
@@ -10,4 +11,5 @@ typedef HandClassifierIsolateData = ({
   List<Anchor> anchors,
   int processorIndex,
   SendPort responsePort,
+  // HandClassifierMethod method,
 });
